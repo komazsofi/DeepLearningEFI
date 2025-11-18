@@ -116,7 +116,7 @@
     "href": "03_train.html#training-deep-learning-models-in-pytorch",
     "title": "Training Deep Learning Models",
     "section": "Training Deep Learning Models in PyTorch",
-    "text": "Training Deep Learning Models in PyTorch\n\nOptimizers\n\n\nLoss Functions"
+    "text": "Training Deep Learning Models in PyTorch\n\nDataloader\n\n\nModel\n\nModel Architecture\n\nClassification Architecture\n\n\n\nCode\n\n\n\nOptimizers\n\n\nLoss Functions\n\n\nTraining\n\n\nTraining/Testing"
   },
   {
     "objectID": "05_examples.html#biomass",
@@ -152,5 +152,19 @@
     "title": "Schedule",
     "section": "",
     "text": "Time\nTopic\nMaterials\n\n\n\n\n09:00–09:10\nWelcome & Introductions\nHome\n\n\n09:10–09:40\nIntroduction to Deep Learning\n1-Intro\n\n\n09:40–10:15\nData Preparation and Loading\n2-Data\n\n\n10:15–10:30\nBreak\nNA\n\n\n10:30–11:00\nTraining Deep Learning Models\n3-Train\n\n\n11:00–11:20\nValidating Deep Learning Models\n4-Validation\n\n\n11:20–11:50\nExamples of Deep Learning Forest Inventory Products\n5-Examples\n\n\n11:50–12:00\nQuestion & Answer\nNA"
+  },
+  {
+    "objectID": "03_train.html",
+    "href": "03_train.html",
+    "title": "Training Deep Learning Models",
+    "section": "",
+    "text": "[Qi et al. 2017. PointNet++: Deep Hierarchical Feature Learning on Point Sets in a Metric Space] ### github - Original code - Pytorch reimplementation"
+  },
+  {
+    "objectID": "03_train.html#relevant-resources",
+    "href": "03_train.html#relevant-resources",
+    "title": "Training Deep Learning Models",
+    "section": "",
+    "text": "[Qi et al. 2017. PointNet++: Deep Hierarchical Feature Learning on Point Sets in a Metric Space] ### github - Original code - Pytorch reimplementation"
   }
 ]
