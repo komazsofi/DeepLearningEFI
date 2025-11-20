@@ -3,9 +3,13 @@
 /_site/
 
 # Ingore data
-/data
+data
 
 **/*.quarto_ipynb
 
 # Code and processed data
-/src
+log
+src/log/
+src/data
+**/__pycache__
+*.zip
