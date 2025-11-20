@@ -19,7 +19,7 @@ sys.path.append(os.path.join(ROOT_DIR, 'models'))
 sys.path.append(os.path.join(ROOT_DIR, 'src')) 
 
 from config import DATASET_CONFIG, MODEL_CONFIG
-from dataset.generic_dataset import ForestryDataset
+from dataset.efi_dataset import ForestryDataset
 from utils.metrics import MetricsCalculator
 from utils.logger import setup_logger # We'll reuse the logger setup for simplicity
 

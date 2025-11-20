@@ -24,11 +24,11 @@ cd src
 ### Code structure
 
 ```
-project/
+src/
   ├── models/
   ├── data/
   ├── utils/
-  ├── train_cls.py
+  ├── train.py
   ├── install_env.sh
   ├── README.md
   └── ...

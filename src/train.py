@@ -17,7 +17,7 @@ sys.path.append(os.path.join(ROOT_DIR, 'utils'))
 
 # Configuration and Utilities
 from config import DATASET_CONFIG, MODEL_CONFIG 
-from dataset.generic_dataset import ForestryDataset
+from dataset.efi_dataset import ForestryDataset
 from models.loss_utils import calculate_total_loss 
 from utils.metrics import MetricsCalculator
 from utils.logger import setup_experiment_dir, setup_logger, plot_training_curves

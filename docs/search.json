@@ -116,7 +116,7 @@
     "href": "03_train.html#training-deep-learning-models-in-pytorch",
     "title": "Training Deep Learning Models",
     "section": "Training Deep Learning Models in PyTorch",
-    "text": "Training Deep Learning Models in PyTorch\n\nEnvironment install\ncd src\n./install_env.sh\n\n\nCode structure\nproject/\n  ├── models/\n  ├── data/\n  ├── utils/\n  ├── train_cls.py\n  ├── install_env.sh\n  ├── README.md\n  └── ...\n\n\n\nDataloader\n\n\nModel\n\nModel Architecture\n\nClassification\n\n\n\n\nArchitecture\n\n\n\n\nCode\n\n\n\nOptimizers\n\n\nLoss Functions\n\n\nTraining\n\nhps\n\n\n\nTraining/Testing"
+    "text": "Training Deep Learning Models in PyTorch\n\nEnvironment install\ncd src\n./install_env.sh\n\n\nCode structure\nsrc/\n  ├── models/\n  ├── data/\n  ├── utils/\n  ├── train.py\n  ├── install_env.sh\n  ├── README.md\n  └── ...\n\n\n\nDataloader\n\n\nModel\n\nModel Architecture\n\nClassification\n\n\n\n\nArchitecture\n\n\n\n\nCode\n\n\n\nOptimizers\n\n\nLoss Functions\n\n\nTraining\n\nhps\n\n\n\nTraining/Testing"
   },
   {
     "objectID": "05_examples.html#biomass",

@@ -22,7 +22,7 @@
   </url>
   <url>
     <loc>https://Brent-Murray.github.io/DeepLearningEFI/03_train.html</loc>
-    <lastmod>2025-11-20T21:16:38.583Z</lastmod>
+    <lastmod>2025-11-20T21:26:06.316Z</lastmod>
   </url>
   <url>
     <loc>https://Brent-Murray.github.io/DeepLearningEFI/05_examples.html</loc>
@@ -31,5 +31,9 @@
   <url>
     <loc>https://Brent-Murray.github.io/DeepLearningEFI/schedule.html</loc>
     <lastmod>2025-11-12T17:49:16.855Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Brent-Murray.github.io/DeepLearningEFI/src/dataset/generic_dataset.html</loc>
+    <lastmod>2025-11-19T22:55:41.687Z</lastmod>
   </url>
 </urlset>
