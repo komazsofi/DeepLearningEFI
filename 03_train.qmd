@@ -17,6 +17,23 @@ format:
 
 ## Training Deep Learning Models in PyTorch
 ### Environment install
+```
+cd src
+./install_env.sh
+```
+### Code structure
+
+```
+project/
+  ├── models/
+  ├── data/
+  ├── utils/
+  ├── train_cls.py
+  ├── install_env.sh
+  ├── README.md
+  └── ...
+
+```
 
 ### Dataloader
 
