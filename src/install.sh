@@ -1,21 +1,54 @@
 #!/usr/bin/env bash
+set -e
 
-# install miniconda3 if not installed yet.
-#wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-#bash Miniconda3-latest-Linux-x86_64.sh
-#source ~/.bashrc
+################################################################################
+# 1. Create a Python venv environment
+################################################################################
+# You may replace python with any other system-installed Python version (python3).
+
+python -m venv efi_env
+source efi_env/bin/activate
+
+# Upgrade pip
+pip install --upgrade pip
 
 
-# The following 4 lines are only for slurm machines. uncomment if needed.  
-export TORCH_CUDA_ARCH_LIST="6.1;6.2;7.0;7.5;8.0"   # a100: 8.0; v100: 7.0; 2080ti: 7.5; titan xp: 6.1
-module purge
-module load cuda/11.1.1
-module load gcc/7.5.0
+################################################################################
+# 2. Install PyTorch (GPU build)
+################################################################################
+# IMPORTANT:
+# Always check the official PyTorch install page if CUDA version differs:
+# https://pytorch.org/get-started/locally/
 
-# install PyTorch
-conda create -n efi -y python=3.9 numpy=
-conda activate efi
+pip install torch==2.4.1 torchvision==0.19.1 torchaudio==2.4.1 \
+    --index-url https://download.pytorch.org/whl/cu118
 
-# please always double check installation for pytorch and torch-scatter from the official documentation
-conda install -y pytorch=1.10.1 torchvision cudatoolkit=11.3 -c pytorch -c nvidia
-pip install torch-scatter -f https://data.pyg.org/whl/torch-1.10.1+cu113.html
+
+################################################################################
+# 3. Install required supporting packages
+################################################################################
+pip install \
+    numpy==1.26.4 \
+    scikit-learn==1.5.0 \
+    tqdm \
+    cython \
+    pandas \
+    matplotlib \
+    seaborn
+
+
+################################################################################
+# 4. Install PointNeXt (for PointNext model)
+################################################################################
+pip install pointnext==0.0.5
+
+
+################################################################################
+# 5. Final message
+################################################################################
+echo ""
+echo "======================================="
+echo " Environment installation complete!"
+echo " Run:  source efi_env/bin/activate"
+echo "======================================="
+echo ""
