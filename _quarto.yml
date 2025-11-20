@@ -44,3 +44,6 @@ execute:
   error: false
   cache: true
   fig-num: true
+
+exclude:
+  - "src/"

@@ -8,7 +8,6 @@ data
 **/*.quarto_ipynb
 
 # Code and processed data
-log
 src/log/
 src/data
 **/__pycache__
