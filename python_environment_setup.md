@@ -6,10 +6,18 @@ The uv package manager allows for the installation of specific package versions 
 
 **This code has been tested on Windows 11 and Ubuntu 24.04.2**
 
-1. Install uv package manager by following the instructions at https://docs.astral.sh/uv/getting-started/installation. This typically involves running the following command in your terminal:
+1. Install uv package manager by following the instructions at https://docs.astral.sh/uv/getting-started/installation. 
+
+    On a Windows system, this can be done by running the following command in PowerShell:
 
     ```
     powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+    ```
+
+    On a Linux or MacOS system, run the following command in the terminal:
+
+    ```
+    curl -LsSf https://astral.sh/uv/install.sh | sh
     ```
 
 2. Open a terminal and check that uv is installed by running 
