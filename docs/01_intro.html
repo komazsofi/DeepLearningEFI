@@ -141,8 +141,8 @@ window.Quarto = {
 <span class="menu-text">3-Train</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./04_validation.html"> 
-<span class="menu-text">4-Validation</span></a>
+    <a class="nav-link" href="./04_evaluation.html"> 
+<span class="menu-text">4-Evaluation</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./05_examples.html"> 
@@ -169,6 +169,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#components-of-a-deep-neural-network" id="toc-components-of-a-deep-neural-network" class="nav-link" data-scroll-target="#components-of-a-deep-neural-network">Components of a Deep Neural Network</a></li>
   <li><a href="#the-prediction---feedback-loop" id="toc-the-prediction---feedback-loop" class="nav-link" data-scroll-target="#the-prediction---feedback-loop">The Prediction - Feedback Loop</a></li>
+  <li><a href="#common-deep-learning-tasks" id="toc-common-deep-learning-tasks" class="nav-link" data-scroll-target="#common-deep-learning-tasks">Common Deep Learning Tasks</a></li>
   </ul></li>
   <li><a href="#image-based-vs.-point-based-deep-learning" id="toc-image-based-vs.-point-based-deep-learning" class="nav-link" data-scroll-target="#image-based-vs.-point-based-deep-learning">Image-Based vs.&nbsp;Point-Based Deep Learning</a>
   <ul class="collapse">
@@ -313,6 +314,70 @@ Note
 </div>
 </div>
 </section>
+<section id="common-deep-learning-tasks" class="level3">
+<h3 class="anchored" data-anchor-id="common-deep-learning-tasks">Common Deep Learning Tasks</h3>
+<section id="classification" class="level4">
+<h4 class="anchored" data-anchor-id="classification">Classification</h4>
+<p><strong>Classification</strong> assigns each input (an image, pixel, object, or point cloud sample) to a discrete class. This is often the starting point in deep learning for ecological or environmental analysis.</p>
+<p>Common forestry classification applications include:</p>
+<ul>
+<li><strong>Tree-species recognition:</strong> Using spectral signatures, textural patterns, or structural characteristics to label species at the tree or stand level.</li>
+<li><strong>Land-cover mapping:</strong> Categorizing pixels into classes such as forest, water, bare ground, or herbaceous vegetation.</li>
+<li><strong>Disturbance detection:</strong> Identifying wildfire scars, harvest events, pest outbreaks, or storm damage.</li>
+<li><strong>Health or stress classification:</strong> Detecting and identifying different stressed areas or detecting mortality at the tree or stand level.</li>
+</ul>
+<div id="fig-classification" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-classification-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/classification.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-classification-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Classification
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="regression" class="level4">
+<h4 class="anchored" data-anchor-id="regression">Regression</h4>
+<p><strong>Regression</strong> models predict continuous numerical values, making them ideal for estimating biophysical variables derived from remote sensing datasets. Rather than assigning categories, they learn patterns that correspond to a real-valued output.</p>
+<p>Typical forestry-focused regression tasks include:</p>
+<ul>
+<li><strong>Above-ground biomass estimation:</strong> Using spectral reflectance, canopy texture or structural characteristics from lidar to estimate AGB of a tree or stand.</li>
+<li><strong>Canopy cover for leaf area index estimation:</strong> Modeling continuous vegetation density across forested landscapes.</li>
+<li><strong>Crown diameter or volume:</strong> Predicting various individual-tree metrics.</li>
+</ul>
+<div id="fig-regression" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-regression-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/regression.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-regression-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Regression
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="segmentation" class="level4">
+<h4 class="anchored" data-anchor-id="segmentation">Segmentation</h4>
+<p><strong>Segmentation</strong> assigns a label to every pixel/point (<strong>semantic segmentation</strong>) or separates individual objects within an image or point cloud (<strong>instance segmentation</strong>). This task is essential when the goal is to create detailed spatial maps rather than broad classifications.</p>
+<p>In forestry applications, segmentation helps support:</p>
+<ul>
+<li><strong>Tree-crown delineation:</strong> Separating individual tree crowns in imagery or point clouds for per-tree analysis.</li>
+<li><strong>Stand or management-unit boundaries:</strong> Automatically outlining key forest changes or stand edges.</li>
+<li><strong>Vegetation structure mapping:</strong> Distinguishing between canopy, understory, stem, and ground points from lidar data.</li>
+</ul>
+<div id="fig-segmentation" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-segmentation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/segmentation.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-segmentation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Segmentation
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
 </section>
 <section id="image-based-vs.-point-based-deep-learning" class="level2">
 <h2 class="anchored" data-anchor-id="image-based-vs.-point-based-deep-learning">Image-Based vs.&nbsp;Point-Based Deep Learning</h2>
@@ -325,7 +390,7 @@ Note
 <img src="images/imagedl.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-imagedl-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: Image Based Deep Learning
+Figure&nbsp;9: Image Based Deep Learning
 </figcaption>
 </figure>
 </div>
@@ -336,7 +401,7 @@ Figure&nbsp;6: Image Based Deep Learning
 <img src="images/convolutions.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-convolutions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7: Convolutional Neural Networks
+Figure&nbsp;10: Convolutional Neural Networks
 </figcaption>
 </figure>
 </div>
@@ -350,7 +415,7 @@ Figure&nbsp;7: Convolutional Neural Networks
 <img src="images/pointdl.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pointdl-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;8: Point Based Deep Learning
+Figure&nbsp;11: Point Based Deep Learning
 </figcaption>
 </figure>
 </div>
@@ -399,7 +464,7 @@ Figure&nbsp;8: Point Based Deep Learning
 <img src="images/dlcomplexity.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deeplearning-complexity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9: Data and Task Complexity for Deep and Machine Learning
+Figure&nbsp;12: Data and Task Complexity for Deep and Machine Learning
 </figcaption>
 </figure>
 </div>

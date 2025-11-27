@@ -50,6 +50,41 @@ After the prediction-feedback loop (training and validation), a **testing** data
 It is crucial that these three separate and distinct datasets (training, validation, and testing) are generated for training deep learning models. Mixing or reusing data between these datasets can lead to misleading performance metrics and poor generalization. Proper separation ensures that the model is evaluated fairly at each stage of development and that its reported accuracy truly reflects performance on new, unseen data.
 :::
 
+### Common Deep Learning Tasks
+#### Classification
+**Classification** assigns each input (an image, pixel, object, or point cloud sample) to a discrete class. This is often the starting point in deep learning for ecological or environmental analysis.
+
+Common forestry classification applications include:
+
+- **Tree-species recognition:** Using spectral signatures, textural patterns, or structural characteristics to label species at the tree or stand level.
+- **Land-cover mapping:** Categorizing pixels into classes such as forest, water, bare ground, or herbaceous vegetation.
+- **Disturbance detection:** Identifying wildfire scars, harvest events, pest outbreaks, or storm damage.
+- **Health or stress classification:** Detecting and identifying different stressed areas or detecting mortality at the tree or stand level.
+
+![Classification](images/classification.png){#fig-classification fig-align="center" width=80%}
+
+#### Regression
+**Regression** models predict continuous numerical values, making them ideal for estimating biophysical variables derived from remote sensing datasets. Rather than assigning categories, they learn patterns that correspond to a real-valued output.
+
+Typical forestry-focused regression tasks include:
+
+- **Above-ground biomass estimation:** Using spectral reflectance, canopy texture or structural characteristics from lidar to estimate AGB of a tree or stand.
+- **Canopy cover for leaf area index estimation:** Modeling continuous vegetation density across forested landscapes.
+- **Crown diameter or volume:** Predicting various individual-tree metrics.
+
+![Regression](images/regression.png){#fig-regression fig-align="center" width=80%}
+
+#### Segmentation
+**Segmentation** assigns a label to every pixel/point (**semantic segmentation**) or separates individual objects within an image or point cloud (**instance segmentation**). This task is essential when the goal is to create detailed spatial maps rather than broad classifications.
+
+In forestry applications, segmentation helps support:
+
+- **Tree-crown delineation:** Separating individual tree crowns in imagery or point clouds for per-tree analysis.
+- **Stand or management-unit boundaries:** Automatically outlining key forest changes or stand edges.
+- **Vegetation structure mapping:** Distinguishing between canopy, understory, stem, and ground points from lidar data.
+
+![Segmentation](images/segmentation.png){#fig-segmentation fig-align="center" width=80%}
+
 ## Image-Based vs. Point-Based Deep Learning
 ### Image-Based Deep Learning
 **Image-based** deep learning is a computer vision method that teaches computers to understand and interpret images. Instead of manually telling the computer what to look for, these algorithms automatically learn patterns from large sets of images. These algorithms can learn features like edges, shapes, and colours, and eventually can identify complex objects such as trees. Because these models learn directly from the data, they can help computers *see* and make sense of the imagery.

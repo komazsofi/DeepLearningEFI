@@ -21,8 +21,8 @@ website:
         href: 02_data.qmd
       - text: 3-Train
         href: 03_train.qmd
-      - text: 4-Validation
-        href: 04_validation.qmd
+      - text: 4-Evaluation
+        href: 04_evaluation.qmd
       - text: 5-Examples
         href: 05_examples.qmd
 numbering: true
