@@ -176,18 +176,36 @@ window.Quarto = {
   <li><a href="#image-based-deep-learning" id="toc-image-based-deep-learning" class="nav-link" data-scroll-target="#image-based-deep-learning">Image-Based Deep Learning</a></li>
   <li><a href="#point-based-deep-learning" id="toc-point-based-deep-learning" class="nav-link" data-scroll-target="#point-based-deep-learning">Point Based Deep Learning</a></li>
   </ul></li>
-  <li><a href="#challenges-with-deep-learning" id="toc-challenges-with-deep-learning" class="nav-link" data-scroll-target="#challenges-with-deep-learning">Challenges with Deep Learning</a>
+  <li><a href="#key-terminology-and-concepts-to-know" id="toc-key-terminology-and-concepts-to-know" class="nav-link" data-scroll-target="#key-terminology-and-concepts-to-know">Key Terminology and Concepts to Know</a>
   <ul class="collapse">
-  <li><a href="#implemented-in-python" id="toc-implemented-in-python" class="nav-link" data-scroll-target="#implemented-in-python">Implemented in Python</a></li>
-  <li><a href="#many-models-use-linux" id="toc-many-models-use-linux" class="nav-link" data-scroll-target="#many-models-use-linux">Many Models Use Linux</a></li>
+  <li><a href="#parameters-vs.-hyperparameters" id="toc-parameters-vs.-hyperparameters" class="nav-link" data-scroll-target="#parameters-vs.-hyperparameters">Parameters vs.&nbsp;Hyperparameters</a></li>
+  <li><a href="#input-features-vs.-labels-vs.-learned-features" id="toc-input-features-vs.-labels-vs.-learned-features" class="nav-link" data-scroll-target="#input-features-vs.-labels-vs.-learned-features">Input Features vs.&nbsp;Labels vs.&nbsp;Learned Features</a></li>
+  <li><a href="#batches-batch-size" id="toc-batches-batch-size" class="nav-link" data-scroll-target="#batches-batch-size">Batches &amp; Batch Size</a></li>
+  <li><a href="#model-architecture-vs.-model-weights" id="toc-model-architecture-vs.-model-weights" class="nav-link" data-scroll-target="#model-architecture-vs.-model-weights">Model Architecture vs.&nbsp;Model Weights</a></li>
+  <li><a href="#forward-pass-vs.-backward-pass" id="toc-forward-pass-vs.-backward-pass" class="nav-link" data-scroll-target="#forward-pass-vs.-backward-pass">Forward pass vs.&nbsp;Backward Pass</a></li>
+  <li><a href="#training-loop" id="toc-training-loop" class="nav-link" data-scroll-target="#training-loop">Training Loop</a></li>
+  <li><a href="#gradient-descent" id="toc-gradient-descent" class="nav-link" data-scroll-target="#gradient-descent">Gradient Descent</a></li>
+  <li><a href="#transfer-learning-fine-tuning" id="toc-transfer-learning-fine-tuning" class="nav-link" data-scroll-target="#transfer-learning-fine-tuning">Transfer Learning &amp; Fine-Tuning</a></li>
+  </ul></li>
+  <li><a href="#challenges-and-considerations-for-deep-learning-in-forestry-applications" id="toc-challenges-and-considerations-for-deep-learning-in-forestry-applications" class="nav-link" data-scroll-target="#challenges-and-considerations-for-deep-learning-in-forestry-applications">Challenges and Considerations for Deep Learning in Forestry Applications</a>
+  <ul class="collapse">
+  <li><a href="#high-variability-across-sensors-and-sites" id="toc-high-variability-across-sensors-and-sites" class="nav-link" data-scroll-target="#high-variability-across-sensors-and-sites">High Variability Across Sensors and Sites</a></li>
+  <li><a href="#spatial-autocorrelation" id="toc-spatial-autocorrelation" class="nav-link" data-scroll-target="#spatial-autocorrelation">Spatial Autocorrelation</a></li>
+  <li><a href="#imbalanced-ecological-classes" id="toc-imbalanced-ecological-classes" class="nav-link" data-scroll-target="#imbalanced-ecological-classes">Imbalanced Ecological Classes</a></li>
+  <li><a href="#models-developed-on-idealized-or-synthetic-benchmarks" id="toc-models-developed-on-idealized-or-synthetic-benchmarks" class="nav-link" data-scroll-target="#models-developed-on-idealized-or-synthetic-benchmarks">Models Developed on Idealized or Synthetic Benchmarks</a></li>
+  <li><a href="#limited-quantity-of-labeled-datasets" id="toc-limited-quantity-of-labeled-datasets" class="nav-link" data-scroll-target="#limited-quantity-of-labeled-datasets">Limited Quantity of Labeled Datasets</a></li>
   </ul></li>
   <li><a href="#frequently-asked-questions" id="toc-frequently-asked-questions" class="nav-link" data-scroll-target="#frequently-asked-questions">Frequently Asked Questions</a>
   <ul class="collapse">
-  <li><a href="#how-does-deep-learning-differ-from-machine-learning-or-artifical-intelligence" id="toc-how-does-deep-learning-differ-from-machine-learning-or-artifical-intelligence" class="nav-link" data-scroll-target="#how-does-deep-learning-differ-from-machine-learning-or-artifical-intelligence">How does deep learning differ from machine learning or artifical intelligence?</a></li>
+  <li><a href="#how-does-deep-learning-differ-from-machine-learning-or-artificial-intelligence" id="toc-how-does-deep-learning-differ-from-machine-learning-or-artificial-intelligence" class="nav-link" data-scroll-target="#how-does-deep-learning-differ-from-machine-learning-or-artificial-intelligence">How does deep learning differ from machine learning or artificial intelligence?</a></li>
   <li><a href="#what-makes-deep-learning-deep" id="toc-what-makes-deep-learning-deep" class="nav-link" data-scroll-target="#what-makes-deep-learning-deep">What makes deep learning deep?</a></li>
   <li><a href="#what-are-some-advantages-and-disadvantages-of-deep-learning" id="toc-what-are-some-advantages-and-disadvantages-of-deep-learning" class="nav-link" data-scroll-target="#what-are-some-advantages-and-disadvantages-of-deep-learning">What are some advantages and disadvantages of deep learning?</a></li>
   <li><a href="#when-should-a-deep-learning-model-be-used" id="toc-when-should-a-deep-learning-model-be-used" class="nav-link" data-scroll-target="#when-should-a-deep-learning-model-be-used">When should a deep learning model be used?</a></li>
   <li><a href="#what-computing-resources-are-required-to-run-a-deep-learning-model" id="toc-what-computing-resources-are-required-to-run-a-deep-learning-model" class="nav-link" data-scroll-target="#what-computing-resources-are-required-to-run-a-deep-learning-model">What computing resources are required to run a deep learning model?</a></li>
+  <li><a href="#why-do-deep-learning-models-need-so-much-data" id="toc-why-do-deep-learning-models-need-so-much-data" class="nav-link" data-scroll-target="#why-do-deep-learning-models-need-so-much-data">Why do deep learning models need so much data?</a></li>
+  <li><a href="#how-do-i-know-which-model-architecture-to-choose" id="toc-how-do-i-know-which-model-architecture-to-choose" class="nav-link" data-scroll-target="#how-do-i-know-which-model-architecture-to-choose">How do I know which model architecture to choose?</a></li>
+  <li><a href="#how-long-does-it-take-to-train-a-deep-learning-model" id="toc-how-long-does-it-take-to-train-a-deep-learning-model" class="nav-link" data-scroll-target="#how-long-does-it-take-to-train-a-deep-learning-model">How long does it take to train a deep learning model?</a></li>
+  <li><a href="#how-do-i-know-if-i-have-enough-labelled-data" id="toc-how-do-i-know-if-i-have-enough-labelled-data" class="nav-link" data-scroll-target="#how-do-i-know-if-i-have-enough-labelled-data">How do I know if I have enough labelled data?</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/Brent-Murray/DeepLearningEFI/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
@@ -248,7 +266,7 @@ Figure&nbsp;2: Components of a Neural Network
 <p><span class="math display">\[
 \Large y = w_1x_1 + w_2x_2 + b
 \]</span></p>
-<p>Another important part of a neuron is called the <strong>activation</strong>. The output of the weighted sum (<span class="math inline">\(y\)</span>) is passed through an activation function, which determines the strength of the output and whether the neuron becomes activated or not.</p>
+<p>Another important part of a neuron is called the <strong>activation</strong>. The output of the weighted sum (<span class="math inline">\(y\)</span>) is passed through an activation function, which determines the strength of the output and whether the neuron becomes activated or not. Activation functions are essential because they introduce nonlinearity into the model. Without them, every layer would behave like a linear transformation, and no matter how many layers were stacked, the network could only learn simple linear relationships. By adding nonlinear activations, deep learning models can capture complex patterns and interactions in the data, making it possible to learn rich structure found in imagery and point clouds.</p>
 <div id="fig-neuron" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-neuron-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -287,6 +305,7 @@ Figure&nbsp;4: Prediction-Feedback Loop
 </figure>
 </div>
 <p>This prediction–feedback loop is driven by the goal of the <strong>loss function</strong>, which guides the model in adjusting its weights and biases to find the optimal solution. The loss function assesses the difference between the true and predicted <strong>labels</strong>, typically, with the goal to minimize the error between the two. There are different types of loss functions, each providing different feedback to the model. Choosing a loss function depends on the task (e.g., classification, regression), and ensuring that it is appropriate for the problem is a crucial step.</p>
+<p>A key part of this update process involves <strong>gradients</strong>, which measure how much a small change in each weight or bias would affect the loss. Gradients point the model in the direction that most reduces error, allowing the network to adjust its parameters efficiently. During training, these gradients are computed and used to update the weights so that, over time, the model’s predictions become more accurate. Although gradients operate behind the scenes, they are central to how deep learning models learn from the data.</p>
 <p>Over a number of iterations, or <strong>epochs</strong>, the model adjusts its weights and biases based on the feedback received from the loss function. Eventually, the model can no longer improve given the input data, and at this point, the loss begins to stabilize, indicating that the model has reached its optimal performance.</p>
 <div id="fig-epochs" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
@@ -421,43 +440,89 @@ Figure&nbsp;11: Point Based Deep Learning
 </div>
 </section>
 </section>
-<section id="challenges-with-deep-learning" class="level2">
-<h2 class="anchored" data-anchor-id="challenges-with-deep-learning">Challenges with Deep Learning</h2>
-<section id="implemented-in-python" class="level3">
-<h3 class="anchored" data-anchor-id="implemented-in-python">Implemented in Python</h3>
+<section id="key-terminology-and-concepts-to-know" class="level2">
+<h2 class="anchored" data-anchor-id="key-terminology-and-concepts-to-know">Key Terminology and Concepts to Know</h2>
+<p>Before exploring data preparation, training workflows, and model evaluation, it is useful to establish a common vocabulary for how deep learning models operate. The terms below describe the core components, processes, and ideas that appear throughout all deep learning methods, regardless of the specific architecture or data type. Understanding these concepts will help clarify how models learn, how they are structured, and how different parts of the training pipeline fit together.</p>
+<section id="parameters-vs.-hyperparameters" class="level3">
+<h3 class="anchored" data-anchor-id="parameters-vs.-hyperparameters">Parameters vs.&nbsp;Hyperparameters</h3>
+<p><strong>Parameters</strong> are the internal values of a neural network that are learned during training. These include the weights and biases in each layer. They are updated automatically through optimization and define how the model transforms inputs into predictions.</p>
+<p><strong>Hyperparameters</strong> control <em>how</em> a model learns rather than what it learns. Examples include learning rate, batch size, number of epochs, and model depth. Unlike parameters, hyperparameters are set by the user and are not learned during training. These often need to be tuned in order to receive optimal results.</p>
 </section>
-<section id="many-models-use-linux" class="level3">
-<h3 class="anchored" data-anchor-id="many-models-use-linux">Many Models Use Linux</h3>
+<section id="input-features-vs.-labels-vs.-learned-features" class="level3">
+<h3 class="anchored" data-anchor-id="input-features-vs.-labels-vs.-learned-features">Input Features vs.&nbsp;Labels vs.&nbsp;Learned Features</h3>
+<p><strong>Input Features</strong> are the input variables or measurements the model receives. In imagery, these might be pixel values from the spectral bands; in point clouds, they may include XYZ coordinates, intensity, or return number. Features describe the data but are not predictions themselves.</p>
+<p><strong>Labels</strong> represent the target values the model is trying to predict. These can be discrete classes (e.g.&nbsp;species), continuous values (e.g.&nbsp;biomass), or spatial assignments (e.g.&nbsp;segmentation masks). Labels are essential for supervised learning.</p>
+<p><strong>Learned Features</strong> are internal representations automatically discovered by the neural network as the data moves through its layers. Unlike input features, which come directly from the dataset, learned features are created by the model itself. Early layers often capture simple patterns such as edges or local geometry, while deeper layers encode more abstract concepts such as textures, shapes, or structural patterns. These learned features enable deep learning models to extract complex information without requiring manual feature engineering.</p>
+</section>
+<section id="batches-batch-size" class="level3">
+<h3 class="anchored" data-anchor-id="batches-batch-size">Batches &amp; Batch Size</h3>
+<p>Instead of processing the entire dataset at once, the model learns from small subsets of the data called <strong>batches</strong>. The <strong>batch size</strong> is the number of samples processed per training step. Batch size affects memory usage, training stability, and learning dynamics.</p>
+</section>
+<section id="model-architecture-vs.-model-weights" class="level3">
+<h3 class="anchored" data-anchor-id="model-architecture-vs.-model-weights">Model Architecture vs.&nbsp;Model Weights</h3>
+<p>The <strong>model architecture</strong> defines the structure of the network, including the number and type of layers and how they are connected. Examples include CNNs for image and point based networks for 3D data. The architecture determines the model’s capacity to learn patterns, and differ based on the goal and task.</p>
+<p><strong>Model weights</strong> are the numerical values stored within each layer that get updated during training while the architecture stays fixed, the weights change continuously, forming the learned representations of the data.</p>
+</section>
+<section id="forward-pass-vs.-backward-pass" class="level3">
+<h3 class="anchored" data-anchor-id="forward-pass-vs.-backward-pass">Forward pass vs.&nbsp;Backward Pass</h3>
+<p>The <strong>forward pass</strong> is the process where input data moves through the network, from the first layer to the final output, to generate predictions. All computations during this step use the current parameter values.</p>
+<p>The <strong>backward pass</strong> computes gradients that describe how the loss changes with respect to each parameter. These gradients are then used by the optimizer to update the models parameters, allowing it to improve over time.</p>
+</section>
+<section id="training-loop" class="level3">
+<h3 class="anchored" data-anchor-id="training-loop">Training Loop</h3>
+<p>The <strong>training loop</strong> refers to the repeated cycle of performing forward passes, computing loss, running backward passes, and updating parameters. This loop continues for a set number of epochs or until the model stops improving.</p>
+</section>
+<section id="gradient-descent" class="level3">
+<h3 class="anchored" data-anchor-id="gradient-descent">Gradient Descent</h3>
+<p><strong>Gradient decent</strong> is the core optimization ideal that adjusts a model’s parameters to minimize the loss function. By moving the weights in the direction that decreases the error, the model incrementally improves its predictions.</p>
+</section>
+<section id="transfer-learning-fine-tuning" class="level3">
+<h3 class="anchored" data-anchor-id="transfer-learning-fine-tuning">Transfer Learning &amp; Fine-Tuning</h3>
+<p><strong>Transfer learning</strong> is a technique where a deep learning model that has already been trained on a large, general-purpose dataset is reused as the starting point for a new task. Instead of training from scratch, the model begins with learned features that capture useful patterns, such as edges, textures, shapes, or geometric structures, that often transfer well across related tasks and data types.</p>
+<p><strong>Fine-tuning</strong> is the process of adjusting (or refining) some or all of the pretrained model’s weights on your specific dataset. This allows the model to adapt its learned features to the characteristics of your data, such as new species, sensor types, or forest structures. Fine-tuning is especially valuable when labelled data are limited, because it reduces the amount of training needed and often leads to better generalization that starting with a randomly initialized model.</p>
+</section>
+</section>
+<section id="challenges-and-considerations-for-deep-learning-in-forestry-applications" class="level2">
+<h2 class="anchored" data-anchor-id="challenges-and-considerations-for-deep-learning-in-forestry-applications">Challenges and Considerations for Deep Learning in Forestry Applications</h2>
+<p>Forestry data introduce unique complexities that shape how deep learning models behave in real-world applications. Understanding these challenges at a high level helps set realistic expectations for model performance and highlights why certain design choices are necessary. The following considerations provide important context for why deep learning in forestry often requires additional care compared to more controlled or synthetic environments.</p>
+<section id="high-variability-across-sensors-and-sites" class="level3">
+<h3 class="anchored" data-anchor-id="high-variability-across-sensors-and-sites">High Variability Across Sensors and Sites</h3>
+<p>Remote sensing data in forest often come from different platforms, sensors, and acquisition conditions. Variations in resolution, illumination, phenology, or sensor characteristics can change how forests appear in the imagery or point cloud. Deep learning models may struggle to generalize when trained on one condition but applied to another, making cross-site or cross-sensor performance a challenge. This issue has led to ongoing research in <strong>fine-tuning and domain adaptation</strong>, where models trained in one environment are carefully adjusted to perform well in new regions, sensors, or forest types.</p>
+</section>
+<section id="spatial-autocorrelation" class="level3">
+<h3 class="anchored" data-anchor-id="spatial-autocorrelation">Spatial Autocorrelation</h3>
+<p>Nearby pixels, trees, or points in a forest environment tend to be more similar than distant ones. This natural spatial structure can bias model training and validation if not accounted for. For instance, training and test samples drawn from the same spatial neighborhood may artificially inflate performance, making the model appear more accurate than it truly is on new areas.</p>
+</section>
+<section id="imbalanced-ecological-classes" class="level3">
+<h3 class="anchored" data-anchor-id="imbalanced-ecological-classes">Imbalanced Ecological Classes</h3>
+<p>Forestry datasets frequently contain disproportionate numbers of certain classes (e.g.&nbsp;abundant/dominant species or canopy structures). Samples that are underrepresented often cause models to prioritize majority classes and perform poorly on minority ones. This imbalance requires careful design of training strategies, loss functions and evaluation metrics.</p>
+</section>
+<section id="models-developed-on-idealized-or-synthetic-benchmarks" class="level3">
+<h3 class="anchored" data-anchor-id="models-developed-on-idealized-or-synthetic-benchmarks">Models Developed on Idealized or Synthetic Benchmarks</h3>
+<p>Many deep learning models, particularly point-based architectures, are initially designed and validated on synthetic or highly controlled benchmark datasets unrelated to forestry. These datasets lack noise, irregular sampling, occlusion, and structural complexity found real world samples. As a result, models that perform impressively on these datasets often struggle when applied directly to operational forestry data. Adapting these models to real-world conditions is crucial and is an ongoing research challenge that frequently requires domain knowledge/adaptation, and fine-tuning on representative field datasets.</p>
+</section>
+<section id="limited-quantity-of-labeled-datasets" class="level3">
+<h3 class="anchored" data-anchor-id="limited-quantity-of-labeled-datasets">Limited Quantity of Labeled Datasets</h3>
+<p>High-quality labelled datasets are often scare in forestry because manual annotation, such as identifying species, delineating crowns, or validating biomass measurements, is time-consuming, costly, and requires expert knowledge. This limited availability of labelled data can restrict model performance and make it difficult to train deep neural networks effectively. As a results, approaches such as data augmentation, semi-supervised learning, transfer learning, and pseudo-sample generation are especially important in forestry applications to help models learn from small or imperfect datasets.</p>
 </section>
 </section>
 <section id="frequently-asked-questions" class="level2">
 <h2 class="anchored" data-anchor-id="frequently-asked-questions">Frequently Asked Questions</h2>
-<section id="how-does-deep-learning-differ-from-machine-learning-or-artifical-intelligence" class="level3">
-<h3 class="anchored" data-anchor-id="how-does-deep-learning-differ-from-machine-learning-or-artifical-intelligence">How does deep learning differ from machine learning or artifical intelligence?</h3>
+<section id="how-does-deep-learning-differ-from-machine-learning-or-artificial-intelligence" class="level3">
+<h3 class="anchored" data-anchor-id="how-does-deep-learning-differ-from-machine-learning-or-artificial-intelligence">How does deep learning differ from machine learning or artificial intelligence?</h3>
+<p>Artificial intelligence is the broad field of creating systems that perform tasks associated with human intelligence. Machine learning is a subset of artificial intelligence that uses data-driven algorithms to learn patterns and make predictions. Deep learning is a further subset of machine learning that uses multi-layered neural networks to automatically learn complex representations from data. Unlike many traditional machine learning methods, deep learning can extract features directly from raw inputs, reducing the need for manual feature generation.</p>
 </section>
 <section id="what-makes-deep-learning-deep" class="level3">
 <h3 class="anchored" data-anchor-id="what-makes-deep-learning-deep">What makes deep learning deep?</h3>
+<p>Deep learning models are considered <em>deep</em> because they contain multiple layers of neurons through which data are successively transformed. Each layer learns increasingly abstract features, from simple edges or shapes to complex patterns and structures. The depth, or number of layers, enables these models to capture highly non-linear relationships that simpler models cannot represent.</p>
 </section>
 <section id="what-are-some-advantages-and-disadvantages-of-deep-learning" class="level3">
 <h3 class="anchored" data-anchor-id="what-are-some-advantages-and-disadvantages-of-deep-learning">What are some advantages and disadvantages of deep learning?</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Advantages</th>
-<th>Disadvantages</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Can produce more accurate results</td>
-<td>Requires A LOT of training data</td>
-</tr>
-</tbody>
-</table>
+<p>Deep learning excels at learning complex patterns, handling high-dimensional data, and achieving state-of-the-art performance in tasks like image classification, segmentation, and 3D analysis. However, it typically requires large amounts of labelled data, substantial computational resources, and careful tuning. Deep learning models can also be harder to interpret, making it challenging to understand why a model makes certain predictions.</p>
 </section>
 <section id="when-should-a-deep-learning-model-be-used" class="level3">
 <h3 class="anchored" data-anchor-id="when-should-a-deep-learning-model-be-used">When should a deep learning model be used?</h3>
-<p>As the complexity of the data or the task increases deep learning becomes a more benifical option. Raw lidar data for example is a complex dataset and is well suited for deep learning tasks.</p>
+<p>Deep learning is most effective when you have large, diverse datasets and tasks with complex patterns that simpler models struggle to capture. As the complexity of the data or the task increases deep learning becomes a more beneficial option. Raw lidar data for example is a complex dataset and is well suited for deep learning tasks.</p>
 <div id="fig-deeplearning-complexity" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-deeplearning-complexity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -471,6 +536,23 @@ Figure&nbsp;12: Data and Task Complexity for Deep and Machine Learning
 </section>
 <section id="what-computing-resources-are-required-to-run-a-deep-learning-model" class="level3">
 <h3 class="anchored" data-anchor-id="what-computing-resources-are-required-to-run-a-deep-learning-model">What computing resources are required to run a deep learning model?</h3>
+<p>Training deep learning models generally benefits from using a graphics processing unit (GPU), which accelerates the large matrix operations involved. Smaller models or inference tasks can run on a standard CPU, but training deep neural networks on CPUs is typically slow. For larger datasets or 3D models, access to GPUs, high memory capacity, and efficient data pipelines becomes increasingly important</p>
+</section>
+<section id="why-do-deep-learning-models-need-so-much-data" class="level3">
+<h3 class="anchored" data-anchor-id="why-do-deep-learning-models-need-so-much-data">Why do deep learning models need so much data?</h3>
+<p>Deep learning models contain millions of parameters that must be learned during training. Large datasets help ensure these parameters capture general patterns rather than memorizing noise. With limited data, deep learning models are more likely to overfit, producing high accuracy on the training set but poor performance on new or unseen data. More data, especially diver data, improves generalization.</p>
+</section>
+<section id="how-do-i-know-which-model-architecture-to-choose" class="level3">
+<h3 class="anchored" data-anchor-id="how-do-i-know-which-model-architecture-to-choose">How do I know which model architecture to choose?</h3>
+<p>The choice of architecture depends on the type of data, the goal and the task, CNNs are well suited for image-based tasks, while point-based neural networks handle 3D point clouds. Architectures like U-Net are often used for segmentation, whereas regression problems might consider feedforward networks. In practice, the best approach is to start with widely used, well-documented architectures and adapt them as needed based on performance.</p>
+</section>
+<section id="how-long-does-it-take-to-train-a-deep-learning-model" class="level3">
+<h3 class="anchored" data-anchor-id="how-long-does-it-take-to-train-a-deep-learning-model">How long does it take to train a deep learning model?</h3>
+<p>Training time varies widely depending on model size, computing resources, and batch configuration. Small models may train in a minutes to hours, while large models or 3D networks trained on high-resolution data can take days. Efficient hardware, optimized data loading, and appropriate batch sizes can significantly reduce training time.</p>
+</section>
+<section id="how-do-i-know-if-i-have-enough-labelled-data" class="level3">
+<h3 class="anchored" data-anchor-id="how-do-i-know-if-i-have-enough-labelled-data">How do I know if I have enough labelled data?</h3>
+<p>A practical way to assess this is by observing model performance and generalization. Signs you may not have enough labelled data include overfitting, unstable validation performance, or high sensitivity to small changes in the training set. If performance does not improve despite tuning, acquiring more labelled samples or using techniques like data augmentation, transfer learning, or pseudo-sample generating can help compensate for limited data.</p>
 
 
 </section>
