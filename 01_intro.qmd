@@ -120,6 +120,8 @@ Before exploring data preparation, training workflows, and model evaluation, it 
 ### Batches & Batch Size
 Instead of processing the entire dataset at once, the model learns from small subsets of the data called **batches**. The **batch size** is the number of samples processed per training step. Batch size affects memory usage, training stability, and learning dynamics.
 
+![Batches](images/batch.png){#fig-batches fig-align="center" width=60%}
+
 ### Model Architecture vs. Model Weights
 The **model architecture** defines the structure of the network, including the number and type of layers and how they are connected. Examples include CNNs for image and point based networks for 3D data. The architecture determines the model’s capacity to learn patterns, and differ based on the goal and task.
 
