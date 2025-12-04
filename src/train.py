@@ -17,7 +17,7 @@ sys.path.append(os.path.join(ROOT_DIR, 'utils'))
 
 # Configuration and Utilities
 from config import DATASET_CONFIG, MODEL_CONFIG 
-from dataset.efi_dataset import ForestryDataset
+from dataset.efi_dataset import EfiDataset
 from models.loss_utils import calculate_total_loss 
 from utils.metrics import MetricsCalculator
 from utils.logger import setup_experiment_dir, setup_logger, plot_training_curves
@@ -105,7 +105,7 @@ def main(args):
     # 3. Data Loading
     log_string('Load dataset ...')
     
-    train_dataset = ForestryDataset(
+    train_dataset = EfiDataset(
         root=dataset_cfg['root'], 
         csv_path=dataset_cfg['csv'], 
         label_col=dataset_cfg['label_col'], 
@@ -117,7 +117,7 @@ def main(args):
         use_normals=full_cfg['use_normal'],
         use_fps=args.use_uniform_sample
     )
-    test_dataset = ForestryDataset(
+    test_dataset = EfiDataset(
         root=dataset_cfg['root'], 
         csv_path=dataset_cfg['csv'], 
         label_col=dataset_cfg['label_col'], 

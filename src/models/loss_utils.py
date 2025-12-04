@@ -11,7 +11,7 @@ def get_loss_function(task):
     """
     if task == 'classification':
         # Using CrossEntropyLoss is simplest if input is raw logits.
-        return F.null_loss # nn.CrossEntropyLoss()
+        return F.nll_loss # nn.CrossEntropyLoss()
     elif task == 'regression':
         return F.smooth_l1_loss
     else:

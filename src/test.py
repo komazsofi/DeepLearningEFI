@@ -19,7 +19,7 @@ sys.path.append(os.path.join(ROOT_DIR, 'models'))
 sys.path.append(os.path.join(ROOT_DIR, 'src')) 
 
 from config import DATASET_CONFIG, MODEL_CONFIG
-from dataset.efi_dataset import ForestryDataset
+from dataset.efi_dataset import EfiDataset
 from utils.metrics import MetricsCalculator
 from utils.logger import setup_logger # We'll reuse the logger setup for simplicity
 
@@ -133,7 +133,7 @@ def main(args):
     # 2. Data Loading
     log_string('Load dataset ...')
     
-    test_dataset = ForestryDataset(
+    test_dataset = EfiDataset(
         root=dataset_cfg['root'], 
         csv_path=dataset_cfg['csv'], 
         label_col=dataset_cfg['label_col'], 

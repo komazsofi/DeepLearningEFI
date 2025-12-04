@@ -13,3 +13,4 @@ src/data
 **/__pycache__
 *.zip
 **/.jupyter_cache
+**/wandb

@@ -9,7 +9,7 @@ import warnings
 from .data_utils import estimate_normals, sample_points
 
 
-class ForestryDataset(Dataset):
+class EfiDataset(Dataset):
     def __init__(self, root, csv_path, label_col, split='train', 
                  num_points=8192, task_type='classification', classes_list=None,
                  process_data=False, use_normals=False, use_fps=True):
