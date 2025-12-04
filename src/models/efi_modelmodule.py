@@ -5,9 +5,7 @@ import numpy as np
 
 from .loss_utils import calculate_total_loss 
 from sklearn.metrics import confusion_matrix, r2_score, mean_squared_error
-import sys, os
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from utils.metrics import MetricsCalculator
+from .metrics import MetricsCalculator
 
 class EfiModelModule(pl.LightningModule):
     def __init__(self, cfg, args):
