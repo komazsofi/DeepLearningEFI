@@ -17,6 +17,8 @@ Our goal is to automate complex analysis, such as:
    
 2) Regression: Estimating biomass or predicting tree attributes like total height or basal area.
 
+Source code is availabel on [Github](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src)
+
 ---
 
 ## DL Pipeline
@@ -399,6 +401,15 @@ wandb_logger = WandbLogger(
 checkpoint_dir = Path('./log') / args.wandb_project / wandb_logger.experiment.name / 'checkpoints'
 checkpoint_dir.mkdir(parents=True, exist_ok=True)
 ```
+
+### W&B Dashboard
+
+<iframe
+  src="https://wandb.ai/ubc-yuwei-cao/forest_species_mapping/runs/59k5osk2"
+  width="100%"
+  height="600"
+  style="border:none;"
+></iframe>
 
 ## How to run
 ### Environment install
