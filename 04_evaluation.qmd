@@ -8,8 +8,24 @@ format:
 
 ## Hyperparameter tuning
 
+HPs we tuned:
+- LR
+- BS
+- Num_points
+
+SWEEP:
+
+
 ## Validating Deep Learning Predictions
+
+
 
 ## Examples of Evaluation Metrics and Plotting Figures
 
 
+
+## How to use the pre-trained model
+
+Pretrained models:
+classification:
+regression:
