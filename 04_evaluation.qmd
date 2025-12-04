@@ -6,6 +6,8 @@ format:
 ---
 ## Relevant Resources
 
+## Hyperparameter tuning
+
 ## Validating Deep Learning Predictions
 
 ## Examples of Evaluation Metrics and Plotting Figures

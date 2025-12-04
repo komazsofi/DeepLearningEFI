@@ -3,6 +3,7 @@ title: "Training Deep Learning Models"
 execute:
   eval: false
   echo: true
+jupyter: python3
 format:
   html:
     toc: True
@@ -92,6 +93,9 @@ class EfiDataModule(pl.LightningDataModule):
                 use_fps=self.cfg.get('use_fps', True)
             )
 ```
+
+### Data Augmentation
+
 
 ---
 
@@ -291,6 +295,9 @@ def _shared_step(self, batch):
 ```
 
 3) `training_step`, `validation_step`, `test_step`: Defines how to calculate the loss for a single batch of data. This loss includes the primary objective (Classification or Regression loss) plus any regularization (like the matrix difference loss in `DGCNN`).
+
+`training_step`:
+
 ```{python}
 # --- Training ---
 def training_step(self, batch, batch_idx):
@@ -302,7 +309,179 @@ def training_step(self, batch, batch_idx):
     return loss
 ```
 
+`validation_step`:
+
+```{python}
+#| code-fold: true
+# --- Validation ---
+def validation_step(self, batch, batch_idx):
+    loss, pred, target = self._shared_step(batch)
+    
+    # 1. Log validation loss (PL automatically averages this over the epoch)
+    self.log('val/loss', loss, on_step=False, on_epoch=True, prog_bar=True)
+    
+    # 2. Update the full MetricsCalculator for end-of-epoch aggregation
+    self.val_metrics.update(pred, target, 0.0)
+    
+    return loss
+def on_validation_epoch_end(self):
+    """
+    Calculates and logs all final validation metrics using W&B.
+    """
+    # Compute metrics from the aggregated predictions/targets
+    all_pred = np.concatenate(self.val_metrics.predictions, axis=0)
+    all_target = np.concatenate(self.val_metrics.targets, axis=0)
+    
+    val_logs = {}
+
+    if self.task == 'classification':
+        pred_labels = np.argmax(all_pred, axis=1)
+        instance_acc = np.mean(pred_labels == all_target)
+
+        # Per-Class Accuracy
+        cm = confusion_matrix(all_target, pred_labels)
+        # Handle division by zero warning if a class has no samples in the batch
+        with np.errstate(divide='ignore', invalid='ignore'):
+                class_acc_array = cm.diagonal() / cm.sum(axis=1)
+        class_acc = np.mean(class_acc_array[~np.isnan(class_acc_array)])
+        
+        # Log all classification metrics to W&B
+        val_logs['val/instance_acc'] = instance_acc
+        val_logs['val/class_acc'] = class_acc
+        
+    elif self.task == 'regression':
+        pred_values = all_pred.flatten()
+        target_values = all_target.flatten()
+        
+        # Compute R2 and RMSE
+        r2 = r2_score(target_values, pred_values)
+        rmse = np.sqrt(mean_squared_error(target_values, pred_values))
+        
+        # Log all regression metrics to W&B
+        val_logs['val/r2_score'] = r2
+        val_logs['val/rmse'] = rmse
+
+    # PL logging handles synchronization across GPUs
+    self.log_dict(val_logs, on_step=False, on_epoch=True, prog_bar=False)
+    
+    # Reset metric calculator for the next epoch
+    self.val_metrics.reset()
+```
+
+`test_step`:
+
+```{python}
+#| code-fold: true
+# --- Test Step ---
+def test_step(self, batch, batch_idx):
+    """
+    Dedicated step for final, unbiased evaluation on the test set.
+    Runs when trainer.test() is called.
+    """
+    loss, pred, target = self._shared_step(batch)
+    
+    # 1. Log test loss
+    self.log('test/loss', loss, on_step=False, on_epoch=True)
+    
+    # 2. Update the full MetricsCalculator for end-of-epoch aggregation
+    self.test_metrics.update(pred, target, 0.0)
+    
+    return loss
+
+def on_test_epoch_end(self):
+    """
+    Calculates and logs all final test metrics, mirroring the validation logic.
+    """
+    # Compute metrics from the aggregated predictions/targets
+    all_pred = np.concatenate(self.test_metrics.predictions, axis=0)
+    all_target = np.concatenate(self.test_metrics.targets, axis=0)
+    
+    test_logs = {}
+
+    if self.task == 'classification':
+        pred_labels = np.argmax(all_pred, axis=1)
+        instance_acc = np.mean(pred_labels == all_target)
+
+        # Per-Class Accuracy
+        cm = confusion_matrix(all_target, pred_labels)
+        with np.errstate(divide='ignore', invalid='ignore'):
+                class_acc_array = cm.diagonal() / cm.sum(axis=1)
+        class_acc = np.mean(class_acc_array[~np.isnan(class_acc_array)])
+        
+        # Log all classification metrics
+        test_logs['test/instance_acc'] = instance_acc
+        test_logs['test/class_acc'] = class_acc
+        
+    elif self.task == 'regression':
+        pred_values = all_pred.flatten()
+        target_values = all_target.flatten()
+        
+        # Compute R2 and RMSE
+        r2 = r2_score(target_values, pred_values)
+        rmse = np.sqrt(mean_squared_error(target_values, pred_values))
+        
+        # Log all regression metrics
+        test_logs['test/r2_score'] = r2
+        test_logs['test/rmse'] = rmse
+
+    # PL logging handles synchronization across GPUs
+    self.log_dict(test_logs, on_step=False, on_epoch=True, prog_bar=False)
+    
+    # Reset metric calculator for the next run
+    self.test_metrics.reset()
+```
+
+`prediction_step` is used for generating raw output/predictions on unseen data, it does not calculating loss and metrices:
+
+```{python}
+#| code-fold: true
+# --- Prediction / Inference ---
+def predict_step(self, batch, batch_idx, dataloader_idx=0):
+    """
+    Used for generating raw output/predictions on unseen data.
+    Does not calculate loss or metrics.
+    Runs when trainer.predict() is called.
+    """
+    # Note: We assume the batch structure is the same, but the target is ignored or zeroed out
+    points, _ = batch 
+    
+    # Transpose [B, N, C] -> [B, C, N] and enforce float32
+    points = points.transpose(2, 1).float() 
+    
+    # 1. Forward Pass
+    # Assuming self(points) returns (pred, trans_feat), we only return the prediction (pred)
+    pred, _ = self(points) 
+    
+    # Return only the raw prediction tensor for the user
+    return pred
+```
+
 4) Optimizer and Scheduler: `configure_optimizers`: the setup of the `Adam` optimizer (with specific learning rate and weight decay from args) and the `StepLR` scheduler, emphasizing the necessity of returning them in the nested dictionary format required by `PyTorch Lightning`.
+
+```{python}
+#| code-fold: true
+# --- Optimizer Configuration ---
+def configure_optimizers(self):
+    """Defines the optimizer and scheduler as required by PL."""
+    optimizer = torch.optim.Adam(
+        self.parameters(),
+        lr=self.args.learning_rate,
+        betas=(0.9, 0.999),
+        eps=1e-08,
+        weight_decay=self.args.decay_rate
+    )
+    
+    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=20, gamma=0.7)
+    
+    # PL requires the scheduler to be returned in a dictionary format
+    return {
+        'optimizer': optimizer,
+        'lr_scheduler': {
+            'scheduler': scheduler, 
+            'interval': 'epoch', # Run scheduler step after each epoch
+        }
+    }
+```
 
 ---
 
@@ -417,29 +596,55 @@ checkpoint_dir.mkdir(parents=True, exist_ok=True)
 see `python_environment_setup.md`
 
 ### Command
-To train the `DGCNN` model on your plot data for a classification task:
 
-```
+To train the `DGCNN` model on the petawawa dataset for a species classification task:
+
+```{bash}
 python train_pl.py \
     --model dgcnn \
     --dataset_config_key petawawa_cls \
     --batch_size 16 \
     --epoch 150 \
     --learning_rate 0.0001 \
-    --log_dir species_cls_dgcnn_v1 \
+    --log_dir petawawa_species_cls_dgcnn \
     --process_data
 ```
 
+To train the `DGCNN` model on the petawawa dataset for a biomass estimation task:
+
+```{bash}
+python train_pl.py \
+    --model dgcnn \
+    --dataset_config_key petawawa_reg \
+    --batch_size 16 \
+    --epoch 150 \
+    --learning_rate 0.0001 \
+    --log_dir petawawa_bio_reg_dgcnn \
+    --process_data
+```
 ### Code structure
 
 ```
-src/
-  ├── models/     # models
-  ├── data/       # processed data
-  ├── dataset/    # Dataloader
-  ├── utils/      # logger and metrics calculator
-  ├── pl_train.py    # Training function
-  └── config.py   # Hyperparameters
+└── src
+    ├── README.md
+    ├── config.py
+    ├── dataset
+        ├── data_utils.py
+        ├── efi_datamodule.py
+        └── efi_dataset.py
+    ├── models
+        ├── dgcnn.py
+        ├── efi_modelmodule.py
+        ├── heads.py
+        ├── loss_utils.py
+        ├── metrics.py
+        ├── pointnet.py
+        ├── pointnet2_msg.py
+        ├── pointnet2_ssg.py
+        ├── pointnet2_utils.py
+        ├── pointnet_utils.py
+        └── pointnext.py
+    └── train_pl.py
 ```
 
 ---

@@ -14,3 +14,6 @@ src/data
 *.zip
 **/.jupyter_cache
 **/wandb
+src/train.py
+src/utils/logger.py
+src/test.py
