@@ -5,6 +5,7 @@ format:
     toc: True
 execute:
   echo: true
+  cache: false
 ---
 
 ![](https://opendata.nfis.org/mapserver/PRF_Layout.jpg){fig-alt="Petawawa Forest Map" caption="" width="80%"}
@@ -33,7 +34,9 @@ Field Plots: [https://opendata.nfis.org/downloads/petawawa/Vector/Forest%20Sampl
 
 ## Summary of Preprocessing Steps
 
-1) Extract ALS point clouds corresponding to ground reference plots
+**LiDAR**
+
+1) Extract and clean ALS point clouds corresponding to ground reference plots
 
 2) Denoise point clouds and normalize X and Y coordinates
 
@@ -41,12 +44,19 @@ Field Plots: [https://opendata.nfis.org/downloads/petawawa/Vector/Forest%20Sampl
 
 4) Compare 95th height percentile of measured tree heights with ALS derived 95th height percentile
 
-5) Derive sample plot "labels", establishing which plots are coniferous/deciduous/mixed
+**Species**
 
-6) Split the data into training, validation, and test sets (i.e., splits)
+5) Derive sample plot species labels, establishing which plots are coniferous/deciduous/mixed
 
+**Biomass**
 
-## Extract LiDAR point clouds using the lidR package
+6) Derived plot-level total aboveground biomass (AGB) using tree level DBH measurements and allometric equations
+
+**Splitting Datasets**
+
+7) Divide the data into training, validation, and test sets (i.e., splits)
+
+**Preprocess LiDAR data using the lidR package**
 
 Set filepaths and other global parameters
 
@@ -80,12 +90,12 @@ Load required R packages
 library(lidR)
 library(here)
 library(sf)
-library(dplyr)
+library(tidyverse)
 library(mapview)
-library(readxl)
 library(ggplot2)
 library(plotly)
 library(reticulate)
+library(readxl)
 
 # Import python numpy module using reticulate
 np <- reticulate::import("numpy")
@@ -112,16 +122,15 @@ plot_centers <- st_read(here(PLOT_COORDS_FPATH)) %>%
 #Get vector representation of catalog area
 ctg_sf <- st_as_sf(lidR::as.spatial(ctg))
 
-mapview(ctg_sf, layer.name = 'LiDAR Tiles') + mapview(plot_centers, 
-                                                      col.regions = 'red', 
-                                                      color = 'black',
-                                                      layer.name = 'Ground Plots')
+mapview(ctg_sf, layer.name = 'LiDAR Tiles', map.types = c('Esri.WorldImagery'), 
+        alpha.regions = 0.2, col.regions = 'white', color = 'grey') + 
+    mapview(plot_centers,col.regions = 'red', color = 'black', layer.name = 'Ground Plots')
 
 ```
 
 Define functions to process ALS data
 
-````{r}
+```{r}
 
 extract_pc <- function(coords, ctg){
 
@@ -201,11 +210,11 @@ write_pc_to_npy <- function(pc, plot_id, pc_out_dir){
     
     }
 
-````
+```
 
 Extract plot point clouds from full aquisition
 
-````{r}
+```{r}
 
 if(PROCESS_LIDAR){
 
@@ -246,10 +255,11 @@ if(PROCESS_LIDAR){
 }
 
 
-````
+```
 
+Visualize a single point cloud
 
-````{r}
+```{r}
 
 # Load an example pc
 demo_pc <- np$load(list.files(PLOT_PC_DIR, full.names = TRUE)[50])
@@ -257,25 +267,58 @@ demo_pc <- np$load(list.files(PLOT_PC_DIR, full.names = TRUE)[50])
 # Visualize a point cloud
 plot_pc(demo_pc)
 
-````
+```
 
 
-Load tree measurements
+Load tree measurements and join with species name
 
-````{r}
+```{r}
+
+# Load tree species codes
+tree_sp_codes_df <- read.csv(TREE_SP_CODES_FPATH) %>%
+                      mutate(species = trimws(species))
 
 # Load plot level tree measurements
 trees_df <- read_excel(PLOT_DATA_FPATH, sheet = 'Tree') %>%
               dplyr::rename(plot_id = PlotName,
-                            sp_code = tree_spec)
+                            sp_code = tree_spec,
+                            dbh = DBH) %>%
+              select(plot_id, sp_code, dbh, 
+                     ht_meas, tvol, Status) %>%
+              # Drop dead trees from dataset
+              filter(Status == "L") %>%
+              # Add species names from codes df
+              left_join(tree_sp_codes_df, by = 'sp_code') %>%
+              #Capitalize species name
+              mutate(species = str_to_title(species))
+
+print(str(trees_df))
+
+```
+
+Check for NA values in tree data
+
+```{r}
+
+print(table(is.na(trees_df$species)))
+
+```
 
 
-head(trees_df)
-````
+View unique species
+
+```{r}
+
+sp_sorted = sort(round(table(trees_df['species']) / nrow(trees_df) * 100, 2), 
+     decreasing = TRUE)
+
+print(sp_sorted)
+
+```
 
 Compare 95th height percentiles derived from LiDAR with the 95th percentile of measured tree heights
 
-````{r}
+```{r}
 
 als_derived_zq95_df <- read.csv(ZQ95_FPATH)
 
@@ -294,31 +337,14 @@ zq95_df %>%
   theme_minimal() + 
   coord_fixed(ratio = 1)
 
-````
+```
 
-Add species information to trees data
+## Dominant Species Plot Labels
 
-````{r}
-
-# Load tree species codes
-tree_sp_codes_df <- read.csv(TREE_SP_CODES_FPATH) %>%
-                      mutate(species = trimws(species))
-
-
-# Add species names to trees df
-trees_df <- trees_df %>% left_join(tree_sp_codes_df, 
-                                   by = 'sp_code') 
-
-
-# View unique species
-sort(round(table(trees_df['species']) / nrow(trees_df) * 100, 2), 
-     decreasing = TRUE)
-
-````
 
 Classify each plot as either dominated by coniferous or deciduous species.
 
-````{r}
+```{r}
 
 get_tvol_d_perc <- function(trees){
 
@@ -356,31 +382,223 @@ perc_decid_df <- data.frame(plot_id = unique(trees_df$plot_id),
 
 hist(perc_decid_df$perc_decid)
 
+perc_decid_df %>%
+  ggplot(aes(x = perc_decid, fill = dom_sp_type)) + 
+  geom_histogram() + 
+  theme_minimal() +
+  xlab("Percent Deciduous (%)") + 
+  ylab("N Plots") + 
+  scale_fill_discrete(name = "Dominant Type")
+
 head(perc_decid_df)
 
-````
+```
+
+## Biomass Plot Labels
+
+Load Canadian national tree aboveground biomass equations allometric parameters (Lambert et al., 2005, Ung et al., 2008)
+
+Lambert, M.-C.; Ung, C.-H.; Raulier, F. 2005. Canadian national tree aboveground biomass equations. Can. J. For. Res. 35:1996-2018.
+
+Ung, C.-H.; Bernier, P.; Guo, X.-J. 2008. Canadian national biomass equations: new parameter estimates that include British Columbia data. Can. J. For. Res 38:1123-2232.
+
+```{r}
+
+allo_eqs_fpath = here('data/ung_lambert_allometric_dbh_eqs.csv')
+
+allo_df <- read.csv(allo_eqs_fpath) %>%
+              rename(species = Species_en) %>%
+              #Capitalize species name
+              mutate(species = str_to_title(species))
+
+
+
+```
+
+Rename tree species to match allometric equations
+
+```{r}
+
+allo_sp_nms <- sort(unique(allo_df$species))
+
+# Rename species to match allometric names
+
+# Red (Soft) Maple as Red Maple
+trees_df$species[trees_df$species == "Red (Soft) Maple"] <- "Red Maple"
+
+# Ironwood (Ostrya virginiana) as Hop-Hornbeam
+trees_df$species[trees_df$species == "Ironwood"] <- "Hop-Hornbeam"
+
+# Tamarack as Tamarack Larch
+trees_df$species[trees_df$species == "Tamarack"] <- "Tamarack Larch"
+
+# White pine as Eastern white pine
+trees_df$species[trees_df$species == "White Pine"] <- "Eastern White Pine"
+
+# American Elm as White elm
+trees_df$species[trees_df$species == "American Elm"] <- "White Elm"
+
+#Northern White Cedar as Eastern white cedar
+trees_df$species[trees_df$species == "Northern White Cedar"] <- "Eastern White Cedar"
+
+#Check that all species names in data coreespond to those in allometric eqs
+print("Species names match with allometric names:")
+table(unique(trees_df$species) %in% unique(allo_df$species))
+
+trees_df %>%
+    filter(!species %in% allo_sp_nms) %>%
+    pull(species) %>%
+    unique() %>%
+    sort()
+
+
+```
+
+Inspect DBH values 
+
+```{r}
+
+trees_df %>%
+  ggplot(aes(x = dbh)) +
+  geom_histogram() +
+  ggtitle("Histogram of Tree DBH") +
+  theme_minimal() + 
+  xlab("DBH (cm)")
+
+```
+
+```{r}
+
+# Pivot allometric equations to wide format
+allo_df_wide <- allo_df %>% select(species, Component_en, a, b) %>%
+                      pivot_wider(names_from = Component_en, values_from = c(a, b))
+head(allo_df_wide)
+```
+
+Define functions to calculate AGB for each tree
+
+```{r}
+
+get_biomass <- function(a, b, c, dbh){ #DBH in cm, height in meters
+
+  Biomass_kg <- a * (dbh^b)
+
+  return(Biomass_kg)
+}
+
+get_tree_comp_biomass <- function(tree_df, use_height=FALSE){
+
+  tree_df['foliage_biomass_kg'] <- get_biomass(
+                                            a=tree_df['a_Foliage'], 
+                                            b=tree_df['b_Foliage'], 
+                                            c=tree_df['c_Foliage'],
+                                            dbh=tree_df['dbh'])
+
+  tree_df['bark_biomass_kg'] <- get_biomass(
+                                         a=tree_df['a_Bark'], 
+                                         b=tree_df['b_Bark'], 
+                                         c=tree_df['c_Bark'],
+                                         dbh=tree_df['dbh'])
+
+  tree_df['branches_biomass_kg'] <- get_biomass(
+                                             a=tree_df['a_Branches'], 
+                                             b=tree_df['b_Branches'], 
+                                             c=tree_df['c_Branches'],
+                                             dbh=tree_df['dbh'])
+
+  tree_df['wood_biomass_kg'] <- get_biomass(
+                                         a=tree_df['a_Wood'], 
+                                         b=tree_df['b_Wood'], 
+                                         c=tree_df['c_Wood'],
+                                         dbh=tree_df['dbh'])
+
+tree_df <- tree_df %>%
+  mutate(total_biomass_kg = foliage_biomass_kg + bark_biomass_kg + branches_biomass_kg + wood_biomass_kg)
+  
+  return(tree_df)
+  
+}
+
+trees_agb_df <- trees_df %>%
+      left_join(allo_df_wide, by = "species") %>%
+      get_tree_comp_biomass(.)
+
+# Check for NAs
+print("Total AGB"); table(is.na(trees_agb_df$total_biomass_kg))
+
+head(trees_agb_df)
+
+```
+
+Sum tree AGB for each plot
+
+Convert biomass to biomass to metric tonnes per ha (1t == 1000 kg, per hectare)
+
+Each plot has a radius of 14.10m, so an area of 624.6m^2
+
+1m^2 == 0.0001 ha
+
+So each plot is 0.06246 ha
+
+```{r}
+
+plot_area_in_ha = 0.06246
+
+#Summarize biomass by component for each plot
+biomass_df <- trees_agb_df %>% group_by(plot_id) %>% summarise(
+  total_agb_kg = sum(total_biomass_kg))
+
+#Divide by 1000 for tonnes conversion, then by plot area in ha to get tonnes/ha
+biomass_df <- biomass_df %>% mutate(total_agb_mg_ha = total_agb_kg/1000/plot_area_in_ha)
+
+head(biomass_df)
+
+biomass_df %>%
+  ggplot(aes(x = total_agb_mg_ha)) + 
+  geom_histogram() + 
+  theme_minimal() +
+  xlab("Total AGB (Mg/ha)") + 
+  ylab("N Plots")
+
+```
+
+## Split Datasets
 
 Divide data into training, validation, and testing
 
-````{r}
+```{r}
+
+# Join species and biomass data frames
+df <- perc_decid_df %>%
+          left_join(biomass_df, by = 'plot_id')
+
+print("Check for NAs:")
+print(table(is.na(df$total_agb_mg_ha)))
+print(table(is.na(df$dom_sp_type)))
+
+train_prop <- 0.7
+val_prop <- 0.15
+test_prop <- 0.15
+
+stopifnot(train_prop + val_prop + test_prop == 1)
 
 # Establish the number of samples per split
-n_test <- round(nrow(perc_decid_df) * 0.20, 0)
+n_test <- round(nrow(df) * 0.15, 0)
 
-n_train <-  round(nrow(perc_decid_df) * 0.60, 0)
+n_train <-  round(nrow(df) * 0.70, 0)
 
 set.seed(14)
-test_df <- perc_decid_df %>%
+test_df <- df %>%
     slice_sample(n=n_test) %>%
     mutate(split = "test")
   
 set.seed(14)
-train_df <- perc_decid_df %>%
+train_df <- df %>%
     anti_join(test_df, by = "plot_id") %>%
     slice_sample(n=n_train) %>%
     mutate(split = "train")
   
-val_df <- perc_decid_df %>%
+val_df <- df %>%
     anti_join(train_df, by = "plot_id") %>%
     anti_join(test_df, by = "plot_id") %>%
     mutate(split = "val")
@@ -388,15 +606,19 @@ val_df <- perc_decid_df %>%
 
 # Check splits
 cat(
-  sprintf("N Train Samples: %d (%.1f%%)\n", nrow(train_df), 100 * nrow(train_df) / nrow(perc_decid_df)),
-  sprintf("N Val Samples:   %d (%.1f%%)\n", nrow(val_df), 100 * nrow(val_df) / nrow(perc_decid_df)),
-  sprintf("N Test Samples:  %d (%.1f%%)\n", nrow(test_df), 100 * nrow(test_df) / nrow(perc_decid_df))
+  sprintf("N Train Samples: %d (%.1f%%)\n", nrow(train_df), 100 * nrow(train_df) / nrow(df)),
+  sprintf("N Val Samples:   %d (%.1f%%)\n", nrow(val_df), 100 * nrow(val_df) / nrow(df)),
+  sprintf("N Test Samples:  %d (%.1f%%)\n", nrow(test_df), 100 * nrow(test_df) / nrow(df))
 )
 
 # Combine data frames
-labels_df <- dplyr::bind_rows(train_df, val_df, test_df)
+labels_df <- dplyr::bind_rows(train_df, val_df, test_df) %>%
+                      select(c(plot_id, dom_sp_type, perc_decid, total_agb_mg_ha, split)) %>%
+                      mutate(split = factor(split,
+                                               levels = c('train', 'val', 'test'),
+                                               ordered = TRUE))
 
-# View frequency by split
+# View species type frequency by split
 ggplot(labels_df, aes(x = split, fill = dom_sp_type)) +
   geom_bar(position = "dodge") +
   geom_text(stat = "count", aes(label = ..count..), 
@@ -410,13 +632,52 @@ ggplot(labels_df, aes(x = split, fill = dom_sp_type)) +
     labels = c("conif" = "Coniferous", "decid" = "Deciduous", "mixed" = "Mixed")
   )
 
+# View biomass variation by split
+labels_df %>%
+    ggplot(aes(x = split, y = total_agb_mg_ha, fill = split)) +
+    geom_boxplot() + 
+    theme_minimal() + 
+    ylab("Total AGB (Mg/ha)") + 
+    theme(
+        panel.grid = element_blank(),  
+    )
+
+
 head(labels_df)
 
-````
+```
+
+Visualize a point cloud with species and biomass context
+
+```{r}
+
+target_plot_id <- "PRF080"
+
+demo_pc2 <- np$load(file.path(PLOT_PC_DIR, paste0(target_plot_id, ".npy")))
+
+# Get trees in plot
+trees_sub <- trees_df %>%
+      filter(plot_id == target_plot_id) %>%
+      select(species, dbh) %>% 
+      print()
+
+# Get the AGB and dominant species type
+labels_sub <- labels_df %>% 
+                filter(plot_id == target_plot_id)
+
+print(trees_sub)
+
+print(paste("Plot level AGB:", round(labels_sub$total_agb_mg_ha, 1), "Mg/ha"))
+
+print(paste("Dominant Species Type:", labels_sub$dom_sp_type))
+
+plot_pc(demo_pc2)
+
+```
 
 Export labels
 
-````{r}
+```{r}
 
 # Ensure that labels correspond to existing point cloud files
 pc_flist <- list.files(PLOT_PC_DIR, full.names = TRUE)
@@ -428,4 +689,4 @@ labels_df <- labels_df %>% filter(plot_id %in% pc_id_ls)
 # Export labels
 write.csv(labels_df, LABELS_FPATH, row.names=FALSE)
 
-````
+```
