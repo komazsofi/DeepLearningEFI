@@ -1,0 +1,35 @@
+[project]
+name = "deeplearningefi"
+version = "0.1.0"
+description = "EFI Deep Learning Workshop"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "torch==2.5.1",
+  "torchvision==0.20.1",
+  "lightning==2.5.0",
+  "scikit-learn==1.7.0",
+  "pandas==2.2.2",
+  "geopandas==1.0.1",
+  "notebook==7.4.1",
+  "matplotlib==3.10.1",
+  "ipywidgets==8.1.6",
+  "openpyxl==3.1.5",
+  "rioxarray==0.19.0",
+  "laspy[lazrs]==2.5.4",
+  "seaborn",
+  "jupyter-cache",
+]
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cu124", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+]
+torchvision = [
+  { index = "pytorch-cu124", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
