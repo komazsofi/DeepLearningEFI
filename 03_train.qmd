@@ -104,7 +104,7 @@ DGCNN Graph Convolution
 
 ### Implementation
 #### Define the DGCNN Model
-This section covers the implementation of the get_model function and the DGCNN class itself, including its structure of feature extraction layers and final classification/regression heads.
+This section covers the implementation of the `get_model` function and the `DGCNN` class itself, including its structure of feature extraction layers and final classification/regression heads.
 
 ```{python }
 #| code-fold: true
@@ -246,8 +246,8 @@ class EfiModelModule(pl.LightningModule):
         self.test_metrics = MetricsCalculator(self.task, cfg['num_classes'])
 ```
 2) Core Step Logic: 
-   - forward(self, points): Simple pass-through to the DGCNN backbone, returning both prediction and feature transformation.
-   - _shared_step(self, batch): The main processing pipeline.
+   - `forward(self, points)`: Simple pass-through to the `DGCNN` backbone, returning both prediction and feature transformation.
+   - `_shared_step(self, batch)`: The main processing pipeline.
 
 ```{python}
 def forward(self, points):
@@ -276,7 +276,7 @@ def _shared_step(self, batch):
     return loss, pred, target
 ```
 
-3) training_step, validation_step, test_step: Defines how to calculate the loss for a single batch of data. This loss includes the primary objective (Classification or Regression loss) plus any regularization (like the matrix difference loss in `DGCNN`).
+3) `training_step`, `validation_step`, `test_step`: Defines how to calculate the loss for a single batch of data. This loss includes the primary objective (Classification or Regression loss) plus any regularization (like the matrix difference loss in `DGCNN`).
 ```{python}
 # --- Training ---
 def training_step(self, batch, batch_idx):
@@ -290,18 +290,10 @@ def training_step(self, batch, batch_idx):
 
 4) Optimizer and Scheduler: `configure_optimizers`: the setup of the `Adam` optimizer (with specific learning rate and weight decay from args) and the `StepLR` scheduler, emphasizing the necessity of returning them in the nested dictionary format required by `PyTorch Lightning`.
 
-### Relevant Resources
-#### paper
-
-[Wang Y. et al., 2019. Dynamic Graph CNN for Learning on Point Clouds](https://arxiv.org/abs/1801.07829)
-
-#### code
-[Original Pytorch reimplementation for DGCNN](https://github.com/WangYueFt/dgcnn/blob/master/pytorch/model.py)
-
 ## Training Deep Learning Models in PyTorch Lighting
 #### Configurations
 
-Detail where the cfg (e.g., `config.py` configuration file) and args (e.g., command line arguments) are loaded and parsed.
+Detail where the `cfg` (e.g., `config.py` configuration file) and args (e.g., command line arguments) are loaded and parsed.
 
 ```{python}
 DATASET_CONFIG = {
@@ -396,14 +388,10 @@ checkpoint_dir.mkdir(parents=True, exist_ok=True)
 ## How to run
 ### Environment install
 
-see python_environment_setup.md
-
-
-### Configuration and Arguments
-The `train_pl.py` script pulls configuration from the config.py file based on the keys you provide, ensuring consistency.
+see `python_environment_setup.md`
 
 ### Command
-To train the DGCNN model on your plot data for a classification task:
+To train the `DGCNN` model on your plot data for a classification task:
 
 ```
 python train_pl.py \
@@ -428,10 +416,19 @@ src/
   └── config.py   # Hyperparameters
 ```
 
-## Other resources
-### frameworks
-![Deep learning fromeworks](https://static.packt-cdn.com/products/9781800561618/graphics/image/B16692_01_02.jpg)
+## Resources
 
-### references
+### Tutorial references of Pytorch Lightning
 https://lightning.ai/pages/blog/pl-tutorial-and-overview/
 https://lightning.ai/pages/community/tutorial/step-by-step-walk-through-of-pytorch-lightning/
+
+### Relevant Resources of DGCNN
+#### paper
+
+[Wang Y. et al., 2019. Dynamic Graph CNN for Learning on Point Clouds](https://arxiv.org/abs/1801.07829)
+
+#### code
+[Original Pytorch reimplementation for DGCNN](https://github.com/WangYueFt/dgcnn/blob/master/pytorch/model.py)
+
+### Other Deep Lerning Frameworks
+![Deep learning fromeworks](https://static.packt-cdn.com/products/9781800561618/graphics/image/B16692_01_02.jpg)
