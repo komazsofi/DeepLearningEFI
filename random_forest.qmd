@@ -1,0 +1,223 @@
+---
+title: "Random Forest"
+format:
+  html:
+    toc: True
+execute:
+  echo: true
+  cache: false
+jupyter: python3
+---
+
+
+```{python}
+import pandas as pd
+import seaborn as sns
+import numpy as np
+import matplotlib.pyplot as plt
+import geopandas as gpd
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.metrics import accuracy_score, cohen_kappa_score, confusion_matrix, mean_squared_error, r2_score
+import rioxarray as rio
+```
+
+# Load data
+
+```{python}
+# Load plot locations
+
+PLOT_COORDS_FPATH = 'data/SPL2018_EFI_ground_plots/SPL2018_EFI_ground_plots/PRF_SPL2018_EFI_plots_pts_wgs84.shp'
+
+LABELS_FPATH = 'data/labels.csv'
+
+ALS_METRICS_FPATH = r'data/als_metrics.tif'
+
+plots_gdf = gpd.read_file(PLOT_COORDS_FPATH).rename(columns={"Plot": "plot_id"})
+
+labels_df = pd.read_csv(LABELS_FPATH)
+
+labels_df
+```
+
+# Extract ALS Metrics
+
+```{python}
+als_metrics = rio.open_rasterio(ALS_METRICS_FPATH)
+als_metrics
+```
+
+Ensure that raster and plot coordinates are in the same CRS.
+
+```{python}
+assert plots_gdf.crs == als_metrics.rio.crs, "CRS mismatch between plots and raster data."
+```
+
+Convert ALS metric names from a tuple to a list for later use.
+
+```{python}
+als_metrics_nms = list(als_metrics.long_name)
+```
+
+```{python}
+plot_coords = [(geom.x, geom.y) for geom in plots_gdf.geometry]
+
+for i, metric in enumerate(als_metrics_nms):
+
+    print(f"Extracting metric: {metric}")
+
+    metric_ras_i = als_metrics[i]
+    plots_gdf[metric] = [float(metric_ras_i.sel(x=c[0], y=c[1], method="nearest").values) for c in plot_coords]
+```
+
+Lets view the distribution of the 99th height percentile, it looks normal.
+
+```{python}
+ax = plots_gdf['p99'].hist(edgecolor='black', color='blue')
+ax.set_xlabel('99th Height Percentile (m)')
+ax.set_ylabel('Number of Plots')
+plt.show()
+```
+
+# Prepare data for RF Modelling
+
+```{python}
+# Join metrics with labels
+df = labels_df.merge(pd.DataFrame(plots_gdf), on='plot_id', how='left')
+
+# Check which ALS metric cols have NAs
+na_counts = df.isna().sum()
+
+# Print all cols with NAs
+for col, na_count in na_counts.items():
+    if na_count > 0:
+        print(f"{col}: {na_count} NAs")
+
+# Drop rows with any NAs
+df = df.dropna()
+df
+```
+
+```{python}
+# Assign nummieric IDs to each dominant species
+df['dom_sp_type_id'] = df['dom_sp_type'].astype('category').cat.codes
+
+# Create a dictionary mapping species names to their IDs
+dom_sp_dict = (df[['dom_sp_type', 'dom_sp_type_id']]
+               .drop_duplicates()
+               .sort_values(by='dom_sp_type_id')
+               .set_index('dom_sp_type_id', drop=True)
+               .to_dict()['dom_sp_type'])
+
+dom_sp_dict
+```
+
+```{python}
+train_df = df[df['split'] == 'train'].reset_index(drop=True)
+test_df = df[df['split'].isin(('val', 'test'))].reset_index(drop=True)
+
+train_df.columns
+```
+
+```{python}
+# Split data into train and test sets (combine val into test since not needed as seperate for RF)
+train_df = df[df['split'] == 'train'].reset_index(drop=True)
+test_df = df[df['split'].isin(('val', 'test'))].reset_index(drop=True)
+
+# Create histograms showing each dataset class distributions
+fig, axes = plt.subplots(1, 2, figsize=(10, 8), sharey=True)
+sns.countplot(x='dom_sp_type_id', data=train_df, ax=axes[0])
+axes[0].set_title('Training Set Class Distribution')
+sns.countplot(x='dom_sp_type_id', data=test_df, ax=axes[1])
+axes[1].set_title('Test Set Class Distribution')
+
+
+plt.show()
+```
+
+# Train RF for Dominant Species Type Classification
+
+```{python}
+def plot_feature_importance(rf, als_metrics_nms, title):
+    importances = rf.feature_importances_
+    importance_df = pd.DataFrame({'Metric': als_metrics_nms, 'importance': importances
+                                    }).sort_values(by='importance', ascending=False)
+    plt.figure(figsize=(10, 6))
+    sns.barplot(x='importance', y='Metric', hue='importance', data=importance_df, palette='viridis')
+    plt.title(title)
+    plt.yticks(fontsize=5)
+    plt.xlabel('Importance Score')
+    plt.show()
+```
+
+```{python}
+#| colab: {base_uri: https://localhost:8080/, height: 1000}
+rf = RandomForestClassifier(n_estimators=100, random_state=25)
+
+rf.fit(train_df[als_metrics_nms], train_df['dom_sp_type_id'])
+
+# Apply the model to the test set
+test_df['pred_dom_sp_group_id'] = rf.predict(test_df[als_metrics_nms])
+
+# Calculate accuracy and kappa
+accuracy = accuracy_score(test_df['dom_sp_type_id'], test_df['pred_dom_sp_group_id'])
+kappa = cohen_kappa_score(test_df['dom_sp_type_id'], test_df['pred_dom_sp_group_id'])
+
+print(f"Overall Accuracy: {accuracy:.2f}")
+print(f"Kappa: {kappa:.2f}")
+
+# Class specific accuracies
+class_accuracies = {}
+for class_id in test_df['dom_sp_type_id'].unique():
+    class_mask = test_df['dom_sp_type_id'] == class_id
+    class_accuracy = accuracy_score(test_df.loc[class_mask, 'dom_sp_type_id'],
+                                    test_df.loc[class_mask, 'pred_dom_sp_group_id'])
+    class_accuracies[class_id] = class_accuracy
+    print(f"Class {class_id} ({dom_sp_dict[class_id]}): Accuracy = {class_accuracy:.2f}")
+
+
+# Print confusion matrix
+conf_matrix = confusion_matrix(test_df['dom_sp_type_id'], test_df['pred_dom_sp_group_id'])
+
+plt.figure(figsize=(10, 8))
+sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues',
+            xticklabels=dom_sp_dict.values(),
+            yticklabels=dom_sp_dict.values())
+plt.xlabel('Predicted Label')
+plt.ylabel('Observed Label')
+
+# View metric importance
+plot_feature_importance(rf, als_metrics_nms, title='Feature Importance from Random Forest Classifier')
+
+```
+
+# Train RF for AGB estimation
+
+```{python}
+rf = RandomForestRegressor(n_estimators=100, random_state=25)
+
+rf.fit(train_df[als_metrics_nms], train_df['total_agb_mg_ha'])
+
+test_df['pred_agb'] = rf.predict(test_df[als_metrics_nms])
+
+# Calculate regression metrics
+r2 = r2_score(test_df['total_agb_mg_ha'], test_df['pred_agb'])
+mse = mean_squared_error(test_df['total_agb_mg_ha'], test_df['pred_agb'])
+rmse = np.sqrt(mse)
+bias = np.mean(test_df['pred_agb'] - test_df['total_agb_mg_ha'])
+
+print(f"R²: {r2:.2f}")
+print(f"RMSE: {rmse:.2f} mg/ha")
+print(f"Bias: {bias:.2f} mg/ha")
+
+# Plot observed vs predicted AGB
+plt.figure(figsize=(8, 8))
+sns.scatterplot(x='total_agb_mg_ha', y='pred_agb', data=test_df, color='black')
+plt.plot([0, test_df['total_agb_mg_ha'].max()], [0, test_df['total_agb_mg_ha'].max()], color='red', linestyle='--')
+plt.xlabel('Observed AGB (mg/ha)')
+plt.ylabel('Predicted AGB (mg/ha)')
+plt.title('Observed vs Predicted AGB')
+plt.show()
+
+plot_feature_importance(rf, als_metrics_nms, title='Feature Importance from Random Forest Regressor')
+```
+
