@@ -175,18 +175,18 @@ ul.task-list li input[type="checkbox"] {
 <ol type="1">
 <li><p>Install uv package manager by following the instructions at https://docs.astral.sh/uv/getting-started/installation.</p>
 <p>On a Windows system, this can be done by running the following command in PowerShell:</p>
-<pre><code>powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"</code></pre>
+<p>-ExecutionPolicy ByPass -c “irm https://astral.sh/uv/install.ps1 | iex” ```</p>
 <p>On a Linux or MacOS system, run the following command in the terminal:</p>
-<pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre></li>
+<pre class="terminal"><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre></li>
 <li><p>Open a terminal and check that uv is installed by running</p>
-<pre><code>uv --help</code></pre></li>
+<pre class="terminal"><code>uv --help</code></pre></li>
 <li><p>Ensure uv is up-to-date by running</p>
-<pre><code>uv self update</code></pre></li>
+<pre class="terminal"><code>uv self update</code></pre></li>
 <li><p>Clone GitHub repository</p>
-<pre><code>git clone https://github.com/Brent-Murray/DeepLearningEFI
+<pre class="terminal"><code>git clone https://github.com/Brent-Murray/DeepLearningEFI
 cd DeepLearningEFI</code></pre></li>
 <li><p>Intialize the uv environment and install dependencies.</p>
-<pre><code>uv sync</code></pre></li>
+<pre class="terminal"><code>uv sync</code></pre></li>
 </ol>
 
 
