@@ -15,7 +15,6 @@ HPs we tuned:
 
 SWEEP:
 
-
 ## Validating Deep Learning Predictions
 
 
@@ -29,3 +28,10 @@ SWEEP:
 Pretrained models:
 classification:
 regression:
+
+## Compare results to Random Forest using LiDAR Metrics
+
+For comparison, we can compare the DGCNN results with those obtained by training a random forest classifier and regressor.
+
+[View the RF results here](random_forest.qmd)
+
