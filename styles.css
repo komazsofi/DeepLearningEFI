@@ -21,4 +21,13 @@ figure > figcaption {
     font-style: italic; 
     display: block; 
 }
+
+.terminal {
+    background-color: #1e1e1e; /* Dark background */
+    color: #dcdcdc;           /* Light text */
+    padding: 10px;
+    border-radius: 5px;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 14px;
+}
 ```
