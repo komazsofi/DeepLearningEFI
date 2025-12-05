@@ -583,12 +583,7 @@ checkpoint_dir.mkdir(parents=True, exist_ok=True)
 
 ### W&B Dashboard
 
-<iframe
-  src="https://wandb.ai/ubc-yuwei-cao/forest_species_mapping/runs/59k5osk2"
-  width="100%"
-  height="600"
-  style="border:none;"
-></iframe>
+<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/akty7srj" style="border:none;height:1024px;width:100%"></iframe>
 
 ## How to run
 ### Environment install
