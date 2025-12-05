@@ -4,8 +4,11 @@
 
 # Ingore data
 data
-
 **/*.quarto_ipynb
+
+# Ignore the cache
+02_data_cache
+02_data_files
 
 # Code and processed data
 src/log/
