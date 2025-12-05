@@ -5,7 +5,6 @@ format:
     toc: True
 execute:
   echo: true
-  cache: false
 ---
 
 ![](https://opendata.nfis.org/mapserver/PRF_Layout.jpg){fig-alt="Petawawa Forest Map" caption="" width="80%"}

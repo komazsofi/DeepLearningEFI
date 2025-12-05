@@ -5,7 +5,6 @@ format:
     toc: True
 execute:
   echo: true
-  cache: false
 jupyter: python3
 ---
 
