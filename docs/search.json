@@ -250,5 +250,26 @@
     "title": "Setup",
     "section": "Google Colab Setup",
     "text": "Google Colab Setup"
+  },
+  {
+    "objectID": "setup.html",
+    "href": "setup.html",
+    "title": "Setup",
+    "section": "",
+    "text": "The preprocessed data can be downloaded here\nFor specific data preprocessing information, see the Data Section"
+  },
+  {
+    "objectID": "setup.html#data",
+    "href": "setup.html#data",
+    "title": "Setup",
+    "section": "",
+    "text": "The preprocessed data can be downloaded here\nFor specific data preprocessing information, see the Data Section"
+  },
+  {
+    "objectID": "setup.html#python-environment-setup",
+    "href": "setup.html#python-environment-setup",
+    "title": "Setup",
+    "section": "Python Environment Setup",
+    "text": "Python Environment Setup\nEnvironment setup is performed using the uv package manager which will need to be installed to run the tutorial code.\nThe uv package manager allows for the installation of specific package versions to maintain reproducibility. The list of packages and their versions is included in the pyproject.toml file.\nThis code has been tested on Windows 11 and Ubuntu 24.04.2\n\nInstall uv package manager by following the instructions at https://docs.astral.sh/uv/getting-started/installation.\nOn a Windows system, this can be done by running the following command in PowerShell:\npowershell -ExecutionPolicy ByPass -c \"irm https://astral.sh/uv/install.ps1 | iex\"\nOn a Linux or MacOS system, run the following command in the terminal:\ncurl -LsSf https://astral.sh/uv/install.sh | sh\nOpen a terminal and check that uv is installed by running\nuv --help\nEnsure uv is up-to-date by running\nuv self update\nClone GitHub repository\ngit clone https://github.com/Brent-Murray/DeepLearningEFI\ncd DeepLearningEFI\nIntialize the uv environment and install dependencies.\nuv sync"
   }
 ]
