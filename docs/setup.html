@@ -170,12 +170,12 @@ ul.task-list li input[type="checkbox"] {
 <section id="python-environment-setup" class="level2">
 <h2 class="anchored" data-anchor-id="python-environment-setup">Python Environment Setup</h2>
 <p><strong>Environment setup is performed using the <a href="https://docs.astral.sh/uv/">uv package manager</a> which will need to be installed to run the tutorial code.</strong></p>
-<p>The uv package manager allows for the installation of specific package versions to maintain reproducibility. The list of packages and their versions is included in the <code>pyproject.toml</code> file.</p>
+<p>The uv package manager allows for the installation of specific package versions to maintain reproducibility. The list of packages and their versions is included in the <a href="pyproject.toml"><code>pyproject.toml</code></a> file.</p>
 <p><strong>This code has been tested on Windows 11 and Ubuntu 24.04.2</strong></p>
 <ol type="1">
-<li><p>Install uv package manager by following the instructions at https://docs.astral.sh/uv/getting-started/installation.</p>
+<li><p>Install uv package manager by following the instructions at <a href="https://docs.astral.sh/uv/getting-started/installation">https://docs.astral.sh/uv/getting-started/installation</a></p>
 <p>On a Windows system, this can be done by running the following command in PowerShell:</p>
-<p>-ExecutionPolicy ByPass -c “irm https://astral.sh/uv/install.ps1 | iex” ```</p>
+<pre class="terminal"><code>-ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"</code></pre>
 <p>On a Linux or MacOS system, run the following command in the terminal:</p>
 <pre class="terminal"><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre></li>
 <li><p>Open a terminal and check that uv is installed by running</p>
