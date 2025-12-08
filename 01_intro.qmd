@@ -132,6 +132,8 @@ The **forward pass** is the process where input data moves through the network, 
 
 The **backward pass** computes gradients that describe how the loss changes with respect to each parameter. These gradients are then used by the optimizer to update the models parameters, allowing it to improve over time.
 
+![Backward Pass](images/backwardpass.png){#fig-backwardpass fig-align="center" width=80%}
+
 ### Training Loop
 The **training loop** refers to the repeated cycle of performing forward passes, computing loss, running backward passes, and updating parameters. This loop continues for a set number of epochs or until the model stops improving.
 

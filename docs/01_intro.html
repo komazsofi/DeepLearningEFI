@@ -477,6 +477,16 @@ Figure&nbsp;12: Batches
 <h3 class="anchored" data-anchor-id="forward-pass-vs.-backward-pass">Forward pass vs.&nbsp;Backward Pass</h3>
 <p>The <strong>forward pass</strong> is the process where input data moves through the network, from the first layer to the final output, to generate predictions. All computations during this step use the current parameter values.</p>
 <p>The <strong>backward pass</strong> computes gradients that describe how the loss changes with respect to each parameter. These gradients are then used by the optimizer to update the models parameters, allowing it to improve over time.</p>
+<div id="fig-backwardpass" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-backwardpass-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/backwardpass.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-backwardpass-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13: Backward Pass
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="training-loop" class="level3">
 <h3 class="anchored" data-anchor-id="training-loop">Training Loop</h3>
@@ -539,7 +549,7 @@ Figure&nbsp;12: Batches
 <img src="images/dlcomplexity.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deeplearning-complexity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;13: Data and Task Complexity for Deep and Machine Learning
+Figure&nbsp;14: Data and Task Complexity for Deep and Machine Learning
 </figcaption>
 </figure>
 </div>
