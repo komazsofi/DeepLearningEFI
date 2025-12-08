@@ -55,6 +55,10 @@ Field Plots: [https://opendata.nfis.org/downloads/petawawa/Vector/Forest%20Sampl
 
 7) Divide the data into training, validation, and test sets (i.e., splits)
 
+**Normalize Data**
+
+8) Perform Z-score normalization for AGB data
+
 **Preprocess LiDAR data using the lidR package**
 
 Set filepaths and other global parameters
