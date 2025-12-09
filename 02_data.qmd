@@ -55,6 +55,10 @@ Field Plots: [https://opendata.nfis.org/downloads/petawawa/Vector/Forest%20Sampl
 
 7) Divide the data into training, validation, and test sets (i.e., splits)
 
+**Normalize Data**
+
+8) Perform Z-score normalization for AGB data
+
 **Preprocess LiDAR data using the lidR package**
 
 Set filepaths and other global parameters
@@ -381,8 +385,6 @@ perc_decid_df <- data.frame(plot_id = unique(trees_df$plot_id),
                                        if_else(perc_decid > (100 - DOMINANCE_PERC_THRESH) , 'mixed', 'conif')))
 
 
-hist(perc_decid_df$perc_decid)
-
 perc_decid_df %>%
   ggplot(aes(x = perc_decid, fill = dom_sp_type)) + 
   geom_histogram() + 
@@ -647,6 +649,41 @@ labels_df %>%
 head(labels_df)
 
 ```
+
+## Z-score AGB for improved model convergence and training stability
+
+In many deep learning regression problems, response variables are z-score normalized to improve training stability.
+
+
+```{r}
+
+get_z <- function(x, mn, sd){
+  Z <- (x - mn)/sd
+  return(Z)}
+
+convert_to_z_score <- function(vector){
+
+  mn <- mean(vector)
+  sd <- sd(vector)
+
+  z_scores <- unlist(lapply(vector, FUN = get_z, mn=mn, sd=sd))
+
+  return(z_scores)
+
+}
+
+
+labels_df$total_agb_z <- convert_to_z_score(labels_df$total_agb_mg_ha)
+
+labels_df %>%
+  ggplot(aes(x = total_agb_z)) + 
+  geom_histogram() + 
+  theme_minimal() +
+  xlab("Z-Scored Total AGB") + 
+  ylab("N Plots")
+
+```
+
 
 Visualize a point cloud with species and biomass context
 
