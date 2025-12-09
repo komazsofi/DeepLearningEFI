@@ -715,7 +715,7 @@ trees_sub <- trees_df %>%
 labels_sub <- labels_df %>% 
                 filter(plot_id == target_plot_id)
 
-print(trees_sub)
+print(labels_sub)
 
 print(paste("Plot level AGB:", round(labels_sub$total_agb_mg_ha, 1), "Mg/ha"))
 
