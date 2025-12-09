@@ -64,6 +64,7 @@ Field Plots: [https://opendata.nfis.org/downloads/petawawa/Vector/Forest%20Sampl
 Set filepaths and other global parameters
 
 ```{r}
+#| code-fold: true
 
 PROCESS_LIDAR = FALSE
 
@@ -89,6 +90,7 @@ ZQ95_FPATH = 'data/zq95.csv'
 Load required R packages
 
 ```{r}
+#| code-fold: true
 
 library(lidR)
 library(here)
@@ -108,6 +110,7 @@ np <- reticulate::import("numpy")
 Load the LiDAR and plot coordinates
 
 ```{r}
+#| code-fold: true
 
 #Read the normalized las catalog
 ctg <- readLAScatalog(LIDAR_DIR)
@@ -134,6 +137,7 @@ mapview(ctg_sf, layer.name = 'LiDAR Tiles', map.types = c('Esri.WorldImagery'),
 Define functions to process ALS data
 
 ```{r}
+#| code-fold: true
 
 extract_pc <- function(coords, ctg){
 
@@ -218,6 +222,7 @@ write_pc_to_npy <- function(pc, plot_id, pc_out_dir){
 Extract plot point clouds from full aquisition
 
 ```{r}
+#| code-fold: true
 
 if(PROCESS_LIDAR){
 
@@ -263,6 +268,7 @@ if(PROCESS_LIDAR){
 Visualize a single point cloud
 
 ```{r}
+#| code-fold: true
 
 # Load an example pc
 demo_pc <- np$load(list.files(PLOT_PC_DIR, full.names = TRUE)[50])
@@ -276,6 +282,7 @@ plot_pc(demo_pc)
 Load tree measurements and join with species name
 
 ```{r}
+#| code-fold: true
 
 # Load tree species codes
 tree_sp_codes_df <- read.csv(TREE_SP_CODES_FPATH) %>%
@@ -299,29 +306,24 @@ print(str(trees_df))
 
 ```
 
-Check for NA values in tree data
+Check for NA values in tree data and view unique species
 
 ```{r}
+#| code-fold: true
 
 print(table(is.na(trees_df$species)))
-
-```
-
-
-View unique species
-
-```{r}
 
 sp_sorted = sort(round(table(trees_df['species']) / nrow(trees_df) * 100, 2), 
      decreasing = TRUE)
 
 print(sp_sorted)
-
 ```
+
 
 Compare 95th height percentiles derived from LiDAR with the 95th percentile of measured tree heights
 
 ```{r}
+#| code-fold: true
 
 als_derived_zq95_df <- read.csv(ZQ95_FPATH)
 
@@ -348,6 +350,7 @@ zq95_df %>%
 Classify each plot as either dominated by coniferous or deciduous species.
 
 ```{r}
+#| code-fold: true
 
 DOMINANCE_PERC_THRESH <- 70
 
@@ -405,22 +408,17 @@ Lambert, M.-C.; Ung, C.-H.; Raulier, F. 2005. Canadian national tree aboveground
 
 Ung, C.-H.; Bernier, P.; Guo, X.-J. 2008. Canadian national biomass equations: new parameter estimates that include British Columbia data. Can. J. For. Res 38:1123-2232.
 
+Note that tree species names need to be fixed to match allometric equations names
+
+
 ```{r}
+#| code-fold: true
 
 allo_eqs_fpath = here('data/ung_lambert_allometric_dbh_eqs.csv')
 
 allo_df <- read.csv(allo_eqs_fpath) %>%
               rename(species = Species_en) %>%
-              #Capitalize species name
               mutate(species = str_to_title(species))
-
-
-
-```
-
-Rename tree species to match allometric equations
-
-```{r}
 
 allo_sp_nms <- sort(unique(allo_df$species))
 
@@ -460,6 +458,7 @@ trees_df %>%
 Inspect DBH values 
 
 ```{r}
+#| code-fold: true
 
 trees_df %>%
   ggplot(aes(x = dbh)) +
@@ -471,6 +470,7 @@ trees_df %>%
 ```
 
 ```{r}
+#| code-fold: true
 
 # Pivot allometric equations to wide format
 allo_df_wide <- allo_df %>% select(species, Component_en, a, b) %>%
@@ -481,6 +481,7 @@ head(allo_df_wide)
 Define functions to calculate AGB for each tree
 
 ```{r}
+#| code-fold: true
 
 get_biomass <- function(a, b, c, dbh){ #DBH in cm, height in meters
 
@@ -544,6 +545,7 @@ Each plot has a radius of 14.10m, so an area of 624.6m^2
 So each plot is 0.06246 ha
 
 ```{r}
+#| code-fold: true
 
 plot_area_in_ha = 0.06246
 
@@ -567,9 +569,11 @@ biomass_df %>%
 
 ## Split Datasets
 
-Divide data into training, validation, and testing
+Join species and biomass tables and check for NAs
 
 ```{r}
+#| code-fold: true
+
 
 # Join species and biomass data frames
 df <- perc_decid_df %>%
@@ -578,6 +582,12 @@ df <- perc_decid_df %>%
 print("Check for NAs:")
 print(table(is.na(df$total_agb_mg_ha)))
 print(table(is.na(df$dom_sp_type)))
+```
+
+Divide data into training, validation, and testing
+
+```{r}
+#| code-fold: true
 
 train_prop <- 0.7
 val_prop <- 0.15
@@ -656,6 +666,7 @@ In many deep learning regression problems, response variables are z-score normal
 
 
 ```{r}
+#| code-fold: true
 
 get_z <- function(x, mn, sd){
   Z <- (x - mn)/sd
@@ -688,6 +699,7 @@ labels_df %>%
 Visualize a point cloud with species and biomass context
 
 ```{r}
+#| code-fold: true
 
 target_plot_id <- "PRF080"
 
@@ -716,6 +728,7 @@ plot_pc(demo_pc2)
 Export labels
 
 ```{r}
+#| code-fold: true
 
 # Ensure that labels correspond to existing point cloud files
 pc_flist <- list.files(PLOT_PC_DIR, full.names = TRUE)
