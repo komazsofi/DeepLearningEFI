@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from pointnext import PointNext, pointnext_s
-from models.heads import ClassificationHead, RegressionHead
+from .heads import ClassificationHead, RegressionHead
 
 class get_model(nn.Module):
     def __init__(self, cfg):

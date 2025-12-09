@@ -3,7 +3,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from models.heads import ClassificationHead, RegressionHead
+from .heads import ClassificationHead, RegressionHead
 
 def knn(x, k):
     inner = -2*torch.matmul(x.transpose(2, 1), x)

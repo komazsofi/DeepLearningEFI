@@ -1,9 +1,7 @@
 # models/loss_utils.py
-import torch.nn as nn # Need nn for nn.CrossEntropyLoss, though F.nll_loss is used.
+import torch.nn as nn
 import torch.nn.functional as F
 
-# NOTE: It's better to use nn.Module classes for consistency, 
-# but if you insist on functions, they must be used correctly.
 
 def get_loss_function(task):
     """
@@ -37,8 +35,7 @@ def calculate_total_loss(pred, target, trans_feat, task, mat_diff_loss_scale=0.0
     # 2. Add Feature Transform Regularization (PointNet specific)
     reg_loss = 0.0
     if trans_feat is not None and mat_diff_loss_scale > 0:
-        # NOTE: Assumes 'pointnet_utils' is available in the Python path
-        from pointnet_utils import feature_transform_reguliarzer
+        from .pointnet_utils import feature_transform_reguliarzer
         mat_diff_loss = feature_transform_reguliarzer(trans_feat)
         reg_loss = mat_diff_loss * mat_diff_loss_scale
 

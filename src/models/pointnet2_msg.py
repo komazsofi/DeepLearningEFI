@@ -1,6 +1,6 @@
 import torch.nn as nn
-from pointnet2_utils import PointNetSetAbstractionMsg, PointNetSetAbstraction
-from models.heads import ClassificationHead, RegressionHead
+from .pointnet2_utils import PointNetSetAbstractionMsg, PointNetSetAbstraction
+from .heads import ClassificationHead, RegressionHead
 
 class get_model(nn.Module):
     def __init__(self, cfg):

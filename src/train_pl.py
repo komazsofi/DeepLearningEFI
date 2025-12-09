@@ -3,7 +3,7 @@ import sys
 import argparse
 import torch
 import pytorch_lightning as pl
-from pytorch_lightning.callbacks import ModelCheckpoint, LearningRateMonitor
+from pytorch_lightning.callbacks import ModelCheckpoint, LearningRateMonitor, EarlyStopping
 from pytorch_lightning.loggers import WandbLogger
 from pathlib import Path
 import datetime
@@ -91,6 +91,14 @@ def main(args):
         save_top_k=1,
         verbose=True
     )
+    
+    early_stop_callback = EarlyStopping(
+        monitor='val/loss',  # The name of the logged metric to monitor
+        min_delta=0.00,      # Minimum change to qualify as an improvement
+        patience=10,          # Number of epochs with no improvement after which training will be stopped
+        verbose=True,       # Whether to print messages when early stopping conditions are met
+        mode='min'           # 'min' for metrics where lower is better (e.g., loss), 'max' for metrics where higher is better (e.g., accuracy)
+    )
     lr_monitor = LearningRateMonitor(logging_interval='epoch')
 
     # 5. Instantiate the Trainer
@@ -100,7 +108,7 @@ def main(args):
         accelerator='gpu' if torch.cuda.is_available() and not args.use_cpu else 'cpu',
         devices=[int(g) for g in args.gpu.split(',')] if ',' in args.gpu else (1 if not args.use_cpu else 0),
         logger=wandb_logger,
-        callbacks=[checkpoint_callback, lr_monitor],
+        callbacks=[checkpoint_callback, lr_monitor, early_stop_callback],
         enable_progress_bar=True
     )
 
