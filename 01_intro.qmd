@@ -166,31 +166,60 @@ High-quality labelled datasets are often scare in forestry because manual annota
 
 
 ## Frequently Asked Questions
-### How does deep learning differ from machine learning or artificial intelligence?
+
+<details>
+<summary><strong>How does deep learning differ from machine learning or artificial intelligence?</strong></summary>
+
 Artificial intelligence is the broad field of creating systems that perform tasks associated with human intelligence. Machine learning is a subset of artificial intelligence that uses data-driven algorithms to learn patterns and make predictions. Deep learning is a further subset of machine learning that uses multi-layered neural networks to automatically learn complex representations from data. Unlike many traditional machine learning methods, deep learning can extract features directly from raw inputs, reducing the need for manual feature generation.
+</details>
 
-### What makes deep learning deep?
+<details>
+<summary><strong>What makes deep learning deep?</strong></summary>
+
 Deep learning models are considered *deep* because they contain multiple layers of neurons through which data are successively transformed. Each layer learns increasingly abstract features, from simple edges or shapes to complex patterns and structures. The depth, or number of layers, enables these models to capture highly non-linear relationships that simpler models cannot represent.
+</details>
 
-### What are some advantages and disadvantages of deep learning?
+<details>
+<summary><strong>What are some advantages and disadvantages of deep learning?</strong></summary>
+
 Deep learning excels at learning complex patterns, handling high-dimensional data, and achieving state-of-the-art performance in tasks like image classification, segmentation, and 3D analysis. However, it typically requires large amounts of labelled data, substantial computational resources, and careful tuning. Deep learning models can also be harder to interpret, making it challenging to understand why a model makes certain predictions.
+</details>
 
-### When should a deep learning model be used?
-Deep learning is most effective when you have large, diverse datasets and tasks with complex patterns that simpler models struggle to capture. As the complexity of the data or the task increases deep learning becomes a more beneficial option. Raw lidar data for example is a complex dataset and is well suited for deep learning tasks.
+<details>
+<summary><strong>When should a deep learning model be used?</strong></summary>
+
+Deep learning is most effective when you have large, diverse datasets and tasks with complex patterns that simpler models struggle to capture. As the complexity of the data or the task increases, deep learning becomes a more beneficial option. Raw lidar data, for example, is a complex dataset and is well suited for deep learning tasks.
 
 ![Data and Task Complexity for Deep and Machine Learning](images/dlcomplexity.png){#fig-deeplearning-complexity fig-align="center" width=40%}
 
-### What computing resources are required to run a deep learning model?
-Training deep learning models generally benefits from using a graphics processing unit (GPU), which accelerates the large matrix operations involved. Smaller models or inference tasks can run on a standard CPU, but training deep neural networks on CPUs is typically slow. For larger datasets or 3D models, access to GPUs, high memory capacity, and efficient data pipelines becomes increasingly important
+</details>
 
-### Why do deep learning models need so much data?
-Deep learning models contain millions of parameters that must be learned during training. Large datasets help ensure these parameters capture general patterns rather than memorizing noise. With limited data, deep learning models are more likely to overfit, producing high accuracy on the training set but poor performance on new or unseen data. More data, especially diver data, improves generalization.
+<details>
+<summary><strong>What computing resources are required to run a deep learning model?</strong></summary>
 
-### How do I know which model architecture to choose?
-The choice of architecture depends on the type of data, the goal and the task, CNNs are well suited for image-based tasks, while point-based neural networks handle 3D point clouds. Architectures like U-Net are often used for segmentation, whereas regression problems might consider feedforward networks. In practice, the best approach is to start with widely used, well-documented architectures and adapt them as needed based on performance.
+Training deep learning models generally benefits from using a GPU, which accelerates the large matrix operations involved. Smaller models or inference tasks can run on a standard CPU, but training deep neural networks on CPUs is typically slow. For larger datasets or 3D models, access to GPUs, high memory capacity, and efficient data pipelines becomes increasingly important.
+</details>
 
-### How long does it take to train a deep learning model?
-Training time varies widely depending on model size, computing resources, and batch configuration. Small models may train in a minutes to hours, while large models or 3D networks trained on high-resolution data can take days. Efficient hardware, optimized data loading, and appropriate batch sizes can significantly reduce training time.
+<details>
+<summary><strong>Why do deep learning models need so much data?</strong></summary>
 
-### How do I know if I have enough labelled data?
-A practical way to assess this is by observing model performance and generalization. Signs you may not have enough labelled data include overfitting, unstable validation performance, or high sensitivity to small changes in the training set. If performance does not improve despite tuning, acquiring more labelled samples or using techniques like data augmentation, transfer learning, or pseudo-sample generating can help compensate for limited data.
+Deep learning models contain millions of parameters that must be learned during training. Large datasets help ensure these parameters capture general patterns rather than memorizing noise. With limited data, models are more likely to overfit. More data, especially diverse data, improves generalization.
+</details>
+
+<details>
+<summary><strong>How do I know which model architecture to choose?</strong></summary>
+
+The choice of architecture depends on the type of data, the goal, and the task. CNNs are well suited for image-based tasks, while point-based neural networks handle 3D point clouds. Architectures like U-Net are often used for segmentation, whereas regression problems might consider feedforward networks. A practical approach is to start with commonly used architectures and adapt them based on performance.
+</details>
+
+<details>
+<summary><strong>How long does it take to train a deep learning model?</strong></summary>
+
+Training time varies depending on model size, computing resources, and batch configuration. Small models may train in minutes to hours, while large models or 3D networks trained on high-resolution data can take days. Efficient hardware, optimized data loading, and appropriate batch sizes can significantly reduce training time.
+</details>
+
+<details>
+<summary><strong>How do I know if I have enough labelled data?</strong></summary>
+
+A practical way to assess this is by observing model performance and generalization. Signs you may not have enough labelled data include overfitting, unstable validation performance, or high sensitivity to small changes in the training set. If performance does not improve despite tuning, acquiring more labelled samples or using techniques like data augmentation, transfer learning, or pseudo-sample generation can help compensate for limited data.
+</details>

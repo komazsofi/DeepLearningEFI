@@ -195,18 +195,7 @@ window.Quarto = {
   <li><a href="#models-developed-on-idealized-or-synthetic-benchmarks" id="toc-models-developed-on-idealized-or-synthetic-benchmarks" class="nav-link" data-scroll-target="#models-developed-on-idealized-or-synthetic-benchmarks">Models Developed on Idealized or Synthetic Benchmarks</a></li>
   <li><a href="#limited-quantity-of-labeled-datasets" id="toc-limited-quantity-of-labeled-datasets" class="nav-link" data-scroll-target="#limited-quantity-of-labeled-datasets">Limited Quantity of Labeled Datasets</a></li>
   </ul></li>
-  <li><a href="#frequently-asked-questions" id="toc-frequently-asked-questions" class="nav-link" data-scroll-target="#frequently-asked-questions">Frequently Asked Questions</a>
-  <ul class="collapse">
-  <li><a href="#how-does-deep-learning-differ-from-machine-learning-or-artificial-intelligence" id="toc-how-does-deep-learning-differ-from-machine-learning-or-artificial-intelligence" class="nav-link" data-scroll-target="#how-does-deep-learning-differ-from-machine-learning-or-artificial-intelligence">How does deep learning differ from machine learning or artificial intelligence?</a></li>
-  <li><a href="#what-makes-deep-learning-deep" id="toc-what-makes-deep-learning-deep" class="nav-link" data-scroll-target="#what-makes-deep-learning-deep">What makes deep learning deep?</a></li>
-  <li><a href="#what-are-some-advantages-and-disadvantages-of-deep-learning" id="toc-what-are-some-advantages-and-disadvantages-of-deep-learning" class="nav-link" data-scroll-target="#what-are-some-advantages-and-disadvantages-of-deep-learning">What are some advantages and disadvantages of deep learning?</a></li>
-  <li><a href="#when-should-a-deep-learning-model-be-used" id="toc-when-should-a-deep-learning-model-be-used" class="nav-link" data-scroll-target="#when-should-a-deep-learning-model-be-used">When should a deep learning model be used?</a></li>
-  <li><a href="#what-computing-resources-are-required-to-run-a-deep-learning-model" id="toc-what-computing-resources-are-required-to-run-a-deep-learning-model" class="nav-link" data-scroll-target="#what-computing-resources-are-required-to-run-a-deep-learning-model">What computing resources are required to run a deep learning model?</a></li>
-  <li><a href="#why-do-deep-learning-models-need-so-much-data" id="toc-why-do-deep-learning-models-need-so-much-data" class="nav-link" data-scroll-target="#why-do-deep-learning-models-need-so-much-data">Why do deep learning models need so much data?</a></li>
-  <li><a href="#how-do-i-know-which-model-architecture-to-choose" id="toc-how-do-i-know-which-model-architecture-to-choose" class="nav-link" data-scroll-target="#how-do-i-know-which-model-architecture-to-choose">How do I know which model architecture to choose?</a></li>
-  <li><a href="#how-long-does-it-take-to-train-a-deep-learning-model" id="toc-how-long-does-it-take-to-train-a-deep-learning-model" class="nav-link" data-scroll-target="#how-long-does-it-take-to-train-a-deep-learning-model">How long does it take to train a deep learning model?</a></li>
-  <li><a href="#how-do-i-know-if-i-have-enough-labelled-data" id="toc-how-do-i-know-if-i-have-enough-labelled-data" class="nav-link" data-scroll-target="#how-do-i-know-if-i-have-enough-labelled-data">How do I know if I have enough labelled data?</a></li>
-  </ul></li>
+  <li><a href="#frequently-asked-questions" id="toc-frequently-asked-questions" class="nav-link" data-scroll-target="#frequently-asked-questions">Frequently Asked Questions</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/Brent-Murray/DeepLearningEFI/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -528,21 +517,29 @@ Figure&nbsp;13: Backward Pass
 </section>
 <section id="frequently-asked-questions" class="level2">
 <h2 class="anchored" data-anchor-id="frequently-asked-questions">Frequently Asked Questions</h2>
-<section id="how-does-deep-learning-differ-from-machine-learning-or-artificial-intelligence" class="level3">
-<h3 class="anchored" data-anchor-id="how-does-deep-learning-differ-from-machine-learning-or-artificial-intelligence">How does deep learning differ from machine learning or artificial intelligence?</h3>
-<p>Artificial intelligence is the broad field of creating systems that perform tasks associated with human intelligence. Machine learning is a subset of artificial intelligence that uses data-driven algorithms to learn patterns and make predictions. Deep learning is a further subset of machine learning that uses multi-layered neural networks to automatically learn complex representations from data. Unlike many traditional machine learning methods, deep learning can extract features directly from raw inputs, reducing the need for manual feature generation.</p>
-</section>
-<section id="what-makes-deep-learning-deep" class="level3">
-<h3 class="anchored" data-anchor-id="what-makes-deep-learning-deep">What makes deep learning deep?</h3>
-<p>Deep learning models are considered <em>deep</em> because they contain multiple layers of neurons through which data are successively transformed. Each layer learns increasingly abstract features, from simple edges or shapes to complex patterns and structures. The depth, or number of layers, enables these models to capture highly non-linear relationships that simpler models cannot represent.</p>
-</section>
-<section id="what-are-some-advantages-and-disadvantages-of-deep-learning" class="level3">
-<h3 class="anchored" data-anchor-id="what-are-some-advantages-and-disadvantages-of-deep-learning">What are some advantages and disadvantages of deep learning?</h3>
-<p>Deep learning excels at learning complex patterns, handling high-dimensional data, and achieving state-of-the-art performance in tasks like image classification, segmentation, and 3D analysis. However, it typically requires large amounts of labelled data, substantial computational resources, and careful tuning. Deep learning models can also be harder to interpret, making it challenging to understand why a model makes certain predictions.</p>
-</section>
-<section id="when-should-a-deep-learning-model-be-used" class="level3">
-<h3 class="anchored" data-anchor-id="when-should-a-deep-learning-model-be-used">When should a deep learning model be used?</h3>
-<p>Deep learning is most effective when you have large, diverse datasets and tasks with complex patterns that simpler models struggle to capture. As the complexity of the data or the task increases deep learning becomes a more beneficial option. Raw lidar data for example is a complex dataset and is well suited for deep learning tasks.</p>
+<details>
+<summary>
+<strong>How does deep learning differ from machine learning or artificial intelligence?</strong>
+</summary>
+Artificial intelligence is the broad field of creating systems that perform tasks associated with human intelligence. Machine learning is a subset of artificial intelligence that uses data-driven algorithms to learn patterns and make predictions. Deep learning is a further subset of machine learning that uses multi-layered neural networks to automatically learn complex representations from data. Unlike many traditional machine learning methods, deep learning can extract features directly from raw inputs, reducing the need for manual feature generation.
+</details>
+<details>
+<summary>
+<strong>What makes deep learning deep?</strong>
+</summary>
+Deep learning models are considered <em>deep</em> because they contain multiple layers of neurons through which data are successively transformed. Each layer learns increasingly abstract features, from simple edges or shapes to complex patterns and structures. The depth, or number of layers, enables these models to capture highly non-linear relationships that simpler models cannot represent.
+</details>
+<details>
+<summary>
+<strong>What are some advantages and disadvantages of deep learning?</strong>
+</summary>
+Deep learning excels at learning complex patterns, handling high-dimensional data, and achieving state-of-the-art performance in tasks like image classification, segmentation, and 3D analysis. However, it typically requires large amounts of labelled data, substantial computational resources, and careful tuning. Deep learning models can also be harder to interpret, making it challenging to understand why a model makes certain predictions.
+</details>
+<details>
+<summary>
+<strong>When should a deep learning model be used?</strong>
+</summary>
+<p>Deep learning is most effective when you have large, diverse datasets and tasks with complex patterns that simpler models struggle to capture. As the complexity of the data or the task increases, deep learning becomes a more beneficial option. Raw lidar data, for example, is a complex dataset and is well suited for deep learning tasks.</p>
 <div id="fig-deeplearning-complexity" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-deeplearning-complexity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -553,29 +550,39 @@ Figure&nbsp;14: Data and Task Complexity for Deep and Machine Learning
 </figcaption>
 </figure>
 </div>
-</section>
-<section id="what-computing-resources-are-required-to-run-a-deep-learning-model" class="level3">
-<h3 class="anchored" data-anchor-id="what-computing-resources-are-required-to-run-a-deep-learning-model">What computing resources are required to run a deep learning model?</h3>
-<p>Training deep learning models generally benefits from using a graphics processing unit (GPU), which accelerates the large matrix operations involved. Smaller models or inference tasks can run on a standard CPU, but training deep neural networks on CPUs is typically slow. For larger datasets or 3D models, access to GPUs, high memory capacity, and efficient data pipelines becomes increasingly important</p>
-</section>
-<section id="why-do-deep-learning-models-need-so-much-data" class="level3">
-<h3 class="anchored" data-anchor-id="why-do-deep-learning-models-need-so-much-data">Why do deep learning models need so much data?</h3>
-<p>Deep learning models contain millions of parameters that must be learned during training. Large datasets help ensure these parameters capture general patterns rather than memorizing noise. With limited data, deep learning models are more likely to overfit, producing high accuracy on the training set but poor performance on new or unseen data. More data, especially diver data, improves generalization.</p>
-</section>
-<section id="how-do-i-know-which-model-architecture-to-choose" class="level3">
-<h3 class="anchored" data-anchor-id="how-do-i-know-which-model-architecture-to-choose">How do I know which model architecture to choose?</h3>
-<p>The choice of architecture depends on the type of data, the goal and the task, CNNs are well suited for image-based tasks, while point-based neural networks handle 3D point clouds. Architectures like U-Net are often used for segmentation, whereas regression problems might consider feedforward networks. In practice, the best approach is to start with widely used, well-documented architectures and adapt them as needed based on performance.</p>
-</section>
-<section id="how-long-does-it-take-to-train-a-deep-learning-model" class="level3">
-<h3 class="anchored" data-anchor-id="how-long-does-it-take-to-train-a-deep-learning-model">How long does it take to train a deep learning model?</h3>
-<p>Training time varies widely depending on model size, computing resources, and batch configuration. Small models may train in a minutes to hours, while large models or 3D networks trained on high-resolution data can take days. Efficient hardware, optimized data loading, and appropriate batch sizes can significantly reduce training time.</p>
-</section>
-<section id="how-do-i-know-if-i-have-enough-labelled-data" class="level3">
-<h3 class="anchored" data-anchor-id="how-do-i-know-if-i-have-enough-labelled-data">How do I know if I have enough labelled data?</h3>
-<p>A practical way to assess this is by observing model performance and generalization. Signs you may not have enough labelled data include overfitting, unstable validation performance, or high sensitivity to small changes in the training set. If performance does not improve despite tuning, acquiring more labelled samples or using techniques like data augmentation, transfer learning, or pseudo-sample generating can help compensate for limited data.</p>
+</details>
+<details>
+<summary>
+<strong>What computing resources are required to run a deep learning model?</strong>
+</summary>
+Training deep learning models generally benefits from using a GPU, which accelerates the large matrix operations involved. Smaller models or inference tasks can run on a standard CPU, but training deep neural networks on CPUs is typically slow. For larger datasets or 3D models, access to GPUs, high memory capacity, and efficient data pipelines becomes increasingly important.
+</details>
+<details>
+<summary>
+<strong>Why do deep learning models need so much data?</strong>
+</summary>
+Deep learning models contain millions of parameters that must be learned during training. Large datasets help ensure these parameters capture general patterns rather than memorizing noise. With limited data, models are more likely to overfit. More data, especially diverse data, improves generalization.
+</details>
+<details>
+<summary>
+<strong>How do I know which model architecture to choose?</strong>
+</summary>
+The choice of architecture depends on the type of data, the goal, and the task. CNNs are well suited for image-based tasks, while point-based neural networks handle 3D point clouds. Architectures like U-Net are often used for segmentation, whereas regression problems might consider feedforward networks. A practical approach is to start with commonly used architectures and adapt them based on performance.
+</details>
+<details>
+<summary>
+<strong>How long does it take to train a deep learning model?</strong>
+</summary>
+Training time varies depending on model size, computing resources, and batch configuration. Small models may train in minutes to hours, while large models or 3D networks trained on high-resolution data can take days. Efficient hardware, optimized data loading, and appropriate batch sizes can significantly reduce training time.
+</details>
+<details>
+<summary>
+<strong>How do I know if I have enough labelled data?</strong>
+</summary>
+A practical way to assess this is by observing model performance and generalization. Signs you may not have enough labelled data include overfitting, unstable validation performance, or high sensitivity to small changes in the training set. If performance does not improve despite tuning, acquiring more labelled samples or using techniques like data augmentation, transfer learning, or pseudo-sample generation can help compensate for limited data.
+</details>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
