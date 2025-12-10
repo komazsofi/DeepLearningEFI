@@ -102,6 +102,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -166,21 +195,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#hyperparameter-tuning" id="toc-hyperparameter-tuning" class="nav-link active" data-scroll-target="#hyperparameter-tuning">Hyperparameter tuning</a></li>
-  <li><a href="#validating-deep-learning-predictions" id="toc-validating-deep-learning-predictions" class="nav-link" data-scroll-target="#validating-deep-learning-predictions">Validating Deep Learning Predictions</a>
+  <li><a href="#validating-deep-learning-predictions" id="toc-validating-deep-learning-predictions" class="nav-link active" data-scroll-target="#validating-deep-learning-predictions">Validating Deep Learning Predictions</a>
   <ul class="collapse">
-  <li><a href="#biomass" id="toc-biomass" class="nav-link" data-scroll-target="#biomass">BIOMASS</a></li>
-  <li><a href="#classification" id="toc-classification" class="nav-link" data-scroll-target="#classification">Classification</a></li>
+  <li><a href="#key-evaluation-metrics" id="toc-key-evaluation-metrics" class="nav-link" data-scroll-target="#key-evaluation-metrics">Key Evaluation Metrics</a></li>
+  <li><a href="#prediction-results" id="toc-prediction-results" class="nav-link" data-scroll-target="#prediction-results">Prediction results</a></li>
   </ul></li>
   <li><a href="#examples-of-evaluation-metrics-and-plotting-figures" id="toc-examples-of-evaluation-metrics-and-plotting-figures" class="nav-link" data-scroll-target="#examples-of-evaluation-metrics-and-plotting-figures">Examples of Evaluation Metrics and Plotting Figures</a>
   <ul class="collapse">
-  <li><a href="#biomass-1" id="toc-biomass-1" class="nav-link" data-scroll-target="#biomass-1">BIOMASS</a></li>
-  <li><a href="#classification-1" id="toc-classification-1" class="nav-link" data-scroll-target="#classification-1">Classification</a></li>
+  <li><a href="#biomass" id="toc-biomass" class="nav-link" data-scroll-target="#biomass">BIOMASS</a></li>
+  <li><a href="#classification" id="toc-classification" class="nav-link" data-scroll-target="#classification">Classification</a></li>
   </ul></li>
   <li><a href="#how-to-use-the-pre-trained-model" id="toc-how-to-use-the-pre-trained-model" class="nav-link" data-scroll-target="#how-to-use-the-pre-trained-model">How to use the pre-trained model</a>
   <ul class="collapse">
   <li><a href="#inference-using-the-pre-trained-model" id="toc-inference-using-the-pre-trained-model" class="nav-link" data-scroll-target="#inference-using-the-pre-trained-model">Inference using the pre-trained model</a></li>
   </ul></li>
+  <li><a href="#hyperparameter-tuning" id="toc-hyperparameter-tuning" class="nav-link" data-scroll-target="#hyperparameter-tuning">Hyperparameter tuning</a></li>
   <li><a href="#compare-results-to-random-forest-using-lidar-metrics" id="toc-compare-results-to-random-forest-using-lidar-metrics" class="nav-link" data-scroll-target="#compare-results-to-random-forest-using-lidar-metrics">Compare results to Random Forest using LiDAR Metrics</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/Brent-Murray/DeepLearningEFI/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
@@ -208,36 +237,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>This section details how to interpret the results from the final test run and how to use the trained model effectively.</p>
-<section id="hyperparameter-tuning" class="level2">
-<h2 class="anchored" data-anchor-id="hyperparameter-tuning">Hyperparameter tuning</h2>
-<p>Compare results of different HPs using WANDB Sweep</p>
-<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/5tuktkzj" style="border:none;height:1024px;width:100%">
-</iframe>
-</section>
+<hr>
 <section id="validating-deep-learning-predictions" class="level2">
 <h2 class="anchored" data-anchor-id="validating-deep-learning-predictions">Validating Deep Learning Predictions</h2>
+<p>Validation goes beyond just logging the final loss. It requires inspecting the raw outputs and ensuring they make sense in the context of the problem.</p>
+<p>Prediction vs.&nbsp;Target: The core of validation is comparing the model’s output (raw logits or predicted values) against the ground truth. This is handled within the on_test_epoch_end hook, where raw predictions are aggregated.</p>
+<p>Post-processing: For classification, raw logits must be converted to class indices (e.g., using np.argmax(all_pred, axis=1)) before calculating metrics like accuracy or confusion matrices.</p>
+<section id="key-evaluation-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="key-evaluation-metrics">Key Evaluation Metrics</h3>
+<p>The choice of metric depends entirely on the task type, as implemented in your on_test_epoch_end hook:</p>
+<section id="classification-metrics" class="level4">
+<h4 class="anchored" data-anchor-id="classification-metrics">Classification Metrics</h4>
+<p>Instance Accuracy: The proportion of correctly classified individual samples (points or objects).</p>
+<p>Class Accuracy (Mean Class Accuracy): The average accuracy across all possible classes. This is vital for imbalanced datasets, as it prevents the model from being judged solely by its performance on the most frequent class.</p>
+<p><span class="math display">\[\text{Class Acc} = \frac{1}{N_{c}} \sum_{c=1}^{N_{c}} \frac{\text{True Positives}_c}{\text{Total Samples}_c}\]</span></p>
+<p>Confusion Matrix: A table that visualizes the performance of the classification model, where each row represents the instances in an actual class, and each column represents the instances in a predicted class.</p>
+</section>
+<section id="regression-metrics" class="level4">
+<h4 class="anchored" data-anchor-id="regression-metrics">Regression Metrics</h4>
+<p>Root Mean Squared Error (RMSE): Measures the average magnitude of the errors. Since the errors are squared before being averaged, RMSE gives a relatively high weight to large errors.</p>
+<p><span class="math display">\[\text{RMSE} = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2}\]</span></p>
+<p>R-squared (<span class="math inline">\(R^2\)</span>): Represents the proportion of the variance for a dependent variable that’s explained by the independent variable(s) in a regression model. <span class="math inline">\(R^2\)</span> ranges from <span class="math inline">\(0\)</span> to <span class="math inline">\(1\)</span>, with <span class="math inline">\(1\)</span> being a perfect fit.</p>
+<hr>
+</section>
+</section>
+<section id="prediction-results" class="level3">
+<h3 class="anchored" data-anchor-id="prediction-results">Prediction results</h3>
 <iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/q2oxsdbc" style="border:none;height:1024px;width:100%">
 </iframe>
+<hr>
+</section>
+</section>
+<section id="examples-of-evaluation-metrics-and-plotting-figures" class="level2">
+<h2 class="anchored" data-anchor-id="examples-of-evaluation-metrics-and-plotting-figures">Examples of Evaluation Metrics and Plotting Figures</h2>
+<p>Visualizing the results is often more informative than numerical logs alone.</p>
+<p>Qualitative Visualization: For point cloud applications, visualize the point cloud data colored by the model’s predicted label versus the true label to identify spatial regions where the model struggles.</p>
 <section id="biomass" class="level3">
 <h3 class="anchored" data-anchor-id="biomass">BIOMASS</h3>
 </section>
 <section id="classification" class="level3">
 <h3 class="anchored" data-anchor-id="classification">Classification</h3>
-</section>
-</section>
-<section id="examples-of-evaluation-metrics-and-plotting-figures" class="level2">
-<h2 class="anchored" data-anchor-id="examples-of-evaluation-metrics-and-plotting-figures">Examples of Evaluation Metrics and Plotting Figures</h2>
-<section id="biomass-1" class="level3">
-<h3 class="anchored" data-anchor-id="biomass-1">BIOMASS</h3>
-</section>
-<section id="classification-1" class="level3">
-<h3 class="anchored" data-anchor-id="classification-1">Classification</h3>
+<hr>
 </section>
 </section>
 <section id="how-to-use-the-pre-trained-model" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-use-the-pre-trained-model">How to use the pre-trained model</h2>
 <p>Step 1: We first define the predict step in <code>pl.LightningModule</code> to output the predictions</p>
-<div id="063cdc33" class="cell" data-execution_count="1">
+<div id="6d96ec0d" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Prediction / Inference In ---</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_step(<span class="va">self</span>, batch, batch_idx, dataloader_idx<span class="op">=</span><span class="dv">0</span>):</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
@@ -263,7 +309,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"gt"</span>: target.detach().cpu()</span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="6bb30d28" class="cell" data-execution_count="2">
+<div id="b788e839" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ... same as training for configs loading, datamodule, modelmodule, trainer initialize</span></span>
@@ -308,8 +354,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="inference-using-the-pre-trained-model" class="level3">
 <h3 class="anchored" data-anchor-id="inference-using-the-pre-trained-model">Inference using the pre-trained model</h3>
-<section id="classification-2" class="level4">
-<h4 class="anchored" data-anchor-id="classification-2">Classification</h4>
+<section id="classification-1" class="level4">
+<h4 class="anchored" data-anchor-id="classification-1">Classification</h4>
 <p>How to run:</p>
 <pre class="{bash}"><code>wget -P /path/to/directory https://github.com/Brent-Murray/DeepLearningEFI/blob/main/src/pretrained_ckpt/peta_cls_dgcnn_bs8_lre3/checkpoints/best_model.ckpt 
 
@@ -327,8 +373,16 @@ python predict.py --model dgcnn --dataset_config_key petawawa_reg --ckpt_path /p
 
 # example
 python predict.py --model dgcnn --dataset_config_key petawawa_reg --ckpt_path log/EFI_DL/peta_reg_dgcnn_bs8_lre3/checkpoints/best_model.ckpt</code></pre>
+<hr>
 </section>
 </section>
+</section>
+<section id="hyperparameter-tuning" class="level2">
+<h2 class="anchored" data-anchor-id="hyperparameter-tuning">Hyperparameter tuning</h2>
+<p>Compare results of different HPs using WANDB Sweep</p>
+<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/5tuktkzj" style="border:none;height:1024px;width:100%">
+</iframe>
+<hr>
 </section>
 <section id="compare-results-to-random-forest-using-lidar-metrics" class="level2">
 <h2 class="anchored" data-anchor-id="compare-results-to-random-forest-using-lidar-metrics">Compare results to Random Forest using LiDAR Metrics</h2>
