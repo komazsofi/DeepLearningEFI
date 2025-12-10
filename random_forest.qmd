@@ -8,6 +8,12 @@ execute:
 jupyter: python3
 ---
 
+This notebook trains random forest (RF) models to classify dominant tree species type and regress forest AGB using LiDAR metrics.
+
+LiDAR metrics were calculated using the code below:
+
+[LiDAR Metric Derivation](compute_lidar_metrics.qmd){.btn .btn-primary}
+
 Load packages
 
 ```{python}
