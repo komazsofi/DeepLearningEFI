@@ -1,5 +1,5 @@
 ---
-title: "Deep Learning for Forest Inventories"
+title: "Deep Learning with Lidar Data for Forest Inventories"
 subtitle: "Hands-on workshop"
 author:
   - name: "Brent A. Murray"
@@ -16,7 +16,7 @@ format:
 ---
 
 ::: {.hero}
-# Deep Learning for Enhanced Forest Inventories
+# Deep Learning with Lidar Data for Forest Inventories
 An introductory workshop for deep learning techniques for Enhanced Forest Inventories (EFIs) presented at the Canadian Cross-Country EFI Checkup. 
 
 [Get Started](setup.qmd){.btn .btn-primary} [View Schedule](schedule.qmd){.btn .btn-outline-primary}
