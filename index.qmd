@@ -1,5 +1,5 @@
 ---
-title: "Deep Learning with Lidar Data for Forest Inventories"
+title: "Deep Learning with Airborne Laser Scanning Data for Forest Inventories"
 subtitle: "Hands-on workshop"
 author:
   - name: "Brent A. Murray"
@@ -16,7 +16,7 @@ format:
 ---
 
 ::: {.hero}
-# Deep Learning with Lidar Data for Forest Inventories
+# Deep Learning with Airborne Laser Scanning Data for Forest Inventories
 An introductory workshop for deep learning techniques for Enhanced Forest Inventories (EFIs) presented at the Canadian Cross-Country EFI Checkup. 
 
 [Get Started](setup.qmd){.btn .btn-primary} [View Schedule](schedule.qmd){.btn .btn-outline-primary}
@@ -33,12 +33,10 @@ This workshop covers a basic end-to-end deep learning workflow for EFI applicati
 - Training a deep learning model for classification tasks.
 - Testing and evaluating deep learning models.
 
-## Prerequisites
-- Comfortable with Python.
 
 ## Instructors
 | Name | Affiliation |
 |---|---|
 | <a href="https://www.researchgate.net/profile/Brent-Murray-4" target="_blank">Brent A. Murray</a> | Integrated Remote Sensing Studio. University of British Columbia |
 | <a href="https://www.researchgate.net/profile/Harry-Seely" target="_blank">Harry Seely</a> | Integrated Remote Sensing Studio. University of British Columbia |
-| <a href="https://irsslab.forestry.ubc.ca/people/post-doctoral-fellows/" target="_blank">Yuwei Cao</a> | Integrated Remote Sensing Studio. University of British Columbia |
+| <a href="https://www.researchgate.net/profile/Yuwei-Cao-2?ev=hdr_xprf" target="_blank">Yuwei Cao</a> | Integrated Remote Sensing Studio. University of British Columbia |

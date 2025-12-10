@@ -4,7 +4,7 @@ project:
   execute-dir: project
 
 website:
-  title: "Deep Learning for Forest Inventories"
+  title: "Deep Learning with Airborne Laser Scanning Data for Forest Inventories"
   description: "Workshop on deep learning applications for enhanced forest inventories"
   favicon: "images/TreeNetwork.png"
   site-url: https://Brent-Murray.github.io/DeepLearningEFI/
