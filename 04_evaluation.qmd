@@ -1,5 +1,5 @@
 ---
-title: "Validation of Deep Learning Derived Forest Inventory Predictions"
+title: "Evaluation of Deep Learning Derived Forest Inventory Predictions"
 execute:
   eval: false
   echo: true
@@ -13,11 +13,11 @@ This section details how to interpret the results from the final test run and ho
 
 ---
 
-## Validating Deep Learning Predictions
+## Evaluating Deep Learning Predictions
 
-Validation goes beyond just logging the final loss. It requires inspecting the raw outputs and ensuring they make sense in the context of the problem.
+Evaluation goes beyond just logging the final loss. It requires inspecting the raw outputs and ensuring they make sense in the context of the problem.
 
-Prediction vs. Target: The core of validation is comparing the model's output (raw logits or predicted values) against the ground truth. This is handled within the on_test_epoch_end hook, where raw predictions are aggregated.
+Prediction vs. Target: The core of evaluation is comparing the model's output (raw logits or predicted values) against the ground truth. This is handled within the on_test_epoch_end hook, where raw predictions are aggregated.
 
 Post-processing: For classification, raw logits must be converted to class indices (e.g., using np.argmax(all_pred, axis=1)) before calculating metrics like accuracy or confusion matrices.
 
