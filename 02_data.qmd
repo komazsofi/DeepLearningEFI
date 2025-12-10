@@ -80,6 +80,8 @@ LIDAR_DIR = 'E:/PRF/3_tiled_norm'
 
 PLOT_PC_DIR = "data/plot_point_clouds"
 
+PLOT_LAS_DIR = "data/plot_las_files"
+
 LABELS_FPATH = 'data/labels.csv'
 
 ZQ95_FPATH = 'data/zq95.csv'
@@ -231,10 +233,17 @@ if(PROCESS_LIDAR){
                     seq_len(nrow(plot_centers)))
 
   # Extract point clouds and store in list
-  pc_ls <- plyr::llply(coords, .fun = extract_pc, ctg = ctg, .progress='text')
+  las_ls <- plyr::llply(coords, .fun = extract_pc, ctg = ctg, .progress='text')
 
   # Clean point clouds
-  pc_ls <- plyr::llply(pc_ls, .fun = clean_pc, .progress='text')
+  las_ls <- plyr::llply(las_ls, .fun = clean_pc, .progress='text')
+
+  # Export cleaned las files
+  for(i in 1:nrow(plot_centers)){
+    plot_id <- plot_centers$plot_id[i]
+    las_fpath <- here(file.path(PLOT_LAS_DIR, paste0(plot_id, ".las")))
+    lidR::writeLAS(las_ls[[i]], las_fpath)
+  }
 
   # Convert point clouds to matrices
   pc_ls <- plyr::llply(pc_ls, .fun = pc_to_matrix, .progress='text')
