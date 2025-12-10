@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://Brent-Murray.github.io/DeepLearningEFI/src/dataset/efi_dataset.html</loc>
-    <lastmod>2025-12-10T18:40:18.099Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Brent-Murray.github.io/DeepLearningEFI/schedule.html</loc>
-    <lastmod>2025-11-27T21:15:56.336Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Brent-Murray.github.io/DeepLearningEFI/03_train.html</loc>
-    <lastmod>2025-12-10T20:08:37.054Z</lastmod>
-  </url>
-  <url>
     <loc>https://Brent-Murray.github.io/DeepLearningEFI/index.html</loc>
-    <lastmod>2025-12-10T21:23:18.579Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Brent-Murray.github.io/DeepLearningEFI/04_evaluation.html</loc>
-    <lastmod>2025-12-10T21:34:30.539Z</lastmod>
+    <lastmod>2025-12-10T21:35:17.301Z</lastmod>
   </url>
 </urlset>
