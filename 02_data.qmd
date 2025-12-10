@@ -103,6 +103,7 @@ library(ggplot2)
 library(plotly)
 library(reticulate)
 library(readxl)
+library(purrr)
 
 # Import python numpy module using reticulate
 np <- reticulate::import("numpy")
@@ -233,10 +234,10 @@ if(PROCESS_LIDAR){
                     seq_len(nrow(plot_centers)))
 
   # Extract point clouds and store in list
-  las_ls <- plyr::llply(coords, .fun = extract_pc, ctg = ctg, .progress='text')
+  las_ls <- purrr::map(coords, extract_pc,  ctg = ctg, .progress = TRUE)
 
   # Clean point clouds
-  las_ls <- plyr::llply(las_ls, .fun = clean_pc, .progress='text')
+  las_ls <- purrr::map(las_ls, clean_pc, .progress = TRUE)
 
   # Export cleaned las files
   for(i in 1:nrow(plot_centers)){
@@ -246,13 +247,13 @@ if(PROCESS_LIDAR){
   }
 
   # Convert point clouds to matrices
-  pc_ls <- plyr::llply(pc_ls, .fun = pc_to_matrix, .progress='text')
+  pc_ls <- purrr::map(las_ls, pc_to_matrix, .progress = TRUE)
 
   # Normalize point clouds X & Y coordinates (leave Z)
-  pc_ls <- plyr::llply(pc_ls, .fun = normalize_pc_xy, .progress='text')
+  pc_ls <- purrr::map(pc_ls, normalize_pc_xy, .progress = TRUE)
 
   # Calculate zq95 for each point cloud to check alignment with plot data later
-  als_derived_zq95_ls <- plyr::llply(pc_ls, .fun = calc_pc_zq95, .progress='text')
+  als_derived_zq95_ls <- purrr::map(pc_ls, calc_pc_zq95, .progress = TRUE)
 
   # Ensure the point cloud directory exists
   dir.create(PLOT_PC_DIR, recursive = TRUE, showWarnings = FALSE)
