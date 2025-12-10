@@ -181,7 +181,6 @@ class EfiModelModule(pl.LightningModule):
         Does not calculate loss or metrics.
         Runs when trainer.predict() is called.
         """
-        # Note: We assume the batch structure is the same, but the target is ignored or zeroed out
         points, target, pid = batch 
         
         # Transpose [B, N, C] -> [B, C, N] and enforce float32

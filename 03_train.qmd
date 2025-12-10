@@ -531,6 +531,8 @@ def configure_optimizers(self):
 Detail where the `cfg` (e.g., `config.py` configuration file) and args (e.g., command line arguments) are loaded and parsed.
 
 ```{python}
+#| code-fold: true
+#| code-overflow: wrap
 DATASET_CONFIG = {
     'petawawa_cls': {
         'task': 'classification',
