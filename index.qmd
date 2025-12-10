@@ -1,5 +1,5 @@
 ---
-title: "Deep Learning for Forest Inventories"
+title: "Deep Learning with Lidar Data for Forest Inventories"
 subtitle: "Hands-on workshop"
 author:
   - name: "Brent A. Murray"
@@ -16,7 +16,7 @@ format:
 ---
 
 ::: {.hero}
-# Deep Learning for Enhanced Forest Inventories
+# Deep Learning with Lidar Data for Forest Inventories
 An introductory workshop for deep learning techniques for Enhanced Forest Inventories (EFIs) presented at the Canadian Cross-Country EFI Checkup. 
 
 [Get Started](setup.qmd){.btn .btn-primary} [View Schedule](schedule.qmd){.btn .btn-outline-primary}
@@ -28,14 +28,13 @@ This workshop covers a basic end-to-end deep learning workflow for EFI applicati
 ### You will learn
 - What deep learning is and how it can be used for EFIs.
 - How to prepare and read in data for use in deep learning.
-- Basics of using the <a href="https://pytorch.org/" target="_blank">PyTorch</a> deep learning library.
+- Basics of using the <a href="https://lightning.ai/docs/pytorch/stable/" target="_blank">PyTorch Lightning</a> deep learning library.
 - Deep learning based forest attribute feature extraction.
 - Training a deep learning model for classification tasks.
-- Validation and testing of deep learning models.
+- Testing and evaluating deep learning models.
 
 ## Prerequisites
-- Comfortable with Python and Jupyter notebooks.
-- Google Colab will be used for running the live demo.
+- Comfortable with Python.
 
 ## Instructors
 | Name | Affiliation |

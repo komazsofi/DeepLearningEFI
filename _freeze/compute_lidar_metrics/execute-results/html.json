@@ -1,0 +1,15 @@
+{
+  "hash": "f090cb3222a65ae93132bde4b0c4b2a6",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Compute LiDAR Metrics\"\nformat:\n  html:\n    toc: True\nexecute:\n  echo: true\n---\n\nSet filepaths\n\n\n::: {.cell}\n\n```{.r .cell-code  code-fold=\"true\"}\nPLOT_LAS_DIR = \"data/plot_las_files\"\n\nLABELS_FPATH = \"data/labels.csv\"\n\nMETRICS_CSV_OUT_FPATH <- \"data/lidar_metrics.csv\"\n\nRE_COMPUTE = FALSE\n```\n:::\n\n\n\nLoad required R packages\n\n\n::: {.cell}\n\n```{.r .cell-code  code-fold=\"true\"}\nlibrary(lidR)\nlibrary(here)\nlibrary(sf)\nlibrary(tidyverse)\nlibrary(purrr)\nlibrary(lidRmetrics)\nlibrary(Lmoments)\n```\n:::\n\n\nLoad labels and plot point clouds\n\n\n::: {.cell}\n\n```{.r .cell-code  code-fold=\"true\"}\nlabels_df <- read_csv(LABELS_FPATH)\n\n# Read all las files\nlas_fpaths <- here(file.path(PLOT_LAS_DIR, paste0(labels_df$plot_id, \".las\")))\n```\n:::\n\n\nCalculate LiDAR metrics using the lidR Metrics package\n\n[https://github.com/ptompalski/lidRmetrics](https://github.com/ptompalski/lidRmetrics)\n\n\n::: {.cell}\n\n```{.r .cell-code  code-fold=\"true\"}\ncalc_metrics <- function(las) {\n\n  metrics <- lidRmetrics::metrics_set3(x = las@data$X, \n                                       y = las@data$Y, \n                                       z = las@data$Z, \n                                       i = las@data$Intensity,\n                                       ReturnNumber = las@data$ReturnNumber,\n                                       NumberOfReturns = las@data$NumberOfReturns)\n  \n  metrics <- unlist(metrics)\n\n  metrics <- as.data.frame(t(metrics))\n\n  stopifnot(ncol(metrics) == 108)\n\n  if (!is.data.frame(metrics)) {\n    stop(\"The output is not a data frame.\")\n  }\n\n  return(metrics)\n}\n\nif(RE_COMPUTE){\n\n  las_ls <- purrr::map(las_fpaths, readLAS, .progress = FALSE)\n\n  metrics_df_ls <- purrr::map(las_ls, calc_metrics, .progress = TRUE)\n\n  metrics_df <- dplyr::bind_rows(metrics_df_ls) %>%\n                      # Drop any columns with NAs\n                      dplyr::select(where(~!any(is.na(.))))\n\n  # Add plot ID\n  metrics_df$plot_id <- labels_df$plot_id\n\n  # Export\n  metrics_df %>% write_csv(METRICS_CSV_OUT_FPATH)\n\n  metrics_df %>% head(3)\n}\n```\n:::\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

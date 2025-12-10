@@ -8,8 +8,17 @@ execute:
 jupyter: python3
 ---
 
+This notebook trains random forest (RF) models to classify dominant tree species type and regress forest AGB using LiDAR metrics.
+
+LiDAR metrics were calculated using the code below:
+
+[LiDAR Metric Derivation](compute_lidar_metrics.qmd){.btn .btn-primary}
+
+Load packages
 
 ```{python}
+#| code-fold: true
+
 import pandas as pd
 import seaborn as sns
 import numpy as np
@@ -20,68 +29,37 @@ from sklearn.metrics import accuracy_score, cohen_kappa_score, confusion_matrix,
 import rioxarray as rio
 ```
 
-# Load data
+Set filepaths
 
 ```{python}
-# Load plot locations
 
-PLOT_COORDS_FPATH = 'data/SPL2018_EFI_ground_plots/SPL2018_EFI_ground_plots/PRF_SPL2018_EFI_plots_pts_wgs84.shp'
+LABELS_FPATH = r'data/labels.csv'
 
-LABELS_FPATH = 'data/labels.csv'
+METRICS_FPATH = r'data/lidar_metrics.csv'
 
-ALS_METRICS_FPATH = r'data/als_metrics.tif'
 
-plots_gdf = gpd.read_file(PLOT_COORDS_FPATH).rename(columns={"Plot": "plot_id"})
-
-labels_df = pd.read_csv(LABELS_FPATH)
-
-labels_df
 ```
 
-# Extract ALS Metrics
+Load labels and LiDAR metrics
 
 ```{python}
-als_metrics = rio.open_rasterio(ALS_METRICS_FPATH)
-als_metrics
-```
 
-Ensure that raster and plot coordinates are in the same CRS.
+metrics_df = pd.read_csv(METRICS_FPATH)
 
-```{python}
-assert plots_gdf.crs == als_metrics.rio.crs, "CRS mismatch between plots and raster data."
-```
+metric_names = metrics_df.drop('plot_id', axis=1).columns.tolist()
 
-Convert ALS metric names from a tuple to a list for later use.
+df = pd.read_csv(LABELS_FPATH).merge(metrics_df, on="plot_id", how='left')
 
-```{python}
-als_metrics_nms = list(als_metrics.long_name)
-```
+# View relationship between mean height and biomass
+ax = sns.scatterplot(df, y='total_agb_mg_ha', x='zmean')
+ax.set(xlabel='Mean Height', ylabel='AGB (Mg/ha)')
 
-```{python}
-plot_coords = [(geom.x, geom.y) for geom in plots_gdf.geometry]
 
-for i, metric in enumerate(als_metrics_nms):
-
-    print(f"Extracting metric: {metric}")
-
-    metric_ras_i = als_metrics[i]
-    plots_gdf[metric] = [float(metric_ras_i.sel(x=c[0], y=c[1], method="nearest").values) for c in plot_coords]
-```
-
-Lets view the distribution of the 99th height percentile, it looks normal.
-
-```{python}
-ax = plots_gdf['p99'].hist(edgecolor='black', color='blue')
-ax.set_xlabel('99th Height Percentile (m)')
-ax.set_ylabel('Number of Plots')
-plt.show()
 ```
 
 # Prepare data for RF Modelling
 
 ```{python}
-# Join metrics with labels
-df = labels_df.merge(pd.DataFrame(plots_gdf), on='plot_id', how='left')
 
 # Check which ALS metric cols have NAs
 na_counts = df.isna().sum()
@@ -136,12 +114,12 @@ plt.show()
 # Train RF for Dominant Species Type Classification
 
 ```{python}
-def plot_feature_importance(rf, als_metrics_nms, title):
+def plot_feature_importance(rf, metric_names, title):
     importances = rf.feature_importances_
-    importance_df = pd.DataFrame({'Metric': als_metrics_nms, 'importance': importances
+    importance_df = pd.DataFrame({'Metric': metric_names, 'importance': importances
                                     }).sort_values(by='importance', ascending=False)
     plt.figure(figsize=(10, 6))
-    sns.barplot(x='importance', y='Metric', hue='importance', data=importance_df, palette='viridis')
+    sns.barplot(x='importance', y='Metric', hue='importance', data=importance_df, palette='viridis', legend=False)
     plt.title(title)
     plt.yticks(fontsize=5)
     plt.xlabel('Importance Score')
@@ -152,10 +130,10 @@ def plot_feature_importance(rf, als_metrics_nms, title):
 #| colab: {base_uri: https://localhost:8080/, height: 1000}
 rf = RandomForestClassifier(n_estimators=100, random_state=25)
 
-rf.fit(train_df[als_metrics_nms], train_df['dom_sp_type_id'])
+rf.fit(train_df[metric_names], train_df['dom_sp_type_id'])
 
 # Apply the model to the test set
-test_df['pred_dom_sp_group_id'] = rf.predict(test_df[als_metrics_nms])
+test_df['pred_dom_sp_group_id'] = rf.predict(test_df[metric_names])
 
 # Calculate accuracy and kappa
 accuracy = accuracy_score(test_df['dom_sp_type_id'], test_df['pred_dom_sp_group_id'])
@@ -185,7 +163,7 @@ plt.xlabel('Predicted Label')
 plt.ylabel('Observed Label')
 
 # View metric importance
-plot_feature_importance(rf, als_metrics_nms, title='Feature Importance from Random Forest Classifier')
+plot_feature_importance(rf, metric_names, title='Feature Importance from Random Forest Classifier')
 
 ```
 
@@ -194,9 +172,9 @@ plot_feature_importance(rf, als_metrics_nms, title='Feature Importance from Rand
 ```{python}
 rf = RandomForestRegressor(n_estimators=100, random_state=25)
 
-rf.fit(train_df[als_metrics_nms], train_df['total_agb_mg_ha'])
+rf.fit(train_df[metric_names], train_df['total_agb_mg_ha'])
 
-test_df['pred_agb'] = rf.predict(test_df[als_metrics_nms])
+test_df['pred_agb'] = rf.predict(test_df[metric_names])
 
 # Calculate regression metrics
 r2 = r2_score(test_df['total_agb_mg_ha'], test_df['pred_agb'])
@@ -217,6 +195,6 @@ plt.ylabel('Predicted AGB (mg/ha)')
 plt.title('Observed vs Predicted AGB')
 plt.show()
 
-plot_feature_importance(rf, als_metrics_nms, title='Feature Importance from Random Forest Regressor')
+plot_feature_importance(rf, metric_names, title='Feature Importance from Random Forest Regressor')
 ```
 
