@@ -25,14 +25,14 @@
     "href": "index.html#overview",
     "title": "Deep Learning with Lidar Data for Forest Inventories",
     "section": "Overview",
-    "text": "Overview\nThis workshop covers a basic end-to-end deep learning workflow for EFI applications, covering an introduction into deep learning, to data prepartation, and finally a demo of model training, evaluation, and deployment. There will also be some examples of real world forest inventory deep learning applications showcasing some of the possibilities there are with these techniques.\n\nYou will learn\n\nWhat deep learning is and how it can be used for EFIs.\nHow to prepare and read in data for use in deep learning.\nBasics of using the PyTorch deep learning library.\nDeep learning based forest attribute feature extraction.\nTraining a deep learning model for classification tasks.\nValidation and testing of deep learning models."
+    "text": "Overview\nThis workshop covers a basic end-to-end deep learning workflow for EFI applications, covering an introduction into deep learning, to data prepartation, and finally a demo of model training, evaluation, and deployment. There will also be some examples of real world forest inventory deep learning applications showcasing some of the possibilities there are with these techniques.\n\nYou will learn\n\nWhat deep learning is and how it can be used for EFIs.\nHow to prepare and read in data for use in deep learning.\nBasics of using the PyTorch Lightning deep learning library.\nDeep learning based forest attribute feature extraction.\nTraining a deep learning model for classification tasks.\nTesting and evaluating deep learning models."
   },
   {
     "objectID": "index.html#prerequisites",
     "href": "index.html#prerequisites",
     "title": "Deep Learning with Lidar Data for Forest Inventories",
     "section": "Prerequisites",
-    "text": "Prerequisites\n\nComfortable with Python and Jupyter notebooks.\nGoogle Colab will be used for running the live demo."
+    "text": "Prerequisites\n\nComfortable with Python."
   },
   {
     "objectID": "index.html#instructors",
