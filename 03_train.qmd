@@ -239,6 +239,46 @@ class get_model(nn.Module):
 
 ```
 
+#### Loss functions
+The loss function, or cost function, quantifies the difference between the model's prediction and the true target value. It is the primary signal that guides the Deep Learning model during training. The goal of the optimizer (Adam) is to adjust the model's weights to continuously minimize this loss value.
+
+Our module uses task-specific loss components:
+
+```{python}
+def get_loss_function(task):
+    """
+    Returns the core loss function (either nn.Module or functional).
+    """
+    if task == 'classification':
+        # Using CrossEntropyLoss is simplest if input is raw logits.
+        return F.nll_loss # nn.CrossEntropyLoss()
+    elif task == 'regression':
+        return F.smooth_l1_loss
+    else:
+        raise ValueError(f"Unknown task type: {task}")
+```
+
+- For Classification Tasks:
+`F.nll_loss` (Negative Log Likelihood Loss). 
+
+This function is typically used when the model outputs log-probabilities (often obtained by applying a log-softmax activation to the raw logits). It penalizes the model when it assigns a low probability to the correct class:
+
+$$
+L_{\text{NLL}}(y, \hat{y}) = - \hat{y}_c
+$$
+
+where $y$ is the true class index, $\hat{y}$ is the vector of log-probabilities output by the model (e.g., via F.log_softmax), and $\hat{y}_c$ is the log-probability corresponding to the true class $c$.
+
+[Pytorch Implementation](https://docs.pytorch.org/docs/stable/generated/torch.nn.NLLLoss.html#torch.nn.NLLLoss)
+
+- For Regression Tasks:
+
+`F.smooth_l1_loss` (Smooth L1 Loss or Huber Loss).
+
+This function is a robust alternative to Mean Squared Error (L2) and Mean Absolute Error (L1). It behaves like L2 loss for small errors (which gives a smoother gradient for optimization) and like L1 loss for large errors (which makes it less sensitive to outliers).
+
+[Pytorch Implementation](https://docs.pytorch.org/docs/stable/generated/torch.nn.SmoothL1Loss.html#torch.nn.SmoothL1Loss)
+
 #### The PyTorch Lightning Wrapper: EfiModelModule
 
 This class is the single source of truth for your experiment:
@@ -274,7 +314,7 @@ def forward(self, points):
 
 def _shared_step(self, batch):
     """Shared logic for training, validation, and test step."""
-    points, target = batch
+    points, target, _ = batch # _ is plot_id, doesn't need in the these stpes
     
     # Transpose [B, N, C] -> [B, C, N] and enforce float32
     points = points.transpose(2, 1).float() 
@@ -287,8 +327,7 @@ def _shared_step(self, batch):
         pred, 
         target, 
         trans_feat, 
-        task=self.task,
-        mat_diff_loss_scale=self.cfg.get('mat_diff_loss_scale', 0.0)
+        task=self.task
     )
     
     return loss, pred, target

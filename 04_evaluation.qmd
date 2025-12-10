@@ -4,7 +4,8 @@ format:
   html:
     toc: True
 ---
-## Relevant Resources
+
+This section details how to interpret the results from the final test run and how to use the trained model effectively.
 
 ## Hyperparameter tuning
 
@@ -17,11 +18,15 @@ SWEEP:
 
 ## Validating Deep Learning Predictions
 
+### BIOMASS
 
+### Classification
 
 ## Examples of Evaluation Metrics and Plotting Figures
 
+### BIOMASS
 
+### Classification
 
 ## How to use the pre-trained model
 

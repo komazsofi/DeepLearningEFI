@@ -29,7 +29,6 @@ def calculate_total_loss(pred, target, trans_feat, task, mat_diff_loss_scale=0.0
         core_loss = core_criterion(pred, target)
     else:
         # Classification: F.nll_loss REQUIRES log-probabilities (log_softmax).
-        # core_loss = core_criterion(pred.log_softmax(dim=-1), target.long())
         core_loss = core_criterion(pred, target.long())
 
     # 2. Add Feature Transform Regularization (PointNet specific)
