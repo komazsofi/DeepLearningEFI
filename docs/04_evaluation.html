@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Validation of Deep Learning Derived Forest Inventory Predictions – Deep Learning with Airborne Laser Scanning Data for Forest Inventories</title>
+<title>Validation of Deep Learning Derived Forest Inventory Predictions – Deep Learning for Forest Inventories</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -146,7 +146,7 @@ window.Quarto = {
     <img src="./images/TreeNetwork.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Deep Learning with Airborne Laser Scanning Data for Forest Inventories</span>
+    <span class="navbar-title">Deep Learning for Forest Inventories</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -283,7 +283,7 @@ window.Quarto = {
 <section id="how-to-use-the-pre-trained-model" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-use-the-pre-trained-model">How to use the pre-trained model</h2>
 <p>Step 1: We first define the predict step in <code>pl.LightningModule</code> to output the predictions</p>
-<div id="6d96ec0d" class="cell" data-execution_count="1">
+<div id="c56f512d" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Prediction / Inference In ---</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_step(<span class="va">self</span>, batch, batch_idx, dataloader_idx<span class="op">=</span><span class="dv">0</span>):</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
@@ -309,7 +309,7 @@ window.Quarto = {
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"gt"</span>: target.detach().cpu()</span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="b788e839" class="cell" data-execution_count="2">
+<div id="df2ff496" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ... same as training for configs loading, datamodule, modelmodule, trainer initialize</span></span>
