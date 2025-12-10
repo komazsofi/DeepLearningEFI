@@ -43,7 +43,7 @@ class EfiDataset(Dataset):
                         pc_path = os.path.join(self.root, f"{pid}.npy")
                         if os.path.exists(pc_path):
                             self.meta_data.append({
-                                'id': pid,
+                                'plot_id': pid,
                                 'path': pc_path,
                                 'raw_label': raw_val
                             })
@@ -153,10 +153,13 @@ class EfiDataset(Dataset):
                 label = self.cls_to_idx[raw]
             else:
                 label = float(raw)
+        
+        # 3. Get pid
+        pid = self.meta_data[index]['plot_id']
 
-        # 3. Return Correct Types
+        # 4. Return Correct Types
         if self.task_type == 'classification':
-            return points, torch.tensor(label, dtype=torch.long)
+            return points, torch.tensor(label, dtype=torch.long), pid
         else:
             # For regression, return float32 (usually shape [1] or scalar)
-            return points, torch.tensor(label, dtype=torch.float32)
+            return points, torch.tensor(label, dtype=torch.float32), pid

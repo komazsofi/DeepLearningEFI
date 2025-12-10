@@ -112,7 +112,7 @@ def main(args):
         enable_progress_bar=True
     )
 
-    # 6. Start Training
+    # Start Training
     print('Starting PyTorch Lightning Training...')
     trainer.fit(model_module, data_module)
     

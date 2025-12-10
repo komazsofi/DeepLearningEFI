@@ -32,7 +32,7 @@ class EfiModelModule(pl.LightningModule):
 
     def _shared_step(self, batch):
         """Shared logic for training, validation, and test step."""
-        points, target = batch
+        points, target, _ = batch
         
         # Transpose [B, N, C] -> [B, C, N] and enforce float32
         points = points.transpose(2, 1).float() 
@@ -182,17 +182,23 @@ class EfiModelModule(pl.LightningModule):
         Runs when trainer.predict() is called.
         """
         # Note: We assume the batch structure is the same, but the target is ignored or zeroed out
-        points, _ = batch 
+        points, target, pid = batch 
         
         # Transpose [B, N, C] -> [B, C, N] and enforce float32
         points = points.transpose(2, 1).float() 
         
         # 1. Forward Pass
         # Assuming self(points) returns (pred, trans_feat), we only return the prediction (pred)
-        pred, _ = self(points) 
+        pred, _ = self(points)
+        if self.task == 'classification':
+            pred = torch.argmax(pred, dim=1)
         
         # Return only the raw prediction tensor for the user
-        return pred
+        return {
+            "plot_id": pid,
+            "pred": pred.detach().cpu(),
+            "gt": target.detach().cpu()
+        }
 
     # --- Optimizer Configuration ---
     def configure_optimizers(self):

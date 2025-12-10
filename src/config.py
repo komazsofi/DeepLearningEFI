@@ -4,7 +4,7 @@ DATASET_CONFIG = {
     'petawawa_cls': {
         'task': 'classification',
         'root': './data/petawawa/plot_point_clouds',
-        'csv': './data/petawawa/labels.csv',
+        'csv': './data/petawawa/prf_biomass_labels_older_version.csv',
         'classes': [
             'conif', 
             'decid', 
@@ -17,9 +17,9 @@ DATASET_CONFIG = {
     'petawawa_reg': {
         'task': 'regression',
         'root': './data/petawawa/plot_point_clouds',
-        'csv': './data/petawawa/labels.csv',
+        'csv': './data/petawawa/prf_biomass_labels_older_version.csv',
         'classes': None,
-        'label_col': 'total_agb_mg_ha',
+        'label_col': 'total_agb_z',
         'num_classes': 1
     }
 }

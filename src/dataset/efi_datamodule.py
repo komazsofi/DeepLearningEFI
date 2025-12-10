@@ -18,7 +18,7 @@ class EfiDataModule(pl.LightningDataModule):
         Logic for dataset preparation (only run on 1 GPU/process).
         If 'process_data' is true, this triggers the pre-processing step.
         """
-        if self.args.process_data:
+        if getattr(self.args, "process_data", False):
             print("--- Running Data Pre-processing (train) ---")
             EfiDataset(
                 root=self.cfg['root'], 
@@ -30,7 +30,7 @@ class EfiDataModule(pl.LightningDataModule):
                 classes_list=self.cfg['classes'],
                 process_data=True, # Triggers cache generation
                 use_normals=self.cfg['use_normal'],
-                use_fps=self.cfg.get('use_fps', True)
+                use_fps=self.cfg.get('use_fps', False)
             )
             print("--- Running Data Pre-processing (val) ---")
             EfiDataset(
@@ -78,6 +78,7 @@ class EfiDataModule(pl.LightningDataModule):
         if stage == 'fit' or stage is None:
             self.train_dataset = EfiDataset(split='train', **common_params)
             self.val_dataset = EfiDataset(split='val', **common_params)
+        if stage == "test" or stage == "predict" or stage is None:
             self.test_dataset = EfiDataset(split='test', **common_params)
         
     def train_dataloader(self):
@@ -102,5 +103,13 @@ class EfiDataModule(pl.LightningDataModule):
             self.test_dataset, 
             batch_size=self.args.batch_size, 
             shuffle=False, 
+            num_workers=self.num_workers
+        )
+    
+    def predict_dataloader(self):
+        return DataLoader(
+            self.test_dataset,
+            batch_size=self.args.batch_size,
+            shuffle=False,
             num_workers=self.num_workers
         )
