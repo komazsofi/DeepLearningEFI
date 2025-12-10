@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://Brent-Murray.github.io/DeepLearningEFI/src/dataset/efi_dataset.html</loc>
-    <lastmod>2025-12-04T21:23:13.968Z</lastmod>
+    <lastmod>2025-12-10T18:40:18.099Z</lastmod>
   </url>
   <url>
     <loc>https://Brent-Murray.github.io/DeepLearningEFI/schedule.html</loc>
@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://Brent-Murray.github.io/DeepLearningEFI/index.html</loc>
-    <lastmod>2025-12-10T18:30:30.829Z</lastmod>
+    <lastmod>2025-12-10T18:55:54.710Z</lastmod>
   </url>
   <url>
     <loc>https://Brent-Murray.github.io/DeepLearningEFI/05_examples.html</loc>
@@ -18,7 +18,7 @@
   </url>
   <url>
     <loc>https://Brent-Murray.github.io/DeepLearningEFI/03_train.html</loc>
-    <lastmod>2025-12-05T16:39:45.923Z</lastmod>
+    <lastmod>2025-12-10T20:08:37.054Z</lastmod>
   </url>
   <url>
     <loc>https://Brent-Murray.github.io/DeepLearningEFI/01_intro.html</loc>
@@ -30,7 +30,7 @@
   </url>
   <url>
     <loc>https://Brent-Murray.github.io/DeepLearningEFI/04_evaluation.html</loc>
-    <lastmod>2025-12-05T16:39:46.038Z</lastmod>
+    <lastmod>2025-12-10T21:22:24.079Z</lastmod>
   </url>
   <url>
     <loc>https://Brent-Murray.github.io/DeepLearningEFI/compute_lidar_metrics.html</loc>
@@ -38,10 +38,10 @@
   </url>
   <url>
     <loc>https://Brent-Murray.github.io/DeepLearningEFI/random_forest.html</loc>
-    <lastmod>2025-12-10T18:00:01.608Z</lastmod>
+    <lastmod>2025-12-10T18:55:54.714Z</lastmod>
   </url>
   <url>
     <loc>https://Brent-Murray.github.io/DeepLearningEFI/setup.html</loc>
-    <lastmod>2025-12-05T16:39:46.211Z</lastmod>
+    <lastmod>2025-12-06T18:03:13.451Z</lastmod>
   </url>
 </urlset>

@@ -25,6 +25,7 @@ python train_cls.py \
     --epoch 150 \
     --use_normals \
     --learning_rate 1e-4
+```
 
 ### Code structure
 
