@@ -716,6 +716,7 @@ target_plot_id <- "PRF080"
 demo_pc2 <- np$load(file.path(PLOT_PC_DIR, paste0(target_plot_id, ".npy")))
 
 # Get trees in plot
+print("Tree list for plot:")
 trees_sub <- trees_df %>%
       filter(plot_id == target_plot_id) %>%
       select(species, dbh) %>% 
@@ -724,8 +725,6 @@ trees_sub <- trees_df %>%
 # Get the AGB and dominant species type
 labels_sub <- labels_df %>% 
                 filter(plot_id == target_plot_id)
-
-print(labels_sub)
 
 print(paste("Plot level AGB:", round(labels_sub$total_agb_mg_ha, 1), "Mg/ha"))
 
