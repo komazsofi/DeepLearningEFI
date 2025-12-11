@@ -568,12 +568,12 @@ biomass_df <- biomass_df %>% mutate(total_agb_mg_ha = total_agb_kg/1000/plot_are
 
 head(biomass_df)
 
-# biomass_df %>%
-#   ggplot(aes(x = total_agb_mg_ha)) + 
-#   geom_histogram() + 
-#   theme_minimal() +
-#   xlab("Total AGB (Mg/ha)") + 
-#   ylab("N Plots")
+biomass_df %>%
+  ggplot(aes(x = total_agb_mg_ha)) + 
+  geom_histogram() + 
+  theme_minimal() +
+  xlab("Total AGB (Mg/ha)") + 
+  ylab("N Plots")
 
 ```
 
@@ -656,14 +656,14 @@ ggplot(labels_df, aes(x = split, fill = dom_sp_type)) +
   )
 
 # View biomass variation by split
-labels_df %>%
-    ggplot(aes(x = split, y = total_agb_mg_ha, fill = split)) +
-    geom_boxplot() + 
-    theme_minimal() + 
-    ylab("Total AGB (Mg/ha)") + 
-    theme(
-        panel.grid = element_blank(),  
-    )
+# labels_df %>%
+#     ggplot(aes(x = split, y = total_agb_mg_ha, fill = split)) +
+#     geom_boxplot() + 
+#     theme_minimal() + 
+#     ylab("Total AGB (Mg/ha)") + 
+#     theme(
+#         panel.grid = element_blank(),  
+#     )
 
 
 head(labels_df)
