@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Validation of Deep Learning Derived Forest Inventory Predictions – Deep Learning for Forest Inventories</title>
+<title>Evaluation of Deep Learning Derived Forest Inventory Predictions – Deep Learning for Forest Inventories</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -199,7 +199,7 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#validating-deep-learning-predictions" id="toc-validating-deep-learning-predictions" class="nav-link active" data-scroll-target="#validating-deep-learning-predictions">Validating Deep Learning Predictions</a>
+  <li><a href="#evaluating-deep-learning-predictions" id="toc-evaluating-deep-learning-predictions" class="nav-link active" data-scroll-target="#evaluating-deep-learning-predictions">Evaluating Deep Learning Predictions</a>
   <ul class="collapse">
   <li><a href="#key-evaluation-metrics" id="toc-key-evaluation-metrics" class="nav-link" data-scroll-target="#key-evaluation-metrics">Key Evaluation Metrics</a></li>
   <li><a href="#prediction-results" id="toc-prediction-results" class="nav-link" data-scroll-target="#prediction-results">Prediction results</a></li>
@@ -223,7 +223,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Validation of Deep Learning Derived Forest Inventory Predictions</h1>
+<h1 class="title">Evaluation of Deep Learning Derived Forest Inventory Predictions</h1>
 </div>
 
 
@@ -242,10 +242,10 @@ window.Quarto = {
 
 <p>This section details how to interpret the results from the final test run and how to use the trained model effectively.</p>
 <hr>
-<section id="validating-deep-learning-predictions" class="level2">
-<h2 class="anchored" data-anchor-id="validating-deep-learning-predictions">Validating Deep Learning Predictions</h2>
-<p>Validation goes beyond just logging the final loss. It requires inspecting the raw outputs and ensuring they make sense in the context of the problem.</p>
-<p>Prediction vs.&nbsp;Target: The core of validation is comparing the model’s output (raw logits or predicted values) against the ground truth. This is handled within the on_test_epoch_end hook, where raw predictions are aggregated.</p>
+<section id="evaluating-deep-learning-predictions" class="level2">
+<h2 class="anchored" data-anchor-id="evaluating-deep-learning-predictions">Evaluating Deep Learning Predictions</h2>
+<p>Evaluation goes beyond just logging the final loss. It requires inspecting the raw outputs and ensuring they make sense in the context of the problem.</p>
+<p>Prediction vs.&nbsp;Target: The core of evaluation is comparing the model’s output (raw logits or predicted values) against the ground truth. This is handled within the on_test_epoch_end hook, where raw predictions are aggregated.</p>
 <p>Post-processing: For classification, raw logits must be converted to class indices (e.g., using np.argmax(all_pred, axis=1)) before calculating metrics like accuracy or confusion matrices.</p>
 <section id="key-evaluation-metrics" class="level3">
 <h3 class="anchored" data-anchor-id="key-evaluation-metrics">Key Evaluation Metrics</h3>
@@ -287,7 +287,7 @@ window.Quarto = {
 <section id="how-to-use-the-pre-trained-model" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-use-the-pre-trained-model">How to use the pre-trained model</h2>
 <p>Step 1: We first define the predict step in <code>pl.LightningModule</code> to output the predictions</p>
-<div id="c56f512d" class="cell" data-execution_count="1">
+<div id="7800dce1" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Prediction / Inference In ---</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_step(<span class="va">self</span>, batch, batch_idx, dataloader_idx<span class="op">=</span><span class="dv">0</span>):</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
@@ -313,7 +313,7 @@ window.Quarto = {
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"gt"</span>: target.detach().cpu()</span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="df2ff496" class="cell" data-execution_count="2">
+<div id="71158b6b" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ... same as training for configs loading, datamodule, modelmodule, trainer initialize</span></span>
