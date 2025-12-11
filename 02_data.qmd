@@ -656,14 +656,14 @@ ggplot(labels_df, aes(x = split, fill = dom_sp_type)) +
   )
 
 # View biomass variation by split
-# labels_df %>%
-#     ggplot(aes(x = split, y = total_agb_mg_ha, fill = split)) +
-#     geom_boxplot() + 
-#     theme_minimal() + 
-#     ylab("Total AGB (Mg/ha)") + 
-#     theme(
-#         panel.grid = element_blank(),  
-#     )
+labels_df %>%
+    ggplot(aes(x = split, y = total_agb_mg_ha, fill = split)) +
+    geom_boxplot() + 
+    theme_minimal() + 
+    ylab("Total AGB (Mg/ha)") + 
+    theme(
+        panel.grid = element_blank(),  
+    )
 
 
 head(labels_df)
