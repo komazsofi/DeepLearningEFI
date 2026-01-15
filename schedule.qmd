@@ -5,7 +5,7 @@ format:
     toc: True
 ---
 ## Agenda
-| Time | Topic | Materials |
+| Time (PST) | Topic | Materials |
 |---|---|---|
 | 09:00–09:10 | Welcome & Introductions | [Home](index.qmd) |
 | 09:10–09:40 | Introduction to Deep Learning | [1-Intro](01_intro.qmd) |

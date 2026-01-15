@@ -11,3 +11,54 @@ format:
 ## Tree Species Composition
 
 ## Individual Tree Species
+*Based on the publication <a href=https://doi.org/10.1016/j.jag.2025.104877 target=”_blank”>Individual tree species prediction using airborne laser scanning data and derived point-cloud metrics within a dual-stream deep learning approach</a> by Murray et al (2025).*
+
+### Why Tree Species Mapping Matters
+Knowing which tree species are present, and where they are located, is essential for modern forest inventories. Species information supports decisions related to timber supply, carbon estimation, habitat assessment, and forest management. Traditional inventories often rely on manual interpretation and report species information at the stand level, which limits detail and scalability. 
+
+Deep learning methods offer powerful tools for mapping tree species, but they typically require large, well-labelled datasets for training. Field-based datasets are expensive and time-consuming to collect and typically do not cover the entire forested area. As a result, they often do not provide enough labelled examples to fully support deep learning approaches on their own. This creates a major challenge for applying deep learning to tree species classification at operational scales.
+
+Advances in ALS data, combined with automated data generation methods, provide an opportunity to overcome this limitation by producing large, labelled datasets across extensive forested areas.
+
+### Data Used
+This study used ALS data collected over the Romeo Malette Forest (RMF) in Ontario. Existing forest inventory maps and field plot data were also used to provide the tree species information needed for model training.
+
+<video
+  src="images/treespecies/pointcloud.mp4"
+  autoplay
+  loop
+  muted
+  playsinline
+  style="
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    margin: auto;
+  "
+></video>
+
+
+### Automated Tree-Level Dataset Creation
+An automated workflow was used to detect and segment individual trees directly from the ALS data. Tree species labels were then assigned using existing field measurements and supplemented with inventory information from pure stands, without manual tree delineation or hand-labelling. This approach produced a large dataset of individual tree point clouds, enabling the use of deep learning while avoiding a major bottleneck common in many tree-level studies.
+
+### Combining Two Types of ALS Information
+The core idea of this work was to combine two complementary sources of information. First, the raw 3D point clouds capture the detailed shape and structure of individual trees. Second, simple summary metrics describe overall tree characteristics such as height distribution, crown size, and return intensity. Each data type provides different but useful information for distinguishing tree species.
+
+### Deep Learning Approach
+A dual-stream deep learning model was developed. One part of the model learns directly from the raw 3D point clouds, while the second part learns from the summary metrics. The outputs from both streams are combined to make a final tree species prediction. This design allows the model to use both detailed structural patterns and broader summary information in a single framework.
+
+![Dual-Stream Model (adapted from Murray et al (2025))](images/treespecies/dualstream_model.png){#fig-dual-stream fig-align="center" width=60%}
+
+### Results
+Combining point clouds with summary metrics improve tree species classification compared to using point clouds alone. The dual-stream approach produces more accurate predictions and more reliable confidence estimates across species. The largest gains were observed when both types of ALS information were used together, highlighting the value of this fusion in tree-level classification.
+
+### Why This Matters for Forest Inventories
+This approach reduces the need for manual interpretation and enables tree-level species mapping over large forested areas. By using data that are already commonly collected for forest inventories, the method is well suited for operational use. It demonstrates how deep learning can be used for enhanced forest inventories by adding detailed species information in a scalable and automated way.
+
+### Key Take-Home Messages
+-	ALS can support individual tree species mapping at large scales using deep learning
+-	Automated workflows are critical for making deep learning practical in forestry
+-	Combining raw 3D data with simple summary metrics improves prediction performance
+-	Dual-stream deep learning provides a simple and effective way to combine different types of ALS based forest information.

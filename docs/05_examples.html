@@ -138,7 +138,17 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#how-is-deep-learning-going-to-change-efi-workflows" id="toc-how-is-deep-learning-going-to-change-efi-workflows" class="nav-link active" data-scroll-target="#how-is-deep-learning-going-to-change-efi-workflows">How is Deep Learning Going to Change EFI Workflows</a></li>
   <li><a href="#biomass-component-regression" id="toc-biomass-component-regression" class="nav-link" data-scroll-target="#biomass-component-regression">Biomass Component Regression</a></li>
   <li><a href="#tree-species-composition" id="toc-tree-species-composition" class="nav-link" data-scroll-target="#tree-species-composition">Tree Species Composition</a></li>
-  <li><a href="#individual-tree-species" id="toc-individual-tree-species" class="nav-link" data-scroll-target="#individual-tree-species">Individual Tree Species</a></li>
+  <li><a href="#individual-tree-species" id="toc-individual-tree-species" class="nav-link" data-scroll-target="#individual-tree-species">Individual Tree Species</a>
+  <ul class="collapse">
+  <li><a href="#why-tree-species-mapping-matters" id="toc-why-tree-species-mapping-matters" class="nav-link" data-scroll-target="#why-tree-species-mapping-matters">Why Tree Species Mapping Matters</a></li>
+  <li><a href="#data-used" id="toc-data-used" class="nav-link" data-scroll-target="#data-used">Data Used</a></li>
+  <li><a href="#automated-tree-level-dataset-creation" id="toc-automated-tree-level-dataset-creation" class="nav-link" data-scroll-target="#automated-tree-level-dataset-creation">Automated Tree-Level Dataset Creation</a></li>
+  <li><a href="#combining-two-types-of-als-information" id="toc-combining-two-types-of-als-information" class="nav-link" data-scroll-target="#combining-two-types-of-als-information">Combining Two Types of ALS Information</a></li>
+  <li><a href="#deep-learning-approach" id="toc-deep-learning-approach" class="nav-link" data-scroll-target="#deep-learning-approach">Deep Learning Approach</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#why-this-matters-for-forest-inventories" id="toc-why-this-matters-for-forest-inventories" class="nav-link" data-scroll-target="#why-this-matters-for-forest-inventories">Why This Matters for Forest Inventories</a></li>
+  <li><a href="#key-take-home-messages" id="toc-key-take-home-messages" class="nav-link" data-scroll-target="#key-take-home-messages">Key Take-Home Messages</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/Brent-Murray/DeepLearningEFI/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -175,8 +185,67 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="individual-tree-species" class="level2">
 <h2 class="anchored" data-anchor-id="individual-tree-species">Individual Tree Species</h2>
+<p><em>Based on the publication <a href="https://doi.org/10.1016/j.jag.2025.104877" target="”_blank”">Individual tree species prediction using airborne laser scanning data and derived point-cloud metrics within a dual-stream deep learning approach</a> by Murray et al (2025).</em></p>
+<section id="why-tree-species-mapping-matters" class="level3">
+<h3 class="anchored" data-anchor-id="why-tree-species-mapping-matters">Why Tree Species Mapping Matters</h3>
+<p>Knowing which tree species are present, and where they are located, is essential for modern forest inventories. Species information supports decisions related to timber supply, carbon estimation, habitat assessment, and forest management. Traditional inventories often rely on manual interpretation and report species information at the stand level, which limits detail and scalability.</p>
+<p>Deep learning methods offer powerful tools for mapping tree species, but they typically require large, well-labelled datasets for training. Field-based datasets are expensive and time-consuming to collect and typically do not cover the entire forested area. As a result, they often do not provide enough labelled examples to fully support deep learning approaches on their own. This creates a major challenge for applying deep learning to tree species classification at operational scales.</p>
+<p>Advances in ALS data, combined with automated data generation methods, provide an opportunity to overcome this limitation by producing large, labelled datasets across extensive forested areas.</p>
+</section>
+<section id="data-used" class="level3">
+<h3 class="anchored" data-anchor-id="data-used">Data Used</h3>
+<p>This study used ALS data collected over the Romeo Malette Forest (RMF) in Ontario. Existing forest inventory maps and field plot data were also used to provide the tree species information needed for model training.</p>
+<video src="images/treespecies/pointcloud.mp4" autoplay="" loop="" muted="" playsinline="" style="
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    margin: auto;
+  ">
+</video>
+</section>
+<section id="automated-tree-level-dataset-creation" class="level3">
+<h3 class="anchored" data-anchor-id="automated-tree-level-dataset-creation">Automated Tree-Level Dataset Creation</h3>
+<p>An automated workflow was used to detect and segment individual trees directly from the ALS data. Tree species labels were then assigned using existing field measurements and supplemented with inventory information from pure stands, without manual tree delineation or hand-labelling. This approach produced a large dataset of individual tree point clouds, enabling the use of deep learning while avoiding a major bottleneck common in many tree-level studies.</p>
+</section>
+<section id="combining-two-types-of-als-information" class="level3">
+<h3 class="anchored" data-anchor-id="combining-two-types-of-als-information">Combining Two Types of ALS Information</h3>
+<p>The core idea of this work was to combine two complementary sources of information. First, the raw 3D point clouds capture the detailed shape and structure of individual trees. Second, simple summary metrics describe overall tree characteristics such as height distribution, crown size, and return intensity. Each data type provides different but useful information for distinguishing tree species.</p>
+</section>
+<section id="deep-learning-approach" class="level3">
+<h3 class="anchored" data-anchor-id="deep-learning-approach">Deep Learning Approach</h3>
+<p>A dual-stream deep learning model was developed. One part of the model learns directly from the raw 3D point clouds, while the second part learns from the summary metrics. The outputs from both streams are combined to make a final tree species prediction. This design allows the model to use both detailed structural patterns and broader summary information in a single framework.</p>
+<div id="fig-dual-stream" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dual-stream-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/treespecies/dualstream_model.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dual-stream-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Dual-Stream Model (adapted from Murray et al (2025))
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="results" class="level3">
+<h3 class="anchored" data-anchor-id="results">Results</h3>
+<p>Combining point clouds with summary metrics improve tree species classification compared to using point clouds alone. The dual-stream approach produces more accurate predictions and more reliable confidence estimates across species. The largest gains were observed when both types of ALS information were used together, highlighting the value of this fusion in tree-level classification.</p>
+</section>
+<section id="why-this-matters-for-forest-inventories" class="level3">
+<h3 class="anchored" data-anchor-id="why-this-matters-for-forest-inventories">Why This Matters for Forest Inventories</h3>
+<p>This approach reduces the need for manual interpretation and enables tree-level species mapping over large forested areas. By using data that are already commonly collected for forest inventories, the method is well suited for operational use. It demonstrates how deep learning can be used for enhanced forest inventories by adding detailed species information in a scalable and automated way.</p>
+</section>
+<section id="key-take-home-messages" class="level3">
+<h3 class="anchored" data-anchor-id="key-take-home-messages">Key Take-Home Messages</h3>
+<ul>
+<li>ALS can support individual tree species mapping at large scales using deep learning</li>
+<li>Automated workflows are critical for making deep learning practical in forestry</li>
+<li>Combining raw 3D data with simple summary metrics improves prediction performance</li>
+<li>Dual-stream deep learning provides a simple and effective way to combine different types of ALS based forest information.</li>
+</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
