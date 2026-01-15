@@ -40,4 +40,4 @@ This workshop covers a basic end-to-end deep learning workflow for EFI applicati
 | <a href="https://www.researchgate.net/profile/Brent-Murray-4" target="_blank">Brent A. Murray</a> | Integrated Remote Sensing Studio. University of British Columbia |
 | <a href="https://www.researchgate.net/profile/Harry-Seely" target="_blank">Harry Seely</a> | Integrated Remote Sensing Studio. University of British Columbia |
 | <a href="https://www.researchgate.net/profile/Yuwei-Cao-2?ev=hdr_xprf" target="_blank">Yuwei Cao</a> | Integrated Remote Sensing Studio. University of British Columbia |
-| <a href="https://www.researchgate.net/profile/Ahmed-Ragab-17" target="_blank">Ahmed Ragab</a> | CanmetENERGY. Natural Resrouces Canada. / Department of Mathematics and Industrial Engineering. Polytechnique Montreal |
+| <a href="https://www.researchgate.net/profile/Ahmed-Ragab-17" target="_blank">Ahmed Ragab</a> | CanmetENERGY. Natural Resrouces Canada;<br>Department of Mathematics and Industrial Engineering. Polytechnique Montreal |
