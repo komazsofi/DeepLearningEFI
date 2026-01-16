@@ -7,6 +7,17 @@ format:
 ## Relevant Resources
 <a href="https://www.deeplearningbook.org/" target="_blank">The Deep Learning Book</a>
 
+## Overview
+This section provides a foundational introduction to deep learning with a focus on applications for enhanced forest inventories. It introduces core concepts behind neural networks, explains how models learn through the prediction-feedback loop, and outlines common deep learning tasks such as classification, regression and segmentation. This section also contrasts image-based and point-based deep learning approaches, establishes key terminology used throughout the workflow, and highlights practical challenges encountered when applying deep learning to real-world forestry data.
+
+By the end of this section our hope is that you will be able to:
+1)	Explain how deep learning relates to artificial intelligence and machine learning
+2)	Describe the structure and components of a deep neural network
+3)	Understand how models learn through loss functions, gradients and iterative training
+4)	Compare image-based and point-based deep learning approaches
+5)	Familiarize yourself with core deep learning terminology correctly (e.g., parameters, hyperparameters, batches, epochs)
+6)	Recognize common challenges when applying deep learning to forestry and remote sensing data
+
 ## What is Deep Learning?
 Deep learning is a branch of machine learning, and both are forms of artificial intelligence (AI). **AI** refers to methods that enable machines to mimic human behavior. **Machine learning** is a subset of AI that uses statistical techniques to allow machines to improve their performance through experience, while **deep learning** is a subset of machine learning that enables the computation of multi-layered neural networks. A neural network is a term that is used interchangeably with deep learning and we will use them both throughout this workshop.
 
