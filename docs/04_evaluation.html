@@ -272,85 +272,118 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="examples-of-evaluation-metrics-and-plotting-figures">Examples of Evaluation Metrics and Plotting Figures</h2>
 <p>Visualizing the results is often more informative than numerical logs alone.</p>
 <p>Qualitative Visualization: For point cloud applications, visualize the point cloud data colored by the model’s predicted label versus the true label to identify spatial regions where the model struggles.</p>
-<div id="0661cf51" class="cell" data-execution_count="1">
+<div id="dc6fd748" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># helper functions</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> visualize_side_by_side(plot_id, pc_dir):</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    row <span class="op">=</span> df[df.plot_id <span class="op">==</span> plot_id].iloc[<span class="dv">0</span>]</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    gt <span class="op">=</span> row.dom_sp_type</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    pred <span class="op">=</span> row.pred_dom_sp_type</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    xyz <span class="op">=</span> np.load(pc_dir <span class="op">/</span> <span class="ss">f"</span><span class="sc">{</span>plot_id<span class="sc">}</span><span class="ss">.npy"</span>)[:, :<span class="dv">3</span>]</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyvista <span class="im">as</span> pv</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> visualize_z_grid(correct_df, wrong_df, pc_dir, save_path<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> pyvista <span class="im">as</span> pv</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    cloud <span class="op">=</span> pv.PolyData(xyz)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    CLASS_MAP <span class="op">=</span> {<span class="dv">0</span>: <span class="st">"conif"</span>, <span class="dv">1</span>: <span class="st">"decid"</span>, <span class="dv">2</span>: <span class="st">"mixed"</span>}</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    plotter <span class="op">=</span> pv.Plotter(shape<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">2</span>), notebook<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># GT view (blue)</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    plotter.subplot(<span class="dv">0</span>, <span class="dv">0</span>)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    plotter.add_points(cloud, color<span class="op">=</span><span class="st">"blue"</span>, point_size<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    plotter.add_title(<span class="ss">f"GT = </span><span class="sc">{</span>gt<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Prediction view (orange)</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    plotter.subplot(<span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    plotter.add_points(cloud, color<span class="op">=</span><span class="st">"orange"</span>, point_size<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    plotter.add_title(<span class="ss">f"Pred = </span><span class="sc">{</span>pred<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> plotter.show()</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    plotter <span class="op">=</span> pv.Plotter(shape<span class="op">=</span>(<span class="dv">2</span>,<span class="dv">4</span>), window_size<span class="op">=</span>(<span class="dv">1800</span>,<span class="dv">1360</span>))</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    plotter.link_views()</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    plotter.enable_eye_dome_lighting()</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    rows <span class="op">=</span> [(<span class="st">"CORRECT"</span>, correct_df), (<span class="st">"WRONG"</span>, wrong_df)]</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> row_idx, (_, row_df) <span class="kw">in</span> <span class="bu">enumerate</span>(rows):</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> col_idx, (_, r) <span class="kw">in</span> <span class="bu">enumerate</span>(row_df.iterrows()):</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>            plotter.subplot(row_idx, col_idx)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>            pid <span class="op">=</span> r.plot_id</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> pid <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span>  <span class="co"># empty subplot</span></span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sample_cases(df, n<span class="op">=</span><span class="dv">5</span>, seed<span class="op">=</span><span class="dv">42</span>):</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    random.seed(seed)</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    correct_df <span class="op">=</span> df[df.correct]</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    wrong_df <span class="op">=</span> df[<span class="op">~</span>df.correct]</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>            gt <span class="op">=</span> CLASS_MAP[<span class="bu">int</span>(r.dom_sp_type)]</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>            pred <span class="op">=</span> CLASS_MAP[<span class="bu">int</span>(r.pred_dom_sp_type)]</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>            pts <span class="op">=</span> np.load(pc_dir <span class="op">/</span> <span class="ss">f"</span><span class="sc">{</span>pid<span class="sc">}</span><span class="ss">.npy"</span>)[:, :<span class="dv">3</span>]</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>            cloud <span class="op">=</span> pv.PolyData(pts)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>            cloud[<span class="st">"Z"</span>] <span class="op">=</span> pts[:, <span class="dv">2</span>]</span>
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    n_correct <span class="op">=</span> <span class="bu">min</span>(n, <span class="bu">len</span>(correct_df))</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    n_wrong <span class="op">=</span> <span class="bu">min</span>(n, <span class="bu">len</span>(wrong_df))</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    sample_correct <span class="op">=</span> correct_df.sample(n_correct, random_state<span class="op">=</span>seed)</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    sample_wrong <span class="op">=</span> wrong_df.sample(n_wrong, random_state<span class="op">=</span>seed)</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sample_correct, sample_wrong</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>            plotter.add_points(</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>                cloud,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>                scalars<span class="op">=</span><span class="st">"Z"</span>,</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>                cmap<span class="op">=</span><span class="st">"viridis"</span>,</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>                point_size<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>                render_points_as_spheres<span class="op">=</span><span class="va">True</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>            )</span>
 <span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> visualize_samples(sample_df, pc_dir, title_prefix<span class="op">=</span><span class="st">""</span>):</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _, row <span class="kw">in</span> sample_df.iterrows():</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>        pid <span class="op">=</span> row.plot_id</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>title_prefix<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>pid<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>        visualize_side_by_side(pid, pc_dir)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>            plotter.add_text(</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>                <span class="ss">f"</span><span class="sc">{</span>pid<span class="sc">}</span><span class="ch">\n</span><span class="ss">GT:</span><span class="sc">{</span>gt<span class="sc">}</span><span class="ss"> | Pred:</span><span class="sc">{</span>pred<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>                position<span class="op">=</span>(<span class="fl">0.02</span>,<span class="fl">0.9</span>),</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>                viewport<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>                font_size<span class="op">=</span><span class="dv">11</span>,</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>                color<span class="op">=</span><span class="st">"black"</span>,</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>                shadow<span class="op">=</span><span class="va">False</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> save_path:</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>        plotter.show(screenshot<span class="op">=</span>save_path)</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>        plotter.show()</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sample_grid(df, n_per_row<span class="op">=</span><span class="dv">3</span>, seed<span class="op">=</span><span class="dv">42</span>):</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.copy()</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"correct"</span>] <span class="op">=</span> df.dom_sp_type <span class="op">==</span> df.pred_dom_sp_type</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>    correct <span class="op">=</span> df[df.correct].sample(</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>        <span class="bu">min</span>(n_per_row, <span class="bu">len</span>(df[df.correct])),</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>        random_state<span class="op">=</span>seed</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>    wrong <span class="op">=</span> df[<span class="op">~</span>df.correct].sample(</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>        <span class="bu">min</span>(n_per_row, <span class="bu">len</span>(df[<span class="op">~</span>df.correct])),</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>        random_state<span class="op">=</span>seed</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> correct, wrong</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="55c609e7" class="cell" data-execution_count="2">
+<div id="8af4e301" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyvista <span class="im">as</span> pv</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Load predictions</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"src\pretrained_ckpt\peta_cls_dgcnn_bs8_lre3\checkpoints\predictions.csv"</span>)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Folder with point clouds</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>pc_dir <span class="op">=</span> Path(<span class="st">"src\data\petawawa\plot_point_clouds"</span>)  <span class="co"># contains prf003.npy, etc</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>CLASS_MAP <span class="op">=</span> {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span>: <span class="st">"conif"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>: <span class="st">"decid"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span>: <span class="st">"mixed"</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"correct"</span>] <span class="op">=</span> df.dom_sp_type <span class="op">==</span> df.pred_dom_sp_type</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Load predictions</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"src\pretrained_ckpt\peta_cls_dgcnn_bs8_lre3\checkpoints\predictions.csv"</span>)</span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Correct:"</span>, df.correct.<span class="bu">sum</span>())</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Incorrect:"</span>, (<span class="op">~</span>df.correct).<span class="bu">sum</span>())</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Folder with point clouds</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>pc_dir <span class="op">=</span> Path(<span class="st">"src\data\petawawa\plot_point_clouds"</span>)  <span class="co"># contains prf003.npy, etc</span></span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>sample_correct, sample_wrong <span class="op">=</span> sample_cases(df, n<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"correct"</span>] <span class="op">=</span> df.dom_sp_type <span class="op">==</span> df.pred_dom_sp_type</span>
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"===== RANDOM CORRECT SAMPLES ====="</span>)</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>visualize_samples(sample_correct, pc_dir, <span class="st">"CORRECT"</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Correct:"</span>, df.correct.<span class="bu">sum</span>())</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Incorrect:"</span>, (<span class="op">~</span>df.correct).<span class="bu">sum</span>())</span>
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"===== RANDOM INCORRECT SAMPLES ====="</span>)</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>visualize_samples(sample_wrong, pc_dir, <span class="st">"WRONG"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>correct_df, wrong_df <span class="op">=</span> sample_grid(df, n_per_row<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>visualize_z_grid(correct_df, wrong_df, pc_dir, save_path<span class="op">=</span><span class="st">"images/04_eval/cls_output.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Result:</p>
-<p><img src="images/04_eval/output_correct.png" class="img-fluid" alt="correct"> <img src="images/04_eval/output_incorrect.png" class="img-fluid" alt="incorrect"></p>
+<ul>
+<li>Correct: 33</li>
+<li>Incorrect: 4</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/04_eval/cls_output.png" class="img-fluid figure-img"></p>
+<figcaption>correct</figcaption>
+</figure>
+</div>
 <section id="biomass" class="level3">
 <h3 class="anchored" data-anchor-id="biomass">BIOMASS</h3>
 </section>
@@ -362,8 +395,7 @@ window.Quarto = {
 <section id="how-to-use-the-pre-trained-model" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-use-the-pre-trained-model">How to use the pre-trained model</h2>
 <p>Step 1: We first define the predict step in <code>pl.LightningModule</code> to output the predictions</p>
-<<<<<<< HEAD
-<div id="dfc78669" class="cell" data-execution_count="3">
+<div id="dc1280fa" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Prediction / Inference In ---</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_step(<span class="va">self</span>, batch, batch_idx, dataloader_idx<span class="op">=</span><span class="dv">0</span>):</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
@@ -389,36 +421,7 @@ window.Quarto = {
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"gt"</span>: target.detach().cpu()</span>
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="a63a2418" class="cell" data-execution_count="4">
-=======
-<div id="d014b6fb" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Prediction / Inference In ---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_step(<span class="va">self</span>, batch, batch_idx, dataloader_idx<span class="op">=</span><span class="dv">0</span>):</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Used for generating raw output/predictions on unseen data.</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Does not calculate loss or metrics.</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Runs when trainer.predict() is called.</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    points, target, pid <span class="op">=</span> batch </span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Transpose [B, N, C] -&gt; [B, C, N] and enforce float32</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    points <span class="op">=</span> points.transpose(<span class="dv">2</span>, <span class="dv">1</span>).<span class="bu">float</span>() </span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Forward Pass</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Assuming self(points) returns (pred, trans_feat), we only return the prediction (pred)</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    pred, _ <span class="op">=</span> <span class="va">self</span>(points)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="va">self</span>.task <span class="op">==</span> <span class="st">'classification'</span>:</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> torch.argmax(pred, dim<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Return only the raw prediction tensor for the user</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"plot_id"</span>: pid,</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pred"</span>: pred.detach().cpu(),</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"gt"</span>: target.detach().cpu()</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div id="51978e80" class="cell" data-execution_count="2">
->>>>>>> 4440929917c5985aef7cced2c539101e1b14a2ba
+<div id="c88685ac" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ... same as training for configs loading, datamodule, modelmodule, trainer initialize</span></span>
