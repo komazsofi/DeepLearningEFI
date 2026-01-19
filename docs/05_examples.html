@@ -82,7 +82,11 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
+<<<<<<< HEAD
       if (mathElements[i].tagName == "SPAN") {
+=======
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+>>>>>>> 4440929917c5985aef7cced2c539101e1b14a2ba
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
