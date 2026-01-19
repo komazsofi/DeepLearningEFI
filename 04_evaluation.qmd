@@ -59,6 +59,90 @@ Visualizing the results is often more informative than numerical logs alone.
 
 Qualitative Visualization: For point cloud applications, visualize the point cloud data colored by the model's predicted label versus the true label to identify spatial regions where the model struggles.
 
+
+```{python}
+#| code-fold: true
+# helper functions
+def visualize_side_by_side(plot_id, pc_dir):
+    row = df[df.plot_id == plot_id].iloc[0]
+    gt = row.dom_sp_type
+    pred = row.pred_dom_sp_type
+
+    xyz = np.load(pc_dir / f"{plot_id}.npy")[:, :3]
+
+    cloud = pv.PolyData(xyz)
+
+    plotter = pv.Plotter(shape=(1, 2), notebook=True)
+
+    # GT view (blue)
+    plotter.subplot(0, 0)
+    plotter.add_points(cloud, color="blue", point_size=3)
+    plotter.add_title(f"GT = {gt}")
+
+    # Prediction view (orange)
+    plotter.subplot(0, 1)
+    plotter.add_points(cloud, color="orange", point_size=3)
+    plotter.add_title(f"Pred = {pred}")
+
+    return plotter.show()
+
+
+def sample_cases(df, n=5, seed=42):
+    random.seed(seed)
+
+    correct_df = df[df.correct]
+    wrong_df = df[~df.correct]
+
+    n_correct = min(n, len(correct_df))
+    n_wrong = min(n, len(wrong_df))
+
+    sample_correct = correct_df.sample(n_correct, random_state=seed)
+    sample_wrong = wrong_df.sample(n_wrong, random_state=seed)
+
+    return sample_correct, sample_wrong
+
+
+def visualize_samples(sample_df, pc_dir, title_prefix=""):
+    for _, row in sample_df.iterrows():
+        pid = row.plot_id
+        print(f"{title_prefix} {pid}")
+        visualize_side_by_side(pid, pc_dir)
+
+```
+
+```{python}
+import pandas as pd
+import numpy as np
+import pyvista as pv
+from pathlib import Path
+import random
+
+# Load predictions
+df = pd.read_csv("src\pretrained_ckpt\peta_cls_dgcnn_bs8_lre3\checkpoints\predictions.csv")
+
+# Folder with point clouds
+pc_dir = Path("src\data\petawawa\plot_point_clouds")  # contains prf003.npy, etc
+
+
+df["correct"] = df.dom_sp_type == df.pred_dom_sp_type
+
+print("Correct:", df.correct.sum())
+print("Incorrect:", (~df.correct).sum())
+
+sample_correct, sample_wrong = sample_cases(df, n=4)
+
+print("===== RANDOM CORRECT SAMPLES =====")
+visualize_samples(sample_correct, pc_dir, "CORRECT")
+
+print("===== RANDOM INCORRECT SAMPLES =====")
+visualize_samples(sample_wrong, pc_dir, "WRONG")
+```
+
+Result:
+
+![correct](images/04_eval/output_correct.png)
+![incorrect](images/04_eval/output_incorrect.png)
+
 ### BIOMASS
 
 ### Classification
