@@ -59,6 +59,116 @@ Visualizing the results is often more informative than numerical logs alone.
 
 Qualitative Visualization: For point cloud applications, visualize the point cloud data colored by the model's predicted label versus the true label to identify spatial regions where the model struggles.
 
+
+```{python}
+#| code-fold: true
+# helper functions
+import pyvista as pv
+import numpy as np
+
+def visualize_z_grid(correct_df, wrong_df, pc_dir, save_path=None):
+    import pyvista as pv
+    import numpy as np
+
+    CLASS_MAP = {0: "conif", 1: "decid", 2: "mixed"}
+
+    plotter = pv.Plotter(shape=(2,4), window_size=(1800,1360))
+    plotter.link_views()
+    plotter.enable_eye_dome_lighting()
+
+    rows = [("CORRECT", correct_df), ("WRONG", wrong_df)]
+
+    for row_idx, (_, row_df) in enumerate(rows):
+        for col_idx, (_, r) in enumerate(row_df.iterrows()):
+            plotter.subplot(row_idx, col_idx)
+
+            pid = r.plot_id
+            if pid is None:
+                continue  # empty subplot
+
+            gt = CLASS_MAP[int(r.dom_sp_type)]
+            pred = CLASS_MAP[int(r.pred_dom_sp_type)]
+
+            pts = np.load(pc_dir / f"{pid}.npy")[:, :3]
+            cloud = pv.PolyData(pts)
+            cloud["Z"] = pts[:, 2]
+
+            plotter.add_points(
+                cloud,
+                scalars="Z",
+                cmap="viridis",
+                point_size=3,
+                render_points_as_spheres=True
+            )
+
+            plotter.add_text(
+                f"{pid}\nGT:{gt} | Pred:{pred}",
+                position=(0.02,0.9),
+                viewport=True,
+                font_size=11,
+                color="black",
+                shadow=False
+            )
+
+    if save_path:
+        plotter.show(screenshot=save_path)
+    else:
+        plotter.show()
+
+
+def sample_grid(df, n_per_row=3, seed=42):
+    df = df.copy()
+    df["correct"] = df.dom_sp_type == df.pred_dom_sp_type
+
+    correct = df[df.correct].sample(
+        min(n_per_row, len(df[df.correct])),
+        random_state=seed
+    )
+    wrong = df[~df.correct].sample(
+        min(n_per_row, len(df[~df.correct])),
+        random_state=seed
+    )
+
+    return correct, wrong
+
+```
+
+```{python}
+import pandas as pd
+import numpy as np
+import pyvista as pv
+from pathlib import Path
+import random
+
+CLASS_MAP = {
+    0: "conif",
+    1: "decid",
+    2: "mixed"
+}
+
+# Load predictions
+df = pd.read_csv("src\pretrained_ckpt\peta_cls_dgcnn_bs8_lre3\checkpoints\predictions.csv")
+
+# Folder with point clouds
+pc_dir = Path("src\data\petawawa\plot_point_clouds")  # contains prf003.npy, etc
+
+df["correct"] = df.dom_sp_type == df.pred_dom_sp_type
+
+print("Correct:", df.correct.sum())
+print("Incorrect:", (~df.correct).sum())
+
+correct_df, wrong_df = sample_grid(df, n_per_row=4)
+
+visualize_z_grid(correct_df, wrong_df, pc_dir, save_path="images/04_eval/cls_output.png")
+```
+
+Result:
+
+- Correct: 33
+- Incorrect: 4
+
+![correct](images/04_eval/cls_output.png)
+
 ### BIOMASS
 
 ### Classification
