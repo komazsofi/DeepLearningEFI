@@ -828,15 +828,20 @@ convert_to_z_score <- function(vector){
 
 labels_df$total_agb_z <- convert_to_z_score(labels_df$total_agb_mg_ha)
 
-labels_df %>%
+fig <- labels_df %>%
   ggplot(aes(x = total_agb_z)) + 
   geom_histogram() + 
   theme_minimal() +
   xlab("Z-Scored Total AGB") + 
   ylab("N Plots")
 
+ggsave(filename = here('images/total_agb_z_histogram.jpg'),
+       plot = fig)
+
+
 ```
 
+![](images/total_agb_z_histogram.jpg)
 
 # 7) Export preprocessed data
 
