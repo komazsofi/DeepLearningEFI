@@ -24,7 +24,7 @@ The RMF situated in northern Ontario within the Timmins District, is part of the
 Aboveground biomass (AGB) is a key element of forest inventories and is necessary for a variety of forest-related decision-making processes, including timber harvesting and wildfire fuel assessment. Forest AGB is often divided into its sub-components — wood, branch, bark, and foliage — to fulfil more specific information needs. For example, quantifying branch, bark and foliage biomass can inform [post-harvest bioenergy applications](https://natural-resources.canada.ca/forest-forestry/forest-industry-trade/forest-bioenergy). 
 
 ### Biomass Dataset
-The RMF (described above) has 244 fixed area ground plots that were sampled in 2019. ALS data were collected across the RMF in 2018 with a density of 40 points/$m^2$. Total and component biomass were calculated for individual trees using allometric equations, which were aggregated to the plot level for use as response variables.
+The RMF (described above) has 244 fixed area ground plots that were sampled in 2019. ALS data were collected across the RMF in 2018 with a density of 40 points/m^2. Total and component biomass were calculated for individual trees using allometric equations, which were aggregated to the plot level for use as response variables.
 
 ### Deep Neural Network Architecture
 We employed the [Octree-CNN architecture](https://github.com/octree-nn/ocnn-pytorch) (hereby OCNN) from [Wang et al. (2017)](https://doi.org/10.48550/arXiv.1712.01537), which has been demonstrated to be effective for modelling forest AGB components in previous research ([Seely et al. 2023](https://doi.org/10.1016/j.srs.2023.100110); [2025](https://doi.org/10.1080/01431161.2025.2492412)). OCNN operates on point cloud data by converted it to an octree format and performing 3D convolutions at various depths (i.e., resolutions).
@@ -55,7 +55,7 @@ When OCNN-F, OCNN-S and RF were trained using increasingly fewer sample plots, t
 ![Effect of number of training samples on Octree-CNN (OCNN) when trained from scratch and when trained using SSL. Random forest](images/seely_etal_2025_effect_of_dataset_size.jpg){#fig-ssl-agb-map fig-align="center" width=100%}
 
 #### Mapped Biomass Product
-We applied OCNN-F across the entire RMF for inference. The results are shown in the map below.
+We applied OCNN-F across the entire RMF for inference. The results are shown in the maps below.
 
 ![Total and component forest aboveground biomass maps of the RMF generated using Octree-CNN and self-supervised learning. Units are tonnes per hectare (Mg/ha).](images/seely_etal_2025_agb_map.jpg){#fig-ssl-agb-map fig-align="center" width=85%}
 
