@@ -166,6 +166,13 @@ window.Quarto = {
   <ul>
   <li><a href="#relevant-resources" id="toc-relevant-resources" class="nav-link active" data-scroll-target="#relevant-resources">Relevant Resources</a></li>
   <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#human-centric-artificial-intelligence-for-enhanced-forest-inventories" id="toc-human-centric-artificial-intelligence-for-enhanced-forest-inventories" class="nav-link" data-scroll-target="#human-centric-artificial-intelligence-for-enhanced-forest-inventories">Human-Centric Artificial Intelligence for Enhanced Forest Inventories</a>
+  <ul class="collapse">
+  <li><a href="#descriptive-modelling-learning-structure-from-data" id="toc-descriptive-modelling-learning-structure-from-data" class="nav-link" data-scroll-target="#descriptive-modelling-learning-structure-from-data">Descriptive Modelling: Learning Structure from Data</a></li>
+  <li><a href="#predictive-modelling-estimating-forest-attributes-at-scale" id="toc-predictive-modelling-estimating-forest-attributes-at-scale" class="nav-link" data-scroll-target="#predictive-modelling-estimating-forest-attributes-at-scale">Predictive Modelling: Estimating Forest Attributes at Scale</a></li>
+  <li><a href="#prescriptive-modelling-from-prediction-to-decisions" id="toc-prescriptive-modelling-from-prediction-to-decisions" class="nav-link" data-scroll-target="#prescriptive-modelling-from-prediction-to-decisions">Prescriptive Modelling: From Prediction to Decisions</a></li>
+  <li><a href="#generative-modelling-exploring-what-if-scenarios" id="toc-generative-modelling-exploring-what-if-scenarios" class="nav-link" data-scroll-target="#generative-modelling-exploring-what-if-scenarios">Generative Modelling: Exploring “What-If” Scenarios</a></li>
+  </ul></li>
   <li><a href="#what-is-deep-learning" id="toc-what-is-deep-learning" class="nav-link" data-scroll-target="#what-is-deep-learning">What is Deep Learning?</a>
   <ul class="collapse">
   <li><a href="#components-of-a-deep-neural-network" id="toc-components-of-a-deep-neural-network" class="nav-link" data-scroll-target="#components-of-a-deep-neural-network">Components of a Deep Neural Network</a></li>
@@ -188,14 +195,7 @@ window.Quarto = {
   <li><a href="#gradient-descent" id="toc-gradient-descent" class="nav-link" data-scroll-target="#gradient-descent">Gradient Descent</a></li>
   <li><a href="#transfer-learning-fine-tuning" id="toc-transfer-learning-fine-tuning" class="nav-link" data-scroll-target="#transfer-learning-fine-tuning">Transfer Learning &amp; Fine-Tuning</a></li>
   </ul></li>
-  <li><a href="#challenges-and-considerations-for-deep-learning-in-forestry-applications" id="toc-challenges-and-considerations-for-deep-learning-in-forestry-applications" class="nav-link" data-scroll-target="#challenges-and-considerations-for-deep-learning-in-forestry-applications">Challenges and Considerations for Deep Learning in Forestry Applications</a>
-  <ul class="collapse">
-  <li><a href="#high-variability-across-sensors-and-sites" id="toc-high-variability-across-sensors-and-sites" class="nav-link" data-scroll-target="#high-variability-across-sensors-and-sites">High Variability Across Sensors and Sites</a></li>
-  <li><a href="#spatial-autocorrelation" id="toc-spatial-autocorrelation" class="nav-link" data-scroll-target="#spatial-autocorrelation">Spatial Autocorrelation</a></li>
-  <li><a href="#imbalanced-ecological-classes" id="toc-imbalanced-ecological-classes" class="nav-link" data-scroll-target="#imbalanced-ecological-classes">Imbalanced Ecological Classes</a></li>
-  <li><a href="#models-developed-on-idealized-or-synthetic-benchmarks" id="toc-models-developed-on-idealized-or-synthetic-benchmarks" class="nav-link" data-scroll-target="#models-developed-on-idealized-or-synthetic-benchmarks">Models Developed on Idealized or Synthetic Benchmarks</a></li>
-  <li><a href="#limited-quantity-of-labeled-datasets" id="toc-limited-quantity-of-labeled-datasets" class="nav-link" data-scroll-target="#limited-quantity-of-labeled-datasets">Limited Quantity of Labeled Datasets</a></li>
-  </ul></li>
+  <li><a href="#challenges-and-considerations-for-deep-learning-in-forestry-applications" id="toc-challenges-and-considerations-for-deep-learning-in-forestry-applications" class="nav-link" data-scroll-target="#challenges-and-considerations-for-deep-learning-in-forestry-applications">Challenges and Considerations for Deep Learning in Forestry Applications</a></li>
   <li><a href="#frequently-asked-questions" id="toc-frequently-asked-questions" class="nav-link" data-scroll-target="#frequently-asked-questions">Frequently Asked Questions</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/Brent-Murray/DeepLearningEFI/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
@@ -228,7 +228,7 @@ window.Quarto = {
 </section>
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>This section provides a foundational introduction to deep learning with a focus on applications for enhanced forest inventories. It introduces core concepts behind neural networks, explains how models learn through the prediction-feedback loop, and outlines common deep learning tasks such as classification, regression and segmentation. This section also contrasts image-based and point-based deep learning approaches, establishes key terminology used throughout the workflow, and highlights practical challenges encountered when applying deep learning to real-world forestry data.</p>
+<p>This section provides a foundational introduction to deep learning with a focus on applications for enhanced forest inventories (EFIs). It introduces core concepts behind neural networks, explains how models learn through the prediction-feedback loop, and outlines common deep learning tasks such as classification, regression and segmentation. This section also contrasts image-based and point-based deep learning approaches, establishes key terminology used throughout the workflow, and highlights practical challenges encountered when applying deep learning to real-world forestry data.</p>
 <p>By the end of this section our hope is that you will be able to:</p>
 <ol type="1">
 <li><p>Explain how deep learning relates to artificial intelligence and machine learning</p></li>
@@ -239,16 +239,112 @@ window.Quarto = {
 <li><p>Recognize common challenges when applying deep learning to forestry and remote sensing data</p></li>
 </ol>
 </section>
+<section id="human-centric-artificial-intelligence-for-enhanced-forest-inventories" class="level2">
+<h2 class="anchored" data-anchor-id="human-centric-artificial-intelligence-for-enhanced-forest-inventories">Human-Centric Artificial Intelligence for Enhanced Forest Inventories</h2>
+<p>EFIs have traditionally relied on field measurements, allometric equations, statistical models, and process-informed assumptions to estimate forest attributes such as biomass, volume, canopy height, species composition, and structural complexity. These approaches remain foundational to forestry. However, the increasing availability of rich remote sensing data, particularly Airborne Laser Scanning (ALS), multispectral imagery, and other spatial products, has significantly expanded what can be measured and modeled.</p>
+<p>Artificial Intelligence (AI), and more specifically deep learning, should not be seen as a replacement for traditional forestry knowledge. Instead, AI provides <strong>human-centric computational modelling capabilities</strong> that complement and extend existing approaches. <strong>Domain expertise remains essential throughout the entire end-to-end workflow</strong>, from data preparation and selection to model evaluation and interpretation. In this sense, deep learning acts as a tool that amplifies human decision-making rather than automating it away.</p>
+<p>While this workshop focuses primarily on classification and regression tasks, it is useful to situate these methods within a broader AI context. At a high level, AI techniques used for EFIs can be grouped into four modelling capabilities: <strong>descriptive, predictive, prescriptive, and generative.</strong> Understanding these capabilities helps clarify the role of deep learning in forest inventories and how it can support forest management and decision-making.</p>
+<table class="caption-top table">
+<caption>Table 1: The 4 Pillars of AI Capability in Forestry</caption>
+<colgroup>
+<col style="width: 6%">
+<col style="width: 43%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Capability</th>
+<th>What the AI Does</th>
+<th>The Indispensable Human Role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Descriptive</strong></td>
+<td>Extracts meaningful patterns and representations from complex data (e.g., raw ALS point clouds.</td>
+<td><em>Contextualizing Structure:</em> defining what “meaningful” structure looks like across Canada’s diverse ecozones.</td>
+</tr>
+<tr class="even">
+<td><strong>Predictive</strong></td>
+<td>Learns non-linear relationships between remote sensing data and attributes like biomass or species.</td>
+<td><em>Data Governance:</em> selecting the response variables and ground-truth plots that reflect real-world variability.</td>
+</tr>
+<tr class="odd">
+<td><strong>Prescriptive</strong></td>
+<td>Simulates scenarios to recommend optimal management paths (harvesting, conservation, or risk mitigation).</td>
+<td><em>Strategic Oversight:</em> ensuring that AI recommendations align with policy, biodiversity goals, and socio-economic needs.</td>
+</tr>
+<tr class="even">
+<td><strong>Generative</strong></td>
+<td>Synthesizes realistic forest data to fill gaps in remote regions or explore “what-if” climate scenarios.</td>
+<td><em>Ecological Validation:</em> verifying that synthetic scenarios are biologically plausible and scientifically sound.</td>
+</tr>
+</tbody>
+</table>
+<section id="descriptive-modelling-learning-structure-from-data" class="level3">
+<h3 class="anchored" data-anchor-id="descriptive-modelling-learning-structure-from-data">Descriptive Modelling: Learning Structure from Data</h3>
+<p>Descriptive modelling focuses on <strong>extracting meaningful patterns and representations from complex data</strong>. For example, ALS point clouds contain detailed 3D information about canopy and understory structure, as well as the terrain. Traditionally, tis information was summarized using handcrafted features such as height percentiles or canopy cover metrics.</p>
+<p>Deep learning enables models to <strong>learn hierarchical feature representations directly from raw or minimally processed data</strong>, capturing subtle patters that are difficult to define manually. In EFIs, this allows for:</p>
+<ul>
+<li>Automatic extraction of structural representations from ALS data that captures both the horizontal and vertical forest complexity</li>
+<li>More consistent feature extraction across regions and forest types</li>
+</ul>
+<p><strong>Human expertise remains critical</strong> in selecting appropriate data sources, interpreting learned features and validating that extracted pattens are meaningful for real-world forestry.</p>
+</section>
+<section id="predictive-modelling-estimating-forest-attributes-at-scale" class="level3">
+<h3 class="anchored" data-anchor-id="predictive-modelling-estimating-forest-attributes-at-scale">Predictive Modelling: Estimating Forest Attributes at Scale</h3>
+<p>Predictive modelling is the most familiar application of AI in forestry. It involves learning relationships between inputs (e.g., ALS-derived features) and outputs (e.g.&nbsp;forest attributes). Deep learning excels in predictive tasks when:</p>
+<ul>
+<li>Relationships are nonlinear and high-dimensional</li>
+<li>Data comes from multiple sources or modalities</li>
+</ul>
+<p>Common predictive EFI applications include classification tasks such as species groups, forest types, or disturbance classes as well as regression tasks such as estimating biomass, volume, or canopy height. Compared to traditional regression or allometric models, deep learning approaches can scale more effectively across regions, adapt to diverse forest conditions, and reduce the need for manual feature engineering.</p>
+<p><strong>Human input remains indispensable</strong> for selecting meaningful response variables, designing appropriate training and validation datasets, and interpreting predictions within a forestry context.</p>
+</section>
+<section id="prescriptive-modelling-from-prediction-to-decisions" class="level3">
+<h3 class="anchored" data-anchor-id="prescriptive-modelling-from-prediction-to-decisions">Prescriptive Modelling: From Prediction to Decisions</h3>
+<p>Prescriptive modelling likes predictions to <strong>actions or decisions</strong>. While this workshop does not implement perspective models directly, understanding their relevance is important. In forestry, prescriptive AI can support:</p>
+<ul>
+<li>Inventory-driven management planning</li>
+<li>Prioritization for harvesting, conservation, or monitoring</li>
+<li>Optimization of sampling strategies and data acquisition</li>
+</ul>
+<p>Accurate predictive models are a <strong>necessary foundation</strong> for prescriptive applications and better EFI predictions lead to better forestry decisions. <strong>Domain expertise ensures that prescriptive recommendations are practical and aligned with forest management objectives.</strong></p>
+</section>
+<section id="generative-modelling-exploring-what-if-scenarios" class="level3">
+<h3 class="anchored" data-anchor-id="generative-modelling-exploring-what-if-scenarios">Generative Modelling: Exploring “What-If” Scenarios</h3>
+<p>Generative modelling focuses on <strong>creating new data or scenarios that are consistent with observed patterns.</strong> In the context of EFIs, this may include:</p>
+<ul>
+<li>Simulating forest structures under different management or disturbance scenarios</li>
+<li>Augmenting training data in regions with limited field measurements</li>
+<li>Exploring uncertainty and variability in forest inventory estimates</li>
+</ul>
+<p>While generative models are outside the scope of this workshop, understanding their role helps place predictive deep learning within the broader AI trajectory for EFIs. <strong>Human expertise is key for designing realistic scenarios and validating their ecological relevance.</strong></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Human expertise is essential at every step</em> from preparing data and defining tasks to interpreting results and making management decisions. Human-centric AI ensures that deep learning tools enhance existing forestry knowledge rather than replace it.</p>
+</div>
+</div>
+</section>
+</section>
 <section id="what-is-deep-learning" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-deep-learning">What is Deep Learning?</h2>
-<p>Deep learning is a branch of machine learning, and both are forms of artificial intelligence (AI). <strong>AI</strong> refers to methods that enable machines to mimic human behavior. <strong>Machine learning</strong> is a subset of AI that uses statistical techniques to allow machines to improve their performance through experience, while <strong>deep learning</strong> is a subset of machine learning that enables the computation of multi-layered neural networks. A neural network is a term that is used interchangeably with deep learning and we will use them both throughout this workshop.</p>
+<p>Deep learning is a branch of machine learning, which in turn is a subset of AI. <strong>AI</strong> refers to methods that enable machines to mimic human behavior. <strong>Machine learning</strong> uses statistical techniques to allow machines to improve their performance through experience. <strong>Deep learning</strong> is a machine learning approach that focuses on the use of neural networks with a large number of hidden layers. The terms neural network and deep learning are used interchangeably, and we will use both throughout this workshop.</p>
 <div id="fig-ai-vendiagram" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ai-vendiagram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="images/aivendiagram.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ai-vendiagram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Different Types of Artificial Intelligence and Common Examples of Each
+Figure&nbsp;1: Hierarchy Types of Artificial Intelligence Methods and Common Examples of Each
 </figcaption>
 </figure>
 </div>
@@ -290,13 +386,13 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>There are many activation functions, and you are encouraged to research which one would be best for your specific use case.</p>
+<p>There are many types of activation functions, and you are encouraged to research which one would be best for your specific use case.</p>
 </div>
 </div>
 </section>
 <section id="the-prediction---feedback-loop" class="level3">
 <h3 class="anchored" data-anchor-id="the-prediction---feedback-loop">The Prediction - Feedback Loop</h3>
-<p>The <strong>prediction-feedback loop</strong> is what makes <strong>learning</strong> possible as a deep learning model doesn’t just memorize the data, it adapts and generalizes to it. This allows a model to fine-tune how it <em>sees</em> the input <strong>data</strong> to improve its performance based on the <strong>goal</strong> and the <strong>task</strong>.</p>
+<p>The <strong>prediction-feedback loop</strong> is what makes <strong>learning</strong> possible as a deep learning model doesn’t just memorize the data, it adapts to the patterns within and generalizes from them. This allows a model to progressively fine-tune how it <em>sees</em> the input <strong>data</strong> to improve its performance with respect to the <strong>goal</strong> and the <strong>task</strong>.</p>
 <div id="fig-feedback-loop" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-feedback-loop-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -307,9 +403,9 @@ Figure&nbsp;4: Prediction-Feedback Loop
 </figcaption>
 </figure>
 </div>
-<p>This prediction–feedback loop is driven by the goal of the <strong>loss function</strong>, which guides the model in adjusting its weights and biases to find the optimal solution. The loss function assesses the difference between the true and predicted <strong>labels</strong>, typically, with the goal to minimize the error between the two. There are different types of loss functions, each providing different feedback to the model. Choosing a loss function depends on the task (e.g., classification, regression), and ensuring that it is appropriate for the problem is a crucial step.</p>
-<p>A key part of this update process involves <strong>gradients</strong>, which measure how much a small change in each weight or bias would affect the loss. Gradients point the model in the direction that most reduces error, allowing the network to adjust its parameters efficiently. During training, these gradients are computed and used to update the weights so that, over time, the model’s predictions become more accurate. Although gradients operate behind the scenes, they are central to how deep learning models learn from the data.</p>
-<p>Over a number of iterations, or <strong>epochs</strong>, the model adjusts its weights and biases based on the feedback received from the loss function. Eventually, the model can no longer improve given the input data, and at this point, the loss begins to stabilize, indicating that the model has reached its optimal performance.</p>
+<p>This prediction–feedback loop is driven by the goal of the <strong>loss function</strong>, which guides the model in adjusting its weights and biases toward an optimal solution. The loss function assesses the difference between the true and predicted <strong>labels</strong>, typically, with the objective of minimizing the error between the two. There are multiple types of loss functions, each providing different forms of feedback to the model. Choosing an appropriate loss function depends on the task (e.g., classification, regression), and is a crucial step in the deep learning model design.</p>
+<p>A key part of this update process involves <strong>gradients</strong>, which measure how sensitive the loss is to small changes in each weight or bias. Gradients point the model in the direction that most reduces error, allowing the network to adjust its parameters efficiently. During training, these gradients are computed and used to iteratively update the weights so that, over time, the model’s predictions become more accurate. Although gradients operate behind the scenes, they are central to how deep learning models learn from the data.</p>
+<p>Over multiple iterations, or <strong>epochs</strong>, the model continually adjusts its weights and biases based on the feedback received from the loss function. Eventually, the model reaches a point where no further improvements are made given the available data, and the loss begins to stabilize, indicating that the model has converged to an optimal or near-optimal solution.</p>
 <div id="fig-epochs" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-epochs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -320,8 +416,8 @@ Figure&nbsp;5: Model Adjusting Over Epochs
 </figcaption>
 </figure>
 </div>
-<p>This iterative adjustment process is called model training and involves a <strong>training</strong> and a separate <strong>validation</strong> dataset. The training dataset is used to teach the model by updating its parameters, while the validation dataset assesses how well the model generalizes to unseen data. Monitoring performance on the validation set helps to detect <strong>overfitting</strong> (when a model learns the training data too closely and fails to perform well on new inputs) ensuring the final model remains both accurate and robust. We can monitor this using <strong>loss curves</strong> as seen in <a href="#fig-epochs" class="quarto-xref">Figure&nbsp;5</a> ensuring that the loss continues to drop for both the training and validation datasets.</p>
-<p>After the prediction-feedback loop (training and validation), a <strong>testing</strong> dataset is used to provide an unbiased evaluation of the model’s final performance. Unlike the validation set, which guides the model tuning during training, the test set is completely withheld until all adjustments are complete. This ensures that the performance metrics reflect how the model will behave on truly unseen data, offering a realistic measure of its generalization ability and reliability for real-world applications.</p>
+<p>This iterative adjustment process is called model training and involves a <strong>training</strong> and a separate <strong>validation</strong> dataset. The training dataset is used to teach the model by updating its parameters, while the validation dataset assesses how well the model generalizes to unseen data. Monitoring performance on the validation set helps to detect <strong>overfitting</strong> (when a model learns the training data too closely and fails to perform well on new inputs), thereby ensuring that the final model remains both accurate and robust. We can monitor this using <strong>loss curves</strong> as seen in <a href="#fig-epochs" class="quarto-xref">Figure&nbsp;5</a>, by verifying that the loss continues to drop for both the training and validation datasets.</p>
+<p>After the prediction-feedback loop (training and validation), a <strong>testing</strong> dataset is used to provide an unbiased evaluation of the model’s final performance. Unlike the validation set, which is used to guide the model tuning during training, the test set is completely withheld until all adjustments are complete. This ensures that the performance metrics accurately reflect how the model will behave on truly unseen data, offering a realistic measure of its generalization ability and reliability for real-world applications.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -332,7 +428,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>It is crucial that these three separate and distinct datasets (training, validation, and testing) are generated for training deep learning models. Mixing or reusing data between these datasets can lead to misleading performance metrics and poor generalization. Proper separation ensures that the model is evaluated fairly at each stage of development and that its reported accuracy truly reflects performance on new, unseen data.</p>
+<p>It is crucial that these three separate and distinct datasets (training, validation, and testing) are properly prepared for training deep learning models. Mixing or reusing data between these datasets can lead to misleading performance metrics and poor generalization. Proper separation ensures that the model is evaluated fairly at each stage of development and that its reported accuracy truly reflects performance on new, unseen data.</p>
 </div>
 </div>
 </section>
@@ -343,10 +439,10 @@ Note
 <p><strong>Classification</strong> assigns each input (an image, pixel, object, or point cloud sample) to a discrete class. This is often the starting point in deep learning for ecological or environmental analysis.</p>
 <p>Common forestry classification applications include:</p>
 <ul>
-<li><strong>Tree-species recognition:</strong> Using spectral signatures, textural patterns, or structural characteristics to label species at the tree or stand level.</li>
+<li><strong>Tree-species recognition:</strong> Using spectral signatures, textural patterns, or structural characteristics to classify (label) species at the tree or stand level.</li>
 <li><strong>Land-cover mapping:</strong> Categorizing pixels into classes such as forest, water, bare ground, or herbaceous vegetation.</li>
 <li><strong>Disturbance detection:</strong> Identifying wildfire scars, harvest events, pest outbreaks, or storm damage.</li>
-<li><strong>Health or stress classification:</strong> Detecting and identifying different stressed areas or detecting mortality at the tree or stand level.</li>
+<li><strong>Health or stress classification:</strong> Detecting and identifying different stressed areas or detecting tree mortality at the tree or stand level.</li>
 </ul>
 <div id="fig-classification" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
@@ -361,11 +457,11 @@ Figure&nbsp;6: Classification
 </section>
 <section id="regression" class="level4">
 <h4 class="anchored" data-anchor-id="regression">Regression</h4>
-<p><strong>Regression</strong> models predict continuous numerical values, making them ideal for estimating biophysical variables derived from remote sensing datasets. Rather than assigning categories, they learn patterns that correspond to a real-valued output.</p>
+<p><strong>Regression</strong> models predict continuous numerical values, making them ideal for estimating biophysical variables derived from remote sensing datasets. Rather than assigning categories, they learn patterns that correspond to a continuous numerical output.</p>
 <p>Typical forestry-focused regression tasks include:</p>
 <ul>
-<li><strong>Above-ground biomass estimation:</strong> Using spectral reflectance, canopy texture or structural characteristics from lidar to estimate AGB of a tree or stand.</li>
-<li><strong>Canopy cover for leaf area index estimation:</strong> Modeling continuous vegetation density across forested landscapes.</li>
+<li><strong>Above-ground biomass estimation:</strong> Using spectral reflectance, canopy texture or structural characteristics from lidar to estimate the AGB of a tree or stand.</li>
+<li><strong>Canopy cover for leaf area index estimation:</strong> Modelling continuous vegetation density across forested landscapes.</li>
 <li><strong>Crown diameter or volume:</strong> Predicting various individual-tree metrics.</li>
 </ul>
 <div id="fig-regression" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -384,7 +480,7 @@ Figure&nbsp;7: Regression
 <p><strong>Segmentation</strong> assigns a label to every pixel/point (<strong>semantic segmentation</strong>) or separates individual objects within an image or point cloud (<strong>instance segmentation</strong>). This task is essential when the goal is to create detailed spatial maps rather than broad classifications.</p>
 <p>In forestry applications, segmentation helps support:</p>
 <ul>
-<li><strong>Tree-crown delineation:</strong> Separating individual tree crowns in imagery or point clouds for per-tree analysis.</li>
+<li><strong>Tree-crown delineation:</strong> Separating individual tree crowns in imagery or point clouds for per-tree analyses.</li>
 <li><strong>Stand or management-unit boundaries:</strong> Automatically outlining key forest changes or stand edges.</li>
 <li><strong>Vegetation structure mapping:</strong> Distinguishing between canopy, understory, stem, and ground points from lidar data.</li>
 </ul>
@@ -405,7 +501,7 @@ Figure&nbsp;8: Segmentation
 <h2 class="anchored" data-anchor-id="image-based-vs.-point-based-deep-learning">Image-Based vs.&nbsp;Point-Based Deep Learning</h2>
 <section id="image-based-deep-learning" class="level3">
 <h3 class="anchored" data-anchor-id="image-based-deep-learning">Image-Based Deep Learning</h3>
-<p><strong>Image-based</strong> deep learning is a computer vision method that teaches computers to understand and interpret images. Instead of manually telling the computer what to look for, these algorithms automatically learn patterns from large sets of images. These algorithms can learn features like edges, shapes, and colours, and eventually can identify complex objects such as trees. Because these models learn directly from the data, they can help computers <em>see</em> and make sense of the imagery.</p>
+<p><strong>Image-based</strong> deep learning is a computer vision method that teaches computers to understand and interpret images. Instead of manually telling the computer what to look for, these algorithms automatically learn patterns from large sets of images. These algorithms can learn features like edges, shapes, and colours, and can eventually identify complex objects such as trees. Because these models learn directly from the data, they can help computers effectively <em>see</em> and make sense of the imagery.</p>
 <div id="fig-imagedl" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-imagedl-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -416,7 +512,7 @@ Figure&nbsp;9: Image Based Deep Learning
 </figcaption>
 </figure>
 </div>
-<p>A common image-based deep learning technique is the <strong>convolutional neural network (CNN)</strong>. CNNs use filters (also called kernels) that slide across an image to detect important visual features. These filters help the network to focus on local patterns while keeping track of the spatial relationships in the image. As the data moves through the different layers of the network, the CNN learns increasingly complex patterns.</p>
+<p>A common image-based deep learning technique is the <strong>convolutional neural network (CNN)</strong>. CNNs use filters (also called kernels) that slide across an image to detect important visual features. These filters help the network to focus on local patterns while preserving the spatial relationships in the image. As the data moves through the different layers of the network, the CNN learns increasingly complex patterns.</p>
 <div id="fig-convolutions" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-convolutions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -430,7 +526,7 @@ Figure&nbsp;10: Convolutional Neural Networks
 </section>
 <section id="point-based-deep-learning" class="level3">
 <h3 class="anchored" data-anchor-id="point-based-deep-learning">Point Based Deep Learning</h3>
-<p><strong>Point-based</strong> deep learning is a method used to analyze 3D data point clouds. Unlike image data, which is structured in a grid of pixels, point clouds are irregular and unorganized, making them harder for traditional neural networks to process. Point-based deep learning models are designed to handle this challenge by directly learning from the spatial relationships between points without needing to convert them into images or grids. By learning the geometric patterns directly from the raw point clouds, these models are able to provide an accurate and detailed understanding of complex 3D structures of the forest. Similar to image-based approaches as the data moves through the different layers different and more complex patterns can be extracted.</p>
+<p><strong>Point-based</strong> deep learning is a method used to analyze 3D point cloud data. Unlike image data, which is structured in a grid of pixels, point clouds are irregular and unstructured, making them harder for traditional neural networks to process. Point-based deep learning models are designed to handle this challenge by directly learning from the spatial relationships between points without requiring conversion into images or grids. By learning the geometric patterns directly from the raw point clouds, these models are able to provide an accurate and detailed understanding of complex 3D structures of the forest. Similar to image-based approaches as the data moves through successive layers, and increasingly complex patterns are be extracted.</p>
 <div id="fig-pointdl" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-pointdl-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -445,17 +541,17 @@ Figure&nbsp;11: Point Based Deep Learning
 </section>
 <section id="key-terminology-and-concepts-to-know" class="level2">
 <h2 class="anchored" data-anchor-id="key-terminology-and-concepts-to-know">Key Terminology and Concepts to Know</h2>
-<p>Before exploring data preparation, training workflows, and model evaluation, it is useful to establish a common vocabulary for how deep learning models operate. The terms below describe the core components, processes, and ideas that appear throughout all deep learning methods, regardless of the specific architecture or data type. Understanding these concepts will help clarify how models learn, how they are structured, and how different parts of the training pipeline fit together.</p>
+<p>Before exploring data preparation, training workflows, and model evaluation, it is useful to establish a common vocabulary describing how deep learning models operate. The terms below describe the core components, processes, and ideas that appear throughout all deep learning methods, regardless of the specific architecture or data type. Understanding these concepts will help clarify how models learn, how they are structured, and how different parts of the training pipeline fit together.</p>
 <section id="parameters-vs.-hyperparameters" class="level3">
 <h3 class="anchored" data-anchor-id="parameters-vs.-hyperparameters">Parameters vs.&nbsp;Hyperparameters</h3>
-<p><strong>Parameters</strong> are the internal values of a neural network that are learned during training. These include the weights and biases in each layer. They are updated automatically through optimization and define how the model transforms inputs into predictions.</p>
-<p><strong>Hyperparameters</strong> control <em>how</em> a model learns rather than what it learns. Examples include learning rate, batch size, number of epochs, and model depth. Unlike parameters, hyperparameters are set by the user and are not learned during training. These often need to be tuned in order to receive optimal results.</p>
+<p><strong>Parameters</strong> are the internal values of a neural network that are learned during training. These include the weights and biases in each layer. They are updated automatically through optimization algorithms and define how the model transforms inputs into predictions.</p>
+<p><strong>Hyperparameters</strong> control <em>how</em> a model learns rather than what it learns. Examples include learning rate, batch size, number of epochs, and model depth. Unlike parameters, hyperparameters are set by the user and are not learned during training. These often need to be tuned in order to achieve optimal results.</p>
 </section>
 <section id="input-features-vs.-labels-vs.-learned-features" class="level3">
 <h3 class="anchored" data-anchor-id="input-features-vs.-labels-vs.-learned-features">Input Features vs.&nbsp;Labels vs.&nbsp;Learned Features</h3>
-<p><strong>Input Features</strong> are the input variables or measurements the model receives. In imagery, these might be pixel values from the spectral bands; in point clouds, they may include XYZ coordinates, intensity, or return number. Features describe the data but are not predictions themselves.</p>
+<p><strong>Input Features</strong> are the input variables or measurements the model receives. In imagery, these might be pixel values from the spectral bands; in point clouds, they may include XYZ coordinates, intensity, or return number. Features describe the data but not the model’s predictions.</p>
 <p><strong>Labels</strong> represent the target values the model is trying to predict. These can be discrete classes (e.g.&nbsp;species), continuous values (e.g.&nbsp;biomass), or spatial assignments (e.g.&nbsp;segmentation masks). Labels are essential for supervised learning.</p>
-<p><strong>Learned Features</strong> are internal representations automatically discovered by the neural network as the data moves through its layers. Unlike input features, which come directly from the dataset, learned features are created by the model itself. Early layers often capture simple patterns such as edges or local geometry, while deeper layers encode more abstract concepts such as textures, shapes, or structural patterns. These learned features enable deep learning models to extract complex information without requiring manual feature engineering.</p>
+<p><strong>Learned Features</strong> are internal representations automatically discovered by the neural network as the data moves through its layers. Unlike input features, which come directly from the dataset, learned features are generated by the model itself. Early layers often capture simple patterns such as edges or local geometry, while deeper layers encode more abstract concepts such as textures, shapes, or structural patterns. These learned features enable deep learning models to extract complex information without requiring manual feature engineering.</p>
 </section>
 <section id="batches-batch-size" class="level3">
 <h3 class="anchored" data-anchor-id="batches-batch-size">Batches &amp; Batch Size</h3>
@@ -474,12 +570,12 @@ Figure&nbsp;12: Batches
 <section id="model-architecture-vs.-model-weights" class="level3">
 <h3 class="anchored" data-anchor-id="model-architecture-vs.-model-weights">Model Architecture vs.&nbsp;Model Weights</h3>
 <p>The <strong>model architecture</strong> defines the structure of the network, including the number and type of layers and how they are connected. Examples include CNNs for image and point based networks for 3D data. The architecture determines the model’s capacity to learn patterns, and differ based on the goal and task.</p>
-<p><strong>Model weights</strong> are the numerical values stored within each layer that get updated during training while the architecture stays fixed, the weights change continuously, forming the learned representations of the data.</p>
+<p><strong>Model weights</strong> are the numerical values stored within each layer that get updated during training while the architecture remains fixed, the weights change continuously, forming the learned representations of the data.</p>
 </section>
 <section id="forward-pass-vs.-backward-pass" class="level3">
 <h3 class="anchored" data-anchor-id="forward-pass-vs.-backward-pass">Forward pass vs.&nbsp;Backward Pass</h3>
 <p>The <strong>forward pass</strong> is the process where input data moves through the network, from the first layer to the final output, to generate predictions. All computations during this step use the current parameter values.</p>
-<p>The <strong>backward pass</strong> computes gradients that describe how the loss changes with respect to each parameter. These gradients are then used by the optimizer to update the models parameters, allowing it to improve over time.</p>
+<p>The <strong>backward pass</strong> computes gradients that describe how the loss changes with respect to each parameter. These gradients are then used by the optimizer to update the model’s parameters, allowing it to improve over time.</p>
 <div id="fig-backwardpass" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-backwardpass-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -497,37 +593,66 @@ Figure&nbsp;13: Backward Pass
 </section>
 <section id="gradient-descent" class="level3">
 <h3 class="anchored" data-anchor-id="gradient-descent">Gradient Descent</h3>
-<p><strong>Gradient decent</strong> is the core optimization ideal that adjusts a model’s parameters to minimize the loss function. By moving the weights in the direction that decreases the error, the model incrementally improves its predictions.</p>
+<p><strong>Gradient decent</strong> is the core optimization idea that adjusts a model’s parameters to minimize the loss function. By moving the weights in the direction that decreases the error, the model incrementally improves its predictions.</p>
 </section>
 <section id="transfer-learning-fine-tuning" class="level3">
 <h3 class="anchored" data-anchor-id="transfer-learning-fine-tuning">Transfer Learning &amp; Fine-Tuning</h3>
 <p><strong>Transfer learning</strong> is a technique where a deep learning model that has already been trained on a large, general-purpose dataset is reused as the starting point for a new task. Instead of training from scratch, the model begins with learned features that capture useful patterns, such as edges, textures, shapes, or geometric structures, that often transfer well across related tasks and data types.</p>
-<p><strong>Fine-tuning</strong> is the process of adjusting (or refining) some or all of the pretrained model’s weights on your specific dataset. This allows the model to adapt its learned features to the characteristics of your data, such as new species, sensor types, or forest structures. Fine-tuning is especially valuable when labelled data are limited, because it reduces the amount of training needed and often leads to better generalization that starting with a randomly initialized model.</p>
+<p><strong>Fine-tuning</strong> is the process of adjusting (or refining) some or all of the pretrained model’s weights on your specific dataset. This allows the model to adapt its learned features to the characteristics of your data, such as new species, sensor types, or forest structures. Fine-tuning is especially valuable when labelled data are limited, because it reduces the amount of training needed and often leads to better generalization than starting with a randomly initialized model.</p>
 </section>
 </section>
 <section id="challenges-and-considerations-for-deep-learning-in-forestry-applications" class="level2">
 <h2 class="anchored" data-anchor-id="challenges-and-considerations-for-deep-learning-in-forestry-applications">Challenges and Considerations for Deep Learning in Forestry Applications</h2>
 <p>Forestry data introduce unique complexities that shape how deep learning models behave in real-world applications. Understanding these challenges at a high level helps set realistic expectations for model performance and highlights why certain design choices are necessary. The following considerations provide important context for why deep learning in forestry often requires additional care compared to more controlled or synthetic environments.</p>
-<section id="high-variability-across-sensors-and-sites" class="level3">
-<h3 class="anchored" data-anchor-id="high-variability-across-sensors-and-sites">High Variability Across Sensors and Sites</h3>
-<p>Remote sensing data in forest often come from different platforms, sensors, and acquisition conditions. Variations in resolution, illumination, phenology, or sensor characteristics can change how forests appear in the imagery or point cloud. Deep learning models may struggle to generalize when trained on one condition but applied to another, making cross-site or cross-sensor performance a challenge. This issue has led to ongoing research in <strong>fine-tuning and domain adaptation</strong>, where models trained in one environment are carefully adjusted to perform well in new regions, sensors, or forest types.</p>
-</section>
-<section id="spatial-autocorrelation" class="level3">
-<h3 class="anchored" data-anchor-id="spatial-autocorrelation">Spatial Autocorrelation</h3>
-<p>Nearby pixels, trees, or points in a forest environment tend to be more similar than distant ones. This natural spatial structure can bias model training and validation if not accounted for. For instance, training and test samples drawn from the same spatial neighborhood may artificially inflate performance, making the model appear more accurate than it truly is on new areas.</p>
-</section>
-<section id="imbalanced-ecological-classes" class="level3">
-<h3 class="anchored" data-anchor-id="imbalanced-ecological-classes">Imbalanced Ecological Classes</h3>
-<p>Forestry datasets frequently contain disproportionate numbers of certain classes (e.g.&nbsp;abundant/dominant species or canopy structures). Samples that are underrepresented often cause models to prioritize majority classes and perform poorly on minority ones. This imbalance requires careful design of training strategies, loss functions and evaluation metrics.</p>
-</section>
-<section id="models-developed-on-idealized-or-synthetic-benchmarks" class="level3">
-<h3 class="anchored" data-anchor-id="models-developed-on-idealized-or-synthetic-benchmarks">Models Developed on Idealized or Synthetic Benchmarks</h3>
-<p>Many deep learning models, particularly point-based architectures, are initially designed and validated on synthetic or highly controlled benchmark datasets unrelated to forestry. These datasets lack noise, irregular sampling, occlusion, and structural complexity found real world samples. As a result, models that perform impressively on these datasets often struggle when applied directly to operational forestry data. Adapting these models to real-world conditions is crucial and is an ongoing research challenge that frequently requires domain knowledge/adaptation, and fine-tuning on representative field datasets.</p>
-</section>
-<section id="limited-quantity-of-labeled-datasets" class="level3">
-<h3 class="anchored" data-anchor-id="limited-quantity-of-labeled-datasets">Limited Quantity of Labeled Datasets</h3>
-<p>High-quality labelled datasets are often scare in forestry because manual annotation, such as identifying species, delineating crowns, or validating biomass measurements, is time-consuming, costly, and requires expert knowledge. This limited availability of labelled data can restrict model performance and make it difficult to train deep neural networks effectively. As a results, approaches such as data augmentation, semi-supervised learning, transfer learning, and pseudo-sample generation are especially important in forestry applications to help models learn from small or imperfect datasets.</p>
-</section>
+<table class="caption-top table">
+<caption>Table 2: Key challenges and considerations for applying deep learning to forestry remote sensing.</caption>
+<colgroup>
+<col style="width: 21%">
+<col style="width: 26%">
+<col style="width: 26%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Challenge / Consideration</th>
+<th>Description</th>
+<th>Impact on Deep Learning Models</th>
+<th>Potential Solutions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>High Variability Across Sensors and Sites</strong></td>
+<td>Remote sensing data originate from different platforms, sensors, and acquisition conditions, with variations in resolution, illumination, phenology, and sensor characteristics.</td>
+<td>Models may fail or struggle to generalize across sites, sensors, or forest types.</td>
+<td>Fine-tuning, domain adaptation, cross-site and cross-sensor calibration.</td>
+</tr>
+<tr class="even">
+<td><strong>Spatial Autocorrelation</strong></td>
+<td>Nearby pixels, trees, or points are inherently more similar than distant ones due to spatial structure in forest environments.</td>
+<td>Spatially clustered training and test samples can inflate performance estimates and reduce true generalization.</td>
+<td>Spatially explicit sampling strategies, spatial cross-validation.</td>
+</tr>
+<tr class="odd">
+<td><strong>Imbalanced Ecological Classes</strong></td>
+<td>Forestry datasets often contain disproportionate representation of dominant species or canopy structures, with minority classes being underrepresented.</td>
+<td>Models tend to prioritize majority classes and perform poorly on rare or minority classes.</td>
+<td>Class weighting, modified loss functions, balanced or stratified sampling.</td>
+</tr>
+<tr class="even">
+<td><strong>Models Developed on Idealized or Synthetic Benchmarks</strong></td>
+<td>Many deep learning architectures are developed and evaluated on synthetic or highly controlled datasets lacking real-world noise, occlusion, and structural complexity.</td>
+<td>Strong benchmark performance may not transfer to operational forestry data.</td>
+<td>Fine-tuning on representative field datasets, model adaptation, incorporation of domain knowledge.</td>
+</tr>
+<tr class="odd">
+<td><strong>Limited Quantity of Labeled Data</strong></td>
+<td>High-quality labeled forestry data are scarce due to costly, time-consuming manual annotation requiring expert knowledge.</td>
+<td>Limited labeled data constrain model training and robustness.</td>
+<td>Data augmentation, semi-supervised learning, transfer learning, pseudo-sample generation.</td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="frequently-asked-questions" class="level2">
 <h2 class="anchored" data-anchor-id="frequently-asked-questions">Frequently Asked Questions</h2>
