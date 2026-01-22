@@ -336,8 +336,8 @@ plot_pc(demo_pc)
 
 Image below shows the 249 sample plot point clouds in the PRF from 2018. Plots are listed in decreasing order based on canopy height. Click image to view in full screen.
 
-<a href="images/prf_point_clouds.jpg" target="_blank">
-  <img src="images/prf_point_clouds.jpg" style="width:100%; display:block;"/>
+<a href="images/seely_etal_2025_prf_point_clouds.jpg" target="_blank">
+  <img src="images/seely_etal_2025_prf_point_clouds.jpg" style="width:100%; display:block;"/>
 </a>
 
 # 2) Examine and clean sample plot data
