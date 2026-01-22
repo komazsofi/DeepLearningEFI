@@ -22,7 +22,6 @@ dependencies = [
   "pyvista",
   "open3d",
   "wandb",
-  "trame",
 ]
 
 [tool.uv.sources]
