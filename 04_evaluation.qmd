@@ -58,7 +58,41 @@ R-squared ($R^2$): Represents the proportion of the variance for a dependent var
 > [Regression](src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/predictions.csv)
 
 ##### Tree species classification
+```{python}
+import numpy as np
+import pandas as pd
+from sklearn.metrics import accuracy_score, cohen_kappa_score, confusion_matrix
 
+# Load predictions
+test_df = pd.read_csv("src/pretrained_ckpt/peta_cls_dgcnn_bs8_lre3/checkpoints/predictions.csv")
+
+# Calculate accuracy and kappa
+accuracy = accuracy_score(test_df['dom_sp_type'], test_df['pred_dom_sp_type'])
+kappa = cohen_kappa_score(test_df['dom_sp_type'], test_df['pred_dom_sp_type'])
+
+print(f"Overall Accuracy: {accuracy:.2f}")
+print(f"Kappa: {kappa:.2f}")
+
+# Class specific accuracies
+class_accuracies = {}
+for class_id in test_df['dom_sp_type'].unique():
+    class_mask = test_df['dom_sp_type'] == class_id
+    class_accuracy = accuracy_score(test_df.loc[class_mask, 'dom_sp_type'],
+                                    test_df.loc[class_mask, 'pred_dom_sp_type'])
+    class_accuracies[class_id] = class_accuracy
+    print(f"Class {class_id} ({dom_sp_dict[class_id]}): Accuracy = {class_accuracy:.2f}")
+
+
+# Print confusion matrix
+conf_matrix = confusion_matrix(test_df['dom_sp_type'], test_df['pred_dom_sp_type'])
+
+plt.figure(figsize=(10, 8))
+sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues',
+            xticklabels=dom_sp_dict.values(),
+            yticklabels=dom_sp_dict.values())
+plt.xlabel('Predicted Label')
+plt.ylabel('Observed Label')
+```
 
 ##### BIOMASS
 ---
@@ -182,107 +216,6 @@ Result:
 
 ### BIOMASS
 
----
-
-## How to use the pre-trained model
-
-Step 1: We first define the predict step in `pl.LightningModule` to output the predictions
-
-```{python}
-# --- Prediction / Inference In ---
-def predict_step(self, batch, batch_idx, dataloader_idx=0):
-    """
-    Used for generating raw output/predictions on unseen data.
-    Does not calculate loss or metrics.
-    Runs when trainer.predict() is called.
-    """
-    points, target, pid = batch 
-    
-    # Transpose [B, N, C] -> [B, C, N] and enforce float32
-    points = points.transpose(2, 1).float() 
-    
-    # 1. Forward Pass
-    # Assuming self(points) returns (pred, trans_feat), we only return the prediction (pred)
-    pred, _ = self(points)
-    if self.task == 'classification':
-        pred = torch.argmax(pred, dim=1)
-    
-    # Return only the raw prediction tensor for the user
-    return {
-        "plot_id": pid,
-        "pred": pred.detach().cpu(),
-        "gt": target.detach().cpu()
-    }
-```
-
-```{python}
-#| code-fold: true
-#| code-overflow: wrap
-
-# ... same as training for configs loading, datamodule, modelmodule, trainer initialize
-# 4. Run prediction
-print("Running prediction...")
-outputs = trainer.predict(model, dataloaders=data_module)
-
-# 5. Parse outputs → CSV
-records = []
-
-if task == "classification":
-    for o in outputs:
-        for pid, gt, pred in zip(
-            o["plot_id"],
-            o["gt"],
-            o["pred"]
-        ):
-            records.append({
-                "plot_id": pid,
-                "dom_sp_type": int(gt.item()),
-                "pred_dom_sp_type": int(pred.item())
-            })
-
-else:  # regression
-    for o in outputs:
-        for pid, gt, pred in zip(
-            o["plot_id"],
-            o["gt"],
-            o["pred"]
-        ):
-            records.append({
-                "plot_id": pid,
-                "total_agb_z": float(gt.item()),
-                "total_agb_z_pred": float(pred.item())
-            })
-
-df = pd.DataFrame(records)
-df.to_csv(os.path.join(os.path.dirname(args.ckpt_path), args.out_csv), index=False)
-
-print(f"Predictions saved to: {os.path.join(os.path.dirname(args.ckpt_path), args.out_csv)}")
-```
-
-### Inference using the pre-trained model
-#### Classification
-
-How to run:
-```{bash}
-wget -P /path/to/directory https://github.com/Brent-Murray/DeepLearningEFI/blob/main/src/pretrained_ckpt/peta_cls_dgcnn_bs8_lre3/checkpoints/best_model.ckpt 
-
-python predict.py --model dgcnn --dataset_config_key petawawa_cls --ckpt_path /path/to/directory/best_model.ckpt
-
-# example
-python predict.py --model dgcnn --dataset_config_key petawawa_cls --ckpt_path log/EFI_DL/peta_cls_dgcnn_bs8_lre3/checkpoints/best_model.ckpt
-```
-
-#### Regression
-
-How to run:
-```{bash}
-wget -P /path/to/directory https://github.com/Brent-Murray/DeepLearningEFI/blob/main/src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/best_model.ckpt
-
-python predict.py --model dgcnn --dataset_config_key petawawa_reg --ckpt_path /path/to/directory/best_model.ckpt
-
-# example
-python predict.py --model dgcnn --dataset_config_key petawawa_reg --ckpt_path log/EFI_DL/peta_reg_dgcnn_bs8_lre3/checkpoints/best_model.ckpt
-```
 
 ---
 
