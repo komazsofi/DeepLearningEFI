@@ -21,38 +21,41 @@ The RMF situated in northern Ontario within the Timmins District, is part of the
 *Based on the publication <a href=https://doi.org/10.1093/forestry/cpag004 target=”_blank”>Addressing The Small Data Problem in Forestry: Self-Supervised Learning for Aboveground Biomass Estimation</a> by Seely etal. (2026).*
 
 ### Why Aboveground Biomass Component Regression?
-Aboveground biomass (AGB) is a key element of forest inventories and is necessary for a variety of forest-related decision-making processes, including timber harvesting and wildfire fuel assessment. Forest AGB is often divided into its sub-components — wood, branch, bark, and foliage — to fulfil more specific information needs. For example, quantifying branch, bark and foliage biomass ican inform [post-harvest bioenergy applications](https://natural-resources.canada.ca/forest-forestry/forest-industry-trade/forest-bioenergy). 
+Aboveground biomass (AGB) is a key element of forest inventories and is necessary for a variety of forest-related decision-making processes, including timber harvesting and wildfire fuel assessment. Forest AGB is often divided into its sub-components — wood, branch, bark, and foliage — to fulfil more specific information needs. For example, quantifying branch, bark and foliage biomass can inform [post-harvest bioenergy applications](https://natural-resources.canada.ca/forest-forestry/forest-industry-trade/forest-bioenergy). 
 
 ### Biomass Dataset
-The RMF (described above) has 244 fixed area plots. Total and component biomass was calculated for individual trees using allometric equations, which were aggregated to the plot level for use as response variables. We also employed 500,000 unlabeled point clouds without any biomass information to pretrain the deep neural network (see workflow below). OCNN operates on point cloud data by converted it to an octree format and performing 3D convolutions at various depths (i.e., resolutions).
+The RMF (described above) has 244 fixed area ground plots that were sampled in 2019. ALS data were collected across the RMF in 2018 with a density of 40 points/$m^2$. Total and component biomass were calculated for individual trees using allometric equations, which were aggregated to the plot level for use as response variables.
 
 ### Deep Neural Network Architecture
-We employed the [Octree-CNN architecture](https://github.com/octree-nn/ocnn-pytorch) (hereby OCNN) from [Wang et al. (2017)](https://doi.org/10.48550/arXiv.1712.01537), which has been demonstrated to be effective for modelling forest AGB components in previous research ([Seely et al. 2023](https://doi.org/10.1016/j.srs.2023.100110); [2025](https://doi.org/10.1080/01431161.2025.2492412)). 
+We employed the [Octree-CNN architecture](https://github.com/octree-nn/ocnn-pytorch) (hereby OCNN) from [Wang et al. (2017)](https://doi.org/10.48550/arXiv.1712.01537), which has been demonstrated to be effective for modelling forest AGB components in previous research ([Seely et al. 2023](https://doi.org/10.1016/j.srs.2023.100110); [2025](https://doi.org/10.1080/01431161.2025.2492412)). OCNN operates on point cloud data by converted it to an octree format and performing 3D convolutions at various depths (i.e., resolutions).
 
 ![Octree-CNN performs 3D convolutions on multiple point cloud resolutions, deriving both local and global features.](images/seely_etal_octree_animation.gif){#fig-ssl-workflow fig-align="center" width=20%}
 
 ### Self-Supervised Learning Workflow
-Self-supervised learning (SSL) is a DNN modelling framework that can alleviate large dataset requirements and has been widely used in AI applications such as [ChatGPT](https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf). The SSL workflow in this study involved pretraining OCNN on the 500,000 unlabelled point clouds and fine-tuning OCNN on the RMF dataset (n = 244 plots). We developed a novel pretraining task for OCNN using ALS metrics as multioutput regression targets to provide the model with prior information about forest structure. We fine-tune OCNN (hereby OCNN-F) using the pretrained version of the model as a starting point. We then compare OCNN-F to random forest (RF) and OCNN trained from scratch (i.e., random starting conditions, OCNN-S).
+Self-supervised learning (SSL) is a DNN modelling framework that can alleviate large dataset requirements and has been widely used in AI applications such as [ChatGPT](https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf). The SSL workflow in this study involved pretraining OCNN on the 500,000 unlabelled point clouds and fine-tuning OCNN on the RMF dataset (n = 244 plots). We developed a novel pretraining task for OCNN using ALS metrics as multioutput regression targets to provide the model with prior information about forest structure. We fine-tuned OCNN (hereby OCNN-F) using the pretrained version of the model as a starting point. We then compared OCNN-F to random forest (RF) and OCNN trained from scratch (i.e., random starting conditions, OCNN-S).
 
-![Self-supervised learning workflow for direct AGB estimation from point cloud data.](images/seely_etal_2025_ssl.jpg){#fig-ssl-workflow fig-align="center" width=85%}
+![Self-supervised learning workflow for direct AGB estimation from point cloud data.](images/seely_etal_2025_ssl.jpg){#fig-ssl-workflow fig-align="center" width=100%}
 
 ### Results
 
 #### Model Comparison
-Across all response variables (total and component AGB), OCNN-F had the best model fit on average (R2 = 0.78), followed by RF (R2 = 0.75) and OCNN-S (R2 = 0.73). OCNN-F generally outperformed OCNN-S and RF, reducing relative RMSE by up to 5%. Both OCNN variants demonstrated lower bias compared to RF.
+Across all response variables (total and component AGB), OCNN-F had the best fit on average (R2 = 0.78), followed by RF (R2 = 0.75) and OCNN-S (R2 = 0.73). OCNN-F generally outperformed OCNN-S and RF, reducing relative RMSE by up to 5%. Both OCNN variants demonstrated lower bias compared to RF.
 
-Table 1: Performance metrics for total AGB estimation including R², root mean squared error (RMSE), and bias for Octree-CNN (OCNN) trained from scratch (S) and fine-tuned(F), and random forest (RF). Metrics are summarized using the median value from five-fold cross-validation (n = 25 runs per model).
+Table 1: Performance metrics for total AGB estimation including R², root mean squared error (RMSE), and bias for Octree-CNN trained from scratch (OCNN-S), fine-tuned (OCNN-F), and random forest (RF). Metrics are summarized using the median value from five-fold cross-validation (n = 25 runs per model).
 
-| Model   | R²   | RMSE (Mg/ha) | Bias (Mg/ha) |
-|---------|------|--------------|--------------|
-| OCNN-F  | 0.82 | 36.13        | 7.40         |
-| OCNN-S  | 0.77 | 41.14        | 3.00         |
-| RF      | 0.80 | 37.97        | 9.14         |
+|   Model   |   R²   | RMSE (Mg/ha) | Bias (Mg/ha) |
+|:---------:|:------:|:------------:|:------------:|
+|  OCNN-F   |  0.82  |    36.13     |    7.40      |
+|  OCNN-S   |  0.77  |    41.14     |    3.00      |
+|    RF     |  0.80  |    37.97     |    9.14      |
 
 #### Effect of Dataset Size
 When OCNN-F, OCNN-S and RF were trained using increasingly fewer sample plots, the SSL approach provided larger improvements. For example, in situations with less than 60 training samples, OCNN-F outperformed RF and OCNN-S by 2 - 4% in terms of relative RMSE.
 
-![Effect of number of training samples on Octree-CNN (OCNN) when trained from scratch and when trained using SSL. Random forest](images/seely_etal_2025_effect_of_dataset_size.jpg){#fig-ssl-agb-map fig-align="center" width=85%}
+![Effect of number of training samples on Octree-CNN (OCNN) when trained from scratch and when trained using SSL. Random forest](images/seely_etal_2025_effect_of_dataset_size.jpg){#fig-ssl-agb-map fig-align="center" width=100%}
+
+#### Mapped Biomass Product
+We applied OCNN-F across the entire RMF for inference. The results are shown in the map below.
 
 ![Total and component forest aboveground biomass maps of the RMF generated using Octree-CNN and self-supervised learning. Units are tonnes per hectare (Mg/ha).](images/seely_etal_2025_agb_map.jpg){#fig-ssl-agb-map fig-align="center" width=85%}
 
