@@ -244,15 +244,15 @@ Figure&nbsp;1: The Romeo Malette Forest
 <p><em>Based on the publication <a href="https://doi.org/10.1093/forestry/cpag004" target="”_blank”">Addressing The Small Data Problem in Forestry: Self-Supervised Learning for Aboveground Biomass Estimation</a> by Seely etal. (2026).</em></p>
 <section id="why-aboveground-biomass-component-regression" class="level3">
 <h3 class="anchored" data-anchor-id="why-aboveground-biomass-component-regression">Why Aboveground Biomass Component Regression?</h3>
-<p>Aboveground biomass (AGB) is a key element of forest inventories and is necessary for a variety of forest-related decision-making processes, including timber harvesting and wildfire fuel assessment. Forest AGB is often divided into its sub-components — wood, branch, bark, and foliage — to fulfil more specific information needs. For example, quantifying branch, bark and foliage biomass ican inform <a href="https://natural-resources.canada.ca/forest-forestry/forest-industry-trade/forest-bioenergy">post-harvest bioenergy applications</a>.</p>
+<p>Aboveground biomass (AGB) is a key element of forest inventories and is necessary for a variety of forest-related decision-making processes, including timber harvesting and wildfire fuel assessment. Forest AGB is often divided into its sub-components — wood, branch, bark, and foliage — to fulfil more specific information needs. For example, quantifying branch, bark and foliage biomass can inform <a href="https://natural-resources.canada.ca/forest-forestry/forest-industry-trade/forest-bioenergy">post-harvest bioenergy applications</a>.</p>
 </section>
 <section id="biomass-dataset" class="level3">
 <h3 class="anchored" data-anchor-id="biomass-dataset">Biomass Dataset</h3>
-<p>The RMF (described above) has 244 fixed area plots. Total and component biomass was calculated for individual trees using allometric equations, which were aggregated to the plot level for use as response variables. We also employed 500,000 unlabeled point clouds without any biomass information to pretrain the deep neural network (see workflow below). OCNN operates on point cloud data by converted it to an octree format and performing 3D convolutions at various depths (i.e., resolutions).</p>
+<p>The RMF (described above) has 244 fixed area ground plots that were sampled in 2019. ALS data were collected across the RMF in 2018 with a density of 40 points/m^2. Total and component biomass were calculated for individual trees using allometric equations, which were aggregated to the plot level for use as response variables.</p>
 </section>
 <section id="deep-neural-network-architecture" class="level3">
 <h3 class="anchored" data-anchor-id="deep-neural-network-architecture">Deep Neural Network Architecture</h3>
-<p>We employed the <a href="https://github.com/octree-nn/ocnn-pytorch">Octree-CNN architecture</a> (hereby OCNN) from <a href="https://doi.org/10.48550/arXiv.1712.01537">Wang et al.&nbsp;(2017)</a>, which has been demonstrated to be effective for modelling forest AGB components in previous research (<a href="https://doi.org/10.1016/j.srs.2023.100110">Seely et al.&nbsp;2023</a>; <a href="https://doi.org/10.1080/01431161.2025.2492412">2025</a>).</p>
+<p>We employed the <a href="https://github.com/octree-nn/ocnn-pytorch">Octree-CNN architecture</a> (hereby OCNN) from <a href="https://doi.org/10.48550/arXiv.1712.01537">Wang et al.&nbsp;(2017)</a>, which has been demonstrated to be effective for modelling forest AGB components in previous research (<a href="https://doi.org/10.1016/j.srs.2023.100110">Seely et al.&nbsp;2023</a>; <a href="https://doi.org/10.1080/01431161.2025.2492412">2025</a>). OCNN operates on point cloud data by converted it to an octree format and performing 3D convolutions at various depths (i.e., resolutions).</p>
 <div id="fig-ssl-workflow" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ssl-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -266,11 +266,11 @@ Figure&nbsp;2: Octree-CNN performs 3D convolutions on multiple point cloud resol
 </section>
 <section id="self-supervised-learning-workflow" class="level3">
 <h3 class="anchored" data-anchor-id="self-supervised-learning-workflow">Self-Supervised Learning Workflow</h3>
-<p>Self-supervised learning (SSL) is a DNN modelling framework that can alleviate large dataset requirements and has been widely used in AI applications such as <a href="https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf">ChatGPT</a>. The SSL workflow in this study involved pretraining OCNN on the 500,000 unlabelled point clouds and fine-tuning OCNN on the RMF dataset (n = 244 plots). We developed a novel pretraining task for OCNN using ALS metrics as multioutput regression targets to provide the model with prior information about forest structure. We fine-tune OCNN (hereby OCNN-F) using the pretrained version of the model as a starting point. We then compare OCNN-F to random forest (RF) and OCNN trained from scratch (i.e., random starting conditions, OCNN-S).</p>
+<p>Self-supervised learning (SSL) is a DNN modelling framework that can alleviate large dataset requirements and has been widely used in AI applications such as <a href="https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf">ChatGPT</a>. The SSL workflow in this study involved pretraining OCNN on the 500,000 unlabelled point clouds and fine-tuning OCNN on the RMF dataset (n = 244 plots). We developed a novel pretraining task for OCNN using ALS metrics as multioutput regression targets to provide the model with prior information about forest structure. We fine-tuned OCNN (hereby OCNN-F) using the pretrained version of the model as a starting point. We then compared OCNN-F to random forest (RF) and OCNN trained from scratch (i.e., random starting conditions, OCNN-S).</p>
 <div id="fig-ssl-workflow" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ssl-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/seely_etal_2025_ssl.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+<img src="images/seely_etal_2025_ssl.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ssl-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: Self-supervised learning workflow for direct AGB estimation from point cloud data.
@@ -282,35 +282,35 @@ Figure&nbsp;3: Self-supervised learning workflow for direct AGB estimation from 
 <h3 class="anchored" data-anchor-id="results">Results</h3>
 <section id="model-comparison" class="level4">
 <h4 class="anchored" data-anchor-id="model-comparison">Model Comparison</h4>
-<p>Across all response variables (total and component AGB), OCNN-F had the best model fit on average (R2 = 0.78), followed by RF (R2 = 0.75) and OCNN-S (R2 = 0.73). OCNN-F generally outperformed OCNN-S and RF, reducing relative RMSE by up to 5%. Both OCNN variants demonstrated lower bias compared to RF.</p>
-<p>Table 1: Performance metrics for total AGB estimation including R², root mean squared error (RMSE), and bias for Octree-CNN (OCNN) trained from scratch (S) and fine-tuned(F), and random forest (RF). Metrics are summarized using the median value from five-fold cross-validation (n = 25 runs per model).</p>
+<p>Across all response variables (total and component AGB), OCNN-F had the best fit on average (R2 = 0.78), followed by RF (R2 = 0.75) and OCNN-S (R2 = 0.73). OCNN-F generally outperformed OCNN-S and RF, reducing relative RMSE by up to 5%. Both OCNN variants demonstrated lower bias compared to RF.</p>
 <table class="caption-top table">
+<caption>Table 1: Performance metrics for total AGB estimation including R², root mean squared error (RMSE), and bias for Octree-CNN trained from scratch (OCNN-S), fine-tuned (OCNN-F), and random forest (RF). Metrics are summarized using the median value from five-fold cross-validation (n = 25 runs per model).</caption>
 <thead>
 <tr class="header">
-<th>Model</th>
-<th>R²</th>
-<th>RMSE (Mg/ha)</th>
-<th>Bias (Mg/ha)</th>
+<th style="text-align: center;">Model</th>
+<th style="text-align: center;">R²</th>
+<th style="text-align: center;">RMSE (Mg/ha)</th>
+<th style="text-align: center;">Bias (Mg/ha)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>OCNN-F</td>
-<td>0.82</td>
-<td>36.13</td>
-<td>7.40</td>
+<td style="text-align: center;">OCNN-F</td>
+<td style="text-align: center;">0.82</td>
+<td style="text-align: center;">36.13</td>
+<td style="text-align: center;">7.40</td>
 </tr>
 <tr class="even">
-<td>OCNN-S</td>
-<td>0.77</td>
-<td>41.14</td>
-<td>3.00</td>
+<td style="text-align: center;">OCNN-S</td>
+<td style="text-align: center;">0.77</td>
+<td style="text-align: center;">41.14</td>
+<td style="text-align: center;">3.00</td>
 </tr>
 <tr class="odd">
-<td>RF</td>
-<td>0.80</td>
-<td>37.97</td>
-<td>9.14</td>
+<td style="text-align: center;">RF</td>
+<td style="text-align: center;">0.80</td>
+<td style="text-align: center;">37.97</td>
+<td style="text-align: center;">9.14</td>
 </tr>
 </tbody>
 </table>
@@ -321,13 +321,17 @@ Figure&nbsp;3: Self-supervised learning workflow for direct AGB estimation from 
 <div id="fig-ssl-agb-map" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ssl-agb-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/seely_etal_2025_effect_of_dataset_size.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+<img src="images/seely_etal_2025_effect_of_dataset_size.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ssl-agb-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: Effect of number of training samples on Octree-CNN (OCNN) when trained from scratch and when trained using SSL. Random forest
 </figcaption>
 </figure>
 </div>
+</section>
+<section id="mapped-biomass-product" class="level4">
+<h4 class="anchored" data-anchor-id="mapped-biomass-product">Mapped Biomass Product</h4>
+<p>We applied OCNN-F across the entire RMF for inference. The results are shown in the maps below.</p>
 <div id="fig-ssl-agb-map" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ssl-agb-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -392,9 +396,8 @@ Figure&nbsp;6: Multi-modal data fusion network
 </section>
 <section id="results-1" class="level3">
 <h3 class="anchored" data-anchor-id="results-1">Results</h3>
-<p>Spatial distribution of the prediction of two leading species—Black Spruce (SB) and Jack Pine (PJ)—along with the combined proportion of all remaining species, as well as the estimation errors compared to the photo-interpreted FRI data. Overall, SB dominates most of the study area, and high RMSE values frequently appear where SB is the top-ranked species or where the remainder category is prevalent.</p>
-<p>Table 2. Comparison of the TSC estimation results using the coefficient of determination (R²) and root mean squared error (RMSE) in different modes: superpixel-only, point cloud-only, and three fusion modes.</p>
 <table class="caption-top table">
+<caption>Table 2. Comparison of the TSC estimation results using the coefficient of determination (R²) and root mean squared error (RMSE) in different modes: superpixel-only, point cloud-only, and three fusion modes.</caption>
 <thead>
 <tr class="header">
 <th>Model</th>
@@ -430,6 +433,7 @@ Figure&nbsp;6: Multi-modal data fusion network
 </tr>
 </tbody>
 </table>
+<p>Spatial distribution of the prediction of two leading species—Black Spruce (SB) and Jack Pine (PJ)—along with the combined proportion of all remaining species, as well as the estimation errors compared to the photo-interpreted FRI data. Overall, SB dominates most of the study area, and high RMSE values frequently appear where SB is the top-ranked species or where the remainder category is prevalent.</p>
 <div id="fig-mapping-result" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-mapping-result-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -498,6 +502,71 @@ Figure&nbsp;8: Dual-Stream Model (adapted from Murray et al (2025))
 <section id="results-2" class="level3">
 <h3 class="anchored" data-anchor-id="results-2">Results</h3>
 <p>Combining point clouds with summary metrics improve tree species classification compared to using point clouds alone. The dual-stream approach produces more accurate predictions and more reliable confidence estimates across species. The largest gains were observed when both types of ALS information were used together, highlighting the value of this fusion in tree-level classification.</p>
+<table class="caption-top table">
+<caption>Table 3: Evaluation metrics of the various model configurations</caption>
+<colgroup>
+<col style="width: 65%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Overall Accuracy</th>
+<th>F1-Score</th>
+<th>ROC AUC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>EdgeConv</td>
+<td>0.55</td>
+<td>0.54</td>
+<td>0.74</td>
+</tr>
+<tr class="even">
+<td>Point Transformer</td>
+<td>0.61</td>
+<td>0.62</td>
+<td>0.80</td>
+</tr>
+<tr class="odd">
+<td>Multi-Branch</td>
+<td>0.58</td>
+<td>0.59</td>
+<td>0.76</td>
+</tr>
+<tr class="even">
+<td>EdgeConv + Metrics Network</td>
+<td>0.69</td>
+<td>0.70</td>
+<td>0.88</td>
+</tr>
+<tr class="odd">
+<td>Point Transformer + Metrics Network</td>
+<td>0.69</td>
+<td>0.70</td>
+<td>0.87</td>
+</tr>
+<tr class="even">
+<td>Multi-Branch + Metrics Network</td>
+<td>0.69</td>
+<td>0.69</td>
+<td>0.86</td>
+</tr>
+</tbody>
+</table>
+<div id="fig-predictive-probability" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-predictive-probability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images\treespecies/predictive_probability.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-predictive-probability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: Point cloud samples for each species, with associated predicted probability from each model
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="why-this-matters-for-forest-inventories" class="level3">
 <h3 class="anchored" data-anchor-id="why-this-matters-for-forest-inventories">Why This Matters for Forest Inventories</h3>

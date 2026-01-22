@@ -41,7 +41,7 @@ Self-supervised learning (SSL) is a DNN modelling framework that can alleviate l
 #### Model Comparison
 Across all response variables (total and component AGB), OCNN-F had the best fit on average (R2 = 0.78), followed by RF (R2 = 0.75) and OCNN-S (R2 = 0.73). OCNN-F generally outperformed OCNN-S and RF, reducing relative RMSE by up to 5%. Both OCNN variants demonstrated lower bias compared to RF.
 
-Table 1: Performance metrics for total AGB estimation including R², root mean squared error (RMSE), and bias for Octree-CNN trained from scratch (OCNN-S), fine-tuned (OCNN-F), and random forest (RF). Metrics are summarized using the median value from five-fold cross-validation (n = 25 runs per model).
+: Table 1: Performance metrics for total AGB estimation including R², root mean squared error (RMSE), and bias for Octree-CNN trained from scratch (OCNN-S), fine-tuned (OCNN-F), and random forest (RF). Metrics are summarized using the median value from five-fold cross-validation (n = 25 runs per model).
 
 |   Model   |   R²   | RMSE (Mg/ha) | Bias (Mg/ha) |
 |:---------:|:------:|:------------:|:------------:|
@@ -106,7 +106,7 @@ Our proposed network architecture employs a multi-stream design to effectively p
 
 ### Results
 
-Table 2. Comparison of the TSC estimation results using the coefficient of determination (R²) and root mean squared error (RMSE) in different modes: superpixel-only, point cloud-only, and three fusion modes.
+: Table 2. Comparison of the TSC estimation results using the coefficient of determination (R²) and root mean squared error (RMSE) in different modes: superpixel-only, point cloud-only, and three fusion modes.
 
 | Model                                  | R²    | RMSE  |
 |----------------------------------------|-------|-------|
@@ -170,6 +170,19 @@ A dual-stream deep learning model was developed. One part of the model learns di
 
 ### Results
 Combining point clouds with summary metrics improve tree species classification compared to using point clouds alone. The dual-stream approach produces more accurate predictions and more reliable confidence estimates across species. The largest gains were observed when both types of ALS information were used together, highlighting the value of this fusion in tree-level classification.
+
+: Table 3: Evaluation metrics of the various model configurations
+
+| Model                                  | Overall Accuracy    | F1-Score | ROC AUC |
+|----------------------------------------|-------|-------|-------|
+| EdgeConv | 0.55 | 0.54 | 0.74 |
+| Point Transformer | 0.61 | 0.62 | 0.80 |
+| Multi-Branch | 0.58 | 0.59 | 0.76 |
+| EdgeConv + Metrics Network | 0.69 | 0.70 | 0.88 |
+| Point Transformer + Metrics Network | 0.69 | 0.70 | 0.87 |
+| Multi-Branch + Metrics Network | 0.69 | 0.69 | 0.86 |
+
+![Point cloud samples for each species, with associated predicted probability from each model](images\treespecies/predictive_probability.png){#fig-predictive-probability fig-align="center" width=85%}
 
 ### Why This Matters for Forest Inventories
 This approach reduces the need for manual interpretation and enables tree-level species mapping over large forested areas. By using data that are already commonly collected for forest inventories, the method is well suited for operational use. It demonstrates how deep learning can be used for enhanced forest inventories by adding detailed species information in a scalable and automated way.
