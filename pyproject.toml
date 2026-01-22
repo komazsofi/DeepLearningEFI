@@ -19,6 +19,9 @@ dependencies = [
   "laspy[lazrs]==2.5.4",
   "seaborn",
   "jupyter-cache",
+  "pyvista",
+  "open3d",
+  "wandb",
 ]
 
 [tool.uv.sources]
