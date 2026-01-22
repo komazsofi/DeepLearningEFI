@@ -47,7 +47,7 @@ Key functions:
 
 1) Input: It takes your plot files and the label column you are interested in (e.g., `dom_sp_type` for classification or `total_agb_z` for biomass regression).
    
-2) Preprocessing: It samples a fixed number of points (`num_point`, default 8192) from each plot and, optionally, calculates normals (which describe the local orientation of the points, improving model performance).
+2) Pre-processing: It samples a fixed number of points (`num_point`, default 8192) from each plot and, optionally, calculates normals (which describe the local orientation of the points, improving model performance).
    
 3) Caching: When run with `--process_data`, it intelligently processes and saves the prepared data as a cache file. This avoids resampling the raw data every time you train, drastically speeding up development.
 
@@ -94,9 +94,6 @@ class EfiDataModule(pl.LightningDataModule):
             )
 ```
 
-### Data Augmentation
-
-
 ---
 
 ## The Model: Dynamic Graph CNN (DGCNN)
@@ -111,7 +108,7 @@ Unlike standard 2D image models, `DGCNN` does not treat points in isolation. Ins
 
 3) Dynamic Update: After each layer of processing, it re-evaluates the "neighborhood" in the feature space (hence Dynamic). This allows the model to progressively learn more complex, abstract relationships in the data, ultimately leading to highly accurate classification or attribute prediction for the entire plot.
 
-::: {#fig-elephants layout-ncol=2}
+::: {#fig-dgcnn-graph layout-ncol=2}
 
 ![graph construction](images/03_train/dgcnna.svg)
 
@@ -481,18 +478,23 @@ def predict_step(self, batch, batch_idx, dataloader_idx=0):
     Does not calculate loss or metrics.
     Runs when trainer.predict() is called.
     """
-    # Note: We assume the batch structure is the same, but the target is ignored or zeroed out
-    points, _ = batch 
+    points, target, pid = batch 
     
     # Transpose [B, N, C] -> [B, C, N] and enforce float32
     points = points.transpose(2, 1).float() 
     
     # 1. Forward Pass
     # Assuming self(points) returns (pred, trans_feat), we only return the prediction (pred)
-    pred, _ = self(points) 
+    pred, _ = self(points)
+    if self.task == 'classification':
+        pred = torch.argmax(pred, dim=1)
     
     # Return only the raw prediction tensor for the user
-    return pred
+    return {
+        "plot_id": pid,
+        "pred": pred.detach().cpu(),
+        "gt": target.detach().cpu()
+    }
 ```
 
 4) Optimizer and Scheduler: `configure_optimizers`: the setup of the `Adam` optimizer (with specific learning rate and weight decay from args) and the `StepLR` scheduler, emphasizing the necessity of returning them in the nested dictionary format required by `PyTorch Lightning`.
@@ -595,12 +597,15 @@ trainer = pl.Trainer(
 )
 
 # 6. Start Training
-print('Starting PyTorch Lightning Training...')
-trainer.fit(model_module, data_module)
+if mode == "training":
+    print('Starting PyTorch Lightning Training...')
+    trainer.fit(model_module, data_module)
 
 # Test the best checkpoint after training
-print('\n--- Testing Best Model ---')
-trainer.test(datamodule=data_module, ckpt_path='best')
+else:
+    print('\n--- Testing Model ---')
+    trainer.test(datamodule=data_module, ckpt_path='best')
+
 ```
 
 ### Monitoring with Weights & Biases (W&B)
@@ -628,39 +633,10 @@ checkpoint_dir.mkdir(parents=True, exist_ok=True)
 
 ## Predicting use the pre-trained model
 
-Step 1: We first define the predict step in `pl.LightningModule` to output the predictions
-
-```{python}
-# --- Prediction / Inference In ---
-def predict_step(self, batch, batch_idx, dataloader_idx=0):
-    """
-    Used for generating raw output/predictions on unseen data.
-    Does not calculate loss or metrics.
-    Runs when trainer.predict() is called.
-    """
-    points, target, pid = batch 
-    
-    # Transpose [B, N, C] -> [B, C, N] and enforce float32
-    points = points.transpose(2, 1).float() 
-    
-    # 1. Forward Pass
-    # Assuming self(points) returns (pred, trans_feat), we only return the prediction (pred)
-    pred, _ = self(points)
-    if self.task == 'classification':
-        pred = torch.argmax(pred, dim=1)
-    
-    # Return only the raw prediction tensor for the user
-    return {
-        "plot_id": pid,
-        "pred": pred.detach().cpu(),
-        "gt": target.detach().cpu()
-    }
-```
-
 ```{python}
 #| code-fold: true
 #| code-overflow: wrap
-
+# predict.py
 # ... same as training for configs loading, datamodule, modelmodule, trainer initialize
 # 4. Run prediction
 print("Running prediction...")
