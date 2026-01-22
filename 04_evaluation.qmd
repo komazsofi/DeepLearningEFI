@@ -1,7 +1,6 @@
 ---
 title: "Evaluation of Deep Learning Derived Forest Inventory Predictions"
 execute:
-  eval: false
   echo: true
 jupyter: python3
 format:
@@ -46,26 +45,142 @@ R-squared ($R^2$): Represents the proportion of the variance for a dependent var
 
 ---
 
-### Prediction results 
+### Prediction results
+
+#### Wandb logged results
 
 <iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/q2oxsdbc" style="border:none;height:1024px;width:100%"></iframe>
 
+#### Examples of calculating evaluation metrics from predictions
+> The generated predictions also uploaded to github:
+> 
+> [Classification](./src/pretrained_ckpt/peta_cls_dgcnn_bs8_lre3/checkpoints/predictions.csv)
+> 
+> [Regression](./src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/predictions.csv)
+
+##### Tree species classification performance
+
+- Load libraries and prediction
+
+```{python}
+import pandas as pd
+import seaborn as sns
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.metrics import (
+    accuracy_score,
+    balanced_accuracy_score,
+    cohen_kappa_score,
+    f1_score,
+    classification_report,
+    confusion_matrix
+)
+import pyvista as pv
+from pathlib import Path
+import random
+
+CLASS_MAP = {
+    0: "conif",
+    1: "decid",
+    2: "mixed"
+}
+
+# Load predictions
+test_df = pd.read_csv("src/pretrained_ckpt/peta_cls_dgcnn_bs8_lre3/checkpoints/predictions.csv")
+
+y_true = test_df["dom_sp_type"]
+y_pred = test_df["pred_dom_sp_type"]
+```
+
+- Overall performance
+```{python}
+#| label: tbl-cls-metrics
+#| tbl-cap: "Tree species classification performance on the test dataset."
+#| tbl-colwidths: [30, 20]
+# ---- Summary metrics ----
+summary_data = {
+    "Metric": [
+        "Overall Accuracy",
+        "Balanced Accuracy",
+        "Cohen's Kappa",
+        "Macro F1-score",
+        "Weighted F1-score"
+    ],
+    "Value": [
+        accuracy_score(y_true, y_pred),
+        balanced_accuracy_score(y_true, y_pred),
+        cohen_kappa_score(y_true, y_pred),
+        f1_score(y_true, y_pred, average="macro"),
+        f1_score(y_true, y_pred, average="weighted")
+    ]
+}
+
+summary_df = pd.DataFrame(summary_data)
+summary_df["Value"] = summary_df["Value"].map(lambda x: f"{x:.3f}")
+
+summary_df
+```
+
+- Per-class metrics table
+```{python}
+#| label: tbl-cls-perclass
+#| tbl-cap: "Per-class precision, recall, and F1-score for stand-type classification."
+report = classification_report(
+    y_true,
+    y_pred,
+    target_names=[CLASS_MAP[i] for i in sorted(CLASS_MAP)],
+    output_dict=True
+)
+
+per_class_df = (
+    pd.DataFrame(report)
+    .T
+    .loc[list(CLASS_MAP.values())]
+    .reset_index()
+    .rename(columns={
+        "index": "Class",
+        "precision": "Precision",
+        "recall": "Recall",
+        "f1-score": "F1-score",
+        "support": "Support"
+    })
+)
+
+for col in ["Precision", "Recall", "F1-score"]:
+    per_class_df[col] = per_class_df[col].map(lambda x: f"{x:.3f}")
+per_class_df
+```
+
+- Confusion matrix
+
+```{python}
+# Print confusion matrix
+conf_matrix = confusion_matrix(y_true, y_pred)
+
+plt.figure(figsize=(10, 8))
+sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues',
+            xticklabels=CLASS_MAP.values(),
+            yticklabels=CLASS_MAP.values())
+plt.xlabel('Predicted Label')
+plt.ylabel('Observed Label')
+plt.tight_layout()
+plt.show()
+```
+
+##### BIOMASS
 ---
 
-## Examples of Evaluation Metrics and Plotting Figures
+## Examples of Plotting Figures
 
 Visualizing the results is often more informative than numerical logs alone.
 
-
 Qualitative Visualization: For point cloud applications, visualize the point cloud data colored by the model's predicted label versus the true label to identify spatial regions where the model struggles.
 
+### Tree species classification
 
 ```{python}
 #| code-fold: true
 # helper functions
-import pyvista as pv
-import numpy as np
-
 def visualize_z_grid(correct_df, wrong_df, pc_dir, save_path=None):
     import pyvista as pv
     import numpy as np
@@ -134,146 +249,21 @@ def sample_grid(df, n_per_row=3, seed=42):
 ```
 
 ```{python}
-import pandas as pd
-import numpy as np
-import pyvista as pv
-from pathlib import Path
-import random
-
-CLASS_MAP = {
-    0: "conif",
-    1: "decid",
-    2: "mixed"
-}
-
-# Load predictions
-df = pd.read_csv("src\pretrained_ckpt\peta_cls_dgcnn_bs8_lre3\checkpoints\predictions.csv")
-
 # Folder with point clouds
-pc_dir = Path("src\data\petawawa\plot_point_clouds")  # contains prf003.npy, etc
+pc_dir = Path("src/data/petawawa/plot_point_clouds")  # contains prf003.npy, etc
 
-df["correct"] = df.dom_sp_type == df.pred_dom_sp_type
+test_df["correct"] = test_df.dom_sp_type == test_df.pred_dom_sp_type
 
-print("Correct:", df.correct.sum())
-print("Incorrect:", (~df.correct).sum())
+print("Correct:", test_df.correct.sum())
+print("Incorrect:", (~test_df.correct).sum())
 
-correct_df, wrong_df = sample_grid(df, n_per_row=4)
+correct_df, wrong_df = sample_grid(test_df, n_per_row=4)
 
 visualize_z_grid(correct_df, wrong_df, pc_dir, save_path="images/04_eval/cls_output.png")
 ```
 
-Result:
-
-- Correct: 33
-- Incorrect: 4
-
-![correct](images/04_eval/cls_output.png)
-
 ### BIOMASS
 
-### Classification
-
----
-
-## How to use the pre-trained model
-
-Step 1: We first define the predict step in `pl.LightningModule` to output the predictions
-
-```{python}
-# --- Prediction / Inference In ---
-def predict_step(self, batch, batch_idx, dataloader_idx=0):
-    """
-    Used for generating raw output/predictions on unseen data.
-    Does not calculate loss or metrics.
-    Runs when trainer.predict() is called.
-    """
-    points, target, pid = batch 
-    
-    # Transpose [B, N, C] -> [B, C, N] and enforce float32
-    points = points.transpose(2, 1).float() 
-    
-    # 1. Forward Pass
-    # Assuming self(points) returns (pred, trans_feat), we only return the prediction (pred)
-    pred, _ = self(points)
-    if self.task == 'classification':
-        pred = torch.argmax(pred, dim=1)
-    
-    # Return only the raw prediction tensor for the user
-    return {
-        "plot_id": pid,
-        "pred": pred.detach().cpu(),
-        "gt": target.detach().cpu()
-    }
-```
-
-```{python}
-#| code-fold: true
-#| code-overflow: wrap
-
-# ... same as training for configs loading, datamodule, modelmodule, trainer initialize
-# 4. Run prediction
-print("Running prediction...")
-outputs = trainer.predict(model, dataloaders=data_module)
-
-# 5. Parse outputs → CSV
-records = []
-
-if task == "classification":
-    for o in outputs:
-        for pid, gt, pred in zip(
-            o["plot_id"],
-            o["gt"],
-            o["pred"]
-        ):
-            records.append({
-                "plot_id": pid,
-                "dom_sp_type": int(gt.item()),
-                "pred_dom_sp_type": int(pred.item())
-            })
-
-else:  # regression
-    for o in outputs:
-        for pid, gt, pred in zip(
-            o["plot_id"],
-            o["gt"],
-            o["pred"]
-        ):
-            records.append({
-                "plot_id": pid,
-                "total_agb_z": float(gt.item()),
-                "total_agb_z_pred": float(pred.item())
-            })
-
-df = pd.DataFrame(records)
-df.to_csv(os.path.join(os.path.dirname(args.ckpt_path), args.out_csv), index=False)
-
-print(f"Predictions saved to: {os.path.join(os.path.dirname(args.ckpt_path), args.out_csv)}")
-```
-
-### Inference using the pre-trained model
-#### Classification
-
-How to run:
-```{bash}
-wget -P /path/to/directory https://github.com/Brent-Murray/DeepLearningEFI/blob/main/src/pretrained_ckpt/peta_cls_dgcnn_bs8_lre3/checkpoints/best_model.ckpt 
-
-python predict.py --model dgcnn --dataset_config_key petawawa_cls --ckpt_path /path/to/directory/best_model.ckpt
-
-# example
-python predict.py --model dgcnn --dataset_config_key petawawa_cls --ckpt_path log/EFI_DL/peta_cls_dgcnn_bs8_lre3/checkpoints/best_model.ckpt
-```
-
-#### Regression
-
-How to run:
-```{bash}
-wget -P /path/to/directory https://github.com/Brent-Murray/DeepLearningEFI/blob/main/src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/best_model.ckpt
-
-python predict.py --model dgcnn --dataset_config_key petawawa_reg --ckpt_path /path/to/directory/best_model.ckpt
-
-# example
-python predict.py --model dgcnn --dataset_config_key petawawa_reg --ckpt_path log/EFI_DL/peta_reg_dgcnn_bs8_lre3/checkpoints/best_model.ckpt
-```
 
 ---
 
@@ -283,6 +273,7 @@ Compare results of different HPs using WANDB Sweep
 
 <iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/5tuktkzj" style="border:none;height:1024px;width:100%"></iframe>
 
+> Findings?
 ---
 
 ## Compare results to Random Forest using LiDAR Metrics
