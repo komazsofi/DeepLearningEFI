@@ -163,6 +163,8 @@ sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues',
             yticklabels=CLASS_MAP.values())
 plt.xlabel('Predicted Label')
 plt.ylabel('Observed Label')
+plt.tight_layout()
+plt.show()
 ```
 
 ##### BIOMASS
