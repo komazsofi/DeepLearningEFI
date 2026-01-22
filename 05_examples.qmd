@@ -106,8 +106,6 @@ Our proposed network architecture employs a multi-stream design to effectively p
 
 ### Results
 
-Spatial distribution of the prediction of two leading species—Black Spruce (SB) and Jack Pine (PJ)—along with the combined proportion of all remaining species, as well as the estimation errors compared to the photo-interpreted FRI data. Overall, SB dominates most of the study area, and high RMSE values frequently appear where SB is the top-ranked species or where the remainder category is prevalent.
-
 Table 2. Comparison of the TSC estimation results using the coefficient of determination (R²) and root mean squared error (RMSE) in different modes: superpixel-only, point cloud-only, and three fusion modes.
 
 | Model                                  | R²    | RMSE  |
@@ -117,6 +115,8 @@ Table 2. Comparison of the TSC estimation results using the coefficient of deter
 | Fusion mode                            | 0.657 | 0.132 |
 | Single-season Mamba-Fusion mode        | 0.631 | 0.127 |
 | All-seasons Mamba-Fusion mode (M3F-Net)| 0.676 | 0.120 |
+
+Spatial distribution of the prediction of two leading species—Black Spruce (SB) and Jack Pine (PJ)—along with the combined proportion of all remaining species, as well as the estimation errors compared to the photo-interpreted FRI data. Overall, SB dominates most of the study area, and high RMSE values frequently appear where SB is the top-ranked species or where the remainder category is prevalent.
 
 ![Wall-to-wall prediction results for the Romeo Malette Forest (RMF). Left: Predicted proportions of Black Spruce (SB; red channel), Jack Pine (PJ; green channel), and all remaining species (blue channel) within each polygon.](images\05_examples_TSC\wall2wall_proportions_hillshade.png){#fig-mapping-result fig-align="center" width=85%}
 

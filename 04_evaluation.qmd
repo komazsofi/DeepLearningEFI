@@ -45,7 +45,22 @@ R-squared ($R^2$): Represents the proportion of the variance for a dependent var
 
 ---
 
-## Import Python Libraries
+### Prediction results
+
+#### Wandb logged results
+
+<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/q2oxsdbc" style="border:none;height:1024px;width:100%"></iframe>
+
+#### Examples of calculating evaluation metrics from predictions
+> The generated predictions also uploaded to github:
+> 
+> [Classification](./src/pretrained_ckpt/peta_cls_dgcnn_bs8_lre3/checkpoints/predictions.csv)
+> 
+> [Regression](./src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/predictions.csv)
+
+##### Tree species classification performance
+
+- Load libraries and prediction
 
 ```{python}
 
@@ -176,6 +191,8 @@ plt.tight_layout()
 plt.show()
 ```
 
+##### BIOMASS
+---
 
 ## Examples of Plotting Figures
 

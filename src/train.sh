@@ -32,12 +32,13 @@ for model in "${models[@]}"; do
         lr_tag="e3"
       fi
 
-      log_dir="peta_older_cls_${model}_bs${bs}_lr${lr_tag}"
+      log_dir="peta_cls_${model}_bs${bs}_lr${lr_tag}_2"
 
       echo -e "\n[START $(date)] $model | bs=$bs | lr=$lr" | tee -a "$LOG_FILE"
 
       python train_pl.py \
         --model "$model" \
+        --mode "train" \
         --dataset_config_key "$DATASET_KEY" \
         --batch_size "$bs" \
         --epoch "$EPOCHS" \

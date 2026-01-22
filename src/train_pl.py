@@ -24,6 +24,7 @@ import dataset.data_utils as data_utils # For augmentations (if any)
 def parse_args():
     '''PARAMETERS'''
     parser = argparse.ArgumentParser('training')
+    parser.add_argument('--mode', default='train', help='training/testing model')
     parser.add_argument('--use_cpu', action='store_true', default=False, help='use cpu mode')
     parser.add_argument('--gpu', type=str, default='0', help='specify gpu device (e.g., 0, 1, 0,1)')
     parser.add_argument('--batch_size', type=int, default=8, help='batch size in training')
@@ -56,6 +57,7 @@ def main(args):
     
     # Combined configuration dictionary passed to the Lightning Module
     full_cfg = {
+        'model': args.model,
         'model_name': args.model,
         'num_classes': dataset_cfg['num_classes'],
         'task': task,
@@ -111,14 +113,14 @@ def main(args):
         callbacks=[checkpoint_callback, lr_monitor, early_stop_callback],
         enable_progress_bar=True
     )
-
-    # Start Training
-    print('Starting PyTorch Lightning Training...')
-    trainer.fit(model_module, data_module)
-    
-    # Test the best checkpoint after training
-    print('\n--- Testing Best Model ---')
-    trainer.test(datamodule=data_module, ckpt_path=os.path.join(checkpoint_dir, 'best_model.ckpt'))
+    if args.mode == 'train':
+        # Start Training
+        print('Starting PyTorch Lightning Training...')
+        trainer.fit(model_module, data_module)
+    else:
+        # Test the best checkpoint after training
+        print('\n--- Testing Best Model ---')
+        trainer.test(datamodule=data_module, ckpt_path=os.path.join(checkpoint_dir, 'best_model.ckpt'))
 
 if __name__ == '__main__':
     args = parse_args()
