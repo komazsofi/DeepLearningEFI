@@ -20,4 +20,4 @@ src/data
 src/train.py
 src/utils/logger.py
 src/test.py
-src/bash_log.txt
+src/bash_log*.txt
