@@ -27,6 +27,8 @@ import geopandas as gpd
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.metrics import accuracy_score, cohen_kappa_score, confusion_matrix, mean_squared_error, r2_score
 import rioxarray as rio
+
+from src.plot_regression import plot_regression
 ```
 
 Set filepaths
@@ -48,10 +50,13 @@ metrics_df = pd.read_csv(METRICS_FPATH)
 
 metric_names = metrics_df.drop('plot_id', axis=1).columns.tolist()
 
-df = pd.read_csv(LABELS_FPATH).merge(metrics_df, on="plot_id", how='left')
+df = (pd.read_csv(LABELS_FPATH)
+        .merge(metrics_df, on="plot_id", how='left')
+        .rename(columns={'total_agb_mg_ha': 'agb_mg_ha_obs'})
+        )
 
 # View relationship between mean height and biomass
-ax = sns.scatterplot(df, y='total_agb_mg_ha', x='zmean')
+ax = sns.scatterplot(df, y='agb_mg_ha_obs', x='zmean')
 ax.set(xlabel='Mean Height', ylabel='AGB (Mg/ha)')
 
 
@@ -172,29 +177,21 @@ plot_feature_importance(rf, metric_names, title='Feature Importance from Random 
 ```{python}
 rf = RandomForestRegressor(n_estimators=100, random_state=25)
 
-rf.fit(train_df[metric_names], train_df['total_agb_mg_ha'])
+rf.fit(train_df[metric_names], train_df['agb_mg_ha_obs'])
 
-test_df['pred_agb'] = rf.predict(test_df[metric_names])
+test_df['agb_mg_ha_pred'] = rf.predict(test_df[metric_names])
 
-# Calculate regression metrics
-r2 = r2_score(test_df['total_agb_mg_ha'], test_df['pred_agb'])
-mse = mean_squared_error(test_df['total_agb_mg_ha'], test_df['pred_agb'])
-rmse = np.sqrt(mse)
-bias = np.mean(test_df['pred_agb'] - test_df['total_agb_mg_ha'])
-
-print(f"R²: {r2:.2f}")
-print(f"RMSE: {rmse:.2f} mg/ha")
-print(f"Bias: {bias:.2f} mg/ha")
-
-# Plot observed vs predicted AGB
-plt.figure(figsize=(8, 8))
-sns.scatterplot(x='total_agb_mg_ha', y='pred_agb', data=test_df, color='black')
-plt.plot([0, test_df['total_agb_mg_ha'].max()], [0, test_df['total_agb_mg_ha'].max()], color='red', linestyle='--')
-plt.xlabel('Observed AGB (mg/ha)')
-plt.ylabel('Predicted AGB (mg/ha)')
-plt.title('Observed vs Predicted AGB')
-plt.show()
+# Plot regression results
+plot_regression(obs=test_df['agb_mg_ha_obs'], 
+                pred=test_df['agb_mg_ha_pred'],
+                title='Random Forest',
+                fig_out_fpath='images/rf_regression_plot.png')
 
 plot_feature_importance(rf, metric_names, title='Feature Importance from Random Forest Regressor')
+
 ```
 
+
+```{python}
+
+```
