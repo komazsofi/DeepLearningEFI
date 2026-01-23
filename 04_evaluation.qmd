@@ -280,7 +280,7 @@ def sample_grid(df, n_per_row=3, seed=42):
 ```{python}
 
 # Folder with point clouds
-pc_dir = Path("data/plot_point_clouds")  # contains prf003.npy, etc
+pc_dir = Path("data/petawawa/plot_point_clouds")  # contains prf003.npy, etc
 
 test_df["correct"] = test_df.dom_sp_type == test_df.pred_dom_sp_type
 
@@ -327,7 +327,7 @@ def convert_from_z_score(z_vals, sd, mean):
 ```{python}
 
 # Set filepaths for labels and predictions
-LABELS_FPATH = r'data/labels.csv'
+LABELS_FPATH = r'data/petawawa/labels.csv'
 OBS_PRED_FPATH = r'src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/predictions.csv'
 
 # Read predictions and make plot ID uppercase
