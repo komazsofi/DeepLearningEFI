@@ -36,8 +36,8 @@ def parse_args():
     parser.add_argument('--num_point', type=int, default=8192, help='Point Number')
     parser.add_argument('--log_dir', type=str, default='log', help='W&B run name/experiment root')
     parser.add_argument('--decay_rate', type=float, default=1e-4, help='weight decay rate')
-    parser.add_argument('--process_data', action='store_true', default=False, help='save data offline')
-    parser.add_argument('--use_uniform_sample', action='store_true', default=False, help='use uniform sampiling')
+    parser.add_argument('--process_data', action='store_true', default=False, help='build cache first, then load cache for training')
+    parser.add_argument('--no_fps', action='store_true', help='disable FPS and use uniform sampling')
     
     # W&B specific arguments
     parser.add_argument('--wandb_project', type=str, default='EFI_DL', help='Weights & Biases Project Name')
@@ -59,6 +59,7 @@ def main(args):
     full_cfg = {
         'model': args.model,
         'model_name': args.model,
+        'use_fps': (not args.no_fps),
         'num_classes': dataset_cfg['num_classes'],
         'task': task,
         **dataset_cfg, # Include all dataset params (root, csv, etc.)
@@ -111,7 +112,8 @@ def main(args):
         devices=[int(g) for g in args.gpu.split(',')] if ',' in args.gpu else (1 if not args.use_cpu else 0),
         logger=wandb_logger,
         callbacks=[checkpoint_callback, lr_monitor, early_stop_callback],
-        enable_progress_bar=True
+        enable_progress_bar=True,
+        log_every_n_steps=2,
     )
     if args.mode == 'train':
         # Start Training

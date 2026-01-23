@@ -6,7 +6,7 @@ from .heads import ClassificationHead, RegressionHead
 class get_model(nn.Module):
     def __init__(self, cfg):
         super(get_model, self).__init__()
-        in_channel = 6 if cfg["use_normal"] else 3
+        in_channel = cfg["in_channel"]
         self.normal_channel = cfg["use_normal"]
         
         self.num_classes = cfg["num_classes"]

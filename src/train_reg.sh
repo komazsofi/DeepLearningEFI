@@ -3,16 +3,15 @@
 SLEEP_DURATION=10  # seconds
 EPOCHS=100
 
-LOG_FILE="bash_cls_log.txt"
-exec > >(tee -a bash_cls_log.txt) 2>&1
+LOG_FILE="bash_reg_log.txt"
+exec > >(tee -a bash_reg_log.txt) 2>&1
 
-DATASET_KEY="petawawa_cls"
+DATASET_KEY="petawawa_reg"
 
 echo "Starting training... ($(date))" | tee -a "$LOG_FILE"
 
 models=(
   pointnet
-  pointnet2_msg
   pointnet2_ssg
   pointnext
 )
@@ -31,7 +30,7 @@ for model in "${models[@]}"; do
         lr_tag="e3"
       fi
 
-      log_dir="peta_cls_${model}_bs${bs}_lr${lr_tag}_2"
+      log_dir="peta_reg_${model}_bs${bs}_lr${lr_tag}_2"
 
       echo -e "\n[START $(date)] $model | bs=$bs | lr=$lr" | tee -a "$LOG_FILE"
 
