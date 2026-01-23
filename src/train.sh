@@ -11,7 +11,6 @@ DATASET_KEY="petawawa_cls"
 echo "Starting training... ($(date))" | tee -a "$LOG_FILE"
 
 models=(
-  dgcnn
   pointnet
   pointnet2_msg
   pointnet2_ssg

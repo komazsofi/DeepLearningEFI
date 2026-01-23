@@ -47,10 +47,6 @@ R-squared ($R^2$): Represents the proportion of the variance for a dependent var
 
 ### Prediction results
 
-#### Wandb logged results
-
-<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/q2oxsdbc" style="border:none;height:1024px;width:100%"></iframe>
-
 #### Examples of calculating evaluation metrics from predictions
 > The generated predictions also uploaded to github:
 > 
@@ -85,16 +81,10 @@ import random
 from src.plot_regression import plot_regression
 ```
 
-## Weights and Biases logged results
-
-Weights and Biases (wandb) is an online deep learning tool that can track experiments, perform hyperparameter tuning and visualize results. It is an effective method for refining and comparing models with different configurations.
-
-<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/q2oxsdbc" style="border:none;height:1024px;width:100%"></iframe>
-
 ### Examples of calculating evaluation metrics from predictions
 > The generated predictions also uploaded to github:
 > 
-> [Classification](./src/pretrained_ckpt/peta_cls_dgcnn_bs8_lre3/checkpoints/predictions.csv)
+> [Classification](./src/pretrained_ckpt/peta_cls_dgcnn_bs16_lre4/checkpoints/predictions.csv)
 > 
 > [Regression](./src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/predictions.csv)
 
@@ -112,7 +102,7 @@ CLASS_MAP = {
 }
 
 # Load predictions
-test_df = pd.read_csv("src/pretrained_ckpt/peta_cls_dgcnn_bs8_lre3/checkpoints/predictions.csv")
+test_df = pd.read_csv("src\pretrained_ckpt\peta_cls_dgcnn_bs16_lre4\checkpoints\predictions.csv")
 
 y_true = test_df["dom_sp_type"]
 y_pred = test_df["pred_dom_sp_type"]
@@ -287,7 +277,7 @@ test_df["correct"] = test_df.dom_sp_type == test_df.pred_dom_sp_type
 print("Correct:", test_df.correct.sum())
 print("Incorrect:", (~test_df.correct).sum())
 
-correct_df, wrong_df = sample_grid(test_df, n_per_row=4)
+correct_df, wrong_df = sample_grid(test_df, n_per_row=3)
 
 visualize_z_grid(correct_df, wrong_df, pc_dir, save_path="images/04_eval/cls_output.png")
 
@@ -388,15 +378,16 @@ plot_regression(obs=test_df['agb_mg_ha_obs'],
 
 ---
 
-## Hyperparameter tuning
+## Hyperparameter tuning Weights and Biases
 
-Compare results of different HPs using WANDB Sweep
+Weights and Biases (wandb) is an online deep learning tool that can track experiments, perform hyperparameter tuning and visualize results. It is an effective method for refining and comparing models with different configurations.
 
-<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/5tuktkzj" style="border:none;height:1024px;width:100%"></iframe>
+Compare results of different HPs using WANDB Sweep: DGCNN example
 
-> Findings?
+<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/qs96lr1s" style="border:none;height:1024px;width:100%"></iframe>
+
 ---
-## Selecting model
+## Selecting model (update pointnet, pointnet2, pointnext)
 
 <iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/q2oxsdbc" style="border:none;height:1024px;width:100%"></iframe>
 

@@ -1,11 +1,11 @@
 import os
 import csv
 import pickle
+import warnings
+from tqdm import tqdm
 import numpy as np
 import torch
 from torch.utils.data import Dataset
-from tqdm import tqdm
-import warnings
 from .data_utils import estimate_normals, sample_points
 
 
@@ -22,10 +22,13 @@ class EfiDataset(Dataset):
         self.use_normals = use_normals
         self.use_fps = use_fps
         self.split = split
-
-        # 1. Parse CSV
-        self.meta_data = [] # Stores (plot_id, path, raw_label_value)
         
+        self.list_of_points = None
+        self.list_of_labels = None
+        self.list_of_pids = None
+
+        # 1. Parse CSV  -> meta_data
+        self.meta_data = [] # Stores (plot_id, path, raw_label_value)
         if not os.path.exists(self.csv_path):
             raise FileNotFoundError(f"CSV not found: {self.csv_path}")
 
@@ -33,9 +36,8 @@ class EfiDataset(Dataset):
             reader = csv.DictReader(f)
             for row in reader:
                 if row.get('split', '').strip().lower() == self.split:
-                    # ID fetch
+                    # PID fetch
                     pid = row.get('plot_id') or row.get('plot') or row.get('id')
-                    
                     # Label fetch
                     raw_val = row.get(self.label_col)
 
@@ -48,10 +50,9 @@ class EfiDataset(Dataset):
                                 'raw_label': raw_val
                             })
 
-        # 2. Setup Label Mapping (Task dependent)
+        # 2. Label Mapping
         self.cls_to_idx = {}
         self.class_names = []
-        
         if self.task_type == 'classification':
             self.class_names = classes_list
             self.cls_to_idx = {name: i for i, name in enumerate(self.class_names)}
@@ -61,33 +62,33 @@ class EfiDataset(Dataset):
             self.num_classes = 1 # Regression output dim
             print(f"[{self.split}] Regression task on '{label_col}'")
 
-        # 3. Caching Logic
+        # 3. Cache path
         cache_name = f"{self.split}_{self.npoints}_{self.label_col}"
         if self.use_normals: cache_name += "_normals"
-        if self.use_fps: cache_name += "_fps"
-        
+        cache_name += "_fps" if self.use_fps else "_uniform"
         self.cache_path = os.path.join(self.root, f"cache_{cache_name}.pkl")
-
+        
+        # 4. Mode selection
+        cache_exists = os.path.exists(self.cache_path)
+        print(f"[{self.split}] process_data={process_data} cache_exists={cache_exists} "
+              f"use_fps={self.use_fps} use_normals={self.use_normals}")
         if process_data:
-            self._process_and_cache()
-        elif os.path.exists(self.cache_path):
-            self._load_cache()
+            self._process_and_cache() # always (re)build
+        elif cache_exists:
+            self._load_cache()  # use cache
         else:
-            self.list_of_points = None
             print("No cache found. Loading data on-the-fly (slow).")
 
     # --- Processing Function ---
     def _process_and_cache(self):
-        print(f"Processing data to {self.cache_path}...")
-        
+        print(f"[{self.split}] Processing data to {self.cache_path}...")
         processed_points_list = []
         processed_labels_list = []
+        processed_pid_list = []
 
         for item in tqdm(self.meta_data):
-            # Load Point Cloud
+            # Load and Sample Point Cloud
             points = np.load(item['path']).astype(np.float32)
-            
-            # Sample
             points = sample_points(points, self.npoints, use_fps=self.use_fps)
 
             # Normals
@@ -97,11 +98,11 @@ class EfiDataset(Dataset):
                 points = np.concatenate([points, normals], axis=1)
 
             processed_points_list.append(points)
+            processed_pid_list.append(item['plot_id'])
 
-            # D. Process Label based on Task
+            # Process Label based on Task
             if self.task_type == 'classification':
-                # String -> Integer Index
-                label_idx = self.cls_to_idx[item['raw_label']]
+                label_idx = self.cls_to_idx[item['raw_label']] # String -> Integer Index
                 processed_labels_list.append(label_idx)
             else:
                 processed_labels_list.append(float(item['raw_label']))
@@ -110,24 +111,41 @@ class EfiDataset(Dataset):
         data = {
             'points': processed_points_list, 
             'labels': processed_labels_list,
-            'meta': {'cls_map': self.cls_to_idx}
+            'pids': processed_pid_list,
+            'meta': {'cls_map': self.cls_to_idx, 
+                    'use_fps': self.use_fps,
+                    'use_normals': self.use_normals,
+                    'npoints': self.npoints,
+                    'label_col': self.label_col,
+                    'split': self.split}
         }
         with open(self.cache_path, 'wb') as f:
             pickle.dump(data, f)
             
-        # Load into memory immediately
+        # Load into memory
         self.list_of_points = processed_points_list
         self.list_of_labels = processed_labels_list
+        self.list_of_pids = processed_pid_list
     
     def _load_cache(self):
         print(f"Loading cached data from {self.cache_path}")
         with open(self.cache_path, 'rb') as f:
             data = pickle.load(f)
-            self.list_of_points = data['points']
-            self.list_of_labels = data['labels']
-            self.cls_to_idx = data['meta'].get('cls_map', {})
+        
+        self.list_of_points = data['points']
+        self.list_of_labels = data['labels']
+        self.list_of_pids = data.get('pids', None)
+        self.cls_to_idx = data['meta'].get('cls_map', {})
+        
+        if len(self.meta_data) != len(self.list_of_points):
+            warnings.warn(
+                f"[{self.split}] Cache/meta mismatch: meta={len(self.meta_data)} "
+                f"cached={len(self.list_of_points)}. Using cached length."
+            )
 
     def __len__(self):
+        if self.list_of_points is not None:
+            return len(self.list_of_points)
         return len(self.meta_data)
 
     def __getitem__(self, index):
@@ -155,7 +173,11 @@ class EfiDataset(Dataset):
                 label = float(raw)
         
         # 3. Get pid
-        pid = self.meta_data[index]['plot_id']
+        if self.list_of_pids is not None:
+            pid = self.list_of_pids[index]
+        else:
+            # On-the-fly
+            pid = self.meta_data[index]['plot_id']
 
         # 4. Return Correct Types
         if self.task_type == 'classification':

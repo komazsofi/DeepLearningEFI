@@ -5,7 +5,7 @@ from .heads import ClassificationHead, RegressionHead
 class get_model(nn.Module):
     def __init__(self, cfg):
         super(get_model, self).__init__()
-        channel = 6 if cfg["use_normal"] else 3
+        channel = cfg["in_channel"]
         self.num_classes = cfg["num_classes"]
         self.feat = PointNetEncoder(global_feat=True, feature_transform=True, channel=channel)
         if self.num_classes == 1:

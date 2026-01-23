@@ -49,7 +49,9 @@ Key functions:
    
 2) Pre-processing: It samples a fixed number of points (`num_point`, default 8192) from each plot and, optionally, calculates normals (which describe the local orientation of the points, improving model performance).
    
-3) Caching: When run with `--process_data`, it intelligently processes and saves the prepared data as a cache file. This avoids resampling the raw data every time you train, drastically speeding up development.
+3) Caching: When run with `--process_data`, it intelligently processes and saves the prepared data as a cache file (`_process_and_cache()`). This avoids resampling the raw data every time you train, drastically speeding up development. Else if cache exists: `_load_cache()`, else: `on-the-fly`.
+
+> Lightning call order: `prepare_data(), setup(stage="fit"), train_dataloader() / val_dataloader()`
 
 ### The `EfiDataModule`
 In the PL framework, the `EfiDataModule` wraps the `EfiDataset` to handle the data workflow. It automatically creates the necessary `DataLoader` objects for the training, validation, and test sets.
@@ -694,7 +696,7 @@ python train_pl.py \
     --epoch 150 \
     --learning_rate 0.0001 \
     --log_dir petawawa_species_cls_dgcnn \
-    --process_data
+    --process_data # First time / no cache
 ```
 
 #### Regression
@@ -708,14 +710,14 @@ python train_pl.py \
     --epoch 150 \
     --learning_rate 0.0001 \
     --log_dir petawawa_bio_reg_dgcnn \
-    --process_data
+    --process_data # First time / no cache
 ```
 
 ### Testing
 #### Classification
 How to run:
 ```{bash}
-wget -P /path/to/directory https://github.com/Brent-Murray/DeepLearningEFI/blob/main/src/pretrained_ckpt/peta_cls_dgcnn_bs8_lre3/checkpoints/best_model.ckpt 
+wget -P /path/to/directory https://github.com/Brent-Murray/DeepLearningEFI/blob/main/src/pretrained_ckpt/peta_cls_dgcnn_bs16_lre4/checkpoints/best_model.ckpt 
 
 python predict.py --model dgcnn --dataset_config_key petawawa_cls --ckpt_path /path/to/directory/best_model.ckpt
 

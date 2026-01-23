@@ -7,7 +7,7 @@ class get_model(nn.Module):
     def __init__(self, cfg):
         super().__init__()
         # if normals are used: in_dim = 6 (XYZ + normals), otherwise 3
-        in_dim = 6 if cfg["use_normal"] else 3
+        in_dim = cfg["in_channel"]
         self.num_classes = cfg["num_classes"]
         
         encoder = pointnext_s(in_dim=in_dim)
