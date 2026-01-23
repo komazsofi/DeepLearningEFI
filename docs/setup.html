@@ -135,8 +135,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data">Data</a></li>
-  <li><a href="#python-environment-setup" id="toc-python-environment-setup" class="nav-link" data-scroll-target="#python-environment-setup">Python Environment Setup</a></li>
+  <li><a href="#code" id="toc-code" class="nav-link active" data-scroll-target="#code">1) Code</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">2) Data</a></li>
+  <li><a href="#python-environment-setup" id="toc-python-environment-setup" class="nav-link" data-scroll-target="#python-environment-setup">3) Python Environment Setup</a></li>
+  <li><a href="#directory-structure" id="toc-directory-structure" class="nav-link" data-scroll-target="#directory-structure">4) Directory structure</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/Brent-Murray/DeepLearningEFI/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -162,13 +164,21 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="code" class="level2">
+<h2 class="anchored" data-anchor-id="code">1) Code</h2>
+<p>Setup begins with downloading all the code from the GitHub repository. Open up a terminal in the folder where you intend to set up the project. You can download the codebase using git as follows in the terminal:</p>
+<p>Clone the GitHub repository:</p>
+<p><code>git clone https://github.com/Brent-Murray/DeepLearningEFI</code></p>
+<p>Change to the repository directory:</p>
+<p><code>cd DeepLearningEFI</code></p>
+</section>
 <section id="data" class="level2">
-<h2 class="anchored" data-anchor-id="data">Data</h2>
-<p><strong>The preprocessed data can be downloaded <a href="https://ln5.sync.com/dl/88a6f5dd0#u24mrtkh-d5dqhart-zrg42shx-jfhhk8u5">here</a></strong></p>
+<h2 class="anchored" data-anchor-id="data">2) Data</h2>
+<p>The preprocessed data can be downloaded <strong><a href="https://ln5.sync.com/dl/88a6f5dd0#u24mrtkh-d5dqhart-zrg42shx-jfhhk8u5">here</a></strong>. Ensure the data is stored in the same folder where your code is stored.</p>
 <p><strong>For specific data preprocessing information, see the <a href="./02_data.html">Data Section</a></strong></p>
 </section>
 <section id="python-environment-setup" class="level2">
-<h2 class="anchored" data-anchor-id="python-environment-setup">Python Environment Setup</h2>
+<h2 class="anchored" data-anchor-id="python-environment-setup">3) Python Environment Setup</h2>
 <p><strong>Environment setup is performed using the <a href="https://docs.astral.sh/uv/">uv package manager</a> which will need to be installed to run the tutorial code.</strong></p>
 <p>The uv package manager allows for the installation of specific package versions to maintain reproducibility. The list of packages and their versions is included in the <a href="pyproject.toml"><code>pyproject.toml</code></a> file.</p>
 <p><strong>This code has been tested on Windows 11 and Ubuntu 24.04.2</strong></p>
@@ -182,12 +192,29 @@ ul.task-list li input[type="checkbox"] {
 <pre class="terminal"><code>uv --help</code></pre></li>
 <li><p>Ensure uv is up-to-date by running</p>
 <pre class="terminal"><code>uv self update</code></pre></li>
-<li><p>Clone GitHub repository</p>
-<pre class="terminal"><code>git clone https://github.com/Brent-Murray/DeepLearningEFI
-cd DeepLearningEFI</code></pre></li>
 <li><p>Intialize the uv environment and install dependencies.</p>
 <pre class="terminal"><code>uv sync</code></pre></li>
 </ol>
+</section>
+<section id="directory-structure" class="level2">
+<h2 class="anchored" data-anchor-id="directory-structure">4) Directory structure</h2>
+<p>After downloading the data and setting up the python environment (see above), your directory structure should include the following (among other miscelaneous files):</p>
+<ul>
+<li>01_intro.qmd</li>
+<li>02_data.qmd</li>
+<li>03_train.qmd</li>
+<li>04_evaluation.qmd</li>
+<li>05_examples.qmd</li>
+<li>compute_lidar_metrics.qmd</li>
+<li>data</li>
+<li>pyproject.toml</li>
+<li>random_forest.qmd</li>
+<li>schedule.qmd</li>
+<li>setup.qmd</li>
+<li>src</li>
+<li>uv.lock</li>
+<li>.venv</li>
+</ul>
 
 
 </section>

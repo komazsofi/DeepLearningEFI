@@ -12,29 +12,35 @@ execute:
 
 This section will provide preprocessing code to prepare LiDAR and sample plot data for subsequent point cloud deep learning model development.
 
+# Relevant Resources
+
+**The complete preprocessed dataset can be downloaded [here](https://ln5.sync.com/dl/88a6f5dd0#u24mrtkh-d5dqhart-zrg42shx-jfhhk8u5) as an alternative to running this notebook.**
+
+If you wish to run the preprocessing, the original height normalized ALS and sample plot data for the PRF can be downloaded from the NFIS website:
+
+* LiDAR: [https://opendata.nfis.org/downloads/petawawa/Raster/LiDAR_2018/PRF_benchmarking_harmonized_2018_ALS.zip](https://opendata.nfis.org/downloads/petawawa/Raster/LiDAR_2018/PRF_benchmarking_harmonized_2018_ALS.zip)
+
+* Field Plots: [https://opendata.nfis.org/downloads/petawawa/Vector/Forest%20Sample%20Plots/SPL2018_EFI_ground_plots.zip](https://opendata.nfis.org/downloads/petawawa/Vector/Forest%20Sample%20Plots/SPL2018_EFI_ground_plots.zip)
+
+## The lidR Package
+
+This tutorial makes use of the `lidR` package to prepare LiDAR data for deep learning. LiDAR preprocessing can often be complex and is a critical step in an enhanced forest inventory workflow. However, it is not the focus of this workshop. For more detailed information about LiDAR preprocessing, see the [lidR package tutorial](https://r-lidar.github.io/lidRbook/).
+
 # Dataset Background
 
 The Petawawa Resereach Forest (PRF) is the oldest research forest in Canada, established in 1918. It is a remote sensing supersite and is part of the [GEO-TREES](https://geo-trees.org/) network.
 
 In this workshop we make use of enhanced forest inventory sample plots collected in the PRF in 2018. We are also using single photon airborne laser scanning (ALS) data also collected in 2018.
 
-The sample plots have a 14.1 m radius (625 m^2^).
+**Key information about dataset**
 
-The ALS data has a mean point density of 35 points/m^2^.
+* Sample plots are fixed-area and have a 14.1 m radius (625 m^2^).
 
-**The preprocessed data can be downloaded here:**
+* Dataset size: n = 249 plots
 
-[https://ln5.sync.com/dl/88a6f5dd0#u24mrtkh-d5dqhart-zrg42shx-jfhhk8u5](https://ln5.sync.com/dl/88a6f5dd0#u24mrtkh-d5dqhart-zrg42shx-jfhhk8u5)
+* Live trees with DBH > 9 cm measured (DBH, height, species, etc.)
 
-**The original height normalized ALS and sample plot data for the PRF can be downloaded from:**
-
-LiDAR: [https://opendata.nfis.org/downloads/petawawa/Raster/LiDAR_2018/PRF_benchmarking_harmonized_2018_ALS.zip](https://opendata.nfis.org/downloads/petawawa/Raster/LiDAR_2018/PRF_benchmarking_harmonized_2018_ALS.zip)
-
-Field Plots: [https://opendata.nfis.org/downloads/petawawa/Vector/Forest%20Sample%20Plots/SPL2018_EFI_ground_plots.zip](https://opendata.nfis.org/downloads/petawawa/Vector/Forest%20Sample%20Plots/SPL2018_EFI_ground_plots.zip)
-
-**Note on LiDAR preprocessing**
-
-This tutorial makes use of the lidR package to prepare LiDAR data for deep learning. LiDAR preprocessing can often be complex and is a critical step in an enhanced forest inventory workflow. However, it is not the focus of this workshop. For more detailed information about LiDAR preprocessing, see the [lidR package documentation](https://r-lidar.github.io/lidRbook/).
+* ALS data has a mean point density of 35 points/m^2^.
 
 # Summary of Preprocessing Steps
 
@@ -120,10 +126,10 @@ The ALS data was collected in 2018 to support an EFI of the research forest.
 ```{r}
 #| code-fold: true
 
-lidar_index <- st_read(LIDAR_INDEX_FPATH)
+lidar_index <- st_read(LIDAR_INDEX_FPATH, quiet=TRUE)
 
 #Read the plot coordinates and ensure CRS is correct
-plot_centers <- st_read(here(PLOT_COORDS_FPATH)) %>%
+plot_centers <- st_read(here(PLOT_COORDS_FPATH), quiet=TRUE) %>%
     st_transform(st_crs(lidar_index)) %>%
     st_zm() %>%
     dplyr::rename(plot_id = Plot)
