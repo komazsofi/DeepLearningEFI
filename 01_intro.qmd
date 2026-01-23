@@ -43,7 +43,7 @@ While this workshop focuses primarily on classification and regression tasks, it
 
 
 ### Descriptive Modelling: Learning Structure from Data
-Descriptive modelling focuses on **extracting meaningful patterns and representations from complex data**. For example, ALS point clouds contain detailed 3D information about canopy and understory structure, as well as the terrain. Traditionally, tis information was summarized using handcrafted features such as height percentiles or canopy cover metrics.
+Descriptive modelling focuses on **extracting meaningful patterns and representations from complex data**. For example, ALS point clouds contain detailed 3D information about canopy and understory structure, as well as the terrain. Traditionally, this information was summarized using handcrafted features such as height percentiles or canopy cover metrics.
 
 Deep learning enables models to **learn hierarchical feature representations directly from raw or minimally processed data**, capturing subtle patters that are difficult to define manually. In EFIs, this allows for:
 
