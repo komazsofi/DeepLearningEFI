@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.6.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -21,9 +21,8 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -34,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -66,17 +65,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./images/TreeNetwork.png" rel="icon" type="image/png">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-018089954d508eae8a473f0b7f0491f0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-acb86da7cc94e534617b9af23b514896.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6eecce4e8ec758df58f3df13d77709d2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -119,7 +116,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+      if (mathElements[i].tagName == "SPAN") {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -138,7 +135,7 @@ window.Quarto = {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -146,8 +143,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./images/TreeNetwork.png" alt="" class="navbar-logo light-content">
-    <img src="./images/TreeNetwork.png" alt="" class="navbar-logo dark-content">
+    <img src="./images/TreeNetwork.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Deep Learning for Forest Inventories</span>
@@ -200,35 +196,47 @@ window.Quarto = {
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#dl-pipeline" id="toc-dl-pipeline" class="nav-link" data-scroll-target="#dl-pipeline">DL Pipeline</a></li>
+  <li><a href="#relevant-resources" id="toc-relevant-resources" class="nav-link" data-scroll-target="#relevant-resources">Relevant Resources</a>
+  <ul class="collapse">
+  <li><a href="#tutorial-references-of-pytorch-lightning" id="toc-tutorial-references-of-pytorch-lightning" class="nav-link" data-scroll-target="#tutorial-references-of-pytorch-lightning">Tutorial references of Pytorch Lightning</a></li>
+  <li><a href="#relevant-resources-for-dgcnn" id="toc-relevant-resources-for-dgcnn" class="nav-link" data-scroll-target="#relevant-resources-for-dgcnn">Relevant Resources for DGCNN</a>
+  <ul class="collapse">
+  <li><a href="#paper" id="toc-paper" class="nav-link" data-scroll-target="#paper">paper</a></li>
+  <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code">code</a></li>
+  </ul></li>
+  <li><a href="#other-deep-lerning-frameworks" id="toc-other-deep-lerning-frameworks" class="nav-link" data-scroll-target="#other-deep-lerning-frameworks">Other Deep Lerning Frameworks</a></li>
+  </ul></li>
+  <li><a href="#how-dgcnn-works" id="toc-how-dgcnn-works" class="nav-link" data-scroll-target="#how-dgcnn-works">How DGCNN Works</a></li>
+  <li><a href="#deep-learning-pipeline" id="toc-deep-learning-pipeline" class="nav-link" data-scroll-target="#deep-learning-pipeline">Deep Learning Pipeline</a></li>
   <li><a href="#the-data-foundation-the-efi-point-cloud-dataset" id="toc-the-data-foundation-the-efi-point-cloud-dataset" class="nav-link" data-scroll-target="#the-data-foundation-the-efi-point-cloud-dataset">The Data Foundation: The EFI Point Cloud Dataset</a>
   <ul class="collapse">
-  <li><a href="#the-efidataset" id="toc-the-efidataset" class="nav-link" data-scroll-target="#the-efidataset">The <code>EfiDataset</code></a></li>
+  <li><a href="#the-efidataset" id="toc-the-efidataset" class="nav-link" data-scroll-target="#the-efidataset">The <code>EfiDataset</code></a>
+  <ul class="collapse">
   <li><a href="#the-efidatamodule" id="toc-the-efidatamodule" class="nav-link" data-scroll-target="#the-efidatamodule">The <code>EfiDataModule</code></a></li>
-  <li><a href="#data-augmentation" id="toc-data-augmentation" class="nav-link" data-scroll-target="#data-augmentation">Data Augmentation</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#the-model-dynamic-graph-cnn-dgcnn" id="toc-the-model-dynamic-graph-cnn-dgcnn" class="nav-link" data-scroll-target="#the-model-dynamic-graph-cnn-dgcnn">The Model: Dynamic Graph CNN (DGCNN)</a>
   <ul class="collapse">
-  <li><a href="#how-dgcnn-works" id="toc-how-dgcnn-works" class="nav-link" data-scroll-target="#how-dgcnn-works">How DGCNN Works</a></li>
-  <li><a href="#implementation" id="toc-implementation" class="nav-link" data-scroll-target="#implementation">Implementation</a></li>
-  </ul></li>
+  <li><a href="#define-the-dgcnn-model" id="toc-define-the-dgcnn-model" class="nav-link" data-scroll-target="#define-the-dgcnn-model">Define the DGCNN Model</a></li>
+  <li><a href="#loss-functions" id="toc-loss-functions" class="nav-link" data-scroll-target="#loss-functions">Loss functions</a></li>
+  <li><a href="#the-pytorch-lightning-wrapper-efimodelmodule" id="toc-the-pytorch-lightning-wrapper-efimodelmodule" class="nav-link" data-scroll-target="#the-pytorch-lightning-wrapper-efimodelmodule">The PyTorch Lightning Wrapper: EfiModelModule</a></li>
   <li><a href="#training-deep-learning-models-in-pytorch-lighting" id="toc-training-deep-learning-models-in-pytorch-lighting" class="nav-link" data-scroll-target="#training-deep-learning-models-in-pytorch-lighting">Training Deep Learning Models in PyTorch Lighting</a>
   <ul class="collapse">
   <li><a href="#the-pytorch-lightning-trainer" id="toc-the-pytorch-lightning-trainer" class="nav-link" data-scroll-target="#the-pytorch-lightning-trainer">The PyTorch Lightning Trainer</a></li>
-  <li><a href="#monitoring-with-weights-biases-wb" id="toc-monitoring-with-weights-biases-wb" class="nav-link" data-scroll-target="#monitoring-with-weights-biases-wb">Monitoring with Weights &amp; Biases (W&amp;B)</a></li>
+  </ul></li>
+  <li><a href="#monitoring-with-weights-biases-wb" id="toc-monitoring-with-weights-biases-wb" class="nav-link" data-scroll-target="#monitoring-with-weights-biases-wb">Monitoring with Weights &amp; Biases (W&amp;B)</a>
+  <ul class="collapse">
   <li><a href="#wb-dashboard" id="toc-wb-dashboard" class="nav-link" data-scroll-target="#wb-dashboard">W&amp;B Dashboard</a></li>
   </ul></li>
+  <li><a href="#hyperparameter-tuning-weights-and-biases" id="toc-hyperparameter-tuning-weights-and-biases" class="nav-link" data-scroll-target="#hyperparameter-tuning-weights-and-biases">Hyperparameter tuning Weights and Biases</a></li>
+  <li><a href="#predicting-use-the-pre-trained-model" id="toc-predicting-use-the-pre-trained-model" class="nav-link" data-scroll-target="#predicting-use-the-pre-trained-model">Predicting use the pre-trained model</a></li>
   <li><a href="#how-to-run" id="toc-how-to-run" class="nav-link" data-scroll-target="#how-to-run">How to run</a>
   <ul class="collapse">
   <li><a href="#environment-install" id="toc-environment-install" class="nav-link" data-scroll-target="#environment-install">Environment install</a></li>
-  <li><a href="#command" id="toc-command" class="nav-link" data-scroll-target="#command">Command</a></li>
+  <li><a href="#training" id="toc-training" class="nav-link" data-scroll-target="#training">Training</a></li>
+  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing">Testing</a></li>
   <li><a href="#code-structure" id="toc-code-structure" class="nav-link" data-scroll-target="#code-structure">Code structure</a></li>
   </ul></li>
-  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a>
-  <ul class="collapse">
-  <li><a href="#tutorial-references-of-pytorch-lightning" id="toc-tutorial-references-of-pytorch-lightning" class="nav-link" data-scroll-target="#tutorial-references-of-pytorch-lightning">Tutorial references of Pytorch Lightning</a></li>
-  <li><a href="#relevant-resources-of-dgcnn" id="toc-relevant-resources-of-dgcnn" class="nav-link" data-scroll-target="#relevant-resources-of-dgcnn">Relevant Resources of DGCNN</a></li>
-  <li><a href="#other-deep-lerning-frameworks" id="toc-other-deep-lerning-frameworks" class="nav-link" data-scroll-target="#other-deep-lerning-frameworks">Other Deep Lerning Frameworks</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/Brent-Murray/DeepLearningEFI/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
@@ -255,112 +263,56 @@ window.Quarto = {
 </header>
 
 
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>Deep Learning (DL) models, specifically those designed for 3D point clouds, are powerful tools for automation. This tutorial outlines how to use the PyTorch Lightning (PL) framework to train a specific and highly effective model—the Dynamic Graph CNN (DGCNN)—on your plot data.</p>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Deep Neural Networks (DNN), specifically those designed for 3D point clouds, are powerful tools for automation. This tutorial outlines how to use the <code>PyTorch Lightning (PL)</code> framework to train a specific and highly effective model—the <code>Dynamic Graph CNN (DGCNN)</code>—on your plot data.</p>
 <p>Our goal is to automate complex analysis, such as:</p>
 <ol type="1">
-<li><p>Classification: Automatically determining the forest type (e.g., conif vs.&nbsp;decid vs.&nbsp;mixed) for a plot.</p></li>
+<li><p>Classification: Automatically determining the forest type (e.g., coniferous/deciduous/mixed) for a plot.</p></li>
 <li><p>Regression: Estimating biomass or predicting tree attributes like total height or basal area.</p></li>
 </ol>
 <p>Source code is available on <a href="https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src">Github</a></p>
-<hr>
 </section>
-<section id="dl-pipeline" class="level2">
-<h2 class="anchored" data-anchor-id="dl-pipeline">DL Pipeline</h2>
+<section id="relevant-resources" class="level1">
+<h1>Relevant Resources</h1>
+<hr>
+<section id="tutorial-references-of-pytorch-lightning" class="level2">
+<h2 class="anchored" data-anchor-id="tutorial-references-of-pytorch-lightning">Tutorial references of Pytorch Lightning</h2>
+<p><a href="https://lightning.ai/pages/blog/pl-tutorial-and-overview/">Tutorial</a></p>
+</section>
+<section id="relevant-resources-for-dgcnn" class="level2">
+<h2 class="anchored" data-anchor-id="relevant-resources-for-dgcnn">Relevant Resources for DGCNN</h2>
+<section id="paper" class="level3">
+<h3 class="anchored" data-anchor-id="paper">paper</h3>
+<p><a href="https://arxiv.org/abs/1801.07829">Wang Y. et al., 2019. Dynamic Graph CNN for Learning on Point Clouds</a></p>
+</section>
+<section id="code" class="level3">
+<h3 class="anchored" data-anchor-id="code">code</h3>
+<p><a href="https://github.com/WangYueFt/dgcnn/blob/master/pytorch/model.py">Original Pytorch reimplementation for DGCNN</a></p>
+</section>
+</section>
+<section id="other-deep-lerning-frameworks" class="level2">
+<h2 class="anchored" data-anchor-id="other-deep-lerning-frameworks">Other Deep Lerning Frameworks</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./images/03_train/dl_pipeline.png" class="img-fluid figure-img"></p>
-<figcaption>Pipeline (<a href="https://subscription.packtpub.com/book/data/9781800561618/2/ch02lvl1sec05/understanding-the-key-components-of-pytorch-lightning">source</a>)</figcaption>
+<p><img src="https://static.packt-cdn.com/products/9781800561618/graphics/image/B16692_01_02.jpg" class="img-fluid figure-img"></p>
+<figcaption>Deep learning fromeworks</figcaption>
 </figure>
 </div>
-<p>The core components of PL:</p>
-<ol type="1">
-<li><p><code>LightningDataModule (LDM)</code> wraps the data phase. It takes in a custom <code>PyTorch Dataset</code> and <code>DataLoader</code> which enables Trainer to handle data during training. If needed, LDM exposes the setup and prepare_data hooks in case you need additional customization.</p></li>
-<li><p><code>LightningModule</code> itself is a custom <code>torch.nn.Module</code> that is extended with dozens of additional hooks like on_fit_start and on_fit_end. These hooks allow us better control of Trainer’s flows and enables custom behaviors by overriding these hooks.</p></li>
-<li><p><code>Trainer</code> configures the training scope and manages the training loop with <code>LightningModule</code> and <code>LightningDataModule</code>. The simplest Trainer configuration is accomplished by setting flags like devices, accelerator, and strategy and by passing in our choice of loggers, profilers, callbacks, and plugins.</p></li>
-</ol>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./images/03_train/pl_modules.png" class="img-fluid figure-img"></p>
-<figcaption>Components</figcaption>
-</figure>
-</div>
-<hr>
-</section>
-<section id="the-data-foundation-the-efi-point-cloud-dataset" class="level2">
-<h2 class="anchored" data-anchor-id="the-data-foundation-the-efi-point-cloud-dataset">The Data Foundation: The EFI Point Cloud Dataset</h2>
-<p>The first critical step in any DL project is data ingestion. In our project, this is handled by two dedicated Python classes: <code>EfiDataset</code> and <code>EfiDataModule</code></p>
-<section id="the-efidataset" class="level3">
-<h3 class="anchored" data-anchor-id="the-efidataset">The <code>EfiDataset</code></h3>
-<p>This class is the translator. It knows how to read your raw point cloud files (e.g., .npy format saved for each plot) and your labels file (e.g., <code>labels.csv</code> for species estimation and <code>biomass_labels.csv</code> for biomass estimation in our workshop).</p>
-<p>Key functions:</p>
-<ol type="1">
-<li><p>Input: It takes your plot files and the label column you are interested in (e.g., <code>dom_sp_type</code> for classification or <code>total_agb_z</code> for biomass regression).</p></li>
-<li><p>Preprocessing: It samples a fixed number of points (<code>num_point</code>, default 8192) from each plot and, optionally, calculates normals (which describe the local orientation of the points, improving model performance).</p></li>
-<li><p>Caching: When run with <code>--process_data</code>, it intelligently processes and saves the prepared data as a cache file. This avoids resampling the raw data every time you train, drastically speeding up development.</p></li>
-</ol>
-</section>
-<section id="the-efidatamodule" class="level3">
-<h3 class="anchored" data-anchor-id="the-efidatamodule">The <code>EfiDataModule</code></h3>
-<p>In the PL framework, the <code>EfiDataModule</code> wraps the <code>EfiDataset</code> to handle the data workflow. It automatically creates the necessary <code>DataLoader</code> objects for the training, validation, and test sets.</p>
-<p>This class ensures the data is correctly loaded and split (e.g., using the <code>split</code> column in <code>labels.csv</code>), and batches are efficiently provided to the GPU workers.</p>
-<div id="f68e0128" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytorch_lightning <span class="im">as</span> pl</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> DataLoader</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> .efi_dataset <span class="im">import</span> EfiDataset</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> EfiDataModule(pl.LightningDataModule):</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    A PyTorch Lightning DataModule for the EFI point cloud dataset.</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Handles data preparation, setup, and creation of DataLoaders.</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, cfg, args):</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.cfg <span class="op">=</span> cfg <span class="co"># Full dataset config (e.g., root, csv_path)</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.args <span class="op">=</span> args <span class="co"># Command line arguments (e.g., batch_size, num_point)</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.num_workers <span class="op">=</span> <span class="dv">4</span> <span class="co"># Fixed worker count for robustness</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> prepare_data(<span class="va">self</span>):</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">        Logic for dataset preparation.</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">        If 'process_data' is true, this triggers the pre-processing step.</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.args.process_data:</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"--- Running Data Pre-processing (train) ---"</span>)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>            EfiDataset(</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>                root<span class="op">=</span><span class="va">self</span>.cfg[<span class="st">'root'</span>], </span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>                csv_path<span class="op">=</span><span class="va">self</span>.cfg[<span class="st">'csv'</span>], </span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>                label_col<span class="op">=</span><span class="va">self</span>.cfg[<span class="st">'label_col'</span>], </span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>                task_type<span class="op">=</span><span class="va">self</span>.cfg[<span class="st">'task'</span>],</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>                split<span class="op">=</span><span class="st">'train'</span>,</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>                num_points<span class="op">=</span><span class="va">self</span>.args.num_point,</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>                classes_list<span class="op">=</span><span class="va">self</span>.cfg[<span class="st">'classes'</span>],</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>                process_data<span class="op">=</span><span class="va">True</span>, <span class="co"># Triggers cache generation</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>                use_normals<span class="op">=</span><span class="va">self</span>.cfg[<span class="st">'use_normal'</span>],</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>                use_fps<span class="op">=</span><span class="va">self</span>.cfg.get(<span class="st">'use_fps'</span>, <span class="va">True</span>)</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>            )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="data-augmentation" class="level3">
-<h3 class="anchored" data-anchor-id="data-augmentation">Data Augmentation</h3>
-<hr>
 </section>
 </section>
-<section id="the-model-dynamic-graph-cnn-dgcnn" class="level2">
-<h2 class="anchored" data-anchor-id="the-model-dynamic-graph-cnn-dgcnn">The Model: Dynamic Graph CNN (DGCNN)</h2>
-<section id="how-dgcnn-works" class="level3">
-<h3 class="anchored" data-anchor-id="how-dgcnn-works">How DGCNN Works</h3>
+<section id="how-dgcnn-works" class="level1">
+<h1>How DGCNN Works</h1>
 <p>While our framework supports multiple models (like PointNet), we will focus on <code>DGCNN</code> (<code>--model dgcnn</code>) because of its superior ability to capture complex local geometry in point clouds—perfect for identifying fine details in forest structure.</p>
 <p>Unlike standard 2D image models, <code>DGCNN</code> does not treat points in isolation. Instead, for every point in the cloud:</p>
 <ol type="1">
-<li><p>Find Neighbors: It looks at the <span class="math inline">\(k\)</span> closest neighboring points.</p></li>
-<li><p>Build a Local Graph: It constructs a miniature graph defining the relationship between the central point and its neighbors.</p></li>
+<li><p>Find <code>Neighbors</code>: It looks at the <span class="math inline">\(k\)</span> closest neighboring points.</p></li>
+<li><p>Build a Local Graph: It constructs a miniature graph defining the <code>relationship</code> between the central point and its neighbors.</p></li>
 <li><p>Dynamic Update: After each layer of processing, it re-evaluates the “neighborhood” in the feature space (hence Dynamic). This allows the model to progressively learn more complex, abstract relationships in the data, ultimately leading to highly accurate classification or attribute prediction for the entire plot.</p></li>
 </ol>
-<div id="fig-elephants" class="quarto-layout-panel">
+<div id="fig-dgcnn-graph" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-elephants-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-dgcnn-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
@@ -380,21 +332,112 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-elephants-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dgcnn-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: DGCNN Graph Convolution
 </figcaption>
 </figure>
 </div>
 </section>
-<section id="implementation" class="level3">
-<h3 class="anchored" data-anchor-id="implementation">Implementation</h3>
-<section id="define-the-dgcnn-model" class="level4">
-<h4 class="anchored" data-anchor-id="define-the-dgcnn-model">Define the DGCNN Model</h4>
+<section id="deep-learning-pipeline" class="level1">
+<h1>Deep Learning Pipeline</h1>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/03_train/dl_pipeline.png" class="img-fluid figure-img"></p>
+<figcaption>Pipeline (<a href="https://subscription.packtpub.com/book/data/9781800561618/2/ch02lvl1sec05/understanding-the-key-components-of-pytorch-lightning">source</a>)</figcaption>
+</figure>
+</div>
+<p>The core components of Pytorch Lightning:</p>
+<ol type="1">
+<li><p><code>LightningDataModule</code> wraps the data phase. It takes in a custom <code>PyTorch Dataset</code> and <code>DataLoader</code> which enables Trainer to handle data during training. If needed, <code>LightningDataModule</code> exposes the setup and prepare_data hooks in case you need additional customization.</p></li>
+<li><p><code>LightningModule</code> itself is a custom <code>torch.nn.Module</code> that is extended with dozens of additional hooks like <code>on_fit_start</code> and <code>on_fit_end</code>. These hooks allow us better control of Trainer’s flows and enables custom behaviors by overriding these hooks.</p></li>
+<li><p><code>Trainer</code> configures the training scope and manages the training loop with <code>LightningModule</code> and <code>LightningDataModule</code>. The simplest Trainer configuration is accomplished by setting flags like devices, accelerator, and strategy and by passing in our choice of loggers, profilers, callbacks, and plugins.</p></li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/03_train/pl_modules.png" class="img-fluid figure-img"></p>
+<figcaption>Components</figcaption>
+</figure>
+</div>
+<hr>
+</section>
+<section id="the-data-foundation-the-efi-point-cloud-dataset" class="level1">
+<h1>The Data Foundation: The EFI Point Cloud Dataset</h1>
+<p>The first critical step in any deep learning project is data ingestion. In our project, this is handled by two dedicated Python classes: <code>EfiDataset</code> and <code>EfiDataModule</code></p>
+<section id="the-efidataset" class="level2">
+<h2 class="anchored" data-anchor-id="the-efidataset">The <code>EfiDataset</code></h2>
+<p>This class is the translator. It knows how to read your raw point cloud files (e.g., .npy format saved for each plot) and your labels file (e.g., <code>labels.csv</code> for species estimation and <code>biomass_labels.csv</code> for biomass estimation in our workshop).</p>
+<p>Key functions:</p>
+<ol type="1">
+<li><p>Input: It takes your plot files and the label column you are interested in (e.g., <code>dom_sp_type</code> for classification or <code>total_agb_z</code> for biomass regression).</p></li>
+<li><p>Pre-processing: It samples a fixed number of points (<code>num_point</code>, default 8192) from each plot and, optionally, calculates <code>normals</code> (which describe the local orientation of the points, improving model performance).</p></li>
+<li><p>Caching: When run with <code>--process_data</code>, it intelligently processes and saves the prepared data as a cache file (<code>_process_and_cache()</code>). This avoids resampling the raw data every time you train, drastically speeding up development. Else if cache exists: <code>_load_cache()</code>, else: <code>on-the-fly</code>.</p></li>
+</ol>
+<section id="the-efidatamodule" class="level3">
+<h3 class="anchored" data-anchor-id="the-efidatamodule">The <code>EfiDataModule</code></h3>
+<p>In the Pytorch Lightning framework, the <code>EfiDataModule</code> wraps the <code>EfiDataset</code> to handle the data workflow. It automatically creates the necessary <code>DataLoader</code> objects for the <code>training</code>, <code>validation</code>, and <code>test</code> sets.</p>
+<p>This class ensures the data is correctly loaded and split (e.g., using the <code>split</code> column in <code>labels.csv</code>), and batches are efficiently provided to the GPU workers.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Lightning call order: <code>prepare_data(), setup(stage="fit"), train_dataloader() / val_dataloader()</code></p>
+</div>
+</div>
+<div id="a3200849" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytorch_lightning <span class="im">as</span> pl</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> DataLoader</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> .efi_dataset <span class="im">import</span> EfiDataset</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> EfiDataModule(pl.LightningDataModule):</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    A PyTorch Lightning DataModule for the EFI point cloud dataset.</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Handles data preparation, setup, and creation of DataLoaders.</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, cfg, args):</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.cfg <span class="op">=</span> cfg <span class="co"># Full dataset config (e.g., root, csv_path)</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.args <span class="op">=</span> args <span class="co"># Command line arguments (e.g., batch_size, num_point)</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.num_workers <span class="op">=</span> <span class="dv">4</span> <span class="co"># Fixed worker count for robustness</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> prepare_data(<span class="va">self</span>):</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">        If 'process_data' is true, this triggers the pre-processing step: prepare_data(self).</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">getattr</span>(<span class="va">self</span>.args, <span class="st">"process_data"</span>, <span class="va">False</span>):</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> split <span class="kw">in</span> [<span class="st">"train"</span>, <span class="st">"val"</span>, <span class="st">"test"</span>]:</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>(<span class="ss">f"--- Preprocessing </span><span class="sc">{</span>split<span class="sc">}</span><span class="ss"> ---"</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>                EfiDataset(</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>                    root<span class="op">=</span><span class="va">self</span>.cfg[<span class="st">'root'</span>],</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>                    csv_path<span class="op">=</span><span class="va">self</span>.cfg[<span class="st">'csv'</span>],</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>                    label_col<span class="op">=</span><span class="va">self</span>.cfg[<span class="st">'label_col'</span>],</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>                    task_type<span class="op">=</span><span class="va">self</span>.cfg[<span class="st">'task'</span>],</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>                    split<span class="op">=</span>split,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>                    num_points<span class="op">=</span><span class="va">self</span>.args.num_point,</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>                    classes_list<span class="op">=</span><span class="va">self</span>.cfg.get(<span class="st">'classes'</span>, <span class="va">None</span>),</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>                    process_data<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>                    use_normals<span class="op">=</span><span class="va">self</span>.cfg[<span class="st">'use_normal'</span>],</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>                    use_fps<span class="op">=</span><span class="va">self</span>.cfg[<span class="st">'use_fps'</span>],</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>                )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="the-model-dynamic-graph-cnn-dgcnn" class="level1">
+<h1>The Model: Dynamic Graph CNN (DGCNN)</h1>
+<section id="define-the-dgcnn-model" class="level2">
+<h2 class="anchored" data-anchor-id="define-the-dgcnn-model">Define the DGCNN Model</h2>
 <p>This section covers the implementation of the <code>get_model</code> function and the <code>DGCNN</code> class itself, including its structure of feature extraction layers and final classification/regression heads.</p>
-<div id="27d8c1fe" class="cell" data-execution_count="2">
+<div id="1bbacfde" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> models.heads <span class="im">import</span> ClassificationHead, RegressionHead</span>
@@ -501,51 +544,57 @@ Figure&nbsp;1: DGCNN Graph Convolution
 <span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="va">self</span>.mlp(x) <span class="co"># [B, num_outputs]</span></span>
 <span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>        trans_feat <span class="op">=</span> <span class="va">None</span> <span class="co"># DGCNN does not produce a transform matrix</span></span>
 <span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x, trans_feat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x, trans_feat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
-<section id="loss-functions" class="level4">
-<h4 class="anchored" data-anchor-id="loss-functions">Loss functions</h4>
-<p>The loss function, or cost function, quantifies the difference between the model’s prediction and the true target value. It is the primary signal that guides the Deep Learning model during training. The goal of the optimizer (Adam) is to adjust the model’s weights to continuously minimize this loss value.</p>
+<section id="loss-functions" class="level2">
+<h2 class="anchored" data-anchor-id="loss-functions">Loss functions</h2>
+<p>The <code>loss function</code>, or cost function, quantifies the <code>difference between the model's prediction and the true target value</code>. It is the primary signal that guides the Deep Learning model during training. The goal of the optimizer (e.g., Adam) is to adjust the model’s weights to continuously minimize this loss value.</p>
 <p>Our module uses task-specific loss components:</p>
-<div id="745988b5" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_loss_function(task):</span>
+<div id="f9829306" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_loss_function(task):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns the core loss function (either nn.Module or functional).</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> task <span class="op">==</span> <span class="st">'classification'</span>:</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Using CrossEntropyLoss is simplest if input is raw logits.</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> F.nll_loss <span class="co"># nn.CrossEntropyLoss()</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> F.nll_loss</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> task <span class="op">==</span> <span class="st">'regression'</span>:</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> F.smooth_l1_loss</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"Unknown task type: </span><span class="sc">{</span>task<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"Unknown task type: </span><span class="sc">{</span>task<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li>For Classification Tasks: <code>F.nll_loss</code> (Negative Log Likelihood Loss).</li>
+<li>For Classification Tasks: <code>F.nll_loss</code> (<a href="https://docs.pytorch.org/docs/stable/generated/torch.nn.NLLLoss.html#torch.nn.NLLLoss">Pytorch Implementation</a> ).</li>
 </ul>
 <p>This function is typically used when the model outputs log-probabilities (often obtained by applying a log-softmax activation to the raw logits). It penalizes the model when it assigns a low probability to the correct class:</p>
 <p><span class="math display">\[
 L_{\text{NLL}}(y, \hat{y}) = - \hat{y}_c
 \]</span></p>
 <p>where <span class="math inline">\(y\)</span> is the true class index, <span class="math inline">\(\hat{y}\)</span> is the vector of log-probabilities output by the model (e.g., via F.log_softmax), and <span class="math inline">\(\hat{y}_c\)</span> is the log-probability corresponding to the true class <span class="math inline">\(c\)</span>.</p>
-<p><a href="https://docs.pytorch.org/docs/stable/generated/torch.nn.NLLLoss.html#torch.nn.NLLLoss">Pytorch Implementation</a></p>
 <ul>
-<li>For Regression Tasks:</li>
+<li>For Regression Tasks: <code>F.smooth_l1_loss</code> (<a href="https://docs.pytorch.org/docs/stable/generated/torch.nn.SmoothL1Loss.html#torch.nn.SmoothL1Loss">Pytorch Implementation</a>).</li>
 </ul>
-<p><code>F.smooth_l1_loss</code> (Smooth L1 Loss or Huber Loss).</p>
 <p>This function is a robust alternative to Mean Squared Error (L2) and Mean Absolute Error (L1). It behaves like L2 loss for small errors (which gives a smoother gradient for optimization) and like L1 loss for large errors (which makes it less sensitive to outliers).</p>
-<p><a href="https://docs.pytorch.org/docs/stable/generated/torch.nn.SmoothL1Loss.html#torch.nn.SmoothL1Loss">Pytorch Implementation</a></p>
+<p><span class="math display">\[
+\ell(x, y) = L = \{l_1, ..., l_N\}^T
+\]</span> $$</p>
+l_n =
+<span class="math display">\[\begin{cases}
+        0.5 (x_n - y_n)^2 / beta, &amp; \text{if } |x_n - y_n| &lt; beta \\
+        |x_n - y_n| - 0.5 * beta, &amp; \text{otherwise }
+        \end{cases}\]</span>
+<p>$$</p>
 </section>
-<section id="the-pytorch-lightning-wrapper-efimodelmodule" class="level4">
-<h4 class="anchored" data-anchor-id="the-pytorch-lightning-wrapper-efimodelmodule">The PyTorch Lightning Wrapper: EfiModelModule</h4>
+<section id="the-pytorch-lightning-wrapper-efimodelmodule" class="level2">
+<h2 class="anchored" data-anchor-id="the-pytorch-lightning-wrapper-efimodelmodule">The PyTorch Lightning Wrapper: EfiModelModule</h2>
 <p>This class is the single source of truth for your experiment:</p>
 <ol type="1">
 <li>Initialization: It loads the <code>DGCNN</code> model and sets up the loss function.</li>
 </ol>
-<div id="7e2e0882" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> EfiModelModule(pl.LightningModule):</span>
+<div id="58566452" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> EfiModelModule(pl.LightningModule):</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, cfg, args):</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Store hyperparameters for W&amp;B/checkpointing</span></span>
@@ -561,7 +610,7 @@ L_{\text{NLL}}(y, \hat{y}) = - \hat{y}_c
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 2. Setup Metric Calculators (one for validation, one for testing)</span></span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.val_metrics <span class="op">=</span> MetricsCalculator(<span class="va">self</span>.task, cfg[<span class="st">'num_classes'</span>])</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.test_metrics <span class="op">=</span> MetricsCalculator(<span class="va">self</span>.task, cfg[<span class="st">'num_classes'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.test_metrics <span class="op">=</span> MetricsCalculator(<span class="va">self</span>.task, cfg[<span class="st">'num_classes'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="2" type="1">
 <li>Core Step Logic:
@@ -570,8 +619,8 @@ L_{\text{NLL}}(y, \hat{y}) = - \hat{y}_c
 <li><code>_shared_step(self, batch)</code>: The main processing pipeline.</li>
 </ul></li>
 </ol>
-<div id="b399e81f" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forward(<span class="va">self</span>, points):</span>
+<div id="9713660b" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forward(<span class="va">self</span>, points):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Standard model forward pass."""</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.model(points)</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -593,27 +642,27 @@ L_{\text{NLL}}(y, \hat{y}) = - \hat{y}_c
 <span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        task<span class="op">=</span><span class="va">self</span>.task</span>
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> loss, pred, target</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> loss, pred, target</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="3" type="1">
-<li><code>training_step</code>, <code>validation_step</code>, <code>test_step</code>: Defines how to calculate the loss for a single batch of data. This loss includes the primary objective (Classification or Regression loss) plus any regularization (like the matrix difference loss in <code>DGCNN</code>).</li>
+<li><code>training_step</code>, <code>validation_step</code>, <code>test_step</code>: Defines how to calculate the loss for a single batch of data. This loss includes the primary objective (Classification or Regression loss).</li>
 </ol>
 <p><code>training_step</code>:</p>
-<div id="a0b56da9" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Training ---</span></span>
+<div id="df896767" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Training ---</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> training_step(<span class="va">self</span>, batch, batch_idx):</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    loss, _, _ <span class="op">=</span> <span class="va">self</span>._shared_step(batch)</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Log basic training loss and learning rate for W&amp;B</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.log(<span class="st">'train/loss'</span>, loss, on_step<span class="op">=</span><span class="va">False</span>, on_epoch<span class="op">=</span><span class="va">True</span>, prog_bar<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.log(<span class="st">'train/lr'</span>, <span class="va">self</span>.optimizers().param_groups[<span class="dv">0</span>][<span class="st">'lr'</span>], on_step<span class="op">=</span><span class="va">True</span>, on_epoch<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> loss</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> loss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>validation_step</code>:</p>
-<div id="bc73d24a" class="cell" data-execution_count="7">
+<div id="8e81eef2" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Validation ---</span></span>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Validation ---</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> validation_step(<span class="va">self</span>, batch, batch_idx):</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    loss, pred, target <span class="op">=</span> <span class="va">self</span>._shared_step(batch)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -623,56 +672,14 @@ L_{\text{NLL}}(y, \hat{y}) = - \hat{y}_c
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Update the full MetricsCalculator for end-of-epoch aggregation</span></span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.val_metrics.update(pred, target, <span class="fl">0.0</span>)</span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> loss</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> on_validation_epoch_end(<span class="va">self</span>):</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculates and logs all final validation metrics using W&amp;B.</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute metrics from the aggregated predictions/targets</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    all_pred <span class="op">=</span> np.concatenate(<span class="va">self</span>.val_metrics.predictions, axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    all_target <span class="op">=</span> np.concatenate(<span class="va">self</span>.val_metrics.targets, axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    val_logs <span class="op">=</span> {}</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="va">self</span>.task <span class="op">==</span> <span class="st">'classification'</span>:</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        pred_labels <span class="op">=</span> np.argmax(all_pred, axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        instance_acc <span class="op">=</span> np.mean(pred_labels <span class="op">==</span> all_target)</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Per-Class Accuracy</span></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        cm <span class="op">=</span> confusion_matrix(all_target, pred_labels)</span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Handle division by zero warning if a class has no samples in the batch</span></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> np.errstate(divide<span class="op">=</span><span class="st">'ignore'</span>, invalid<span class="op">=</span><span class="st">'ignore'</span>):</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>                class_acc_array <span class="op">=</span> cm.diagonal() <span class="op">/</span> cm.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>        class_acc <span class="op">=</span> np.mean(class_acc_array[<span class="op">~</span>np.isnan(class_acc_array)])</span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Log all classification metrics to W&amp;B</span></span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>        val_logs[<span class="st">'val/instance_acc'</span>] <span class="op">=</span> instance_acc</span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>        val_logs[<span class="st">'val/class_acc'</span>] <span class="op">=</span> class_acc</span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="va">self</span>.task <span class="op">==</span> <span class="st">'regression'</span>:</span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>        pred_values <span class="op">=</span> all_pred.flatten()</span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>        target_values <span class="op">=</span> all_target.flatten()</span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute R2 and RMSE</span></span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>        r2 <span class="op">=</span> r2_score(target_values, pred_values)</span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>        rmse <span class="op">=</span> np.sqrt(mean_squared_error(target_values, pred_values))</span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Log all regression metrics to W&amp;B</span></span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>        val_logs[<span class="st">'val/r2_score'</span>] <span class="op">=</span> r2</span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>        val_logs[<span class="st">'val/rmse'</span>] <span class="op">=</span> rmse</span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PL logging handles synchronization across GPUs</span></span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.log_dict(val_logs, on_step<span class="op">=</span><span class="va">False</span>, on_epoch<span class="op">=</span><span class="va">True</span>, prog_bar<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Reset metric calculator for the next epoch</span></span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.val_metrics.reset()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> loss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p><code>test_step</code>:</p>
-<div id="e58d249f" class="cell" data-execution_count="8">
+<div id="4b9c9e74" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Test Step ---</span></span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Test Step ---</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_step(<span class="va">self</span>, batch, batch_idx):</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Dedicated step for final, unbiased evaluation on the test set.</span></span>
@@ -728,41 +735,46 @@ L_{\text{NLL}}(y, \hat{y}) = - \hat{y}_c
 <span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.log_dict(test_logs, on_step<span class="op">=</span><span class="va">False</span>, on_epoch<span class="op">=</span><span class="va">True</span>, prog_bar<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Reset metric calculator for the next run</span></span>
-<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.test_metrics.reset()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.test_metrics.reset()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p><code>prediction_step</code> is used for generating raw output/predictions on unseen data, it does not calculating loss and metrices:</p>
-<div id="2ec156cc" class="cell" data-execution_count="9">
+<div id="c7ca7679" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Prediction / Inference ---</span></span>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Prediction / Inference ---</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_step(<span class="va">self</span>, batch, batch_idx, dataloader_idx<span class="op">=</span><span class="dv">0</span>):</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Used for generating raw output/predictions on unseen data.</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Does not calculate loss or metrics.</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Runs when trainer.predict() is called.</span></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Note: We assume the batch structure is the same, but the target is ignored or zeroed out</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    points, _ <span class="op">=</span> batch </span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Transpose [B, N, C] -&gt; [B, C, N] and enforce float32</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    points <span class="op">=</span> points.transpose(<span class="dv">2</span>, <span class="dv">1</span>).<span class="bu">float</span>() </span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Forward Pass</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Assuming self(points) returns (pred, trans_feat), we only return the prediction (pred)</span></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    pred, _ <span class="op">=</span> <span class="va">self</span>(points) </span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Return only the raw prediction tensor for the user</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pred</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    points, target, pid <span class="op">=</span> batch </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Transpose [B, N, C] -&gt; [B, C, N] and enforce float32</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    points <span class="op">=</span> points.transpose(<span class="dv">2</span>, <span class="dv">1</span>).<span class="bu">float</span>() </span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Forward Pass</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Assuming self(points) returns (pred, trans_feat), we only return the prediction (pred)</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    pred, _ <span class="op">=</span> <span class="va">self</span>(points)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="va">self</span>.task <span class="op">==</span> <span class="st">'classification'</span>:</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> torch.argmax(pred, dim<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Return only the raw prediction tensor for the user</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"plot_id"</span>: pid,</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pred"</span>: pred.detach().cpu(),</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"gt"</span>: target.detach().cpu()</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <ol start="4" type="1">
 <li>Optimizer and Scheduler: <code>configure_optimizers</code>: the setup of the <code>Adam</code> optimizer (with specific learning rate and weight decay from args) and the <code>StepLR</code> scheduler, emphasizing the necessity of returning them in the nested dictionary format required by <code>PyTorch Lightning</code>.</li>
 </ol>
-<div id="ff088dc9" class="cell" data-execution_count="10">
+<div id="ba1b7a51" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Optimizer Configuration ---</span></span>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Optimizer Configuration ---</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> configure_optimizers(<span class="va">self</span>):</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Defines the optimizer and scheduler as required by PL."""</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    optimizer <span class="op">=</span> torch.optim.Adam(</span>
@@ -782,22 +794,20 @@ L_{\text{NLL}}(y, \hat{y}) = - \hat{y}_c
 <span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>            <span class="st">'scheduler'</span>: scheduler, </span>
 <span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>            <span class="st">'interval'</span>: <span class="st">'epoch'</span>, <span class="co"># Run scheduler step after each epoch</span></span>
 <span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <hr>
-</section>
-</section>
 </section>
 <section id="training-deep-learning-models-in-pytorch-lighting" class="level2">
 <h2 class="anchored" data-anchor-id="training-deep-learning-models-in-pytorch-lighting">Training Deep Learning Models in PyTorch Lighting</h2>
 <section id="configurations" class="level4">
 <h4 class="anchored" data-anchor-id="configurations">Configurations</h4>
 <p>Detail where the <code>cfg</code> (e.g., <code>config.py</code> configuration file) and args (e.g., command line arguments) are loaded and parsed.</p>
-<div id="2bd32569" class="cell" data-execution_count="11">
+<div id="8c673b3d" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>DATASET_CONFIG <span class="op">=</span> {</span>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>DATASET_CONFIG <span class="op">=</span> {</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'petawawa_cls'</span>: {</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">'task'</span>: <span class="st">'classification'</span>,</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">'root'</span>: <span class="st">'./data/petawawa/plot_point_clouds'</span>,</span>
@@ -819,7 +829,7 @@ L_{\text{NLL}}(y, \hat{y}) = - \hat{y}_c
 <span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">'label_col'</span>: <span class="st">'total_agb_z'</span>,</span>
 <span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">'num_classes'</span>: <span class="dv">1</span></span>
 <span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Importance: Explain that these objects define the task, model choice, hyperparameters, and logging options.</p>
@@ -827,10 +837,10 @@ L_{\text{NLL}}(y, \hat{y}) = - \hat{y}_c
 <section id="the-pytorch-lightning-trainer" class="level3">
 <h3 class="anchored" data-anchor-id="the-pytorch-lightning-trainer">The PyTorch Lightning Trainer</h3>
 <p>The <code>Trainer</code> class is responsible for the entire training lifecycle, handling distributed training, checkpointing, and calling the *step hooks of the <code>EfiModelModule</code>.</p>
-<div id="8222af88" class="cell" data-execution_count="12">
+<div id="9f42e8a4" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Instantiate DataModule and Lightning Module</span></span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Instantiate DataModule and Lightning Module</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>data_module <span class="op">=</span> EfiDataModule(full_cfg, args)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>model_module <span class="op">=</span> EfiModelModule(full_cfg, args)</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -860,21 +870,24 @@ L_{\text{NLL}}(y, \hat{y}) = - \hat{y}_c
 <span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Start Training</span></span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Starting PyTorch Lightning Training...'</span>)</span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>trainer.fit(model_module, data_module)</span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Test the best checkpoint after training</span></span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">--- Testing Best Model ---'</span>)</span>
-<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>trainer.test(datamodule<span class="op">=</span>data_module, ckpt_path<span class="op">=</span><span class="st">'best'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> mode <span class="op">==</span> <span class="st">"training"</span>:</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Starting PyTorch Lightning Training...'</span>)</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    trainer.fit(model_module, data_module)</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Test the best checkpoint after training</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">--- Testing Model ---'</span>)</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>    trainer.test(datamodule<span class="op">=</span>data_module, ckpt_path<span class="op">=</span><span class="st">'best'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
-<section id="monitoring-with-weights-biases-wb" class="level3">
-<h3 class="anchored" data-anchor-id="monitoring-with-weights-biases-wb">Monitoring with Weights &amp; Biases (W&amp;B)</h3>
+</section>
+<section id="monitoring-with-weights-biases-wb" class="level2">
+<h2 class="anchored" data-anchor-id="monitoring-with-weights-biases-wb">Monitoring with Weights &amp; Biases (W&amp;B)</h2>
 <p>The <code>WandbLogger</code> is integrated directly into the <code>train_pl.py</code> script. <code>W&amp;B</code> is a powerful tool that automatically logs everything:</p>
 <p><code>Metrics</code>: All the calculated <code>val/instance_acc</code>, <code>val/r2_score</code>, <code>train/loss</code>, etc., are plotted in real-time.</p>
-<div id="380a1fdd" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Setup W&amp;B Logger</span></span>
+<div id="08755899" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Setup W&amp;B Logger</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>wandb_logger <span class="op">=</span> WandbLogger(</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    project<span class="op">=</span>args.wandb_project,</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span>Path(<span class="st">'./log/'</span>).joinpath(task).joinpath(args.model).joinpath(args.log_dir <span class="kw">or</span> <span class="bu">str</span>(datetime.datetime.now().strftime(<span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st">_%H-%M'</span>))),</span>
@@ -883,14 +896,73 @@ L_{\text{NLL}}(y, \hat{y}) = - \hat{y}_c
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Use W&amp;B's run directory for checkpoints</span></span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>checkpoint_dir <span class="op">=</span> Path(<span class="st">'./log'</span>) <span class="op">/</span> args.wandb_project <span class="op">/</span> wandb_logger.experiment.name <span class="op">/</span> <span class="st">'checkpoints'</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>checkpoint_dir.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>checkpoint_dir.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
 <section id="wb-dashboard" class="level3">
 <h3 class="anchored" data-anchor-id="wb-dashboard">W&amp;B Dashboard</h3>
 <iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/akty7srj" style="border:none;height:1024px;width:100%">
 </iframe>
 </section>
+</section>
+<section id="hyperparameter-tuning-weights-and-biases" class="level2">
+<h2 class="anchored" data-anchor-id="hyperparameter-tuning-weights-and-biases">Hyperparameter tuning Weights and Biases</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/03_train/hyperparameter_optimization.png" class="img-fluid figure-img"></p>
+<figcaption>Hyperparameter tuning process</figcaption>
+</figure>
+</div>
+<p>Weights and Biases (wandb) is an online deep learning tool that can track experiments, perform hyperparameter tuning and visualize results. It is an effective method for refining and comparing models with different configurations.</p>
+<p>Compare results of different HPs using WANDB Sweep: DGCNN example</p>
+<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/qs96lr1s" style="border:none;height:1024px;width:100%">
+</iframe>
+</section>
+<section id="predicting-use-the-pre-trained-model" class="level2">
+<h2 class="anchored" data-anchor-id="predicting-use-the-pre-trained-model">Predicting use the pre-trained model</h2>
+<div id="4b66803b" class="cell" data-execution_count="14">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># predict.py</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ... same as training for configs loading, datamodule, modelmodule, trainer initialize</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Run prediction</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Running prediction..."</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>outputs <span class="op">=</span> trainer.predict(model, dataloaders<span class="op">=</span>data_module)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Parse outputs → CSV</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>records <span class="op">=</span> []</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> task <span class="op">==</span> <span class="st">"classification"</span>:</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> o <span class="kw">in</span> outputs:</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pid, gt, pred <span class="kw">in</span> <span class="bu">zip</span>(</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>            o[<span class="st">"plot_id"</span>],</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>            o[<span class="st">"gt"</span>],</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>            o[<span class="st">"pred"</span>]</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>        ):</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>            records.append({</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>                <span class="st">"plot_id"</span>: pid,</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>                <span class="st">"dom_sp_type"</span>: <span class="bu">int</span>(gt.item()),</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>                <span class="st">"pred_dom_sp_type"</span>: <span class="bu">int</span>(pred.item())</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>            })</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:  <span class="co"># regression</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> o <span class="kw">in</span> outputs:</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pid, gt, pred <span class="kw">in</span> <span class="bu">zip</span>(</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>            o[<span class="st">"plot_id"</span>],</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>            o[<span class="st">"gt"</span>],</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>            o[<span class="st">"pred"</span>]</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>        ):</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>            records.append({</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>                <span class="st">"plot_id"</span>: pid,</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>                <span class="st">"total_agb_z"</span>: <span class="bu">float</span>(gt.item()),</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>                <span class="st">"total_agb_z_pred"</span>: <span class="bu">float</span>(pred.item())</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>            })</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(records)</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>df.to_csv(os.path.join(os.path.dirname(args.ckpt_path), args.out_csv), index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Predictions saved to: </span><span class="sc">{</span>os<span class="sc">.</span>path<span class="sc">.</span>join(os.path.dirname(args.ckpt_path), args.out_csv)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
 <section id="how-to-run" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-run">How to run</h2>
@@ -898,8 +970,10 @@ L_{\text{NLL}}(y, \hat{y}) = - \hat{y}_c
 <h3 class="anchored" data-anchor-id="environment-install">Environment install</h3>
 <p>see <code>python_environment_setup.md</code></p>
 </section>
-<section id="command" class="level3">
-<h3 class="anchored" data-anchor-id="command">Command</h3>
+<section id="training" class="level3">
+<h3 class="anchored" data-anchor-id="training">Training</h3>
+<section id="classification" class="level4">
+<h4 class="anchored" data-anchor-id="classification">Classification</h4>
 <p>To train the <code>DGCNN</code> model on the petawawa dataset for a species classification task:</p>
 <pre class="{bash}"><code>python train_pl.py \
     --model dgcnn \
@@ -908,7 +982,10 @@ L_{\text{NLL}}(y, \hat{y}) = - \hat{y}_c
     --epoch 150 \
     --learning_rate 0.0001 \
     --log_dir petawawa_species_cls_dgcnn \
-    --process_data</code></pre>
+    --process_data # First time / no cache</code></pre>
+</section>
+<section id="regression" class="level4">
+<h4 class="anchored" data-anchor-id="regression">Regression</h4>
 <p>To train the <code>DGCNN</code> model on the petawawa dataset for a biomass estimation task:</p>
 <pre class="{bash}"><code>python train_pl.py \
     --model dgcnn \
@@ -917,7 +994,31 @@ L_{\text{NLL}}(y, \hat{y}) = - \hat{y}_c
     --epoch 150 \
     --learning_rate 0.0001 \
     --log_dir petawawa_bio_reg_dgcnn \
-    --process_data</code></pre>
+    --process_data # First time / no cache</code></pre>
+</section>
+</section>
+<section id="testing" class="level3">
+<h3 class="anchored" data-anchor-id="testing">Testing</h3>
+<section id="classification-1" class="level4">
+<h4 class="anchored" data-anchor-id="classification-1">Classification</h4>
+<p>How to run:</p>
+<pre class="{bash}"><code>wget -P /path/to/directory https://github.com/Brent-Murray/DeepLearningEFI/blob/main/src/pretrained_ckpt/peta_cls_dgcnn_bs16_lre4/checkpoints/best_model.ckpt 
+
+python predict.py --model dgcnn --dataset_config_key petawawa_cls --ckpt_path /path/to/directory/best_model.ckpt
+
+# example
+python predict.py --model dgcnn --dataset_config_key petawawa_cls --ckpt_path log/EFI_DL/peta_cls_dgcnn_bs8_lre3/checkpoints/best_model.ckpt</code></pre>
+</section>
+<section id="regression-1" class="level4">
+<h4 class="anchored" data-anchor-id="regression-1">Regression</h4>
+<p>How to run:</p>
+<pre class="{bash}"><code>wget -P /path/to/directory https://github.com/Brent-Murray/DeepLearningEFI/blob/main/src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/best_model.ckpt
+
+python predict.py --model dgcnn --dataset_config_key petawawa_reg --ckpt_path /path/to/directory/best_model.ckpt
+
+# example
+python predict.py --model dgcnn --dataset_config_key petawawa_reg --ckpt_path log/EFI_DL/peta_reg_dgcnn_bs8_lre3/checkpoints/best_model.ckpt</code></pre>
+</section>
 </section>
 <section id="code-structure" class="level3">
 <h3 class="anchored" data-anchor-id="code-structure">Code structure</h3>
@@ -941,278 +1042,247 @@ L_{\text{NLL}}(y, \hat{y}) = - \hat{y}_c
         ├── pointnet_utils.py
         └── pointnext.py
     └── train_pl.py</code></pre>
-<hr>
-</section>
-</section>
-<section id="resources" class="level2">
-<h2 class="anchored" data-anchor-id="resources">Resources</h2>
-<section id="tutorial-references-of-pytorch-lightning" class="level3">
-<h3 class="anchored" data-anchor-id="tutorial-references-of-pytorch-lightning">Tutorial references of Pytorch Lightning</h3>
-<p>https://lightning.ai/pages/blog/pl-tutorial-and-overview/ https://lightning.ai/pages/community/tutorial/step-by-step-walk-through-of-pytorch-lightning/</p>
-</section>
-<section id="relevant-resources-of-dgcnn" class="level3">
-<h3 class="anchored" data-anchor-id="relevant-resources-of-dgcnn">Relevant Resources of DGCNN</h3>
-<section id="paper" class="level4">
-<h4 class="anchored" data-anchor-id="paper">paper</h4>
-<p><a href="https://arxiv.org/abs/1801.07829">Wang Y. et al., 2019. Dynamic Graph CNN for Learning on Point Clouds</a></p>
-</section>
-<section id="code" class="level4">
-<h4 class="anchored" data-anchor-id="code">code</h4>
-<p><a href="https://github.com/WangYueFt/dgcnn/blob/master/pytorch/model.py">Original Pytorch reimplementation for DGCNN</a></p>
-</section>
-</section>
-<section id="other-deep-lerning-frameworks" class="level3">
-<h3 class="anchored" data-anchor-id="other-deep-lerning-frameworks">Other Deep Lerning Frameworks</h3>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://static.packt-cdn.com/products/9781800561618/graphics/image/B16692_01_02.jpg" class="img-fluid figure-img"></p>
-<figcaption>Deep learning fromeworks</figcaption>
-</figure>
-</div>
 
 
+</section>
 </section>
 </section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-  window.document.addEventListener("DOMContentLoaded", function (event) {
-    const icon = "";
-    const anchorJS = new window.AnchorJS();
-    anchorJS.options = {
-      placement: 'right',
-      icon: icon
-    };
-    anchorJS.add('.anchored');
-    const isCodeAnnotation = (el) => {
-      for (const clz of el.classList) {
-        if (clz.startsWith('code-annotation-')) {                     
-          return true;
-        }
-      }
-      return false;
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
     }
-    const onCopySuccess = function(e) {
-      // button target
-      const button = e.trigger;
-      // don't keep focus
-      button.blur();
-      // flash "checked"
-      button.classList.add('code-copy-button-checked');
-      var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
-      let tooltip;
-      if (window.bootstrap) {
-        button.setAttribute("data-bs-toggle", "tooltip");
-        button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
-        tooltip = new bootstrap.Tooltip(button, 
-          { trigger: "manual", 
-            customClass: "code-copy-button-tooltip",
-            offset: [0, -8]});
-        tooltip.show();    
-      }
-      setTimeout(function() {
-        if (tooltip) {
-          tooltip.hide();
-          button.removeAttribute("data-bs-title");
-          button.removeAttribute("data-bs-toggle");
-          button.removeAttribute("data-bs-placement");
-        }
-        button.setAttribute("title", currentTitle);
-        button.classList.remove('code-copy-button-checked');
-      }, 1000);
-      // clear code selection
-      e.clearSelection();
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
     }
-    const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
       for (const childEl of codeEl.children) {
         if (isCodeAnnotation(childEl)) {
           childEl.remove();
         }
       }
       return codeEl.innerText;
-    }
-    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-      text: getTextToCopy
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
     });
-    clipboard.on('success', onCopySuccess);
-    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-        text: getTextToCopy,
-        container: window.document.getElementById('quarto-embedded-source-code-modal')
-      });
-      clipboardModal.on('success', onCopySuccess);
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/Brent-Murray\.github\.io\/DeepLearningEFI\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
-      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/Brent-Murray\.github\.io\/DeepLearningEFI\/");
-      var isInternal = (href) => {
-          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-      }
-      // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-      for (var i=0; i<links.length; i++) {
-        const link = links[i];
-        if (!isInternal(link.href)) {
-          // undo the damage that might have been done by quarto-nav.js in the case of
-          // links that we want to consider external
-          if (link.dataset.originalHref !== undefined) {
-            link.href = link.dataset.originalHref;
-          }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
         }
       }
-    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-      const config = {
-        allowHTML: true,
-        maxWidth: 500,
-        delay: 100,
-        arrow: false,
-        appendTo: function(el) {
-            return el.parentElement;
-        },
-        interactive: true,
-        interactiveBorder: 10,
-        theme: 'quarto',
-        placement: 'bottom-start',
-      };
-      if (contentFn) {
-        config.content = contentFn;
-      }
-      if (onTriggerFn) {
-        config.onTrigger = onTriggerFn;
-      }
-      if (onUntriggerFn) {
-        config.onUntrigger = onUntriggerFn;
-      }
-      window.tippy(el, config); 
     }
-    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-    for (var i=0; i<noterefs.length; i++) {
-      const ref = noterefs[i];
-      tippyHover(ref, function() {
-        // use id or data attribute instead here
-        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-        try { href = new URL(href).hash; } catch {}
-        const id = href.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note) {
-          return note.innerHTML;
-        } else {
-          return "";
-        }
-      });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
     }
-    const xrefs = window.document.querySelectorAll('a.quarto-xref');
-    const processXRef = (id, note) => {
-      // Strip column container classes
-      const stripColumnClz = (el) => {
-        el.classList.remove("page-full", "page-columns");
-        if (el.children) {
-          for (const child of el.children) {
-            stripColumnClz(child);
-          }
-        }
-      }
-      stripColumnClz(note)
-      if (id === null || id.startsWith('sec-')) {
-        // Special case sections, only their first couple elements
-        const container = document.createElement("div");
-        if (note.children && note.children.length > 2) {
-          container.appendChild(note.children[0].cloneNode(true));
-          for (let i = 1; i < note.children.length; i++) {
-            const child = note.children[i];
-            if (child.tagName === "P" && child.innerText === "") {
-              continue;
-            } else {
-              container.appendChild(child.cloneNode(true));
-              break;
-            }
-          }
-          if (window.Quarto?.typesetMath) {
-            window.Quarto.typesetMath(container);
-          }
-          return container.innerHTML
-        } else {
-          if (window.Quarto?.typesetMath) {
-            window.Quarto.typesetMath(note);
-          }
-          return note.innerHTML;
-        }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
       } else {
-        // Remove any anchor links if they are present
-        const anchorLink = note.querySelector('a.anchorjs-link');
-        if (anchorLink) {
-          anchorLink.remove();
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
         }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        if (note.classList.contains("callout")) {
-          return note.outerHTML;
-        } else {
-          return note.innerHTML;
-        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
       }
     }
-    for (var i=0; i<xrefs.length; i++) {
-      const xref = xrefs[i];
-      tippyHover(xref, undefined, function(instance) {
-        instance.disable();
-        let url = xref.getAttribute('href');
-        let hash = undefined; 
-        if (url.startsWith('#')) {
-          hash = url;
-        } else {
-          try { hash = new URL(url).hash; } catch {}
-        }
-        if (hash) {
-          const id = hash.replace(/^#\/?/, "");
-          const note = window.document.getElementById(id);
-          if (note !== null) {
-            try {
-              const html = processXRef(id, note.cloneNode(true));
-              instance.setContent(html);
-            } finally {
-              instance.enable();
-              instance.show();
-            }
-          } else {
-            // See if we can fetch this
-            fetch(url.split('#')[0])
-            .then(res => res.text())
-            .then(html => {
-              const parser = new DOMParser();
-              const htmlDoc = parser.parseFromString(html, "text/html");
-              const note = htmlDoc.getElementById(id);
-              if (note !== null) {
-                const html = processXRef(id, note);
-                instance.setContent(html);
-              } 
-            }).finally(() => {
-              instance.enable();
-              instance.show();
-            });
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
           }
         } else {
-          // See if we can fetch a full url (with no hash to target)
-          // This is a special case and we should probably do some content thinning / targeting
-          fetch(url)
+          // See if we can fetch this
+          fetch(url.split('#')[0])
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.querySelector('main.content');
+            const note = htmlDoc.getElementById(id);
             if (note !== null) {
-              // This should only happen for chapter cross references
-              // (since there is no id in the URL)
-              // remove the first header
-              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-                note.children[0].remove();
-              }
-              const html = processXRef(null, note);
+              const html = processXRef(id, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -1220,161 +1290,185 @@ L_{\text{NLL}}(y, \hat{y}) = - \hat{y}_c
             instance.show();
           });
         }
-      }, function(instance) {
-      });
-    }
-        let selectedAnnoteEl;
-        const selectorForAnnotation = ( cell, annotation) => {
-          let cellAttr = 'data-code-cell="' + cell + '"';
-          let lineAttr = 'data-code-annotation="' +  annotation + '"';
-          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-          return selector;
-        }
-        const selectCodeLines = (annoteEl) => {
-          const doc = window.document;
-          const targetCell = annoteEl.getAttribute("data-target-cell");
-          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-          const lineIds = lines.map((line) => {
-            return targetCell + "-" + line;
-          })
-          let top = null;
-          let height = null;
-          let parent = null;
-          if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
-            }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
-            }
-            selectedAnnoteEl = annoteEl;
-          }
-        };
-        const unselectCodeLines = () => {
-          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-          elementsIds.forEach((elId) => {
-            const div = window.document.getElementById(elId);
-            if (div) {
-              div.remove();
-            }
-          });
-          selectedAnnoteEl = undefined;
-        };
-          // Handle positioning of the toggle
-      window.addEventListener(
-        "resize",
-        throttle(() => {
-          elRect = undefined;
-          if (selectedAnnoteEl) {
-            selectCodeLines(selectedAnnoteEl);
-          }
-        }, 10)
-      );
-      function throttle(fn, ms) {
-      let throttle = false;
-      let timer;
-        return (...args) => {
-          if(!throttle) { // first call gets through
-              fn.apply(this, args);
-              throttle = true;
-          } else { // all the others get throttled
-              if(timer) clearTimeout(timer); // cancel #2
-              timer = setTimeout(() => {
-                fn.apply(this, args);
-                timer = throttle = false;
-              }, ms);
-          }
-        };
-      }
-        // Attach click handler to the DT
-        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-        for (const annoteDlNode of annoteDls) {
-          annoteDlNode.addEventListener('click', (event) => {
-            const clickedEl = event.target;
-            if (clickedEl !== selectedAnnoteEl) {
-              unselectCodeLines();
-              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-              if (activeEl) {
-                activeEl.classList.remove('code-annotation-active');
-              }
-              selectCodeLines(clickedEl);
-              clickedEl.classList.add('code-annotation-active');
-            } else {
-              // Unselect the line
-              unselectCodeLines();
-              clickedEl.classList.remove('code-annotation-active');
-            }
-          });
-        }
-    const findCites = (el) => {
-      const parentEl = el.parentElement;
-      if (parentEl) {
-        const cites = parentEl.dataset.cites;
-        if (cites) {
-          return {
-            el,
-            cites: cites.split(' ')
-          };
-        } else {
-          return findCites(el.parentElement)
-        }
       } else {
-        return undefined;
-      }
-    };
-    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-    for (var i=0; i<bibliorefs.length; i++) {
-      const ref = bibliorefs[i];
-      const citeInfo = findCites(ref);
-      if (citeInfo) {
-        tippyHover(citeInfo.el, function() {
-          var popup = window.document.createElement('div');
-          citeInfo.cites.forEach(function(cite) {
-            var citeDiv = window.document.createElement('div');
-            citeDiv.classList.add('hanging-indent');
-            citeDiv.classList.add('csl-entry');
-            var biblioDiv = window.document.getElementById('ref-' + cite);
-            if (biblioDiv) {
-              citeDiv.innerHTML = biblioDiv.innerHTML;
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
             }
-            popup.appendChild(citeDiv);
-          });
-          return popup.innerHTML;
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
         });
       }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
     }
-  });
-  </script>
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
 </div> <!-- /content -->
 
 
