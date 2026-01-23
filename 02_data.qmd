@@ -71,21 +71,23 @@ PROCESS_LIDAR = FALSE
 
 PLOT_RADIUS = 14.1
 
-PLOT_COORDS_FPATH = 'data/SPL2018_EFI_ground_plots/SPL2018_EFI_ground_plots/PRF_SPL2018_EFI_plots_pts_wgs84.shp'
+PLOT_COORDS_FPATH = 'data/petawawa/SPL2018_EFI_ground_plots/SPL2018_EFI_ground_plots/PRF_SPL2018_EFI_plots_pts_wgs84.shp'
 
-PLOT_DATA_FPATH = 'data/SPL2018_EFI_ground_plots/SPL2018_EFI_ground_plots/PRF_CNL_SPL_CalibrationData_LiveDeadStems.xlsx'
+PLOT_DATA_FPATH = 'data/petawawa/SPL2018_EFI_ground_plots/SPL2018_EFI_ground_plots/PRF_CNL_SPL_CalibrationData_LiveDeadStems.xlsx'
 
-TREE_SP_CODES_FPATH = 'data/mnrf_sp_codes.csv'
+TREE_SP_CODES_FPATH = 'data/petawawa/mnrf_sp_codes.csv'
 
-PLOT_PC_DIR = "data/plot_point_clouds"
+PLOT_PC_DIR = "data/petawawa/plot_point_clouds"
 
-PLOT_LAS_DIR = "data/plot_las_files"
+PLOT_LAS_DIR = "data/petawawa/plot_las_files"
 
-LABELS_FPATH = 'data/labels.csv'
+LABELS_FPATH = 'data/petawawa/labels.csv'
 
-ZQ95_FPATH = 'data/zq95.csv'
+ZQ95_FPATH = 'data/petawawa/zq95.csv'
 
-LIDAR_INDEX_FPATH = 'data/prf_lidar_index.gpkg'
+LIDAR_INDEX_FPATH = 'data/petawawa/prf_lidar_index.gpkg'
+
+ALLOMETRIC_FPATH = 'data/petawawa/ung_lambert_allometric_dbh_eqs.csv'
 
 LIDAR_DIR = NA # The full ALS dataset is optional as preprocessed point clouds are provided (see above)
 
@@ -532,7 +534,7 @@ Note that for the purpose of this tutorial, we use the DBH-only allometric equat
 ```{r}
 #| code-fold: false
 
-allo_eqs_fpath = here('data/ung_lambert_allometric_dbh_eqs.csv')
+allo_eqs_fpath = here(ALLOMETRIC_FPATH)
 
 allo_df <- read.csv(allo_eqs_fpath) %>%
               rename(species = Species_en) %>%
@@ -861,9 +863,9 @@ ggsave(filename = here('images/total_agb_z_histogram.jpg'),
 
 We have finished preparing the LiDAR, dominant species, and biomass data for deep learning training. This yields the following in our `data` directory:
 
-1) Sample plot point cloud stored as numpy array files (.npy) in `data/plot_point_clouds`
+1) Sample plot point cloud stored as numpy array files (.npy) in `data/petawawa/plot_point_clouds`
 
-2) Dominant tree species and aboveground biomass of each plot stored in `data/labels.csv`
+2) Dominant tree species and aboveground biomass of each plot stored in `data/petawawa/labels.csv`
 
 ```{r}
 #| code-fold: true
