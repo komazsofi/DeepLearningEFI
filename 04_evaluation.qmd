@@ -12,7 +12,7 @@ This section details how to interpret the results from the final test run and ho
 
 ---
 
-## Evaluating Deep Learning Predictions
+# Evaluating Deep Learning Predictions
 
 Evaluation goes beyond just logging the final loss. It requires inspecting the raw outputs and ensuring they make sense in the context of the problem.
 
@@ -20,11 +20,11 @@ Prediction vs. Target: The core of evaluation is comparing the model's output (r
 
 Post-processing: For classification, raw logits must be converted to class indices (e.g., using np.argmax(all_pred, axis=1)) before calculating metrics like accuracy or confusion matrices.
 
-## Key Evaluation Metrics
+# Key Evaluation Metrics
 
 The choice of metric depends entirely on the task type, as implemented in your on_test_epoch_end hook:
 
-### Classification Metrics
+## Classification Metrics
 
 Instance Accuracy: The proportion of correctly classified individual samples (points or objects).
 
@@ -34,7 +34,7 @@ $$\text{Class Acc} = \frac{1}{N_{c}} \sum_{c=1}^{N_{c}} \frac{\text{True Positiv
 
 Confusion Matrix: A table that visualizes the performance of the classification model, where each row represents the instances in an actual class, and each column represents the instances in a predicted class.
 
-### Regression Metrics
+## Regression Metrics
 
 Root Mean Squared Error (RMSE): Measures the average magnitude of the errors. Since the errors are squared before being averaged, RMSE gives a relatively high weight to large errors.
 
@@ -45,16 +45,19 @@ R-squared ($R^2$): Represents the proportion of the variance for a dependent var
 
 ---
 
-### Prediction results
+## Prediction results and Visualization
 
-#### Examples of calculating evaluation metrics from predictions
+Visualizing the results is often more informative than numerical logs alone.
+
+Qualitative Visualization: For point cloud applications, visualize the point cloud data colored by the model's predicted label versus the true label to identify spatial regions where the model struggles.
+
 > The generated predictions also uploaded to github:
 > 
 > [Classification](./src/pretrained_ckpt/peta_cls_dgcnn_bs8_lre3/checkpoints/predictions.csv)
 > 
 > [Regression](./src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/predictions.csv)
 
-##### Tree species classification performance
+### Tree species classification performance
 
 - Load libraries and prediction
 
@@ -77,18 +80,11 @@ from sklearn.metrics import (
 import pyvista as pv
 from pathlib import Path
 import random
+import pyvista as pv
 
 from src.plot_regression import plot_regression
 ```
 
-### Examples of calculating evaluation metrics from predictions
-> The generated predictions also uploaded to github:
-> 
-> [Classification](./src/pretrained_ckpt/peta_cls_dgcnn_bs16_lre4/checkpoints/predictions.csv)
-> 
-> [Regression](./src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/predictions.csv)
-
----
 
 ## Dominant Species Type Classification
 
@@ -195,11 +191,6 @@ plt.show()
 #| code-fold: true
 # helper functions
 def visualize_z_grid(correct_df, wrong_df, pc_dir, save_path=None):
-    import pyvista as pv
-    import numpy as np
-
-    CLASS_MAP = {0: "conif", 1: "decid", 2: "mixed"}
-
     plotter = pv.Plotter(shape=(2,4), window_size=(1800,1360))
     plotter.link_views()
     plotter.enable_eye_dome_lighting()
@@ -365,17 +356,6 @@ plot_regression(obs=test_df['agb_mg_ha_obs'],
 ---
 
 
----
-
-## Hyperparameter tuning Weights and Biases
-
-Weights and Biases (wandb) is an online deep learning tool that can track experiments, perform hyperparameter tuning and visualize results. It is an effective method for refining and comparing models with different configurations.
-
-Compare results of different HPs using WANDB Sweep: DGCNN example
-
-<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/qs96lr1s" style="border:none;height:1024px;width:100%"></iframe>
-
----
 ## Selecting model (update pointnet, pointnet2, pointnext)
 
 <iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/q2oxsdbc" style="border:none;height:1024px;width:100%"></iframe>
