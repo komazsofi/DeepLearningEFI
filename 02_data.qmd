@@ -12,23 +12,27 @@ execute:
 
 This section will provide preprocessing code to prepare LiDAR and sample plot data for subsequent point cloud deep learning model development.
 
-# Relevant Resources
+::: callout-note
+Expert knowledge is critical when preparing data for deep leanring workflows since small artifacts or errors in the data can have large impacts on downstream model performance.
+:::
+
+## Relevant Resources
 
 **The complete preprocessed dataset can be downloaded [here](https://ln5.sync.com/dl/88a6f5dd0#u24mrtkh-d5dqhart-zrg42shx-jfhhk8u5) as an alternative to running this notebook.**
 
-If you wish to run the preprocessing, the original height normalized ALS and sample plot data for the PRF can be downloaded from the NFIS website:
+If you wish to run the preprocessing, the original height normalized ALS and sample plot data for the PRF can be downloaded from the NFIS:
 
 * LiDAR: [https://opendata.nfis.org/downloads/petawawa/Raster/LiDAR_2018/PRF_benchmarking_harmonized_2018_ALS.zip](https://opendata.nfis.org/downloads/petawawa/Raster/LiDAR_2018/PRF_benchmarking_harmonized_2018_ALS.zip)
 
 * Field Plots: [https://opendata.nfis.org/downloads/petawawa/Vector/Forest%20Sample%20Plots/SPL2018_EFI_ground_plots.zip](https://opendata.nfis.org/downloads/petawawa/Vector/Forest%20Sample%20Plots/SPL2018_EFI_ground_plots.zip)
 
-## The lidR Package
+### The lidR package
 
 This tutorial makes use of the `lidR` package to prepare LiDAR data for deep learning. LiDAR preprocessing can often be complex and is a critical step in an enhanced forest inventory workflow. However, it is not the focus of this workshop. For more detailed information about LiDAR preprocessing, see the [lidR package tutorial](https://r-lidar.github.io/lidRbook/).
 
-# Dataset Background
+## Dataset Background
 
-The Petawawa Resereach Forest (PRF) is the oldest research forest in Canada, established in 1918. It is a remote sensing supersite and is part of the [GEO-TREES](https://geo-trees.org/) network.
+The Petawawa Resereach Forest (PRF) is the oldest research forest in Canada, established in 1918. It is a remote sensing supersite and is part of the [GEO-TREES](https://geo-trees.org/) network. The PRF represents a rich collection of open access traditional forest inventory and remote sensing data, including multiple LiDAR and aerial imagery aquisitions in addition to a large history of field plot measurements. These data are available at the [National Forest Information System website](https://opendata.nfis.org/mapserver/PRF.html). An article by [White et al. (2019)](https://doi.org/10.5558/tfc2019-024) summarizes the PRF in greater detail.
 
 In this workshop we make use of enhanced forest inventory sample plots collected in the PRF in 2018. We are also using single photon airborne laser scanning (ALS) data also collected in 2018.
 
@@ -42,7 +46,7 @@ In this workshop we make use of enhanced forest inventory sample plots collected
 
 * ALS data has a mean point density of 35 points/m^2^.
 
-# Summary of Preprocessing Steps
+## Summary of Preprocessing Steps
 
 1) LiDAR preprocessing
 
@@ -58,7 +62,7 @@ In this workshop we make use of enhanced forest inventory sample plots collected
 
 7) Export preprocessed data
 
-# Filepaths
+## Filepaths
 
 Ensure that the data is downloaded from [here](https://ln5.sync.com/dl/88a6f5dd0#u24mrtkh-d5dqhart-zrg42shx-jfhhk8u5) and that the filepaths below are correct prior to running any code.
 
@@ -93,7 +97,7 @@ LIDAR_DIR = NA # The full ALS dataset is optional as preprocessed point clouds a
 
 ```
 
-# Packages
+## Packages
 
 Ensure the following package dependencies are installed. Note that [reticulate](https://rstudio.github.io/reticulate/) is an R package that allows for interfacing between R and Python languages. To use reticulate in this case, you need to have a python virtual environment set up beforehand. Python environment setup instructions are provided [here](setup.qmd). Ensure that the data and python environment are all stored in the same root directory as the tutorial files.
 
@@ -110,13 +114,14 @@ library(plotly)
 library(reticulate)
 library(readxl)
 library(purrr)
+library(DT)
 
 # Import python numpy module using reticulate
 np <- reticulate::import("numpy")
 
 ```
 
-# Study Area
+## Study Area
 
 We can start by examining the study area, including vector data representing ALS coverage of the PRF (i.e., the lidar index) and ground sample plot locations. 
 
@@ -140,11 +145,23 @@ mapview(lidar_index, layer.name = 'LiDAR Tiles', map.types = c('Esri.WorldImager
         alpha.regions = 0.2, col.regions = 'white', color = 'grey') + 
     mapview(plot_centers,col.regions = 'red', color = 'black', layer.name = 'Ground Plots')
 
+# Helper function for viewing tabular data
+
+view_table <- function(df){
+
+  DT::datatable(df, options = list(pageLength = 5,
+                               columnDefs = list(list(className = 'dt-center', 
+                                                      targets = "_all"))),
+                class = 'cell-border stripe')
+
+}
+
+
 ```
 
-# 1) LiDAR preprocessing
+## 1) LiDAR Preprocessing
 
-## Steps and Functions
+### Steps and Functions
 
 **The code below includes the LiDAR preprocessing steps to prepare the ALS point cloud data for use in deep neural network model development.**
 
@@ -227,7 +244,7 @@ write_pc_to_npy <- function(pc, plot_id, pc_out_dir){
 
 ```
 
-## Preprocessing Pipeline
+### Preprocessing pipeline
 
 Here we apply the functions defined above to each individual sample plot point cloud.
 
@@ -306,7 +323,7 @@ if(PROCESS_LIDAR){
 
 ```
 
-### Preprocessed Point Cloud Example
+#### Preprocessed point cloud example
 
 The plot below shows the point cloud for a plot in the PRF dataset. Note that the X and Y coordinates are now normalized and are relative to the plot center.
 
@@ -340,7 +357,7 @@ plot_pc(demo_pc)
 ```
 
 
-### Preprocessed point clouds
+#### Preprocessed point clouds
 
 Image below shows the 249 sample plot point clouds in the PRF from 2018. Plots are listed in decreasing order based on canopy height. Click image to view in full screen.
 
@@ -348,7 +365,7 @@ Image below shows the 249 sample plot point clouds in the PRF from 2018. Plots a
   <img src="images/seely_etal_2025_prf_point_clouds.jpg" style="width:100%; display:block;"/>
 </a>
 
-# 2) Examine and clean sample plot data
+## 2) Prepare Sample Plot Data
 
 We now move on to loading and examining the tree level measurements across the PRF sample plots (n = 249).
 
@@ -386,24 +403,30 @@ print(str(trees_df))
 
 ```
 
-## Check for NA data and examine species proportions
+### Examine species composition
 
-In the code below we check to see if any trees are missing species information.
-
-We also summarize the proportion of each species in the dataset based on count.
+**Below we check for missing species data and summarize the overall species composition in the dataset based on count.**
 
 ```{r}
 #| code-fold: false
 
-print(table(is.na(trees_df$species)))
+# Check for NAs
+stopifnot(all(!is.na(trees_df$species)))
 
-sp_sorted = sort(round(table(trees_df['species']) / nrow(trees_df) * 100, 2), 
-     decreasing = TRUE)
+# Sort by decreasing species occurence based on count
+trees_df %>%
+  count(species) %>%
+  mutate(percent = round(n / sum(n) * 100, 2)) %>%
+  arrange(desc(percent)) %>%
+  mutate(across(where(is.numeric), ~round(.x, 1))) %>%
+  rename(Species=species,
+        `N Trees`=n,
+        `Percent of Total Trees (%)`=percent) %>%
+  view_table()
 
-print(sp_sorted)
 ```
 
-## Check alignment between LiDAR and Plot Data
+### Check alignment between LiDAR and plot data
 
 An effective way to check the alignment between the preprocessed LiDAR and plot data is by comparing plot-level canopy height measurements with LiDAR-derived 95th height percentile. If there is a strong correlation this indicates good alignment.
 
@@ -439,7 +462,7 @@ zq95_df %>%
 
 ```
 
-# 3) Determine dominant species type
+## 3) Determine Dominant Species Type
 
 Here we can classify each plot as dominated by coniferous, deciduous or mixed. These three classes will later be used to train a deep neural network classifier in the `TRAIN` section of the tutorial.
 
@@ -508,13 +531,11 @@ perc_decid_df %>%
   ylab("N Plots") + 
   scale_fill_discrete(name = "Dominant Type")
 
-head(perc_decid_df)
-
 ```
 
-# 4) Derive plot-level total aboveground biomass
+## 4) Derive Plot-Level Aboveground Biomass
 
-## Prepare species-specific allometric equations
+### Prepare species-specific allometric equations
 
 Load Canadian national tree aboveground biomass equations allometric parameters (Lambert et al., 2005)
 
@@ -563,12 +584,13 @@ trees_df$species[trees_df$species == "American Elm"] <- "White Elm"
 trees_df$species[trees_df$species == "Northern White Cedar"] <- "Eastern White Cedar"
 
 #Check that all species names in data coreespond to those in allometric eqs
-print("Species names match with allometric names:")
-table(unique(trees_df$species) %in% unique(allo_df$species))
+stopifnot(
+  all(unique(trees_df$species) %in% unique(allo_df$species))
+)
 
 ```
 
-## Check distribution of DBH values 
+### Check distribution of DBH values 
 
 ```{r}
 #| code-fold: true
@@ -578,7 +600,8 @@ fig <- trees_df %>%
   geom_histogram() +
   ggtitle("Histogram of Tree DBH") +
   theme_minimal() + 
-  xlab("DBH (cm)")
+  xlab("DBH (cm)") + 
+  ylab('N Trees')
 
 ggsave(filename = here('images/trees_dbh_histogram.jpg'),
        plot = fig)
@@ -595,7 +618,8 @@ ggsave(filename = here('images/trees_dbh_histogram.jpg'),
 # Pivot allometric equations to wide format
 allo_df_wide <- allo_df %>% select(species, Component_en, a, b) %>%
                       pivot_wider(names_from = Component_en, values_from = c(a, b))
-head(allo_df_wide)
+
+view_table(allo_df_wide)
 ```
 
 
@@ -643,7 +667,7 @@ get_tree_comp_biomass <- function(tree_df, use_height=FALSE){
 
 ```
 
-## Derive tree-level and subsequently plot-level AGB
+### Derive tree-level and subsequently plot-level AGB
 
 **Here we take the following steps to derive plot-level AGB:**
 
@@ -666,7 +690,7 @@ trees_agb_df <- trees_df %>%
       mutate(total_biomass_kg = foliage_biomass_kg + bark_biomass_kg + branches_biomass_kg + wood_biomass_kg)
 
 # Check for NAs
-print("Total AGB NAs"); table(is.na(trees_agb_df$total_biomass_kg))
+stopifnot(all(!is.na(trees_agb_df$total_biomass_kg)))
 
 # Each plot has a radius of 14.10m, so an area of 624.6m^2
 # 1m^2 == 0.0001 ha
@@ -683,12 +707,9 @@ biomass_df <- trees_agb_df %>%
 # 1t == 1000 kg, per hectare
 biomass_df <- biomass_df %>% mutate(total_agb_mg_ha = total_agb_kg/1000/plot_area_in_ha)
 
-head(biomass_df)
-
 fig <- biomass_df %>%
   ggplot(aes(x = total_agb_mg_ha)) + 
   geom_histogram() + 
-  theme_minimal(base_size = 18) +
   xlab("Total AGB (Mg/ha)") + 
   ylab("N Plots")
 
@@ -699,7 +720,7 @@ ggsave(filename = here('images/agb_histogram.jpg'),
 
 ![](images/agb_histogram.jpg)
 
-# 5) Split Datasets
+## 5) Split Datasets
 
 In deep learning applications, there is a requirement for three different subsets of your dataset: training, validation, and test. These are referred to as dataset `splits`.
 
@@ -714,21 +735,24 @@ In deep learning applications, there is a requirement for three different subset
 ```{r}
 #| code-fold: false
 
-
 # Join species and biomass data frames
 df <- perc_decid_df %>%
           left_join(biomass_df, by = 'plot_id')
 
-print("Check for NAs:")
-print(table(is.na(df$total_agb_mg_ha)))
-print(table(is.na(df$dom_sp_type)))
+# Check for NAs
+stopifnot(
+  all(!is.na(df$total_agb_mg_ha)),
+  all(!is.na(df$dom_sp_type))
+)
 ```
 
-## Divide data into training, validation, and testing
-
-Note that in many cases, it is useful to divide sample into splits using a stratified sampling procedure based on the response variable. For for purpose of in this tutorial, we will simply assign samples to each split randomly. However, note that in imbalanced datasets this may result in poor model performance, especially if the test split does not align well with the train split. As such, other strategies can be used to get better alignment between splits, such as stratified sampling or cross-validation.
+### Divide data into training, validation, and testing
 
 **We randomly assign 70% of the plots to the train split, 15% to validation, and the remaining 15% to test.**
+
+::: callout-note
+Note that in many cases, it is useful to divide sample into splits using a stratified sampling procedure based on the response variable. For for purpose of in this tutorial, we will simply assign samples to each split randomly. However, note that for imbalanced datasets this may result in poor model performance, especially if the test split does not align well with the train split. As such, other strategies can be used to get better alignment between splits, such as stratified sampling or cross-validation.
+:::
 
 ```{r}
 #| code-fold: false
@@ -767,8 +791,28 @@ labels_df <- dplyr::bind_rows(train_df, val_df, test_df) %>%
                                                levels = c('train', 'val', 'test'),
                                                ordered = TRUE))
 
-head(labels_df)
+```
 
+#### Get a summary of the dataset splits:
+- **Train:** `r nrow(train_df)` plots (`r round(100 * nrow(train_df) / nrow(df), 0)`%)
+- **Validation:** `r nrow(val_df)` plots (`r round(100 * nrow(val_df) / nrow(df), 0)`%)
+- **Test:** `r nrow(test_df)` plots (`r round(100 * nrow(test_df) / nrow(df), 0)`%)
+
+**Examine the dominant species type and aboveground biomass labels with assigned dataset splits**
+
+```{r}
+#| code-fold: true
+
+# View the data
+labels_df %>%
+  mutate(across(where(is.numeric), ~round(.x, 2))) %>%
+  rename(`Plot ID` = plot_id,
+          `Dominant Type` = dom_sp_type,
+          `% Deciduous` = perc_decid,
+          `AGB (Mg/ha)` = total_agb_mg_ha,
+          Split = split
+        ) %>%
+  view_table()
 ```
 
 **Visualize the dataset splits**
@@ -777,12 +821,7 @@ head(labels_df)
 #| code-fold: true
 
 
-# Check splits
-cat(
-  sprintf("N Train Samples: %d (%.1f%%)\n", nrow(train_df), 100 * nrow(train_df) / nrow(df)),
-  sprintf("N Val Samples:   %d (%.1f%%)\n", nrow(val_df), 100 * nrow(val_df) / nrow(df)),
-  sprintf("N Test Samples:  %d (%.1f%%)\n", nrow(test_df), 100 * nrow(test_df) / nrow(df))
-)
+
 
 # View species type frequency by split
 ggplot(labels_df, aes(x = split, fill = dom_sp_type)) +
@@ -807,7 +846,8 @@ fig <- labels_df %>%
     theme(
         panel.grid = element_blank(),  
     ) + 
-    xlab("Split")
+    xlab("Split") + 
+    ylab('N Plots')
 
 # Export figure
 ggsave(filename = here('images/dom_sp_data_split_histogram.jpg'), 
@@ -818,7 +858,7 @@ ggsave(filename = here('images/dom_sp_data_split_histogram.jpg'),
 
 ![](images/dom_sp_data_split_histogram.jpg)
 
-# 6) Z-score AGB for improved model convergence and training stability
+## 6) Z-score AGB
 
 In many deep learning regression problems, response variables are z-score normalized to improve training stability. Here we z-score the AGB values as shown in code and plot below.
 
@@ -859,7 +899,7 @@ ggsave(filename = here('images/total_agb_z_histogram.jpg'),
 
 ![](images/total_agb_z_histogram.jpg)
 
-# 7) Export preprocessed data
+## 7) Export Preprocessed Data
 
 We have finished preparing the LiDAR, dominant species, and biomass data for deep learning training. This yields the following in our `data` directory:
 
@@ -883,8 +923,7 @@ write.csv(labels_df, LABELS_FPATH, row.names=FALSE)
 ```
 
 
-**Below we visualize a point cloud with dominant species and biomass labels**
-
+**Below we visualize an example point cloud with dominant species and biomass labels**
 ```{r}
 #| code-fold: true
 
@@ -895,10 +934,14 @@ demo_pc2 <- np$load(file.path(PLOT_PC_DIR, paste0(target_plot_id, ".npy")))
 labels_sub <- labels_df %>% 
                 filter(plot_id == target_plot_id)
 
-print(paste("Plot level AGB:", round(labels_sub$total_agb_mg_ha, 1), "Mg/ha"))
-
-print(paste("Dominant Species Type:", labels_sub$dom_sp_type))
-
 plot_pc(demo_pc2)
 
 ```
+
+<div style="text-align: center;">
+
+**Plot ID:**  `r target_plot_id`  
+**Dominant Type:** `r labels_sub$dom_sp_type`  
+**AGB:** `r round(labels_sub$total_agb_mg_ha, 1)` Mg/ha
+
+</div>

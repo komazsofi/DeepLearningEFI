@@ -90,7 +90,7 @@ from src.plot_regression import plot_regression
 
 ---
 
-## Tree Species Classification Assessment
+## Dominant Species Type Classification
 
 - Load predictions
 
@@ -189,13 +189,7 @@ plt.show()
 ```
 ---
 
-## Examples of Plotting Figures
-
-Visualizing the results is often more informative than numerical logs alone.
-
-Qualitative Visualization: For point cloud applications, visualize the point cloud data colored by the model's predicted label versus the true label to identify spatial regions where the model struggles.
-
-### Tree species classification
+### Visualize difficult cases
 
 ```{python}
 #| code-fold: true
@@ -283,12 +277,11 @@ visualize_z_grid(correct_df, wrong_df, pc_dir, save_path="images/04_eval/cls_out
 
 ```
 
-### BIOMASS
-
 ---
 
-## Forest Biomass Regression Assessment
+## Forest Aboveground Biomass Regression
 
+- #TODO: re-use `visualize_z_grid` for plots with large AGB residuals 
 
 **Function to convert z-scored prdicted biomass to tonnes per hectare (Mg/ha)**
 
@@ -356,10 +349,6 @@ plot_regression(obs=test_df['agb_mg_ha_obs'],
 
 ```
 
-<div style="display: flex; justify-content: center; gap: 20px;">
-  <img src='images/dnn_regression_plot.png' alt="Image 1" style="width: 45%; min-width: 200px;">
-  <img src='images/rf_regression_plot.png' alt="Image 2" style="width: 45%; min-width: 200px;">
-</div>
 
 ```{python}
 
@@ -393,7 +382,13 @@ Compare results of different HPs using WANDB Sweep: DGCNN example
 
 ## Compare results to Random Forest using LiDAR Metrics
 
-For comparison, we can compare the DGCNN results with those obtained by training a random forest classifier and regressor.
+For comparison, we can compare the DGCNN results with those obtained by training random forest (RF) model.
 
-[View the RF results here](random_forest.qmd)
+[View the RF training and results here](random_forest.qmd)
+
+<div style="display: flex; justify-content: center; gap: 20px;">
+  <img src='images/dnn_regression_plot.png' alt="Image 1" style="width: 45%; min-width: 200px;">
+  <img src='images/rf_regression_plot.png' alt="Image 2" style="width: 45%; min-width: 200px;">
+</div>
+
 
