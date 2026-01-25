@@ -611,9 +611,20 @@ else:
 
 ```
 
-## Anatomy of the Logic Flow
+## Summary: EFI Deep Learning Pipeline Logic
 
-The `ModelModule` doesn't work in isolation. It is the "Brain" that interacts with the "Body" (`DataModule`) and the "Coach" (`Trainer`).
+| Component   | Responsibility                                         | Key Hook                         |
+|-------------|---------------------------------------------------------|----------------------------------|
+| DataModule | Loads `.npy` files and applies spatial splits           | `setup()`                       |
+| ModelModule| Defines DGCNN architecture and loss functions           | `forward()`                    |
+| Trainer    | Manages loops, hardware, and W&B logging                | `fit()`                        |
+| Callbacks  | Saves the best model weights automatically              | `on_validation_epoch_end()`  |
+
+: The EFI Deep Learning Pipeline Logic {#tbl-logic-map}
+
+### Logic flow
+
+> The `ModelModule` doesn't work in isolation. It is the "Brain" that interacts with the "Body" (`DataModule`) and the "Coach" (`Trainer`).
 
 When you pass the `EfiModelModule` and `EfiDataModule` to a `Lightning Trainer` (`trainer.fit(model_module, data_module)`), the following flow occurs:
 
@@ -630,7 +641,11 @@ When you pass the `EfiModelModule` and `EfiDataModule` to a `Lightning Trainer` 
   - **Metrics**: Trainer calls `validation_step()` to check `accuracy/loss` on the **validation set**.
   - **Checkpointing**: If validation performance improves, the `Trainer` saves the **model weights**.
 
+---
+
 # Monitoring with Weights & Biases (W&B)
+
+[Weights and Biases (wandb)](https://wandb.ai/site/) is an online deep learning tool that can track experiments, perform hyperparameter tuning and visualize results. It is an effective method for refining and comparing models with different configurations.
 
 The `WandbLogger` is integrated directly into the `train_pl.py` script. `W&B` is a powerful tool that automatically logs everything:
 
@@ -651,18 +666,42 @@ checkpoint_dir.mkdir(parents=True, exist_ok=True)
 
 ## W&B Dashboard
 
-<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/akty7srj" style="border:none;height:1024px;width:100%" loading="lazy"></iframe>
+<div id="wandb-container" style="width:100%; height:600px; border:1px solid #ddd; display:flex; justify-content:center; align-items:center; background:#f9f9f9;">
+  <button onclick="loadWandb()" style="padding:15px 30px; font-size:16px; cursor:pointer; background:#111; color:#fff; border-radius:5px;">
+    📊 Load Interactive W&B Dashboard
+  </button>
+</div>
 
+<script>
+function loadWandb() {
+  const container = document.getElementById('wandb-container');
+  container.innerHTML = `<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/akty7srj" style="border:none;height:600px;width:100%" loading="lazy"></iframe>`;
+}
+</script>
 
+## What to Look for in the Dashboard
+
+- The **Loss Curve** (Train vs. Val): If `train/loss` continues to drop but `val/loss` starts rising, the model is **overfitting** (learning the plots by heart rather than the general forest structure).
+- **Metrics**, e.g., R² Score (biomass regression), overall accuracy (tree species classification)
+  
 # Hyperparameter Tuning Weights and Biases
 
-![Hyperparameter tuning process](images/03_train/hyperparameter_optimization.jpg)
-
-Weights and Biases (wandb) is an online deep learning tool that can track experiments, perform hyperparameter tuning and visualize results. It is an effective method for refining and comparing models with different configurations.
+![Hyperparameter tuning process](images/03_train/hyperparameter_optimization.jpg){width=50%}
 
 Compare results of different HPs using WANDB Sweep: DGCNN example
 
-<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/qs96lr1s" style="border:none;height:1024px;width:100%" loading="lazy"></iframe>
+<div id="wandb-container" style="width:100%; height:600px; border:1px solid #ddd; display:flex; justify-content:center; align-items:center; background:#f9f9f9;">
+  <button onclick="loadWandb()" style="padding:15px 30px; font-size:16px; cursor:pointer; background:#111; color:#fff; border-radius:5px;">
+    📊 Load Interactive W&B Sweep
+  </button>
+</div>
+
+<script>
+function loadWandb() {
+  const container = document.getElementById('wandb-container');
+  container.innerHTML = `<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/qs96lr1s" style="border:none;height:600px;width:100%" loading="lazy"></iframe>`;
+}
+</script>
 
 # Predicting use the Pre-trained Model ([predict.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/predict.py))
 
