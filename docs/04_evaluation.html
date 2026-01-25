@@ -107,13 +107,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
-<script>
-window.onload = function() {
-  setTimeout(function() {
-    window.scrollTo(0, 0);
-  }, 100); // Tiny delay to override the iframe's jump
-};
-</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -293,7 +286,7 @@ window.Quarto = {
 <ul>
 <li>Load libraries and prediction</li>
 </ul>
-<div id="a2b69ed5" class="cell" data-execution_count="1">
+<div id="fd4b5a62" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -320,7 +313,7 @@ window.Quarto = {
 <ul>
 <li>Load predictions</li>
 </ul>
-<div id="c228142b" class="cell" data-execution_count="2">
+<div id="6fec3753" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>CLASS_MAP <span class="op">=</span> {</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span>: <span class="st">"conif"</span>,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>: <span class="st">"decid"</span>,</span>
@@ -365,7 +358,7 @@ window.Quarto = {
 Table&nbsp;1: Tree species classification performance on the test dataset.
 </figcaption>
 <div aria-describedby="tbl-cls-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="48">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
 
@@ -446,7 +439,7 @@ Table&nbsp;1: Tree species classification performance on the test dataset.
 Table&nbsp;2: Per-class precision, recall, and F1-score for stand-type classification.
 </figcaption>
 <div aria-describedby="tbl-cls-perclass-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="49">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
 
@@ -527,7 +520,7 @@ Figure&nbsp;1: Normalized confusion matrix (recall per class) for tree species s
 </section>
 <section id="visualize-difficult-cases" class="level3">
 <h3 class="anchored" data-anchor-id="visualize-difficult-cases">Visualize difficult cases</h3>
-<div id="9d327a3b" class="cell" data-execution_count="6">
+<div id="b695010f" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># helper functions</span></span>
@@ -592,7 +585,7 @@ Figure&nbsp;1: Normalized confusion matrix (recall per class) for tree species s
 <span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> correct, wrong</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="b6fe412f" class="cell" data-execution_count="7">
+<div id="f8c0a822" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Folder with point clouds</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pc_dir <span class="op">=</span> Path(<span class="st">"data/petawawa/plot_point_clouds"</span>)  <span class="co"># contains prf003.npy, etc</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -625,7 +618,7 @@ Incorrect: 3</code></pre>
 <li>#TODO: re-use <code>visualize_z_grid</code> for plots with large AGB residuals</li>
 </ul>
 <p><strong>Function to convert z-scored prdicted biomass to tonnes per hectare (Mg/ha)</strong></p>
-<div id="cc844e06" class="cell" data-execution_count="8">
+<div id="99c05a18" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_from_z_score(z_vals, sd, mean):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Converts z-score back to original value using mean and sd</span></span>
@@ -643,7 +636,7 @@ Incorrect: 3</code></pre>
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> z_score_val</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Summarize regression results</strong></p>
-<div id="897da0c0" class="cell" data-execution_count="9">
+<div id="b49cf923" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set filepaths for labels and predictions</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>LABELS_FPATH <span class="op">=</span> <span class="vs">r'data/petawawa/labels.csv'</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>OBS_PRED_FPATH <span class="op">=</span> <span class="vs">r'src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/predictions.csv'</span></span>
@@ -687,15 +680,8 @@ Incorrect: 3</code></pre>
 <h1>Compare results to Random Forest using LiDAR Metrics</h1>
 <section id="other-deep-neural-networks" class="level2">
 <h2 class="anchored" data-anchor-id="other-deep-neural-networks">Other deep neural networks</h2>
-<div id="wandb-container" style="width:100%; height:600px; border:1px solid #ddd; display:flex; justify-content:center; align-items:center; background:#f9f9f9;">
-<p><button onclick="loadWandb()" style="padding:15px 30px; font-size:16px; cursor:pointer; background:#111; color:#fff; border-radius:5px;"> 📊 Load Interactive W&amp;B Dashboard </button></p>
-</div>
-<script>
-function loadWandb() {
-  const container = document.getElementById('wandb-container');
-  container.innerHTML = `<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/q2oxsdbc" style="border:none;height:600px;width:100%" loading="lazy"></iframe>`;
-}
-</script>
+<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/q2oxsdbc" style="border:none;height:600px;width:100%" loading="lazy">
+</iframe>
 </section>
 <section id="random-forest" class="level2">
 <h2 class="anchored" data-anchor-id="random-forest">Random Forest</h2>

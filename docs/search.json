@@ -473,7 +473,7 @@
     "href": "03_train.html#wb-dashboard",
     "title": "Training Deep Learning Models",
     "section": "W&B Dashboard",
-    "text": "W&B Dashboard\n\n 📊 Load Interactive W&B Dashboard"
+    "text": "W&B Dashboard\nLoad Interactive W&B Dashboard"
   },
   {
     "objectID": "03_train.html#environment-install",
@@ -599,7 +599,7 @@
     "href": "04_evaluation.html#other-deep-neural-networks",
     "title": "Evaluation of Deep Learning Derived Forest Inventory Predictions",
     "section": "Other deep neural networks",
-    "text": "Other deep neural networks\n\n 📊 Load Interactive W&B Dashboard"
+    "text": "Other deep neural networks"
   },
   {
     "objectID": "04_evaluation.html#random-forest",

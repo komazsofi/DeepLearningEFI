@@ -6,6 +6,14 @@ jupyter: python3
 format:
   html:
     toc: True
+    text: |
+        <script>
+            window.onload = function() {
+            setTimeout(function() {
+                window.scrollTo(0, 0);
+            }, 100); // Tiny delay to override the iframe's jump
+            };
+        </script>
 ---
 
 This section details how to interpret the results from the final test run and how to use the trained model effectively.
@@ -358,18 +366,7 @@ plot_regression(obs=test_df['agb_mg_ha_obs'],
 
 ## Other deep neural networks
 
-<div id="wandb-container" style="width:100%; height:600px; border:1px solid #ddd; display:flex; justify-content:center; align-items:center; background:#f9f9f9;">
-  <button onclick="loadWandb()" style="padding:15px 30px; font-size:16px; cursor:pointer; background:#111; color:#fff; border-radius:5px;">
-    📊 Load Interactive W&B Dashboard
-  </button>
-</div>
-
-<script>
-function loadWandb() {
-  const container = document.getElementById('wandb-container');
-  container.innerHTML = `<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/q2oxsdbc" style="border:none;height:600px;width:100%" loading="lazy"></iframe>`;
-}
-</script>
+<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/q2oxsdbc" style="border:none;height:600px;width:100%" loading="lazy"></iframe>
 
 ## Random Forest
 For comparison, we can compare the DGCNN results with those obtained by training random forest (RF) model.
