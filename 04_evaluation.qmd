@@ -45,7 +45,7 @@ R-squared ($R^2$): Represents the proportion of the variance for a dependent var
 
 ---
 
-## Prediction results and Visualization
+# Prediction Results and Visualization
 
 Visualizing the results is often more informative than numerical logs alone.
 
@@ -57,7 +57,7 @@ Qualitative Visualization: For point cloud applications, visualize the point clo
 > 
 > [Regression](./src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/predictions.csv)
 
-### Tree species classification performance
+## Tree Species Classification
 
 - Load libraries and prediction
 
@@ -86,7 +86,7 @@ from src.plot_regression import plot_regression
 ```
 
 
-## Dominant Species Type Classification
+### Metrics
 
 - Load predictions
 
@@ -134,7 +134,7 @@ summary_df["Value"] = summary_df["Value"].map(lambda x: f"{x:.3f}")
 summary_df
 ```
 
-- Per-class metrics table
+- Per-class metrics
 ```{python}
 #| label: tbl-cls-perclass
 #| tbl-cap: "Per-class precision, recall, and F1-score for stand-type classification."
@@ -191,7 +191,7 @@ plt.show()
 #| code-fold: true
 # helper functions
 def visualize_z_grid(correct_df, wrong_df, pc_dir, save_path=None):
-    plotter = pv.Plotter(shape=(2,4), window_size=(1800,1360))
+    plotter = pv.Plotter(shape=(2,3), window_size=(1800,1360))
     plotter.link_views()
     plotter.enable_eye_dome_lighting()
 
@@ -354,12 +354,13 @@ plot_regression(obs=test_df['agb_mg_ha_obs'],
 ---
 
 
-## Selecting model (update pointnet, pointnet2, pointnext)
+# Compare results to Random Forest using LiDAR Metrics
 
-<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/q2oxsdbc" style="border:none;height:1024px;width:100%"></iframe>
+## Other deep neural networks
 
-## Compare results to Random Forest using LiDAR Metrics
+<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/q2oxsdbc" style="border:none;height:1024px;width:100%" loading="lazy"></iframe>
 
+## Random Forest
 For comparison, we can compare the DGCNN results with those obtained by training random forest (RF) model.
 
 [View the RF training and results here](random_forest.qmd)
