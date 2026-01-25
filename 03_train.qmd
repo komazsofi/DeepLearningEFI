@@ -75,7 +75,7 @@ This allows the model to progressively learn more complex, abstract relationship
 
 ![Pipeline ([source](https://subscription.packtpub.com/book/data/9781800561618/2/ch02lvl1sec05/understanding-the-key-components-of-pytorch-lightning))](./images/03_train/dl_pipeline.png)
 
-## The core components of Pytorch Lightning:
+## The Core Components of Pytorch Lightning:
 
 1) `LightningDataModule` wraps the data phase. It takes in a custom `PyTorch Dataset` and `DataLoader` which enables Trainer to handle data during training. If needed, `LightningDataModule` exposes the setup and prepare_data hooks in case you need additional customization. 
    
@@ -281,7 +281,7 @@ class get_model(nn.Module):
         return x, trans_feat
 ```
 
-## Loss functions ([loss_utils.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/loss_utils.py))
+## Loss Functions ([loss_utils.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/loss_utils.py))
 
 The **loss function**, or cost function, quantifies the *difference between the model's prediction and the true target value*. It is the primary signal that guides the DNN during training. 
 
@@ -301,7 +301,7 @@ def get_loss_function(task):
         raise ValueError(f"Unknown task type: {task}")
 ```
 
-- For Classification Tasks: `F.nll_loss` ([Pytorch Implementation](https://docs.pytorch.org/docs/stable/generated/torch.nn.NLLLoss.html#torch.nn.NLLLoss)
+- For classification tasks: `F.nll_loss` ([Pytorch Implementation](https://docs.pytorch.org/docs/stable/generated/torch.nn.NLLLoss.html#torch.nn.NLLLoss)
 ). 
 
 This function is typically used when the model outputs log-probabilities (often obtained by applying a log-softmax activation to the raw logits). It penalizes the model when it assigns a low probability to the correct class:
@@ -312,17 +312,18 @@ $$
 
 where $y$ is the true class index, $\hat{y}$ is the vector of log-probabilities output by the model (e.g., via F.log_softmax), and $\hat{y}_c$ is the log-probability corresponding to the true class $c$.
 
-- For Regression Tasks: `F.smooth_l1_loss` ([Pytorch Implementation](https://docs.pytorch.org/docs/stable/generated/torch.nn.SmoothL1Loss.html#torch.nn.SmoothL1Loss)).
+- For regression tasks: `F.smooth_l1_loss` ([Pytorch Implementation](https://docs.pytorch.org/docs/stable/generated/torch.nn.SmoothL1Loss.html#torch.nn.SmoothL1Loss)).
 
 This function is a robust alternative to Mean Squared Error (L2) and Mean Absolute Error (L1). It behaves like L2 loss for small errors (which gives a smoother gradient for optimization) and like L1 loss for large errors (which makes it less sensitive to outliers).
 
 $$
 \ell(x, y) = L = \{l_1, ..., l_N\}^T
-
+$$
+$$
 l_n = \begin{cases}
-        0.5 (x_n - y_n)^2 / beta, & \text{if } |x_n - y_n| < beta \\
-        |x_n - y_n| - 0.5 * beta, & \text{otherwise }
-        \end{cases}
+    0.5 (x_n - y_n)^2 / beta, & \text{if } |x_n - y_n| < beta \\
+    |x_n - y_n| - 0.5 * beta, & \text{otherwise }
+    \end{cases}
 $$
 
 ## The PyTorch Lightning Wrapper: EfiModelModule ([efi_modelmodule.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/efi_modelmodule.py))
@@ -332,7 +333,7 @@ The `EfiModelModule` is a custom wrapper built using `PyTorch Lightning` (specif
 > In standard PyTorch, you often have to manage training loops, device movements (.to(device)), and metric logging manually. This wrapper automates those "engineering" tasks so you can focus on the "science."
 >
 
-### Core Components of the Wrapper
+### Core components of the wrapper
 
 The `EfiModelModule` typically organizes code into four main functional blocks:
 
@@ -371,7 +372,7 @@ def forward(self, points):
     """Standard model forward pass."""
     return self.model(points)
 ```
-3) The Logic Hooks
+3) The logic hooks
    
 In `PyTorch Lightning`, the **"loops"** are broken down into specific hooks: `training_step`, `validation_step`, `test_step`, `predict_step`: what happens during one "step" of training or evaluation or testing . 
 
@@ -411,7 +412,7 @@ def training_step(self, batch, batch_idx):
     return loss
 ```
 
-    > What happens: This is the heart of the training loop. `Lightning` handles the boilerplate (forward pass, loss calculation, backward propagation, and optimizer updates) automatically based on what you return here. Instead of writing a massive for loop, you just tell `Lightning`: "Here is how you handle one batch." 
+> What happens: This is the heart of the training loop. `Lightning` handles the boilerplate (forward pass, loss calculation, backward propagation, and optimizer updates) automatically based on what you return here. Instead of writing a massive for loop, you just tell `Lightning`: "Here is how you handle one batch." 
 
 - `validation_step`: Monitor model performance on unseen data during training.
 
@@ -430,7 +431,7 @@ def validation_step(self, batch, batch_idx):
     return loss
 ```
 
-    > Usually triggered at the end of every training epoch. It helps track if the model is overfitting. Unlike the training step, it does not update model weights.
+> Usually triggered at the end of every training epoch. It helps track if the model is overfitting. Unlike the training step, it does not update model weights.
 
 - `test_step`: Provide a final, unbiased evaluation after training is complete.
 
@@ -453,7 +454,7 @@ def test_step(self, batch, batch_idx):
     return loss
 ```
 
-    > This is only called when you explicitly run trainer.test(). It uses the "best" version of the model saved during training to see how it performs on a strictly held-out dataset. 
+> This is only called when you explicitly run trainer.test(). It uses the "best" version of the model saved during training to see how it performs on a strictly held-out dataset. 
 
 - `prediction_step` is used for generating raw output/predictions on unseen data, it does not calculating loss and metrices:
 
@@ -485,7 +486,7 @@ def predict_step(self, batch, batch_idx, dataloader_idx=0):
     }
 ```
 
-4) Optimizer and Scheduler: `configure_optimizers`: 
+4) Optimizer and scheduler: `configure_optimizers`: 
 This tells the trainer which algorithm to use (e.g., `Adam`, `SGD`) and how the learning rate should change over time (Schedulers. e.g., `StepLR`). The goal of the optimizer (e.g., Adam) is to adjust the model's weights to continuously minimize this loss value.
 
 ```{python}
@@ -610,7 +611,7 @@ else:
 
 ```
 
-## Anatomy of the logic flow
+## Anatomy of the Logic Flow
 
 The `ModelModule` doesn't work in isolation. It is the "Brain" that interacts with the "Body" (`DataModule`) and the "Coach" (`Trainer`).
 
@@ -650,10 +651,10 @@ checkpoint_dir.mkdir(parents=True, exist_ok=True)
 
 ## W&B Dashboard
 
-<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/akty7srj" style="border:none;height:1024px;width:100%"></iframe>
+<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/akty7srj" style="border:none;height:1024px;width:100%" loading="lazy"></iframe>
 
 
-# Hyperparameter tuning Weights and Biases
+# Hyperparameter Tuning Weights and Biases
 
 ![Hyperparameter tuning process](images/03_train/hyperparameter_optimization.jpg)
 
@@ -661,9 +662,9 @@ Weights and Biases (wandb) is an online deep learning tool that can track experi
 
 Compare results of different HPs using WANDB Sweep: DGCNN example
 
-<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/qs96lr1s" style="border:none;height:1024px;width:100%"></iframe>
+<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/qs96lr1s" style="border:none;height:1024px;width:100%" loading="lazy"></iframe>
 
-# Predicting use the pre-trained model ([predict.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/predict.py))
+# Predicting use the Pre-trained Model ([predict.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/predict.py))
 
 Once your model has finished hyperparameter tuning and you have selected the best checkpoint, you can run predictions. The output is saved as a CSV containing the ground truth and the model's estimate.
 
@@ -738,8 +739,8 @@ For regression, we compare the standardized Above Ground Biomass (AGB) values. T
 
 : Example of Biomass Regression Results {#tbl-reg-results}
 
-# How to run
-## Environment install
+# How to Run
+## Environment Setup
 
 see `python_environment_setup.md`
 
@@ -802,14 +803,11 @@ python predict.py --model dgcnn --dataset_config_key petawawa_reg --ckpt_path lo
 ## Tutorial references of Pytorch Lightning
 [Official Tutorial](https://lightning.ai/pages/blog/pl-tutorial-and-overview/)
 
-## Relevant Resources for DGCNN
-### paper
-
+## Paper
 [Wang Y. et al., 2019. Dynamic Graph CNN for Learning on Point Clouds](https://arxiv.org/abs/1801.07829)
 
-### code
+## Code
 [Original Pytorch reimplementation for DGCNN](https://github.com/WangYueFt/dgcnn/blob/master/pytorch/model.py)
 
 ## Other Deep Lerning Frameworks
-
 ![Deep learning fromeworks](https://static.packt-cdn.com/products/9781800561618/graphics/image/B16692_01_02.jpg)
