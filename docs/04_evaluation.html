@@ -103,10 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 
-
-
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
-
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -251,8 +248,8 @@ window.Quarto = {
 <section id="evaluating-deep-learning-predictions" class="level1">
 <h1>Evaluating Deep Learning Predictions</h1>
 <p>Evaluation goes beyond just logging the final loss. It requires inspecting the raw outputs and ensuring they make sense in the context of the problem.</p>
-<p>Prediction vs.&nbsp;Target: The core of evaluation is comparing the model’s output (raw logits or predicted values) against the ground truth. This is handled within the on_test_epoch_end hook, where raw predictions are aggregated.</p>
-<p>Post-processing: For classification, raw logits must be converted to class indices (e.g., using np.argmax(all_pred, axis=1)) before calculating metrics like accuracy or confusion matrices.</p>
+<p>Prediction vs.&nbsp;Target: The core of evaluation is comparing the model’s output (raw logits or predicted values) against the ground truth. This is handled within the <code>on_test_epoch_end</code> hook, where raw predictions are aggregated.</p>
+<p>Post-processing: For classification, raw logits must be converted to class indices (e.g., using <code>np.argmax(all_pred, axis=1)</code>) before calculating metrics like accuracy or confusion matrices.</p>
 </section>
 <section id="key-evaluation-metrics" class="level1">
 <h1>Key Evaluation Metrics</h1>
@@ -286,7 +283,7 @@ window.Quarto = {
 <ul>
 <li>Load libraries and prediction</li>
 </ul>
-<div id="fd4b5a62" class="cell" data-execution_count="1">
+<div id="9eabcda4" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -313,7 +310,7 @@ window.Quarto = {
 <ul>
 <li>Load predictions</li>
 </ul>
-<div id="6fec3753" class="cell" data-execution_count="2">
+<div id="dd7e8498" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>CLASS_MAP <span class="op">=</span> {</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span>: <span class="st">"conif"</span>,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>: <span class="st">"decid"</span>,</span>
@@ -436,7 +433,7 @@ Table&nbsp;1: Tree species classification performance on the test dataset.
 <div id="tbl-cls-perclass" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="4">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cls-perclass-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;2: Per-class precision, recall, and F1-score for stand-type classification.
+Table&nbsp;2: Per-class precision, recall, and F1-score for tree species classification.
 </figcaption>
 <div aria-describedby="tbl-cls-perclass-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display" data-execution_count="4">
@@ -510,7 +507,7 @@ Table&nbsp;2: Per-class precision, recall, and F1-score for stand-type classific
 <img src="04_evaluation_files/figure-html/fig-cls-confmat-output-1.png" width="617" height="468" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cls-confmat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Normalized confusion matrix (recall per class) for tree species stand-type classification.
+Figure&nbsp;1: Confusion matrix for tree species classification.
 </figcaption>
 </figure>
 </div>
@@ -520,7 +517,7 @@ Figure&nbsp;1: Normalized confusion matrix (recall per class) for tree species s
 </section>
 <section id="visualize-difficult-cases" class="level3">
 <h3 class="anchored" data-anchor-id="visualize-difficult-cases">Visualize difficult cases</h3>
-<div id="b695010f" class="cell" data-execution_count="6">
+<div id="63653d27" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># helper functions</span></span>
@@ -585,7 +582,7 @@ Figure&nbsp;1: Normalized confusion matrix (recall per class) for tree species s
 <span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> correct, wrong</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="f8c0a822" class="cell" data-execution_count="7">
+<div id="3a3ed15f" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Folder with point clouds</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pc_dir <span class="op">=</span> Path(<span class="st">"data/petawawa/plot_point_clouds"</span>)  <span class="co"># contains prf003.npy, etc</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -618,7 +615,7 @@ Incorrect: 3</code></pre>
 <li>#TODO: re-use <code>visualize_z_grid</code> for plots with large AGB residuals</li>
 </ul>
 <p><strong>Function to convert z-scored prdicted biomass to tonnes per hectare (Mg/ha)</strong></p>
-<div id="99c05a18" class="cell" data-execution_count="8">
+<div id="95635505" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_from_z_score(z_vals, sd, mean):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Converts z-score back to original value using mean and sd</span></span>
@@ -636,7 +633,7 @@ Incorrect: 3</code></pre>
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> z_score_val</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Summarize regression results</strong></p>
-<div id="b49cf923" class="cell" data-execution_count="9">
+<div id="b168ee2a" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set filepaths for labels and predictions</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>LABELS_FPATH <span class="op">=</span> <span class="vs">r'data/petawawa/labels.csv'</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>OBS_PRED_FPATH <span class="op">=</span> <span class="vs">r'src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/predictions.csv'</span></span>

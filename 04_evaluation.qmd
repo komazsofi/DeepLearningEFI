@@ -24,9 +24,9 @@ This section details how to interpret the results from the final test run and ho
 
 Evaluation goes beyond just logging the final loss. It requires inspecting the raw outputs and ensuring they make sense in the context of the problem.
 
-Prediction vs. Target: The core of evaluation is comparing the model's output (raw logits or predicted values) against the ground truth. This is handled within the on_test_epoch_end hook, where raw predictions are aggregated.
+Prediction vs. Target: The core of evaluation is comparing the model's output (raw logits or predicted values) against the ground truth. This is handled within the `on_test_epoch_end` hook, where raw predictions are aggregated.
 
-Post-processing: For classification, raw logits must be converted to class indices (e.g., using np.argmax(all_pred, axis=1)) before calculating metrics like accuracy or confusion matrices.
+Post-processing: For classification, raw logits must be converted to class indices (e.g., using `np.argmax(all_pred, axis=1)`) before calculating metrics like accuracy or confusion matrices.
 
 # Key Evaluation Metrics
 
@@ -145,7 +145,7 @@ summary_df
 - Per-class metrics
 ```{python}
 #| label: tbl-cls-perclass
-#| tbl-cap: "Per-class precision, recall, and F1-score for stand-type classification."
+#| tbl-cap: "Per-class precision, recall, and F1-score for tree species classification."
 report = classification_report(
     y_true,
     y_pred,
@@ -176,7 +176,7 @@ per_class_df
 
 ```{python}
 #| label: fig-cls-confmat
-#| fig-cap: "Normalized confusion matrix (recall per class) for tree species stand-type classification."
+#| fig-cap: "Confusion matrix for tree species classification."
 #| fig-width: 6
 #| fig-height: 5
 # Print confusion matrix

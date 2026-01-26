@@ -174,8 +174,10 @@ Lightning call order: `prepare_data() if process data, setup(stage="fit"), train
 
 ## Define the DGCNN Model ([dgcnn.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/dgcnn.py))
 
-This section covers the implementation of the `DGCNN` model, including its structure of feature extraction layers and final classification/regression heads.
+This section covers the implementation of the `DGCNN` model, including :
 
+- KNN-based local graph construction
+  
 ```{python }
 #| code-fold: true
 #| code-overflow: wrap
@@ -216,6 +218,16 @@ def get_graph_feature(x, k=20, idx=None):
     feature = torch.cat((feature-x, x), dim=3).permute(0, 3, 1, 2).contiguous()
   
     return feature
+```
+
+- Architecture construction (input features, layers, classification head, and regression head)
+```{python }
+#| code-fold: true
+#| code-overflow: wrap
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from models.heads import ClassificationHead, RegressionHead
 
 class get_model(nn.Module):
     def __init__(self, cfg):
@@ -287,6 +299,47 @@ class get_model(nn.Module):
         trans_feat = None # DGCNN does not produce a transform matrix
         
         return x, trans_feat
+```
+
+- classification/regression heads
+
+```{python}
+class ClassificationHead(nn.Module):
+    def __init__(self, in_dim, num_outputs, drop1=0.5, drop2=0.5):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(in_dim, 512),
+            nn.BatchNorm1d(512),
+            nn.ReLU(),
+            nn.Dropout(drop1),
+            nn.Linear(512, 256),
+            nn.BatchNorm1d(256),
+            nn.ReLU(),
+            nn.Dropout(drop2),
+            nn.Linear(256, num_outputs),
+        )
+
+    def forward(self, x):
+        return F.log_softmax(self.net(x), dim=-1)   # logits [B, num_classes]
+
+
+class RegressionHead(nn.Module):
+    def __init__(self, input_dim, num_outputs):
+        super().__init__()
+        self.num_outputs = num_outputs
+
+        self.net = nn.Sequential(
+            nn.Linear(input_dim, 512),
+            nn.ReLU(),
+            nn.Linear(512, 64),
+            nn.ReLU(),
+            nn.Linear(64, self.num_outputs)
+        )
+
+    def forward(self, feat):
+        
+        return self.net(feat)
+
 ```
 
 ## Loss Functions ([loss_utils.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/loss_utils.py))
