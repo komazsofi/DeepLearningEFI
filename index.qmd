@@ -37,6 +37,10 @@ This workshop covers a basic end-to-end deep learning workflow for EFI applicati
 - Training a deep learning model for classification tasks.
 - Testing and evaluating deep learning models.
 
+::: callout-note
+This site will remain open after the workshop for participants to review the content or share it with others. Because deep neural networks often require long training times, all datasets, training outputs, and model evaluations have been precomputed and are provided as part of this tutorial.
+:::
+
 
 ## Instructors
 | Name | Affiliation |

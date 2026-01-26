@@ -14,17 +14,19 @@ This section provides a foundational introduction to deep learning with a focus 
 
 By the end of this section our hope is that you will be able to:
 
-1)	Explain how deep learning relates to artificial intelligence and machine learning
+1)	Understand the human-centric role of artificial intelligence for enhanced forest inventory modelling
 
-2)	Describe the structure and components of a deep neural network
+2)  Explain how deep learning relates to artificial intelligence and machine learning
 
-3)	Understand how models learn through loss functions, gradients and iterative training
+3)	Describe the structure and components of a deep neural network
 
-4)	Compare image-based and point-based deep learning approaches
+4)	Understand how models learn through loss functions, gradients and iterative training
 
-5)	Familiarize yourself with core deep learning terminology correctly (e.g., parameters, hyperparameters, batches, epochs)
+5)	Compare image-based and point-based deep learning approaches
 
-6)	Recognize common challenges when applying deep learning to forestry and remote sensing data
+6)	Familiarize yourself with core deep learning terminology correctly (e.g., parameters, hyperparameters, batches, epochs)
+
+7)	Recognize common challenges when applying deep learning to forestry and remote sensing data
 
 ## Human-Centric Artificial Intelligence for Enhanced Forest Inventories
 EFIs have traditionally relied on field measurements, allometric equations, statistical models, and process-informed assumptions to estimate forest attributes such as biomass, volume, canopy height, species composition, and structural complexity. These approaches remain foundational to forestry. However, the increasing availability of rich remote sensing data, particularly Airborne Laser Scanning (ALS), multispectral imagery, and other spatial products, has significantly expanded what can be measured and modeled.
@@ -44,7 +46,7 @@ While this workshop focuses primarily on classification and regression tasks, it
 | **Generative**  | Synthesizes realistic forest data to fill gaps in remote regions or explore “what-if” climate scenarios. | *Ecological Validation:* verifying that synthetic scenarios are biologically plausible and scientifically sound. |
 
 
-### Descriptive Modelling: Learning Structure from Data
+### Descriptive modelling: learning structure from data
 Descriptive modelling focuses on **extracting meaningful patterns and representations from complex data**. For example, ALS point clouds contain detailed 3D information about canopy and understory structure, as well as the terrain. Traditionally, this information was summarized using handcrafted features such as height percentiles or canopy cover metrics.
 
 Deep learning enables models to **learn hierarchical feature representations directly from raw or minimally processed data**, capturing subtle patters that are difficult to define manually. In EFIs, this allows for:
@@ -54,7 +56,7 @@ Deep learning enables models to **learn hierarchical feature representations dir
 
 **Human expertise remains critical** in selecting appropriate data sources, interpreting learned features and validating that extracted pattens are meaningful for real-world forestry.
 
-### Predictive Modelling: Estimating Forest Attributes at Scale
+### Predictive modelling: estimating forest attributes at scale
 Predictive modelling is the most familiar application of AI in forestry. It involves learning relationships between inputs (e.g., ALS-derived features) and outputs (e.g. forest attributes). Deep learning excels in predictive tasks when:
 
 -	Relationships are nonlinear and high-dimensional
@@ -64,7 +66,7 @@ Common predictive EFI applications include classification tasks such as species 
 
 **Human input remains indispensable** for selecting meaningful response variables, designing appropriate training and validation datasets, and interpreting predictions within a forestry context.
 
-### Prescriptive Modelling: From Prediction to Decisions
+### Prescriptive modelling: from prediction to decisions
 Prescriptive modelling likes predictions to **actions or decisions**. While this workshop does not implement perspective models directly, understanding their relevance is important. In forestry, prescriptive AI can support:
 
 -	Inventory-driven management planning
@@ -73,7 +75,7 @@ Prescriptive modelling likes predictions to **actions or decisions**. While this
 
 Accurate predictive models are a **necessary foundation** for prescriptive applications and better EFI predictions lead to better forestry decisions. **Domain expertise ensures that prescriptive recommendations are practical and aligned with forest management objectives.**
 
-### Generative Modelling: Exploring “What-If” Scenarios
+### Generative modelling: exploring “what-if” scenarios
 Generative modelling focuses on **creating new data or scenarios that are consistent with observed patterns.** In the context of EFIs, this may include:
 
 -	Simulating forest structures under different management or disturbance scenarios
@@ -91,7 +93,7 @@ Deep learning is a branch of machine learning, which in turn is a subset of AI. 
 
 ![Hierarchy Types of Artificial Intelligence Methods and Common Examples of Each](images/aivendiagram.png){#fig-ai-vendiagram fig-align="center" width=50%}
 
-### Components of a Deep Neural Network
+### Components of a deep neural network
 There are several key components and terms commonly used to describe a neural network. The **depth** of a neural network refers to the number of **layers** in its architecture (the example in @fig-neuralnetwork has five layers), whereas the **width** refers to the number of neurons within each layer.
 
 ![Components of a Neural Network](images/neuralnet.png){#fig-neuralnetwork fig-align="center"}
@@ -102,7 +104,7 @@ $$
 \Large y = w_1x_1 + w_2x_2 + b
 $$
 
-Another important part of a neuron is called the **activation**. The output of the weighted sum ($y$) is passed through an activation function, which determines the strength of the output and whether the neuron becomes activated or not. Activation functions are essential because they introduce nonlinearity into the model. Without them, every layer would behave like a linear transformation, and no matter how many layers were stacked, the network could only learn simple linear relationships. By adding nonlinear activations, deep learning models can capture complex patterns and interactions in the data, making it possible to learn rich structure found in imagery and point clouds.
+Another important part of a neuron is called the **activation**. The output of the weighted sum ($y$) is passed through an activation function, which determines the strength of the output and whether the neuron becomes activated or not. Activation functions are essential because they introduce nonlinearity into the model. Without them, every layer would behave like a linear transformation, and no matter how many layers were stacked, the network could only learn simple linear relationships. By adding nonlinear activations, deep neural networks can capture complex patterns and interactions in the data, making it possible to learn rich structure found in imagery and point clouds.
 
 ![Components of a Neuron](images/neuron.png){#fig-neuron fig-align="center" width=60%}
 
@@ -110,14 +112,14 @@ Another important part of a neuron is called the **activation**. The output of t
 There are many types of activation functions, and you are encouraged to research which one would be best for your specific use case.
 :::
 
-### The Prediction - Feedback Loop
-The **prediction-feedback loop** is what makes **learning** possible as a deep learning model doesn't just memorize the data, it adapts to the patterns within and generalizes from them. This allows a model to progressively fine-tune how it *sees* the input **data** to improve its performance with respect to the **goal** and the **task**.
+### The prediction - feedback loop
+The **prediction-feedback loop** is what makes **learning** possible as a deep neural network doesn't just memorize the data, it adapts to the patterns within and generalizes from them. This allows a model to progressively fine-tune how it *sees* the input **data** to improve its performance with respect to the **goal** and the **task**.
 
 ![Prediction-Feedback Loop](images/feedbackloop.png){#fig-feedback-loop fig-align="center" width=60%}
 
-This prediction–feedback loop is driven by the goal of the **loss function**, which guides the model in adjusting its weights and biases toward an optimal solution. The loss function assesses the difference between the true and predicted **labels**, typically, with the objective of minimizing the error between the two. There are multiple types of loss functions, each providing different forms of feedback to the model. Choosing an appropriate loss function depends on the task (e.g., classification, regression), and is a crucial step in the deep learning model design.
+This prediction–feedback loop is driven by the goal of the **loss function**, which guides the model in adjusting its weights and biases toward an optimal solution. The loss function assesses the difference between the true and predicted **labels**, typically, with the objective of minimizing the error between the two. There are multiple types of loss functions, each providing different forms of feedback to the model. Choosing an appropriate loss function depends on the task (e.g., classification, regression), and is a crucial step in the deep neural networks design.
 
-A key part of this update process involves **gradients**, which measure how sensitive the loss is to small changes in each weight or bias. Gradients point the model in the direction that most reduces error, allowing the network to adjust its parameters efficiently. During training, these gradients are computed and used to iteratively update the weights so that, over time, the model’s predictions become more accurate. Although gradients operate behind the scenes, they are central to how deep learning models learn from the data.
+A key part of this update process involves **gradients**, which measure how sensitive the loss is to small changes in each weight or bias. Gradients point the model in the direction that most reduces error, allowing the network to adjust its parameters efficiently. During training, these gradients are computed and used to iteratively update the weights so that, over time, the model’s predictions become more accurate. Although gradients operate behind the scenes, they are central to how deep neural networks learn from the data.
 
 Over multiple iterations, or **epochs**, the model continually adjusts its weights and biases based on the feedback received from the loss function. Eventually, the model reaches a point where no further improvements are made given the available data, and the loss begins to stabilize, indicating that the model has converged to an optimal or near-optimal solution.
 
@@ -128,10 +130,10 @@ This iterative adjustment process is called model training and involves a **trai
 After the prediction-feedback loop (training and validation), a **testing** dataset is used to provide an unbiased evaluation of the model’s final performance. Unlike the validation set, which is used to guide the model tuning during training, the test set is completely withheld until all adjustments are complete. This ensures that the performance metrics accurately reflect how the model will behave on truly unseen data, offering a realistic measure of its generalization ability and reliability for real-world applications.
 
 ::: callout-note
-It is crucial that these three separate and distinct datasets (training, validation, and testing) are properly prepared for training deep learning models. Mixing or reusing data between these datasets can lead to misleading performance metrics and poor generalization. Proper separation ensures that the model is evaluated fairly at each stage of development and that its reported accuracy truly reflects performance on new, unseen data.
+It is crucial that these three separate and distinct datasets (training, validation, and testing) are properly prepared for training deep neural networks. Mixing or reusing data between these datasets can lead to misleading performance metrics and poor generalization. Proper separation ensures that the model is evaluated fairly at each stage of development and that its reported accuracy truly reflects performance on new, unseen data.
 :::
 
-### Common Deep Learning Tasks
+### Common deep learning tasks
 #### Classification
 **Classification** assigns each input (an image, pixel, object, or point cloud sample) to a discrete class. This is often the starting point in deep learning for ecological or environmental analysis.
 
@@ -167,7 +169,7 @@ In forestry applications, segmentation helps support:
 ![Segmentation](images/segmentation.png){#fig-segmentation fig-align="center" width=80%}
 
 ## Image-Based vs. Point-Based Deep Learning
-### Image-Based Deep Learning
+### Image-based deep learning
 **Image-based** deep learning is a computer vision method that teaches computers to understand and interpret images. Instead of manually telling the computer what to look for, these algorithms automatically learn patterns from large sets of images. These algorithms can learn features like edges, shapes, and colours, and can eventually identify complex objects such as trees. Because these models learn directly from the data, they can help computers effectively *see* and make sense of the imagery.
 
 ![Image Based Deep Learning](images/imagedl.png){#fig-imagedl fig-align="center" width=80%}
@@ -176,61 +178,61 @@ A common image-based deep learning technique is the **convolutional neural netwo
 
 ![Convolutional Neural Networks](images/convolutions.png){#fig-convolutions fig-align="center" width=60%}
 
-### Point Based Deep Learning
-**Point-based** deep learning is a method used to analyze 3D point cloud data. Unlike image data, which is structured in a grid of pixels, point clouds are irregular and unstructured, making them harder for traditional neural networks to process. Point-based deep learning models are designed to handle this challenge by directly learning from the spatial relationships between points without requiring conversion into images or grids. By learning the geometric patterns directly from the raw point clouds, these models are able to provide an accurate and detailed understanding of complex 3D structures of the forest. Similar to image-based approaches as the data moves through successive layers, and increasingly complex patterns are be extracted.
+### Point-based deep learning
+**Point-based** deep learning is a method used to analyze 3D point cloud data. Unlike image data, which is structured in a grid of pixels, point clouds are irregular and unstructured, making them harder for traditional neural networks to process. Point-based deep neural networks are designed to handle this challenge by directly learning from the spatial relationships between points without requiring conversion into images or grids. By learning the geometric patterns directly from the raw point clouds, these models are able to provide an accurate and detailed understanding of complex 3D structures of the forest. Similar to image-based approaches as the data moves through successive layers, and increasingly complex patterns are be extracted.
 
 ![Point Based Deep Learning](images/pointdl.png){#fig-pointdl fig-align="center" width=80%}
 
 ## Key Terminology and Concepts to Know
-Before exploring data preparation, training workflows, and model evaluation, it is useful to establish a common vocabulary describing how deep learning models operate. The terms below describe the core components, processes, and ideas that appear throughout all deep learning methods, regardless of the specific architecture or data type. Understanding these concepts will help clarify how models learn, how they are structured, and how different parts of the training pipeline fit together.
+Before exploring data preparation, training workflows, and model evaluation, it is useful to establish a common vocabulary describing how deep neural networks operate. The terms below describe the core components, processes, and ideas that appear throughout all deep learning methods, regardless of the specific architecture or data type. Understanding these concepts will help clarify how models learn, how they are structured, and how different parts of the training pipeline fit together.
 
-### Parameters vs. Hyperparameters
+### Parameters vs. hyperparameters
 **Parameters** are the internal values of a neural network that are learned during training. These include the weights and biases in each layer. They are updated automatically through optimization algorithms and define how the model transforms inputs into predictions.
 
 **Hyperparameters** control *how* a model learns rather than what it learns. Examples include learning rate, batch size, number of epochs, and model depth. Unlike parameters, hyperparameters are set by the user and are not learned during training. These often need to be tuned in order to achieve optimal results.
 
-### Input Features vs. Labels vs. Learned Features
+### Input features vs. labels vs. learned features
 **Input Features** are the input variables or measurements the model receives. In imagery, these might be pixel values from the spectral bands; in point clouds, they may include XYZ coordinates, intensity, or return number. Features describe the data but not the model's predictions.
 
 **Labels** represent the target values the model is trying to predict. These can be discrete classes (e.g. species), continuous values (e.g. biomass), or spatial assignments (e.g. segmentation masks). Labels are essential for supervised learning.
 
-**Learned Features** are internal representations automatically discovered by the neural network as the data moves through its layers. Unlike input features, which come directly from the dataset, learned features are generated by the model itself. Early layers often capture simple patterns such as edges or local geometry, while deeper layers encode more abstract concepts such as textures, shapes, or structural patterns. These learned features enable deep learning models to extract complex information without requiring manual feature engineering.
+**Learned Features** are internal representations automatically discovered by the neural network as the data moves through its layers. Unlike input features, which come directly from the dataset, learned features are generated by the model itself. Early layers often capture simple patterns such as edges or local geometry, while deeper layers encode more abstract concepts such as textures, shapes, or structural patterns. These learned features enable deep neural networks to extract complex information without requiring manual feature engineering.
 
-### Batches & Batch Size
+### Batches & batch size
 Instead of processing the entire dataset at once, the model learns from small subsets of the data called **batches**. The **batch size** is the number of samples processed per training step. Batch size affects memory usage, training stability, and learning dynamics.
 
 ![Batches](images/batch.png){#fig-batches fig-align="center" width=60%}
 
-### Model Architecture vs. Model Weights
+### Model architecture vs. model weights
 The **model architecture** defines the structure of the network, including the number and type of layers and how they are connected. Examples include CNNs for image and point based networks for 3D data. The architecture determines the model’s capacity to learn patterns, and differ based on the goal and task.
 
 **Model weights** are the numerical values stored within each layer that get updated during training while the architecture remains fixed, the weights change continuously, forming the learned representations of the data.
 
-### Forward pass vs. Backward Pass
+### Forward pass vs. backward pass
 The **forward pass** is the process where input data moves through the network, from the first layer to the final output, to generate predictions. All computations during this step use the current parameter values.
 
 The **backward pass** computes gradients that describe how the loss changes with respect to each parameter. These gradients are then used by the optimizer to update the model's parameters, allowing it to improve over time.
 
 ![Backward Pass](images/backwardpass.png){#fig-backwardpass fig-align="center" width=80%}
 
-### Training Loop
+### Training loop
 The **training loop** refers to the repeated cycle of performing forward passes, computing loss, running backward passes, and updating parameters. This loop continues for a set number of epochs or until the model stops improving.
 
-### Gradient Descent
+### Gradient descent
 **Gradient decent** is the core optimization idea that adjusts a model’s parameters to minimize the loss function. By moving the weights in the direction that decreases the error, the model incrementally improves its predictions.
 
-### Transfer Learning & Fine-Tuning
-**Transfer learning** is a technique where a deep learning model that has already been trained on a large, general-purpose dataset is reused as the starting point for a new task. Instead of training from scratch, the model begins with learned features that capture useful patterns, such as edges, textures, shapes, or geometric structures, that often transfer well across related tasks and data types.
+### Transfer learning & fine-tuning
+**Transfer learning** is a technique where a deep neural network that has already been trained on a large, general-purpose dataset is reused as the starting point for a new task. Instead of training from scratch, the model begins with learned features that capture useful patterns, such as edges, textures, shapes, or geometric structures, that often transfer well across related tasks and data types.
 
 **Fine-tuning** is the process of adjusting (or refining) some or all of the pretrained model’s weights on your specific dataset. This allows the model to adapt its learned features to the characteristics of your data, such as new species, sensor types, or forest structures. Fine-tuning is especially valuable when labelled data are limited, because it reduces the amount of training needed and often leads to better generalization than starting with a randomly initialized model.
 
 
 ## Challenges and Considerations for Deep Learning in Forestry Applications
-Forestry data introduce unique complexities that shape how deep learning models behave in real-world applications. Understanding these challenges at a high level helps set realistic expectations for model performance and highlights why certain design choices are necessary. The following considerations provide important context for why deep learning in forestry often requires additional care compared to more controlled or synthetic environments.
+Forestry data introduce unique complexities that shape how deep neural networks behave in real-world applications. Understanding these challenges at a high level helps set realistic expectations for model performance and highlights why certain design choices are necessary. The following considerations provide important context for why deep learning in forestry often requires additional care compared to more controlled or synthetic environments.
 
 : Table 2: Key challenges and considerations for applying deep learning to forestry remote sensing.
 
-| Challenge / Consideration | Description | Impact on Deep Learning Models | Potential Solutions |
+| Challenge / Consideration | Description | Impact on Deep Neural Networks | Potential Solutions |
 |---------------------------|--------------------------------|--------------------------------|--------------------------------|
 | **High Variability Across Sensors and Sites** | Remote sensing data originate from different platforms, sensors, and acquisition conditions, with variations in resolution, illumination, phenology, and sensor characteristics. | Models may fail or struggle to generalize across sites, sensors, or forest types. | Fine-tuning, domain adaptation, cross-site and cross-sensor calibration. |
 | **Spatial Autocorrelation** | Nearby pixels, trees, or points are inherently more similar than distant ones due to spatial structure in forest environments. | Spatially clustered training and test samples can inflate performance estimates and reduce true generalization. | Spatially explicit sampling strategies, spatial cross-validation. |
@@ -251,17 +253,17 @@ Artificial intelligence is the broad field of creating systems that perform task
 <details>
 <summary><strong>What makes deep learning deep?</strong></summary>
 
-Deep learning models are considered *deep* because they contain multiple layers of neurons through which data are successively transformed. Each layer learns increasingly abstract features, from simple edges or shapes to complex patterns and structures. The depth, or number of layers, enables these models to capture highly non-linear relationships that simpler models cannot represent.
+Deep neural networks are considered *deep* because they contain multiple layers of neurons through which data are successively transformed. Each layer learns increasingly abstract features, from simple edges or shapes to complex patterns and structures. The depth, or number of layers, enables these models to capture highly non-linear relationships that simpler models cannot represent.
 </details>
 
 <details>
 <summary><strong>What are some advantages and disadvantages of deep learning?</strong></summary>
 
-Deep learning excels at learning complex patterns, handling high-dimensional data, and achieving state-of-the-art performance in tasks like image classification, segmentation, and 3D analysis. However, it typically requires large amounts of labelled data, substantial computational resources, and careful tuning. Deep learning models can also be harder to interpret, making it challenging to understand why a model makes certain predictions.
+Deep learning excels at learning complex patterns, handling high-dimensional data, and achieving state-of-the-art performance in tasks like image classification, segmentation, and 3D analysis. However, it typically requires large amounts of labelled data, substantial computational resources, and careful tuning. Deep neural networks can also be harder to interpret, making it challenging to understand why a model makes certain predictions.
 </details>
 
 <details>
-<summary><strong>When should a deep learning model be used?</strong></summary>
+<summary><strong>When should a deep neural networks be used?</strong></summary>
 
 Deep learning is most effective when you have large, diverse datasets and tasks with complex patterns that simpler models struggle to capture. As the complexity of the data or the task increases, deep learning becomes a more beneficial option. Raw lidar data, for example, is a complex dataset and is well suited for deep learning tasks.
 
@@ -270,15 +272,15 @@ Deep learning is most effective when you have large, diverse datasets and tasks 
 </details>
 
 <details>
-<summary><strong>What computing resources are required to run a deep learning model?</strong></summary>
+<summary><strong>What computing resources are required to run a deep neural network?</strong></summary>
 
-Training deep learning models generally benefits from using a GPU, which accelerates the large matrix operations involved. Smaller models or inference tasks can run on a standard CPU, but training deep neural networks on CPUs is typically slow. For larger datasets or 3D models, access to GPUs, high memory capacity, and efficient data pipelines becomes increasingly important.
+Training deep neural networks generally benefits from using a GPU, which accelerates the large matrix operations involved. Smaller models or inference tasks can run on a standard CPU, but training deep neural networks on CPUs is typically slow. For larger datasets or 3D models, access to GPUs, high memory capacity, and efficient data pipelines becomes increasingly important.
 </details>
 
 <details>
-<summary><strong>Why do deep learning models need so much data?</strong></summary>
+<summary><strong>Why do deep neural networks need so much data?</strong></summary>
 
-Deep learning models contain millions of parameters that must be learned during training. Large datasets help ensure these parameters capture general patterns rather than memorizing noise. With limited data, models are more likely to overfit. More data, especially diverse data, improves generalization.
+Deep neural networks contain millions of parameters that must be learned during training. Large datasets help ensure these parameters capture general patterns rather than memorizing noise. With limited data, models are more likely to overfit. More data, especially diverse data, improves generalization.
 </details>
 
 <details>
@@ -288,7 +290,7 @@ The choice of architecture depends on the type of data, the goal, and the task. 
 </details>
 
 <details>
-<summary><strong>How long does it take to train a deep learning model?</strong></summary>
+<summary><strong>How long does it take to train a deep neural network?</strong></summary>
 
 Training time varies depending on model size, computing resources, and batch configuration. Small models may train in minutes to hours, while large models or 3D networks trained on high-resolution data can take days. Efficient hardware, optimized data loading, and appropriate batch sizes can significantly reduce training time.
 </details>
