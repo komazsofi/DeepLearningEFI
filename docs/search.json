@@ -25,14 +25,14 @@
     "href": "index.html#setup",
     "title": "Deep Learning with Airborne Laser Scanning Data for Forest Inventories",
     "section": "Setup",
-    "text": "Setup\nThis is an introductory workshop for deep learning techniques for Enhanced Forest Inventories (EFIs) presented at the Canadian Cross-Country EFI Checkup. To get ready for this workshop follow the links below.\nGet Started View Schedule"
+    "text": "Setup\nTo get ready for this workshop follow the links below.\nGet Started View Schedule"
   },
   {
     "objectID": "index.html#overview",
     "href": "index.html#overview",
     "title": "Deep Learning with Airborne Laser Scanning Data for Forest Inventories",
     "section": "Overview",
-    "text": "Overview\nThis workshop covers a basic end-to-end deep learning workflow for EFI applications, covering an introduction into deep learning, to data preparation, and finally a demo of model training, evaluation, and deployment. There will also be some examples of real world forest inventory deep learning applications showcasing some of the possibilities there are with these techniques.\n\nYou will learn\n\nWhat deep learning is and how it can be used for EFIs.\nHow to prepare and read in data for use in deep learning.\nBasics of using the PyTorch Lightning deep learning library.\nDeep learning based forest attribute feature extraction.\nTraining a deep learning model for classification tasks.\nTesting and evaluating deep learning models.\n\n\n\n\n\n\n\nNote\n\n\n\nThis site will remain open after the workshop for participants to review the content or share it with others. Because deep neural networks often require long training times, all datasets, training outputs, and model evaluations have been precomputed and are provided as part of this tutorial."
+    "text": "Overview\nThis is an introductory workshop for deep learning techniques for Enhanced Forest Inventories (EFIs) presented at the Canadian Cross-Country EFI Checkup. This workshop covers a basic end-to-end deep learning workflow for EFI applications, covering an introduction into deep learning, to data preparation, and finally a demo of model training, evaluation, and deployment. There will also be some examples of real world forest inventory deep learning applications showcasing some of the possibilities there are with these techniques.\n\nYou will learn\n\nWhat deep learning is and how it can be used for EFIs.\nHow to prepare and read in data for use in deep learning.\nBasics of using the PyTorch Lightning deep learning library.\nDeep learning based forest attribute feature extraction.\nTraining a deep learning model for classification tasks.\nTesting and evaluating deep learning models.\n\n\n\n\n\n\n\nNote\n\n\n\nThis site will remain open after the workshop for participants to review the content or share it with others. Because deep neural networks often require long training times, all datasets, training outputs, and model evaluations have been precomputed and are provided as part of this tutorial."
   },
   {
     "objectID": "index.html#instructors",
