@@ -399,7 +399,10 @@ trees_df <- read_excel(PLOT_DATA_FPATH, sheet = 'Tree') %>%
               #Capitalize species name
               mutate(species = str_to_title(species))
 
-print(str(trees_df))
+# View the first 30 trees in the dataset
+trees_df %>%
+  head(30) %>%
+  view_table()
 
 ```
 
@@ -466,7 +469,7 @@ zq95_df %>%
 
 Here we can classify each plot as dominated by coniferous, deciduous or mixed. These three classes will later be used to train a deep neural network classifier in the `TRAIN` section of the tutorial.
 
-For the purpose of this tutorial, we will use total volume (`tvol`) to define species dominance.
+For the purpose of this tutorial, we will use total volume (`tvol`) derived from field plot tree measurements to define species dominance.
 
 In the code below we do the following:
 
@@ -820,11 +823,8 @@ labels_df %>%
 ```{r}
 #| code-fold: true
 
-
-
-
 # View species type frequency by split
-ggplot(labels_df, aes(x = split, fill = dom_sp_type)) +
+fig1 <- ggplot(labels_df, aes(x = split, fill = dom_sp_type)) +
   geom_bar(position = "dodge") +
   geom_text(stat = "count", aes(label = ..count..), 
             position = position_dodge(width = 0.9), vjust = -0.5, color = "black", size = 5) +
@@ -838,25 +838,29 @@ ggplot(labels_df, aes(x = split, fill = dom_sp_type)) +
   )
 
 # View biomass variation by split
-fig <- labels_df %>%
+fig2 <- labels_df %>%
     ggplot(aes(x = split, y = total_agb_mg_ha)) +
     geom_boxplot() + 
     theme_minimal() + 
-    ylab("Total AGB (Mg/ha)") + 
     theme(
         panel.grid = element_blank(),  
     ) + 
     xlab("Split") + 
-    ylab('N Plots')
+    ylab("Total AGB (Mg/ha)")
 
-# Export figure
-ggsave(filename = here('images/dom_sp_data_split_histogram.jpg'), 
-      plot = fig)
+# Export figures
+
+ggsave(filename = here('images/species_splits_barplot.jpg'), 
+      plot = fig1)
+
+ggsave(filename = here('images/total_agb_splits_boxplots.jpg'), 
+      plot = fig2)
 
 ```
 
+![](images/species_splits_barplot.jpg)
 
-![](images/dom_sp_data_split_histogram.jpg)
+![](images/total_agb_splits_boxplots.jpg)
 
 ## 6) Z-score AGB
 
