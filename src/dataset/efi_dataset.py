@@ -7,22 +7,22 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 from .data_utils import estimate_normals, sample_points
-
+from dataset.ocnn_utils import CustomTransform
 
 class EfiDataset(Dataset):
-    def __init__(self, root, csv_path, label_col, split='train', 
+    def __init__(self, root, csv_path, label_col, model_name, split='train', 
                  num_points=8192, task_type='classification', classes_list=None,
                  process_data=False, use_normals=False, use_fps=True):
         
         self.root = root
         self.csv_path = csv_path
         self.label_col = label_col
+        self.model_name = model_name
         self.npoints = num_points
         self.task_type = task_type
         self.use_normals = use_normals
         self.use_fps = use_fps
         self.split = split
-        
         self.list_of_points = None
         self.list_of_labels = None
         self.list_of_pids = None
@@ -78,6 +78,21 @@ class EfiDataset(Dataset):
             self._load_cache()  # use cache
         else:
             print("No cache found. Loading data on-the-fly (slow).")
+    
+        # Specify octree build function
+        if self.model_name == 'ocnn':
+
+            self.load_octree_sample = CustomTransform(depth=6,
+                                        full_depth=2,
+                                        augment= True if self.split=='train' else False,
+                                        angle=(0, 0, 40),
+                                        interval=(1, 1, 1),
+                                        jitter=0.125,
+                                        downsample_prop=0.1)
+                        
+        else:
+            self.load_octree_sample = None
+
 
     # --- Processing Function ---
     def _process_and_cache(self):
@@ -183,5 +198,10 @@ class EfiDataset(Dataset):
         if self.task_type == 'classification':
             return points, torch.tensor(label, dtype=torch.long), pid
         else:
-            # For regression, return float32 (usually shape [1] or scalar)
-            return points, torch.tensor(label, dtype=torch.float32), pid
+            if self.model_name == 'ocnn':
+                sample = self.load_octree_sample(points, index)
+                sample['target'] = label
+            else:
+                # For regression, return float32 (usually shape [1] or scalar)
+                return points, torch.tensor(label, dtype=torch.float32), pid
+        

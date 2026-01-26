@@ -1,5 +1,8 @@
 import numpy as np
 import open3d as o3d
+from random import choice
+
+
 
 def normalize_data(batch_data):
     """ Normalize the batch data, use coordinates of the block centered at origin,
@@ -292,3 +295,25 @@ def sample_points(points, npoint, use_fps=False):
     # If too few points, pad by sampling with replacement
     idx = np.random.choice(N, size=npoint, replace=True)
     return points[idx, :]
+
+
+def rand_pc_downsample(points, drop_prop):
+    """
+    Given a 50% chance, subsample a point cloud to the target proportion of initial points.
+
+    Based on Xiang et al. (2024) data augmentation techniques.
+
+    Xiang, Binbin, et al. "Automated forest inventory: Analysis of high-density airborne LiDAR point clouds with 3D deep learning." Remote Sensing of Environment 305 (2024): 114078.
+    """
+
+    if choice([True, False]):
+
+        keep_prop = 1 - drop_prop
+
+        n_poi_keep = int(points.shape[0] * keep_prop)
+
+        use_idx = np.random.choice(points.shape[0], n_poi_keep, replace=False)
+
+        points = points[use_idx, :]
+
+    return points
