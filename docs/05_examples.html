@@ -364,15 +364,16 @@ Figure&nbsp;5: Total and component forest aboveground biomass maps of the RMF ge
 <section id="dataset-and-dataset-generation" class="level3">
 <h3 class="anchored" data-anchor-id="dataset-and-dataset-generation">Dataset and Dataset Generation</h3>
 <p>A multi-step preprocessing workflow was implemented comprising S2 imagery processing, FRI data processing, superpixel generation, and SPL-plot pairing.</p>
-<video src="images/05_examples_TSC/data_processing.mp4" autoplay="" loop="" muted="" playsinline="" style="
-    width: 900px;
-    height: 500px;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    margin: auto;
-  ">
-</video>
+<div id="fig-data-processing" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-data-processing-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/05_examples_TSC/data_processing.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-data-processing-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Data Processing
+</figcaption>
+</figure>
+</div>
 <p><strong>Superpixel generation involved:</strong></p>
 <ul>
 <li>Selecting polygons from the “Cleaned FRI” overlapping each <span class="math inline">\(128 \times 128\)</span>-pixel tile (red-bounded region)</li>
@@ -389,7 +390,7 @@ Figure&nbsp;5: Total and component forest aboveground biomass maps of the RMF ge
 <img src="images\05_examples_TSC\architecture-m3f.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fusion-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: Multi-modal data fusion network
+Figure&nbsp;7: Multi-modal data fusion network
 </figcaption>
 </figure>
 </div>
@@ -440,7 +441,7 @@ Figure&nbsp;6: Multi-modal data fusion network
 <img src="images\05_examples_TSC\wall2wall_proportions_hillshade.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mapping-result-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7: Wall-to-wall prediction results for the Romeo Malette Forest (RMF). Left: Predicted proportions of Black Spruce (SB; red channel), Jack Pine (PJ; green channel), and all remaining species (blue channel) within each polygon.
+Figure&nbsp;8: Wall-to-wall prediction results for the Romeo Malette Forest (RMF). Left: Predicted proportions of Black Spruce (SB; red channel), Jack Pine (PJ; green channel), and all remaining species (blue channel) within each polygon.
 </figcaption>
 </figure>
 </div>
@@ -467,15 +468,16 @@ Figure&nbsp;7: Wall-to-wall prediction results for the Romeo Malette Forest (RMF
 <section id="data-used" class="level3">
 <h3 class="anchored" data-anchor-id="data-used">Data Used</h3>
 <p>This study used ALS data collected over the Romeo Malette Forest (RMF) in Ontario. Existing forest inventory maps and field plot data were also used to provide the tree species information needed for model training.</p>
-<video src="images/treespecies/pointcloud.mp4" autoplay="" loop="" muted="" playsinline="" style="
-    width: 400px;
-    height: 400px;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    margin: auto;
-  ">
-</video>
+<div id="fig-point-cloud-plot" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-point-cloud-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/treespecies/pointcloud.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-point-cloud-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: Forest Plot Point Cloud
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="automated-tree-level-dataset-creation" class="level3">
 <h3 class="anchored" data-anchor-id="automated-tree-level-dataset-creation">Automated Tree-Level Dataset Creation</h3>
@@ -494,7 +496,7 @@ Figure&nbsp;7: Wall-to-wall prediction results for the Romeo Malette Forest (RMF
 <img src="images/treespecies/dualstream_model.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dual-stream-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;8: Dual-Stream Model (adapted from Murray et al (2025))
+Figure&nbsp;10: Dual-Stream Model (adapted from Murray et al (2025))
 </figcaption>
 </figure>
 </div>
@@ -563,7 +565,7 @@ Figure&nbsp;8: Dual-Stream Model (adapted from Murray et al (2025))
 <img src="images\treespecies/predictive_probability.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-predictive-probability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9: Point cloud samples for each species, with associated predicted probability from each model
+Figure&nbsp;11: Point cloud samples for each species, with associated predicted probability from each model
 </figcaption>
 </figure>
 </div>

@@ -76,21 +76,7 @@ Accurate information on tree species composition (TSC) is critical for forest in
 ### Dataset and Dataset Generation
 A multi-step preprocessing workflow was implemented comprising S2 imagery processing, FRI data processing, superpixel generation, and SPL-plot pairing.
 
-<video
-  src="images/05_examples_TSC/data_processing.mp4"
-  autoplay
-  loop
-  muted
-  playsinline
-  style="
-    width: 900px;
-    height: 500px;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    margin: auto;
-  "
-></video>
+![Data Processing](images/05_examples_TSC/data_processing.gif){#fig-data-processing fig-align="center" width=90%}
 
 **Superpixel generation involved:**
 
@@ -140,22 +126,7 @@ Advances in ALS data, combined with automated data generation methods, provide a
 ### Data Used
 This study used ALS data collected over the Romeo Malette Forest (RMF) in Ontario. Existing forest inventory maps and field plot data were also used to provide the tree species information needed for model training.
 
-<video
-  src="images/treespecies/pointcloud.mp4"
-  autoplay
-  loop
-  muted
-  playsinline
-  style="
-    width: 400px;
-    height: 400px;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    margin: auto;
-  "
-></video>
-
+![Forest Plot Point Cloud](images/treespecies/pointcloud.gif){#fig-point-cloud-plot fig-align="center" width=60%}
 
 ### Automated Tree-Level Dataset Creation
 An automated workflow was used to detect and segment individual trees directly from the ALS data. Tree species labels were then assigned using existing field measurements and supplemented with inventory information from pure stands, without manual tree delineation or hand-labelling. This approach produced a large dataset of individual tree point clouds, enabling the use of deep learning while avoiding a major bottleneck common in many tree-level studies.
