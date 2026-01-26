@@ -377,6 +377,7 @@ Below we perform the following:
 
   3) Remove any dead stems from the tree list and join the data with the species names
 
+**Below we load tree level measurements and inspect the data**
 
 ```{r}
 #| code-fold: true
