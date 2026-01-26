@@ -7,105 +7,142 @@ from pytorch_lightning.callbacks import ModelCheckpoint, LearningRateMonitor, Ea
 from pytorch_lightning.loggers import WandbLogger
 from pathlib import Path
 import datetime
+import json
 
 # --- Project Imports ---
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = BASE_DIR
-# Add necessary paths
-sys.path.append(os.path.join(ROOT_DIR, 'src')) 
+sys.path.append(os.path.join(ROOT_DIR, 'src'))
 
 from config import DATASET_CONFIG, MODEL_CONFIG
 from dataset.efi_datamodule import EfiDataModule
 from models.efi_modelmodule import EfiModelModule
-import dataset.data_utils as data_utils # For augmentations (if any)
 
-# --- Argument Parsing (Updated) ---
+# ---------------------------
+# Argument Parsing
+# ---------------------------
 
 def parse_args():
-    '''PARAMETERS'''
-    parser = argparse.ArgumentParser('training')
-    parser.add_argument('--mode', default='train', help='training/testing model')
-    parser.add_argument('--use_cpu', action='store_true', default=False, help='use cpu mode')
-    parser.add_argument('--gpu', type=str, default='0', help='specify gpu device (e.g., 0, 1, 0,1)')
-    parser.add_argument('--batch_size', type=int, default=8, help='batch size in training')
-    parser.add_argument('--model', type=str, default='pointnet', help='Model file name from MODEL_CONFIG keys')
-    parser.add_argument('--dataset_config_key', type=str, default='petawawa_cls', 
-                        choices=DATASET_CONFIG.keys(), help='Key from DATASET_CONFIG to use')
-    parser.add_argument('--epoch', default=150, type=int, help='number of epoch in training')
-    parser.add_argument('--learning_rate', default=0.0001, type=float, help='learning rate in training')
-    parser.add_argument('--num_point', type=int, default=8192, help='Point Number')
-    parser.add_argument('--log_dir', type=str, default='log', help='W&B run name/experiment root')
-    parser.add_argument('--decay_rate', type=float, default=1e-4, help='weight decay rate')
-    parser.add_argument('--process_data', action='store_true', default=False, help='build cache first, then load cache for training')
-    parser.add_argument('--no_fps', action='store_true', help='disable FPS and use uniform sampling')
-    
-    # W&B specific arguments
-    parser.add_argument('--wandb_project', type=str, default='EFI_DL', help='Weights & Biases Project Name')
-    
+    parser = argparse.ArgumentParser('EFI Training / Testing')
+    parser.add_argument('--mode', default='train', choices=['train', 'test'], help='Run mode')
+    parser.add_argument('--use_cpu', action='store_true', default=False)
+    parser.add_argument('--gpu', type=str, default='0')
+    parser.add_argument('--batch_size', type=int, default=8)
+    parser.add_argument('--model', type=str, default='pointnet')
+    parser.add_argument('--dataset_config_key', type=str, default='petawawa_cls',
+                        choices=DATASET_CONFIG.keys())
+    parser.add_argument('--epoch', default=150, type=int)
+    parser.add_argument('--learning_rate', default=0.0001, type=float)
+    parser.add_argument('--num_point', type=int, default=8192)
+    parser.add_argument('--log_dir', type=str, default='log', help='Experiment name')
+    parser.add_argument('--decay_rate', type=float, default=1e-4)
+    parser.add_argument('--process_data', action='store_true', default=False)
+    parser.add_argument('--no_fps', action='store_true')
+    parser.add_argument('--wandb_project', type=str, default='EFI_DL')
+
     return parser.parse_args()
 
+# ---------------------------
+# W&B Resume Utilities
+# ---------------------------
 
-# --- Main Function ---
+def save_wandb_run_id(exp_dir, run_id):
+    path = Path(exp_dir) / "wandb_run.json"
+    with open(path, "w") as f:
+        json.dump({"run_id": run_id}, f)
+
+def load_wandb_run_id(exp_dir):
+    path = Path(exp_dir) / "wandb_run.json"
+    if not path.exists():
+        raise FileNotFoundError(f"No W&B run file found: {path}")
+    with open(path, "r") as f:
+        return json.load(f)["run_id"]
+
+# ---------------------------
+# Main
+# ---------------------------
 
 def main(args):
-    
-    # 1. Configuration Setup
+    # ---------------------------
+    # Config Setup
+    # ---------------------------
     dataset_cfg = DATASET_CONFIG[args.dataset_config_key]
     model_cfg = MODEL_CONFIG[args.model]
-    
+
     task = 'classification' if dataset_cfg['num_classes'] > 1 else 'regression'
-    
-    # Combined configuration dictionary passed to the Lightning Module
+
     full_cfg = {
         'model': args.model,
         'model_name': args.model,
         'use_fps': (not args.no_fps),
         'num_classes': dataset_cfg['num_classes'],
         'task': task,
-        **dataset_cfg, # Include all dataset params (root, csv, etc.)
-        **model_cfg    # Include all model params (mat_diff_loss_scale, etc.)
+        **dataset_cfg,
+        **model_cfg
     }
-    
-    # 2. Setup W&B Logger
-    wandb_logger = WandbLogger(
-        project="forest_species_mapping",
-        group=task,
-        job_type=args.model,
-        name=(args.log_dir or str(datetime.datetime.now().strftime('%Y-%m-%d_%H-%M'))),
-        config={**full_cfg, **vars(args)}, # Log all configs and arguments
-    )
-    
-    # Use W&B's run directory for checkpoints
-    checkpoint_dir = Path('./log') / args.wandb_project / wandb_logger.experiment.name / 'checkpoints'
-    checkpoint_dir.mkdir(parents=True, exist_ok=True)
 
-    # 3. Instantiate DataModule and Lightning Module
+    # ---------------------------
+    # Experiment Directory
+    # ---------------------------
+    exp_root = Path('./log') / args.wandb_project / args.log_dir
+    ckpt_dir = exp_root / "checkpoints"
+    ckpt_dir.mkdir(parents=True, exist_ok=True)
+
+    # ---------------------------
+    # W&B Logger
+    # ---------------------------
+    if args.mode == "train":
+        wandb_logger = WandbLogger(
+            project="forest_species_mapping",
+            group=task,
+            job_type=args.model,
+            name=args.log_dir,
+            config={**full_cfg, **vars(args)},
+        )
+        save_wandb_run_id(exp_root, wandb_logger.experiment.id)
+    else:
+        run_id = load_wandb_run_id(exp_root)
+        wandb_logger = WandbLogger(
+            project="forest_species_mapping",
+            group=task,
+            job_type="test",
+            name=args.log_dir,
+            id=run_id,
+            resume="must"
+        )
+
+    # ---------------------------
+    # Data + Model
+    # ---------------------------
     data_module = EfiDataModule(full_cfg, args)
-    model_module = EfiModelModule(full_cfg, args)
 
-    # 4. Define Callbacks
+    # Only construct model manually in train
+    model_module = None if args.mode == "test" else EfiModelModule(full_cfg, args)
+
+    # ---------------------------
+    # Callbacks
+    # ---------------------------
     primary_metric = 'val/instance_acc' if task == 'classification' else 'val/r2_score'
-    
+
     checkpoint_callback = ModelCheckpoint(
-        dirpath=checkpoint_dir, 
+        dirpath=ckpt_dir,
         filename='best_model',
         monitor=primary_metric,
-        mode='max', # Maximize accuracy/R2
-        save_top_k=1,
-        verbose=True
+        mode='max',
+        save_top_k=1
     )
-    
+
     early_stop_callback = EarlyStopping(
-        monitor='val/loss',  # The name of the logged metric to monitor
-        min_delta=0.00,      # Minimum change to qualify as an improvement
-        patience=10,          # Number of epochs with no improvement after which training will be stopped
-        verbose=True,       # Whether to print messages when early stopping conditions are met
-        mode='min'           # 'min' for metrics where lower is better (e.g., loss), 'max' for metrics where higher is better (e.g., accuracy)
+        monitor='val/loss',
+        patience=10,
+        mode='min'
     )
+
     lr_monitor = LearningRateMonitor(logging_interval='epoch')
 
-    # 5. Instantiate the Trainer
-    # PL handles device setup automatically based on arguments
+    # ---------------------------
+    # Trainer
+    # ---------------------------
     trainer = pl.Trainer(
         max_epochs=args.epoch,
         accelerator='gpu' if torch.cuda.is_available() and not args.use_cpu else 'cpu',
@@ -115,15 +152,22 @@ def main(args):
         enable_progress_bar=True,
         log_every_n_steps=2,
     )
-    if args.mode == 'train':
-        # Start Training
-        print('Starting PyTorch Lightning Training...')
-        trainer.fit(model_module, data_module)
-    else:
-        # Test the best checkpoint after training
-        print('\n--- Testing Best Model ---')
-        trainer.test(datamodule=data_module, ckpt_path=os.path.join(checkpoint_dir, 'best_model.ckpt'))
 
+    # ---------------------------
+    # Run
+    # ---------------------------
+    if args.mode == "train":
+        print("\n--- TRAINING ---")
+        trainer.fit(model_module, datamodule=data_module)
+
+    else:
+        print("\n--- TEST ONLY ---")
+        trainer.test(
+            ckpt_path=str(ckpt_dir / "best_model.ckpt"),
+            datamodule=data_module
+        )
+
+# ---------------------------
 if __name__ == '__main__':
     args = parse_args()
     main(args)
