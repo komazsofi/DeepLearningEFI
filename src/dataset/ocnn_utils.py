@@ -9,7 +9,7 @@ import torch
 import ocnn
 from ocnn.octree import Octree, Points
 
-from dataset.data_utils import rand_pc_downsample
+from .data_utils import rand_pc_downsample
 
 class CustomTransform:
     r''' [MODIFIED SLIGHTLY FOR THIS PROJECT] A boilerplate class which transforms an input data for :obj:`ocnn`.
