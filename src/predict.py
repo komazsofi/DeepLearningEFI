@@ -35,6 +35,7 @@ def parse_args():
     parser.add_argument('--out_csv', type=str, default='predictions.csv',
                         help='Output CSV file')
     parser.add_argument('--num_point', type=int, default=8192, help='Point Number')
+    parser.add_argument('--no_fps', action='store_true')
 
 
     return parser.parse_args()
@@ -55,6 +56,7 @@ def main(args):
         'model_name': args.model,
         'num_classes': dataset_cfg['num_classes'],
         'task': task,
+        'use_fps': (not args.no_fps),
         **dataset_cfg,
         **model_cfg
     }

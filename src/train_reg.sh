@@ -13,7 +13,9 @@ echo "Starting training... ($(date))" | tee -a "$LOG_FILE"
 models=(
   pointnet
   pointnet2_ssg
+  pointnet2_msg
   pointnext
+  dgcnn
 )
 
 batch_sizes=(8 16)
@@ -30,7 +32,7 @@ for model in "${models[@]}"; do
         lr_tag="e3"
       fi
 
-      log_dir="peta_reg_${model}_bs${bs}_lr${lr_tag}_2"
+      log_dir="peta_reg_${model}_bs${bs}_lr${lr_tag}"
 
       echo -e "\n[START $(date)] $model | bs=$bs | lr=$lr" | tee -a "$LOG_FILE"
 

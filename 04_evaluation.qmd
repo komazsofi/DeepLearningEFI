@@ -113,11 +113,10 @@ y_pred = test_df["pred_dom_sp_type"]
 
 ```
 
-- Overall performance
+- Calculate metrics
+
 ```{python}
-#| label: tbl-cls-metrics
-#| tbl-cap: "Tree species classification performance on the test dataset."
-#| tbl-colwidths: [30, 20]
+#| code-fold: true
 # ---- Summary metrics ----
 summary_data = {
     "Metric": [
@@ -136,16 +135,7 @@ summary_data = {
     ]
 }
 
-summary_df = pd.DataFrame(summary_data)
-summary_df["Value"] = summary_df["Value"].map(lambda x: f"{x:.3f}")
-
-summary_df
-```
-
-- Per-class metrics
-```{python}
-#| label: tbl-cls-perclass
-#| tbl-cap: "Per-class precision, recall, and F1-score for tree species classification."
+# ---- per-species metrics ----
 report = classification_report(
     y_true,
     y_pred,
@@ -166,6 +156,26 @@ per_class_df = (
         "support": "Support"
     })
 )
+```
+
+Print results:
+
+- Overall performance
+```{python}
+#| label: tbl-cls-metrics
+#| tbl-cap: "Tree species classification performance on the test dataset."
+#| tbl-colwidths: [30, 20]
+
+summary_df = pd.DataFrame(summary_data)
+summary_df["Value"] = summary_df["Value"].map(lambda x: f"{x:.3f}")
+
+summary_df
+```
+
+- Per-class metrics
+```{python}
+#| label: tbl-cls-perclass
+#| tbl-cap: "Per-class precision, recall, and F1-score for tree species classification."
 
 for col in ["Precision", "Recall", "F1-score"]:
     per_class_df[col] = per_class_df[col].map(lambda x: f"{x:.3f}")

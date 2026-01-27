@@ -85,7 +85,7 @@ This allows the model to progressively learn more complex, abstract relationship
 
 ## The Core Components of Pytorch Lightning:
 
-1) `LightningDataModule` wraps the data phase. It takes in a custom `PyTorch Dataset` and `DataLoader` which enables Trainer to handle data during training. If needed, `LightningDataModule` exposes the setup and prepare_data hooks in case you need additional customization. 
+1) `LightningDataModule` wraps the data phase. It takes in a custom `PyTorch Dataset` and `DataLoader` which enables Trainer to handle data during training. If needed, `LightningDataModule` exposes the `setup` and `prepare_data` hooks in case you need additional customization. 
    
 2) `LightningModule` itself is a custom `torch.nn.Module` that is extended with dozens of additional hooks like `on_fit_start` and `on_fit_end`. These hooks allow us better control of Trainer’s flows and enables custom behaviors by overriding these hooks. 
    
@@ -96,27 +96,59 @@ This allows the model to progressively learn more complex, abstract relationship
 ---
 
 # The Data Foundation: The EFI Point Cloud Dataset
-The first critical step in any deep learning project is data ingestion. In our project, this is handled by two dedicated Python classes: `EfiDataset` and `EfiDataModule`
+
+The first step in any deep learning project is getting your data from files on disk into **tensors** on the GPU. In this project, that job is handled by two Python scripts:
+
+- `EfiDataset.py` — reads and prepares individual plots
+
+- `EfiDataModule.py` — organizes those plots into **training**, **validation**, and **test loaders**
 
 ## The `EfiDataset` ([efi_dataset.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/dataset/efi_dataset.py))
 
-This class is the translator. It knows how to read your raw point cloud files (e.g., `.npy` format saved for each plot) and your labels file (e.g., `labels.csv` in our workshop).
+The `EfiDataset` class defines how to read your raw point cloud files (e.g., `.npy` format saved for each plot) and your labels file (e.g., `labels.csv` in our workshop) for the model.
 
-Key functions:
+### What it does
 
-1) Input: It takes your plot files and the label column you are interested in (e.g., `dom_sp_type` for classification or `total_agb_z` for biomass regression).
-   
-2) Pre-processing: It samples a fixed number of points (`num_point`, default 8192) from each plot and, optionally, calculates `normals` (which describe the local orientation of the points, improving model performance).
-   
-3) Caching: When run with `--process_data`, it intelligently processes and saves the prepared data as a cache file (`_process_and_cache()`). This avoids resampling the raw data every time you train, drastically speeding up development. Else if cache exists: `_load_cache()`, else: `on-the-fly`.
+1. Reads raw files
 
+- Loads point clouds from .npy files
+
+- Reads labels from labels.csv (e.g., `dom_sp_type` for classification or `total_agb_z` for biomass regression)
+
+2. Samples points
+
+- Selects a fixed number of points (`num_point`, default: 8192)
+
+- This keeps memory usage manageable and ensures every batch has the same shape
+
+3. Computes optional features
+
+- `Surface normals` (local orientation of points)
+
+4. Caches processed data
+
+- If `--process_data` is enabled, it saves a processed version to disk (`_process_and_cache()`). Future runs load this cached data instead of reprocessing `_load_cache()`. This avoids resampling the raw data every time you train, drastically speeding up development. Else: `on-the-fly`.
+ 
 > Why 8192? Point clouds are massive. We downsample to a fixed number so we can process them in Batches. If we used the full points of a LiDAR plot, we'd run out of GPU memory instantly. 8192 is a typical 'Sweet Spot' for DNNs to retain structure information without crashing the hardware. We didn't test all possible settings in our demo, try it out!
 
 ## The `EfiDataModule` ([efi_datamodule.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/dataset/efi_datamodule.py))
 
-In the Pytorch Lightning framework, the `EfiDataModule` wraps the `EfiDataset` to handle the data workflow. It creates the necessary `DataLoader` objects for the `training`, `validation`, and `test` sets.
+In the Pytorch Lightning framework, the `EfiDataModule` wraps the `EfiDataset` to handle the data workflow. It controls how **plots** move through the training system.
 
-This class ensures the data is correctly loaded and split (e.g., using the `split` column in `labels.csv`), and batches are efficiently provided to the GPU workers.
+### What it manages
+
+1. Which plots go into:
+
+The `setup()` function creates three datasets: 
+- `train_dataset` 
+- `val_dataset` 
+- `test_dataset`
+
+Each one uses the same loading logic, but different rows from the label file ((e.g., using the `split` column in `labels.csv`)).
+
+2. How big each batch is
+
+3. How many background workers load data in parallel (make sure batches are efficiently provided to the GPU workers).
 
 ```{python}
 #| code-overflow: wrap
@@ -167,7 +199,9 @@ class EfiDataModule(pl.LightningDataModule):
 ```
 
 ::: callout-important
-Lightning call order: `prepare_data() if process data, setup(stage="fit"), train_dataloader() / val_dataloader()`
+Lightning call order in `DataModule`: `prepare_data()` if process data → `setup()` → `DataLoder` → GPU → Model 
+
+To summary: `EfiDataset` prepares one plot at a time (Reader & Preparer). `EfiDataModule` manages how plots are grouped and fed into training (Traffic Controller).
 ::: 
 
 # The Model: Dynamic Graph CNN (DGCNN)
@@ -387,12 +421,21 @@ l_n = \begin{cases}
     \end{cases}
 $$
 
-## The PyTorch Lightning Wrapper: EfiModelModule ([efi_modelmodule.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/efi_modelmodule.py))
+## The Model Wrapper: EfiModelModule ([efi_modelmodule.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/efi_modelmodule.py))
 
 The `EfiModelModule` is a custom wrapper built using `PyTorch Lightning` (specifically inheriting from `pl.LightningModule`). Its primary job is to act as the "Brain" of your deep learning system—organizing the model **architecture**, the **training logic**, the **optimization**, and the **evaluation metrics** into a single, clean structure.
 
-> In standard PyTorch, you often have to manage training loops, device movements (.to(device)), and metric logging manually. This wrapper automates those "engineering" tasks so you can focus on the "science."
->
+The `EfiModelModule` connects four things into one clean interface:
+
+- The neural network (DGCNN)
+
+- The loss function
+
+- The optimizer
+
+- The evaluation metrics
+
+> Instead of writing long training loops, you describe what happens to one batch, and Lightning handles the rest.
 
 ### Core components of the wrapper
 
@@ -438,6 +481,7 @@ def forward(self, points):
 In `PyTorch Lightning`, the **"loops"** are broken down into specific hooks: `training_step`, `validation_step`, `test_step`, `predict_step`: what happens during one "step" of training or evaluation or testing . 
 
 - `_shaerd_step`: Shared logic for training, validation, and test step
+  
 ```{python}
 def _shared_step(self, batch):
     """Shared logic for training, validation, and test step."""
@@ -473,7 +517,7 @@ def training_step(self, batch, batch_idx):
     return loss
 ```
 
-> What happens: This is the heart of the training loop. `Lightning` handles the boilerplate (forward pass, loss calculation, backward propagation, and optimizer updates) automatically based on what you return here. Instead of writing a massive for loop, you just tell `Lightning`: "Here is how you handle one batch." 
+> What happens: This is the heart of the training loop. `Lightning` handles the boilerplate (**forward pass, loss calculation, backward propagation, and optimizer updates**) automatically based on what you return here. Instead of writing a massive for loop, you just tell `Lightning`: "Here is how you handle one batch." 
 
 - `validation_step`: Monitor model performance on unseen data during training.
 
@@ -515,7 +559,7 @@ def test_step(self, batch, batch_idx):
     return loss
 ```
 
-> This is only called when you explicitly run trainer.test(). It uses the "best" version of the model saved during training to see how it performs on a strictly held-out dataset. 
+> This is only called when you explicitly run `trainer.test()`. It uses the "best" version of the model saved during training to see how it performs on a strictly held-out dataset. 
 
 - `prediction_step` is used for generating raw output/predictions on unseen data, it does not calculating loss and metrices:
 
@@ -548,7 +592,8 @@ def predict_step(self, batch, batch_idx, dataloader_idx=0):
 ```
 
 4) Optimizer and scheduler: `configure_optimizers`: 
-This tells the trainer which algorithm to use (e.g., `Adam`, `SGD`) and how the learning rate should change over time (Schedulers. e.g., `StepLR`). The goal of the optimizer (e.g., Adam) is to adjust the model's weights to continuously minimize this loss value.
+
+This tells the trainer which algorithm to use (e.g., `Adam`, `SGD`) and how the learning rate should change over time (Schedulers. e.g., `StepLR`). The goal of the optimizer (e.g., `Adam`) is to adjust the model's weights to continuously minimize this loss value.
 
 ```{python}
 #| code-fold: true
@@ -579,7 +624,7 @@ def configure_optimizers(self):
 
 🛠 Why use this "Wrapper" approach?
 
-Using the `EfiModelModule` allows us to decouple the research logic from the engineering boilerplate. Table @tbl-wrapper-comparison summarizes the main differences between a standard PyTorch training workflow and the Lightning-based wrapper used in this work.
+Using the `EfiModelModule` allows us to decouple the research logic from the engineering boilerplate. @tbl-wrapper-comparison summarizes the main differences between a standard PyTorch training workflow and the Lightning-based wrapper used in this work.
 
 | Feature     | Standard PyTorch                         | EfiModelModule (Lightning)                     |
 |-------------|-------------------------------------------|------------------------------------------------|
