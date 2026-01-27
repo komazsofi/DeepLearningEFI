@@ -86,7 +86,7 @@ def main(args):
     model_module = EfiModelModule(full_cfg, args)
 
     # 4. Define Callbacks
-    primary_metric = 'val/instance_acc' if task == 'classification' else 'val/r2_score'
+    primary_metric = 'val/instance_acc' if task == 'classification' else 'val/loss'
     
     checkpoint_callback = ModelCheckpoint(
         dirpath=checkpoint_dir, 
