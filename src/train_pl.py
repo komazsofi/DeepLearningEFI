@@ -68,7 +68,7 @@ def main(args):
     
     # 2. Setup W&B Logger
     wandb_logger = WandbLogger(
-        project="forest_species_mapping",
+        project="efi_dl_workshop",
         group=task,
         job_type=args.model,
         name=(args.log_dir or str(datetime.datetime.now().strftime('%Y-%m-%d_%H-%M'))),
