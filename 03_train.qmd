@@ -85,9 +85,9 @@ This allows the model to progressively learn more complex, abstract relationship
 
 ## The Core Components of Pytorch Lightning:
 
-1) `LightningDataModule` wraps the data phase. It takes in a custom `PyTorch Dataset` and `DataLoader` which enables Trainer to handle data during training. If needed, `LightningDataModule` exposes the `setup` and `prepare_data` hooks in case you need additional customization. 
+1) `LightningDataModule` wraps the data phase. It takes in a custom `PyTorch Dataset` and `DataLoader` which enables Trainer to handle data during training. If needed, `LightningDataModule` exposes the `setup` and `prepare_data` functions in case you need additional customization. 
    
-2) `LightningModule` itself is a custom `torch.nn.Module` that is extended with dozens of additional hooks like `on_fit_start` and `on_fit_end`. These hooks allow us better control of Trainer’s flows and enables custom behaviors by overriding these hooks. 
+2) `LightningModule` itself is a custom `torch.nn.Module` that is extended with dozens of additional functions like `on_fit_start` and `on_fit_end`. These functions allow us better control of Trainer’s flows and enables custom behaviors by overriding these hooks. 
    
 3) `Trainer` configures the training scope and manages the training loop with `LightningModule` and `LightningDataModule`. The simplest Trainer configuration is accomplished by setting flags like devices, accelerator, and strategy and by passing in our choice of loggers, profilers, callbacks, and plugins.
    
@@ -446,7 +446,7 @@ The `EfiModelModule` typically organizes code into four main functional blocks:
 This is where the model is born.
 
 - **Model Setup**: It usually initializes a **backbone** (like `DGCNN`), a task-specific **head** (like a classification layer).
-- **Hyperparameters**: Loda configs, and it uses self.save_hyperparameters() to automatically save arguments like learning rate or model version into checkpoints for easy reproducibility.
+- **Hyperparameters**: Load configs, and it uses self.save_hyperparameters() to automatically save arguments like learning rate or model version into checkpoints for easy reproducibility.
 - **Initialize evaluation metrics**
 
 ```{python}
@@ -480,7 +480,7 @@ def forward(self, points):
    
 In `PyTorch Lightning`, the **"loops"** are broken down into specific hooks: `training_step`, `validation_step`, `test_step`, `predict_step`: what happens during one "step" of training or evaluation or testing . 
 
-- `_shaerd_step`: Shared logic for training, validation, and test step
+- `_shared_step`: Shared logic for training, validation, and test step
   
 ```{python}
 def _shared_step(self, batch):
@@ -517,7 +517,7 @@ def training_step(self, batch, batch_idx):
     return loss
 ```
 
-> What happens: This is the heart of the training loop. `Lightning` handles the boilerplate (**forward pass, loss calculation, backward propagation, and optimizer updates**) automatically based on what you return here. Instead of writing a massive for loop, you just tell `Lightning`: "Here is how you handle one batch." 
+> What happens: This is the heart of the training loop. `Lightning` handles the boilerplate (**forward pass, loss calculation, backward propagation, and optimizer updates**) automatically based on what you return here. Instead of writing a massive `for` loop, you just tell `Lightning`: "Here is how you handle one batch." 
 
 - `validation_step`: Monitor model performance on unseen data during training.
 
@@ -593,7 +593,7 @@ def predict_step(self, batch, batch_idx, dataloader_idx=0):
 
 4) Optimizer and scheduler: `configure_optimizers`: 
 
-This tells the trainer which algorithm to use (e.g., `Adam`, `SGD`) and how the learning rate should change over time (Schedulers. e.g., `StepLR`). The goal of the optimizer (e.g., `Adam`) is to adjust the model's weights to continuously minimize this loss value.
+This tells the trainer which algorithm to use (e.g., `Adam`, `SGD`) to adjust the model's weights to continuously minimize this loss value and how the learning rate should change over time (Schedulers. e.g., `StepLR`). 
 
 ```{python}
 #| code-fold: true
@@ -622,20 +622,7 @@ def configure_optimizers(self):
 
 ---
 
-🛠 Why use this "Wrapper" approach?
-
-Using the `EfiModelModule` allows us to decouple the research logic from the engineering boilerplate. @tbl-wrapper-comparison summarizes the main differences between a standard PyTorch training workflow and the Lightning-based wrapper used in this work.
-
-| Feature     | Standard PyTorch                         | EfiModelModule (Lightning)                     |
-|-------------|-------------------------------------------|------------------------------------------------|
-| Boilerplate| High (manual loops, `.to(device)`)        | Low (automated by the `Trainer`)               |
-| Logging    | Manual (W&B / TensorBoard setup)          | One-liner: `self.log("val_loss", loss)`        |
-| Readability| Logic is scattered across scripts         | Logic is centralized in one class              |
-| Hardware   | Hardcoded CPU/GPU/Multi-GPU logic         | Switch hardware via CLI flags                  |
-
-: Comparison between Standard PyTorch and the Lightning Wrapper {#tbl-wrapper-comparison}
-
-# Training Deep Learning Models in PyTorch Lighting
+# Training Deep Learning Models in PyTorch Lightning
 
 ## Configurations ([config.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/config.py))
 
@@ -669,10 +656,9 @@ DATASET_CONFIG = {
 }
 ```
 
-Importance: Explain that these objects define the task, model choice, hyperparameters, and logging options.
 
 ## The PyTorch Lightning Trainer ([train_pl.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/train_pl.py))
-The `Trainer` class is responsible for the entire training lifecycle, handling distributed training, checkpointing, and calling the *step hooks of the `EfiModelModule`.
+The `Trainer` class is responsible for the entire training lifecycle, handling distributed training, checkpointing, and calling the `*step` hooks of the `EfiModelModule`.
 
 ```{python}
 #| code-fold: true
@@ -722,7 +708,7 @@ else:
 | Component   | Responsibility                                         | Key Hook                         |
 |-------------|---------------------------------------------------------|----------------------------------|
 | DataModule | Loads `.npy` files and applies spatial splits           | `setup()`                       |
-| ModelModule| Defines DGCNN architecture and loss functions           | `forward()`                    |
+| ModelModule| Defines DGCNN architecture and loss functions           | `forward()` `*_step()`                    |
 | Trainer    | Manages loops, hardware, and W&B logging                | `fit()`                        |
 | Callbacks  | Saves the best model weights automatically              | `on_validation_epoch_end()`  |
 
@@ -791,7 +777,7 @@ Load Interactive W&B Sweep
 
 <iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/qs96lr1s" style="border:none;height:600px;width:100%" loading="lazy"></iframe>
 
-# Predicting use the Pre-trained Model ([predict.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/predict.py))
+# Predicting ([predict.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/predict.py))
 
 Once your model has finished hyperparameter tuning and you have selected the best checkpoint, you can run predictions. The output is saved as a CSV containing the ground truth and the model's estimate.
 
@@ -841,7 +827,7 @@ print(f"Predictions saved to: {os.path.join(os.path.dirname(args.ckpt_path), arg
 
 ## Tree Species Classification
 
-For classification, we compare the categorical index of the dominant forest type between the ground truth and the model predictions. Table @tbl-cls-results shows the results of a DGCNN model classifying forest plots into type 0, 1, or 2 (Coniferous, Deciduous, Mixed).
+For classification, we compare the categorical index of the dominant forest type between the ground truth and the model predictions. @tbl-cls-results shows the results of a DGCNN model classifying forest plots into type 0, 1, or 2 (Coniferous, Deciduous, Mixed).
 
 | plot_id | dom_sp_type (Actual) | pred_dom_sp_type (Predicted) |
 |---------|-----------------------|-------------------------------|
@@ -854,7 +840,7 @@ For classification, we compare the categorical index of the dominant forest type
 : Example of Tree Species Classification Results {#tbl-cls-results}
 
 ## Biomass Regression
-For regression, we compare the standardized Above Ground Biomass (AGB) values. This enables the calculation of quantitative performance metrics such as RMSE and the coefficient of determination ($R^2$). Table @tbl-reg-results provides example predictions.
+For regression, we compare the standardized Above Ground Biomass (AGB) values. This enables the calculation of quantitative performance metrics such as RMSE and the coefficient of determination ($R^2$). @tbl-reg-results provides example predictions.
 
 | plot_id | total_agb_z (Actual) | total_agb_z_pred (Predicted) |
 |---------|------------------------|-------------------------------|
@@ -936,5 +922,5 @@ python predict.py --model dgcnn --dataset_config_key petawawa_reg --ckpt_path lo
 ## Code
 [Original Pytorch reimplementation for DGCNN](https://github.com/WangYueFt/dgcnn/blob/master/pytorch/model.py)
 
-## Other Deep Lerning Frameworks
+## Other Deep Learning Frameworks
 ![Deep learning fromeworks](https://static.packt-cdn.com/products/9781800561618/graphics/image/B16692_01_02.jpg)
