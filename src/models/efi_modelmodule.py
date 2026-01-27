@@ -36,7 +36,6 @@ class EfiModelModule(pl.LightningModule):
         if self.cfg['model_name'] == 'ocnn':
             
             target = batch['target']
-            trans_feat = None
 
             # 1. Forward Pass
             pred, trans_feat = self(batch)
@@ -191,16 +190,25 @@ class EfiModelModule(pl.LightningModule):
         Does not calculate loss or metrics.
         Runs when trainer.predict() is called.
         """
-        points, target, pid = batch 
+
+        if self.cfg['model_name'] == 'ocnn':
+            
+            target = batch['target']
+            pid = batch['pid']
+            pred, _ = self(batch)
         
-        # Transpose [B, N, C] -> [B, C, N] and enforce float32
-        points = points.transpose(2, 1).float() 
-        
-        # 1. Forward Pass
-        # Assuming self(points) returns (pred, trans_feat), we only return the prediction (pred)
-        pred, _ = self(points)
-        if self.task == 'classification':
-            pred = torch.argmax(pred, dim=1)
+        else:
+
+            points, target, pid = batch 
+            
+            # Transpose [B, N, C] -> [B, C, N] and enforce float32
+            points = points.transpose(2, 1).float() 
+            
+            # 1. Forward Pass
+            # Assuming self(points) returns (pred, trans_feat), we only return the prediction (pred)
+            pred, _ = self(points)
+            if self.task == 'classification':
+                pred = torch.argmax(pred, dim=1)
         
         # Return only the raw prediction tensor for the user
         return {

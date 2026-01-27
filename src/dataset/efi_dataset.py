@@ -213,6 +213,7 @@ class EfiDataset(Dataset):
             if self.model_name == 'ocnn':
                 sample = self.load_octree_sample(points, index)
                 sample['target'] = torch.tensor(label, dtype=torch.float32)
+                sample['pid'] = pid
                 return sample
             else:
                 # For regression, return float32 (usually shape [1] or scalar)
