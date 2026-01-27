@@ -23,14 +23,16 @@ import dataset.data_utils as data_utils # For augmentations (if any)
 
 def parse_args():
     '''PARAMETERS'''
+
     parser = argparse.ArgumentParser('training')
+
+    parser.add_argument('--dataset_config_key', type=str, default='petawawa_reg', 
+                        choices=DATASET_CONFIG.keys(), help='Key from DATASET_CONFIG to use')
+    parser.add_argument('--model', type=str, default='ocnn', help='Model file name from MODEL_CONFIG keys')
     parser.add_argument('--mode', default='train', help='training/testing model')
     parser.add_argument('--use_cpu', action='store_true', default=False, help='use cpu mode')
     parser.add_argument('--gpu', type=str, default='0', help='specify gpu device (e.g., 0, 1, 0,1)')
     parser.add_argument('--batch_size', type=int, default=8, help='batch size in training')
-    parser.add_argument('--model', type=str, default='pointnet', help='Model file name from MODEL_CONFIG keys')
-    parser.add_argument('--dataset_config_key', type=str, default='petawawa_cls', 
-                        choices=DATASET_CONFIG.keys(), help='Key from DATASET_CONFIG to use')
     parser.add_argument('--epoch', default=150, type=int, help='number of epoch in training')
     parser.add_argument('--learning_rate', default=0.0001, type=float, help='learning rate in training')
     parser.add_argument('--num_point', type=int, default=8192, help='Point Number')
