@@ -1,47 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://Brent-Murray.github.io/DeepLearningEFI/src/dataset/efi_dataset.html</loc>
-    <lastmod>2026-01-23T22:31:36.938Z</lastmod>
+    <loc>https://Brent-Murray.github.io/DeepLearningEFI/01_intro.html</loc>
+    <lastmod>2026-01-27T23:20:42.275Z</lastmod>
   </url>
   <url>
-    <loc>https://Brent-Murray.github.io/DeepLearningEFI/schedule.html</loc>
-    <lastmod>2026-01-26T18:25:12.430Z</lastmod>
+    <loc>https://Brent-Murray.github.io/DeepLearningEFI/01-intro-deep-learning-slides.html</loc>
+    <lastmod>2026-01-27T23:20:42.277Z</lastmod>
   </url>
   <url>
     <loc>https://Brent-Murray.github.io/DeepLearningEFI/index.html</loc>
-    <lastmod>2026-01-26T19:16:12.876Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Brent-Murray.github.io/DeepLearningEFI/05_examples.html</loc>
-    <lastmod>2026-01-26T20:08:41.679Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Brent-Murray.github.io/DeepLearningEFI/03_train.html</loc>
-    <lastmod>2026-01-27T22:14:37.636Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Brent-Murray.github.io/DeepLearningEFI/01_intro.html</loc>
-    <lastmod>2026-01-26T19:14:55.980Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Brent-Murray.github.io/DeepLearningEFI/02_data.html</loc>
-    <lastmod>2026-01-26T18:39:02.293Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Brent-Murray.github.io/DeepLearningEFI/04_evaluation.html</loc>
-    <lastmod>2026-01-27T21:50:08.013Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Brent-Murray.github.io/DeepLearningEFI/compute_lidar_metrics.html</loc>
-    <lastmod>2025-12-10T17:30:06.017Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Brent-Murray.github.io/DeepLearningEFI/random_forest.html</loc>
-    <lastmod>2026-01-23T01:15:55.567Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Brent-Murray.github.io/DeepLearningEFI/setup.html</loc>
-    <lastmod>2026-01-23T19:37:18.210Z</lastmod>
+    <lastmod>2026-01-26T18:30:05.857Z</lastmod>
   </url>
 </urlset>

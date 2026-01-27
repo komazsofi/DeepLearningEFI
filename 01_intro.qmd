@@ -5,9 +5,12 @@ format:
     toc: True
 ---
 ## Relevant Resources
+
+- [**Slides for Introduction**](01_intro_slides.qmd)
 - [**The Deep Learning Book**](https://www.deeplearningbook.org/)
 - [**Dive into Deep Learning**](https://d2l.ai/)
 - [**MIT Introduction to Deep Learning Lecture Series**](https://youtube.com/playlist?list=PLjctrnwG0NeT9dd2mvP3W40TdX58rZc1P&si=2XOgUqho5YtppYij)
+
 
 ## Overview
 This section provides a foundational introduction to deep learning with a focus on applications for enhanced forest inventories (EFIs). It introduces core concepts behind neural networks, explains how models learn through the prediction-feedback loop, and outlines common deep learning tasks such as classification, regression and segmentation. This section also contrasts image-based and point-based deep learning approaches, establishes key terminology used throughout the workflow, and highlights practical challenges encountered when applying deep learning to real-world forestry data.
