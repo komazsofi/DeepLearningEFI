@@ -28,8 +28,7 @@ def parse_args():
     parser.add_argument('--use_cpu', action='store_true', default=False, help='use cpu mode')
     parser.add_argument('--gpu', type=str, default='0', help='specify gpu device (e.g., 0, 1, 0,1)')
     parser.add_argument('--batch_size', type=int, default=8, help='batch size in training')
-    #TODO: replace default with pointnet again, just testing ocnn for now
-    parser.add_argument('--model', type=str, default='ocnn', help='Model file name from MODEL_CONFIG keys')
+    parser.add_argument('--model', type=str, default='pointnet', help='Model file name from MODEL_CONFIG keys')
     parser.add_argument('--dataset_config_key', type=str, default='petawawa_cls', 
                         choices=DATASET_CONFIG.keys(), help='Key from DATASET_CONFIG to use')
     parser.add_argument('--epoch', default=150, type=int, help='number of epoch in training')

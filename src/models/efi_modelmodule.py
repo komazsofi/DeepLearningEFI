@@ -35,13 +35,23 @@ class EfiModelModule(pl.LightningModule):
 
     def _shared_step(self, batch):
         """Shared logic for training, validation, and test step."""
-        points, target, _ = batch
         
-        # Transpose [B, N, C] -> [B, C, N] and enforce float32
-        points = points.transpose(2, 1).float() 
+        if self.cfg['model_name'] == 'ocnn':
+            
+            target = batch['target']
+            trans_feat = None
+
+            # 1. Forward Pass
+            pred, trans_feat = self(batch)
+        else:
+            points, target, _ = batch
+
+            # Transpose [B, N, C] -> [B, C, N] and enforce float32
+            points = points.transpose(2, 1).float() 
+            
+            # 1. Forward Pass
+            pred, trans_feat = self(points)
         
-        # 1. Forward Pass
-        pred, trans_feat = self(points)
         
         # 2. Calculate Loss
         loss = calculate_total_loss(

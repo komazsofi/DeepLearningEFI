@@ -67,7 +67,8 @@ class EfiDataModule(pl.LightningDataModule):
             shuffle=True, 
             num_workers=self.num_workers,
             drop_last=True,
-            pin_memory=True
+            pin_memory=True,
+            collate_fn=self.collate_fn
         )
 
     def val_dataloader(self):

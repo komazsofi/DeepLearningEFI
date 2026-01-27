@@ -18,7 +18,6 @@ class EfiDataset(Dataset):
         self.csv_path = csv_path
         self.label_col = label_col
         self.model_name = model_name
-        self.npoints = num_points
         self.task_type = task_type
         self.use_normals = use_normals
         self.use_fps = use_fps
@@ -26,6 +25,12 @@ class EfiDataset(Dataset):
         self.list_of_points = None
         self.list_of_labels = None
         self.list_of_pids = None
+
+        if model_name == 'ocnn':
+            self.npoints = 'all'
+        else:
+            self.npoints = num_points
+
 
         # 1. Parse CSV  -> meta_data
         self.meta_data = [] # Stores (plot_id, path, raw_label_value)
@@ -104,7 +109,10 @@ class EfiDataset(Dataset):
         for item in tqdm(self.meta_data):
             # Load and Sample Point Cloud
             points = np.load(item['path']).astype(np.float32)
-            points = sample_points(points, self.npoints, use_fps=self.use_fps)
+
+            # OCNN uses all points to build octree
+            if self.model_name != 'ocnn':
+                points = sample_points(points, self.npoints, use_fps=self.use_fps)
 
             # Normals
             if self.use_normals:
@@ -171,7 +179,11 @@ class EfiDataset(Dataset):
             # On-the-fly fallback
             item = self.meta_data[index]
             points = np.load(item['path']).astype(np.float32)
-            points = sample_points(points, self.npoints, use_fps=self.use_fps)
+
+            # OCNN uses all points to build octree
+            if self.model_name != 'ocnn':
+                points = sample_points(points, self.npoints, use_fps=self.use_fps)
+
             if self.use_normals:
                 normals = estimate_normals(points[:,:3])
                 points = np.concatenate([points, normals], axis=1)
@@ -200,7 +212,8 @@ class EfiDataset(Dataset):
         else:
             if self.model_name == 'ocnn':
                 sample = self.load_octree_sample(points, index)
-                sample['target'] = label
+                sample['target'] = torch.tensor(label, dtype=torch.float32)
+                return sample
             else:
                 # For regression, return float32 (usually shape [1] or scalar)
                 return points, torch.tensor(label, dtype=torch.float32), pid

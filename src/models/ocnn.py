@@ -61,9 +61,6 @@ class OCNN_LeNet(torch.nn.Module):
         data = self.octree2voxel(data, octree, depth - self.stages)
         data = self.header(data)
 
-        if self.out_channels == 1:
-            data = data.unsqueeze(1)
-
         return data
     
 class get_model(nn.Module):
@@ -85,7 +82,7 @@ class get_model(nn.Module):
 
         x = self.ocnn(x)  
 
-        x = self.mlp(x) 
+        x = self.mlp(x) # [B, num_outputs]
 
         trans_feat = None 
         
