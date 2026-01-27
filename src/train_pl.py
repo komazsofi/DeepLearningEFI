@@ -5,6 +5,7 @@ import torch
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint, LearningRateMonitor, EarlyStopping
 from pytorch_lightning.loggers import WandbLogger
+from pytorch_lightning.strategies import DDPStrategy
 from pathlib import Path
 import datetime
 
@@ -40,6 +41,7 @@ def parse_args():
     parser.add_argument('--decay_rate', type=float, default=1e-4, help='weight decay rate')
     parser.add_argument('--process_data', action='store_true', default=False, help='build cache first, then load cache for training')
     parser.add_argument('--no_fps', action='store_true', help='disable FPS and use uniform sampling')
+    parser.add_argument('--ddp', action='store_true', help='Use DDP for multi-GPU training')
     
     # W&B specific arguments
     parser.add_argument('--wandb_project', type=str, default='EFI_DL', help='Weights & Biases Project Name')
@@ -69,16 +71,21 @@ def main(args):
     }
     
     # 2. Setup W&B Logger
+
+    wandb_project = "efi_dl_workshop"
+
+    run_name = (args.log_dir or str(datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')))
+
     wandb_logger = WandbLogger(
-        project="efi_dl_workshop",
+        project=wandb_project,
         group=task,
         job_type=args.model,
-        name=(args.log_dir or str(datetime.datetime.now().strftime('%Y-%m-%d_%H-%M'))),
+        name=run_name,
         config={**full_cfg, **vars(args)}, # Log all configs and arguments
     )
     
     # Use W&B's run directory for checkpoints
-    checkpoint_dir = Path('./log') / args.wandb_project / wandb_logger.experiment.name / 'checkpoints'
+    checkpoint_dir = Path('./log') / wandb_project / run_name / 'checkpoints'
     checkpoint_dir.mkdir(parents=True, exist_ok=True)
 
     # 3. Instantiate DataModule and Lightning Module
@@ -87,12 +94,13 @@ def main(args):
 
     # 4. Define Callbacks
     primary_metric = 'val/instance_acc' if task == 'classification' else 'val/loss'
+    ckpt_mode = 'max' if task == 'classification' else 'min'
     
     checkpoint_callback = ModelCheckpoint(
         dirpath=checkpoint_dir, 
         filename='best_model',
         monitor=primary_metric,
-        mode='max', # Maximize accuracy/R2
+        mode=ckpt_mode, # Maximize accuracy/R2 or minimize loss
         save_top_k=1,
         verbose=True
     )
@@ -105,13 +113,25 @@ def main(args):
         mode='min'           # 'min' for metrics where lower is better (e.g., loss), 'max' for metrics where higher is better (e.g., accuracy)
     )
     lr_monitor = LearningRateMonitor(logging_interval='epoch')
+    
+    # OPTIONAL: set up distributed training with multiple GPUs if needed
+    if args.ddp:
+        n_gpus = torch.cuda.device_count()
+        gpu_strategy = DDPStrategy(process_group_backend= "gloo", 
+                                   find_unused_parameters=False,
+                                   gradient_as_bucket_view=True)
+    else:
+        n_gpus = 1
+        gpu_strategy = 'auto'
 
     # 5. Instantiate the Trainer
     # PL handles device setup automatically based on arguments
     trainer = pl.Trainer(
+        num_nodes=1,
+        strategy=gpu_strategy,
+        devices=n_gpus,
         max_epochs=args.epoch,
         accelerator='gpu' if torch.cuda.is_available() and not args.use_cpu else 'cpu',
-        devices=[int(g) for g in args.gpu.split(',')] if ',' in args.gpu else (1 if not args.use_cpu else 0),
         logger=wandb_logger,
         callbacks=[checkpoint_callback, lr_monitor, early_stop_callback],
         enable_progress_bar=True,
