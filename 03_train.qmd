@@ -198,7 +198,7 @@ class EfiDataModule(pl.LightningDataModule):
         )
 ```
 
-::: callout-important
+::: callout-note
 Lightning call order in `DataModule`: `prepare_data()` if process data → `setup()` → `DataLoder` → GPU → Model 
 
 To summary: `EfiDataset` prepares one plot at a time (Reader & Preparer). `EfiDataModule` manages how plots are grouped and fed into training (Traffic Controller).
@@ -517,7 +517,7 @@ def training_step(self, batch, batch_idx):
     return loss
 ```
 
-> What happens: This is the heart of the training loop. `Lightning` handles the boilerplate (**forward pass, loss calculation, backward propagation, and optimizer updates**) automatically based on what you return here. Instead of writing a massive `for` loop, you just tell `Lightning`: "Here is how you handle one batch." 
+> What happens: This is the heart of the training loop. `Lightning` handles the boilerplate (**forward pass, loss calculation, backward propagation, and optimizer updates**) automatically based on what you return here.  
 
 - `validation_step`: Monitor model performance on unseen data during training.
 
