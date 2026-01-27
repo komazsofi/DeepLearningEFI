@@ -1,317 +1,37 @@
 [
   {
-    "objectID": "01_intro.html",
-    "href": "01_intro.html",
-    "title": "Introduction to Deep Learning",
-    "section": "",
-    "text": "Slides for Introduction\nThe Deep Learning Book\nDive into Deep Learning\nMIT Introduction to Deep Learning Lecture Series"
+    "objectID": "05_examples.html#how-is-deep-learning-going-to-change-efi-workflows",
+    "href": "05_examples.html#how-is-deep-learning-going-to-change-efi-workflows",
+    "title": "Examples of Deep Learning Forest Inventory",
+    "section": "How is Deep Learning Going to Change EFI Workflows?",
+    "text": "How is Deep Learning Going to Change EFI Workflows?\nExisting research across many EFI modelling objectives (e.g., species classification, individual tree segmentation, biomass regression, etc.) has demonstrated that deep neural networks (DNNs) operating directly on point cloud data often outperform conventional modelling approaches (e.g., random forest) which rely on LiDAR metrics. These performance gains are promising and may signal a shift towards greater use of deep learning workflows when developing EFIs. Below, we summarize three studies by Seely et al. (2026), Cao et al. (2025), and Murray et al. (2025) that exemplify how deep learning can be used to extract more information from ALS point cloud data, resulting in more accurate forest aboveground biomass and species proportion estimates. All three studies were performed in the Romeo Malette Forest (RMF)."
   },
   {
-    "objectID": "01_intro.html#relevant-resources",
-    "href": "01_intro.html#relevant-resources",
-    "title": "Introduction to Deep Learning",
-    "section": "",
-    "text": "Slides for Introduction\nThe Deep Learning Book\nDive into Deep Learning\nMIT Introduction to Deep Learning Lecture Series"
+    "objectID": "05_examples.html#study-area",
+    "href": "05_examples.html#study-area",
+    "title": "Examples of Deep Learning Forest Inventory",
+    "section": "Study Area",
+    "text": "Study Area\nThe RMF situated in northern Ontario within the Timmins District, is part of the boreal forest of Canada. It encompasses approximately 6,300 km2, of which 5,824 km2 is forested, extending between 47.8°N and 48.8°N and from 81.0°W to 82.4°W. The region experiences a continental climate, with mean annual precipitation ranging from 770 to 975 mm and mean annual minimum temperatures between 1.0 °C and − 5.0 °C from 1990 to 2010; over the same period, mean annual maximum temperatures varied from 15 °C to 8 °C. Elevations range from 240 to 280 m, and the terrain is characterised by minimal exposed bedrock and extensive, poorly drained flat areas.\n\n\n\n\n\n\nFigure 1: The Romeo Malette Forest"
   },
   {
-    "objectID": "01_intro.html#overview",
-    "href": "01_intro.html#overview",
-    "title": "Introduction to Deep Learning",
-    "section": "Overview",
-    "text": "Overview\nThis section provides a foundational introduction to deep learning with a focus on applications for enhanced forest inventories (EFIs). It introduces core concepts behind neural networks, explains how models learn through the prediction-feedback loop, and outlines common deep learning tasks such as classification, regression and segmentation. This section also contrasts image-based and point-based deep learning approaches, establishes key terminology used throughout the workflow, and highlights practical challenges encountered when applying deep learning to real-world forestry data.\nBy the end of this section our hope is that you will be able to:\n\nUnderstand the human-centric role of artificial intelligence for enhanced forest inventory modelling\nExplain how deep learning relates to artificial intelligence and machine learning\nDescribe the structure and components of a deep neural network\nUnderstand how models learn through loss functions, gradients and iterative training\nCompare image-based and point-based deep learning approaches\nFamiliarize yourself with core deep learning terminology correctly (e.g., parameters, hyperparameters, batches, epochs)\nRecognize common challenges when applying deep learning to forestry and remote sensing data"
+    "objectID": "05_examples.html#biomass-component-regression",
+    "href": "05_examples.html#biomass-component-regression",
+    "title": "Examples of Deep Learning Forest Inventory",
+    "section": "1) Biomass Component Regression",
+    "text": "1) Biomass Component Regression\nBased on the publication Addressing The Small Data Problem in Forestry: Self-Supervised Learning for Aboveground Biomass Estimation by Seely etal. (2026).\n\nWhy Aboveground Biomass Component Regression?\nAboveground biomass (AGB) is a key element of forest inventories and is necessary for a variety of forest-related decision-making processes, including timber harvesting and wildfire fuel assessment. Forest AGB is often divided into its sub-components — wood, branch, bark, and foliage — to fulfil more specific information needs. For example, quantifying branch, bark and foliage biomass can inform post-harvest bioenergy applications.\n\n\nBiomass Dataset\nThe RMF (described above) has 244 fixed area ground plots that were sampled in 2019. ALS data were collected across the RMF in 2018 with a density of 40 points/m^2. Total and component biomass were calculated for individual trees using allometric equations, which were aggregated to the plot level for use as response variables.\n\n\nDeep Neural Network Architecture\nWe employed the Octree-CNN architecture (hereby OCNN) from Wang et al. (2017), which has been demonstrated to be effective for modelling forest AGB components in previous research (Seely et al. 2023; 2025). OCNN operates on point cloud data by converted it to an octree format and performing 3D convolutions at various depths (i.e., resolutions).\n\n\n\n\n\n\nFigure 2: Octree-CNN performs 3D convolutions on multiple point cloud resolutions, deriving both local and global features.\n\n\n\n\n\nSelf-Supervised Learning Workflow\nSelf-supervised learning (SSL) is a DNN modelling framework that can alleviate large dataset requirements and has been widely used in AI applications such as ChatGPT. The SSL workflow in this study involved pretraining OCNN on the 500,000 unlabelled point clouds and fine-tuning OCNN on the RMF dataset (n = 244 plots). We developed a novel pretraining task for OCNN using ALS metrics as multioutput regression targets to provide the model with prior information about forest structure. We fine-tuned OCNN (hereby OCNN-F) using the pretrained version of the model as a starting point. We then compared OCNN-F to random forest (RF) and OCNN trained from scratch (i.e., random starting conditions, OCNN-S).\n\n\n\n\n\n\nFigure 3: Self-supervised learning workflow for direct AGB estimation from point cloud data.\n\n\n\n\n\nResults\n\nModel Comparison\nAcross all response variables (total and component AGB), OCNN-F had the best fit on average (R2 = 0.78), followed by RF (R2 = 0.75) and OCNN-S (R2 = 0.73). OCNN-F generally outperformed OCNN-S and RF, reducing relative RMSE by up to 5%. Both OCNN variants demonstrated lower bias compared to RF.\n\nTable 1: Performance metrics for total AGB estimation including R², root mean squared error (RMSE), and bias for Octree-CNN trained from scratch (OCNN-S), fine-tuned (OCNN-F), and random forest (RF). Metrics are summarized using the median value from five-fold cross-validation (n = 25 runs per model).\n\n\nModel\nR²\nRMSE (Mg/ha)\nBias (Mg/ha)\n\n\n\n\nOCNN-F\n0.82\n36.13\n7.40\n\n\nOCNN-S\n0.77\n41.14\n3.00\n\n\nRF\n0.80\n37.97\n9.14\n\n\n\n\n\nEffect of Dataset Size\nWhen OCNN-F, OCNN-S and RF were trained using increasingly fewer sample plots, the SSL approach provided larger improvements. For example, in situations with less than 60 training samples, OCNN-F outperformed RF and OCNN-S by 2 - 4% in terms of relative RMSE.\n\n\n\n\n\n\nFigure 4: Effect of number of training samples on Octree-CNN (OCNN) when trained from scratch and when trained using SSL. Random forest\n\n\n\n\n\nMapped Biomass Product\nWe applied OCNN-F across the entire RMF for inference. The results are shown in the maps below.\n\n\n\n\n\n\nFigure 5: Total and component forest aboveground biomass maps of the RMF generated using Octree-CNN and self-supervised learning. Units are tonnes per hectare (Mg/ha).\n\n\n\n\n\n\nKey Take-Home Messages\n\nSSL has potential to substantially increase DNN performance for EFI, especially in scenarios with limited data\nSSL can also reduce computational demands by speeding up model training time\nPretrained SSL models can be fine-tuned on new out-of-distribution datasets allowing for broader use cases (e.g., species classification)"
   },
   {
-    "objectID": "01_intro.html#human-centric-artificial-intelligence-for-enhanced-forest-inventories",
-    "href": "01_intro.html#human-centric-artificial-intelligence-for-enhanced-forest-inventories",
-    "title": "Introduction to Deep Learning",
-    "section": "Human-Centric Artificial Intelligence for Enhanced Forest Inventories",
-    "text": "Human-Centric Artificial Intelligence for Enhanced Forest Inventories\nEFIs have traditionally relied on field measurements, allometric equations, statistical models, and process-informed assumptions to estimate forest attributes such as biomass, volume, canopy height, species composition, and structural complexity. These approaches remain foundational to forestry. However, the increasing availability of rich remote sensing data, particularly Airborne Laser Scanning (ALS), multispectral imagery, and other spatial products, has significantly expanded what can be measured and modeled.\nArtificial Intelligence (AI), and more specifically deep learning, should not be seen as a replacement for traditional forestry knowledge. Instead, AI provides human-centric computational modelling capabilities that complement and extend existing approaches. Domain expertise remains essential throughout the entire end-to-end workflow, from data preparation and selection to model evaluation and interpretation. In this sense, deep learning acts as a tool that amplifies human decision-making rather than automating it away.\nWhile this workshop focuses primarily on classification and regression tasks, it is useful to situate these methods within a broader AI context. At a high level, AI techniques used for EFIs can be grouped into four modelling capabilities: descriptive, predictive, prescriptive, and generative. Understanding these capabilities helps clarify the role of deep learning in forest inventories and how it can support forest management and decision-making.\n\nTable 1: The 4 Pillars of AI Capability in Forestry\n\n\n\n\n\n\n\nCapability\nWhat the AI Does\nThe Indispensable Human Role\n\n\n\n\nDescriptive\nExtracts meaningful patterns and representations from complex data (e.g., raw ALS point clouds.\nContextualizing Structure: defining what “meaningful” structure looks like across Canada’s diverse ecozones.\n\n\nPredictive\nLearns non-linear relationships between remote sensing data and attributes like biomass or species.\nData Governance: selecting the response variables and ground-truth plots that reflect real-world variability.\n\n\nPrescriptive\nSimulates scenarios to recommend optimal management paths (harvesting, conservation, or risk mitigation).\nStrategic Oversight: ensuring that AI recommendations align with policy, biodiversity goals, and socio-economic needs.\n\n\nGenerative\nSynthesizes realistic forest data to fill gaps in remote regions or explore “what-if” climate scenarios.\nEcological Validation: verifying that synthetic scenarios are biologically plausible and scientifically sound.\n\n\n\n\nDescriptive modelling: learning structure from data\nDescriptive modelling focuses on extracting meaningful patterns and representations from complex data. For example, ALS point clouds contain detailed 3D information about canopy and understory structure, as well as the terrain. Traditionally, this information was summarized using handcrafted features such as height percentiles or canopy cover metrics.\nDeep learning enables models to learn hierarchical feature representations directly from raw or minimally processed data, capturing subtle patters that are difficult to define manually. In EFIs, this allows for:\n\nAutomatic extraction of structural representations from ALS data that captures both the horizontal and vertical forest complexity\nMore consistent feature extraction across regions and forest types\n\nHuman expertise remains critical in selecting appropriate data sources, interpreting learned features and validating that extracted pattens are meaningful for real-world forestry.\n\n\nPredictive modelling: estimating forest attributes at scale\nPredictive modelling is the most familiar application of AI in forestry. It involves learning relationships between inputs (e.g., ALS-derived features) and outputs (e.g. forest attributes). Deep learning excels in predictive tasks when:\n\nRelationships are nonlinear and high-dimensional\nData comes from multiple sources or modalities\n\nCommon predictive EFI applications include classification tasks such as species groups, forest types, or disturbance classes as well as regression tasks such as estimating biomass, volume, or canopy height. Compared to traditional regression or allometric models, deep learning approaches can scale more effectively across regions, adapt to diverse forest conditions, and reduce the need for manual feature engineering.\nHuman input remains indispensable for selecting meaningful response variables, designing appropriate training and validation datasets, and interpreting predictions within a forestry context.\n\n\nPrescriptive modelling: from prediction to decisions\nPrescriptive modelling likes predictions to actions or decisions. While this workshop does not implement perspective models directly, understanding their relevance is important. In forestry, prescriptive AI can support:\n\nInventory-driven management planning\nPrioritization for harvesting, conservation, or monitoring\nOptimization of sampling strategies and data acquisition\n\nAccurate predictive models are a necessary foundation for prescriptive applications and better EFI predictions lead to better forestry decisions. Domain expertise ensures that prescriptive recommendations are practical and aligned with forest management objectives.\n\n\nGenerative modelling: exploring “what-if” scenarios\nGenerative modelling focuses on creating new data or scenarios that are consistent with observed patterns. In the context of EFIs, this may include:\n\nSimulating forest structures under different management or disturbance scenarios\nAugmenting training data in regions with limited field measurements\nExploring uncertainty and variability in forest inventory estimates\n\nWhile generative models are outside the scope of this workshop, understanding their role helps place predictive deep learning within the broader AI trajectory for EFIs. Human expertise is key for designing realistic scenarios and validating their ecological relevance.\n\n\n\n\n\n\nNote\n\n\n\nHuman expertise is essential at every step from preparing data and defining tasks to interpreting results and making management decisions. Human-centric AI ensures that deep learning tools enhance existing forestry knowledge rather than replace it."
+    "objectID": "05_examples.html#tree-species-composition",
+    "href": "05_examples.html#tree-species-composition",
+    "title": "Examples of Deep Learning Forest Inventory",
+    "section": "2) Tree Species Composition",
+    "text": "2) Tree Species Composition\nBased on the publication M3FNet: Multi-modal multi-temporal multi-scale data fusion network for tree species composition mapping by Cao et al. (2025).\n\nWhy Tree Species Composition Mapping?\nAccurate information on tree species composition (TSC) is critical for forest inventories, serving as a foundational element for forest management. By identifying TSC and its spatial patterns, forest managers can implement sustainable management practices, such as targeted silvicultural intervention, monitoring forest health, and analysing the resilience of forests.\n\n\nDataset and Dataset Generation\nA multi-step preprocessing workflow was implemented comprising S2 imagery processing, FRI data processing, superpixel generation, and SPL-plot pairing.\n\n\n\n\n\n\nFigure 6: Data Processing\n\n\n\nSuperpixel generation involved:\n\nSelecting polygons from the “Cleaned FRI” overlapping each \\(128 \\times 128\\)-pixel tile (red-bounded region)\nGrouping all pixels fully contained within a given polygon into a single superpixel and assigning its identifier (“POLYID”) from the corresponding overlapped polygon\nMarking pixels intersecting polygon boundaries or outside any polygon as “no data”\n\n\n\nDeep Neural Network Architecture\nOur proposed network architecture employs a multi-stream design to effectively process and fuse information from multispectral satellite imagery and 3D point cloud data. The model comprises two parallel streams—one dedicated to processing spectral information (Superpixel Stream) and another dedicated to processing structural information (Point Cloud Stream)—and a Fusion Stream to integrate the learnt features.\n\n\n\n\n\n\nFigure 7: Multi-modal data fusion network\n\n\n\n\n\nResults\n\nTable 2. Comparison of the TSC estimation results using the coefficient of determination (R²) and root mean squared error (RMSE) in different modes: superpixel-only, point cloud-only, and three fusion modes.\n\n\nModel\nR²\nRMSE\n\n\n\n\nSuperpixel mode\n0.627\n0.142\n\n\nPoint cloud mode\n0.560\n0.151\n\n\nFusion mode\n0.657\n0.132\n\n\nSingle-season Mamba-Fusion mode\n0.631\n0.127\n\n\nAll-seasons Mamba-Fusion mode (M3F-Net)\n0.676\n0.120\n\n\n\nSpatial distribution of the prediction of two leading species—Black Spruce (SB) and Jack Pine (PJ)—along with the combined proportion of all remaining species, as well as the estimation errors compared to the photo-interpreted FRI data. Overall, SB dominates most of the study area, and high RMSE values frequently appear where SB is the top-ranked species or where the remainder category is prevalent.\n\n\n\n\n\n\nFigure 8: Wall-to-wall prediction results for the Romeo Malette Forest (RMF). Left: Predicted proportions of Black Spruce (SB; red channel), Jack Pine (PJ; green channel), and all remaining species (blue channel) within each polygon.\n\n\n\n\n\nKey Take-Home Messages\n\nA superpixel-based spatial alignment strategy to reconcile differences in resolution and modalities between point cloud data and multispectral imagery\nMulti-seasonal S2 imagery to leverage seasonal variations in vegetation phenology to enhance species discrimination\nA multi-stream neural network architecture (M3F-Net) featuring a Mamba-Fusion module for effective integration of 2D and 3D features"
   },
   {
-    "objectID": "01_intro.html#what-is-deep-learning",
-    "href": "01_intro.html#what-is-deep-learning",
-    "title": "Introduction to Deep Learning",
-    "section": "What is Deep Learning?",
-    "text": "What is Deep Learning?\nDeep learning is a branch of machine learning, which in turn is a subset of AI. AI refers to methods that enable machines to mimic human behavior. Machine learning uses statistical techniques to allow machines to improve their performance through experience. Deep learning is a machine learning approach that focuses on the use of neural networks with a large number of hidden layers. The terms neural network and deep learning are used interchangeably, and we will use both throughout this workshop.\n\n\n\n\n\n\nFigure 1: Hierarchy Types of Artificial Intelligence Methods and Common Examples of Each\n\n\n\n\nComponents of a deep neural network\nThere are several key components and terms commonly used to describe a neural network. The depth of a neural network refers to the number of layers in its architecture (the example in Figure 2 has five layers), whereas the width refers to the number of neurons within each layer. Increasing depth allows the network to learn more hierarchical and abstract representations of the input data, as successive layers can model increasingly complex feature interactions. Increasing width, on the other hand, increases the representational capacity of each layer, enabling the model to capture more variability at a given level of abstraction. In practice, deeper and wider networks can improve predictive performance but also increase the risk of overfitting, computational cost, and training instability, making their choice a trade-off that depends on data size, complexity, and modelling task.\n\n\n\n\n\n\nFigure 2: Components of a Neural Network\n\n\n\nThe most fundamental unit of a deep neural network is the neuron, which serves as the building block of any neural network. A neuron receives a set of inputs (\\(x_i\\)), weights (\\(w_i\\)) and sums them, while adding a bias term (\\(b\\)). These weights and biases are adjustable parameters that the network learns during training.\n\\[\n\\Large y = w_1x_1 + w_2x_2 + b\n\\]\nAnother important part of a neuron is called the activation. The output of the weighted sum (\\(y\\)) is passed through an activation function, which determines the strength of the output and whether the neuron becomes activated or not. Activation functions are essential because they introduce nonlinearity into the model. Without them, every layer would behave like a linear transformation, and no matter how many layers were stacked, the network could only learn simple linear relationships. By adding nonlinear activations, deep neural networks can capture complex patterns and interactions in the data, making it possible to learn rich structure found in imagery and point clouds.\n\n\n\n\n\n\nFigure 3: Components of a Neuron\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nThere are many types of activation functions, and you are encouraged to research which one would be best for your specific use case.\n\n\n\n\nThe prediction - feedback loop\nThe prediction-feedback loop is what makes learning possible as a deep neural network doesn’t just memorize the data, it adapts to the patterns within and generalizes from them. This allows a model to progressively fine-tune how it sees the input data to improve its performance with respect to the goal and the task.\n\n\n\n\n\n\nFigure 4: Prediction-Feedback Loop\n\n\n\nThis prediction–feedback loop is driven by the goal of the loss function, which guides the model in adjusting its weights and biases toward an optimal solution. The loss function assesses the difference between the true and predicted labels, typically, with the objective of minimizing the error between the two. There are multiple types of loss functions, each providing different forms of feedback to the model. Choosing an appropriate loss function depends on the task (e.g., classification, regression), and is a crucial step in the deep neural networks design.\nA key part of this update process involves gradients, which measure how sensitive the loss is to small changes in each weight or bias. Gradients point the model in the direction that most reduces error, allowing the network to adjust its parameters efficiently. During training, these gradients are computed and used to iteratively update the weights so that, over time, the model’s predictions become more accurate. Although gradients operate behind the scenes, they are central to how deep neural networks learn from the data.\nOver multiple iterations, or epochs, the model continually adjusts its weights and biases based on the feedback received from the loss function. Eventually, the model reaches a point where no further improvements are made given the available data, and the loss begins to stabilize, indicating that the model has converged to an optimal or near-optimal solution.\n\n\n\n\n\n\nFigure 5: Model Adjusting Over Epochs\n\n\n\nThis iterative adjustment process is called model training and involves a training and a separate validation dataset. The training dataset is used to teach the model by updating its parameters, while the validation dataset assesses how well the model generalizes to unseen data. Monitoring performance on the validation set helps to detect overfitting (when a model learns the training data too closely and fails to perform well on new inputs), thereby ensuring that the final model remains both accurate and robust. We can monitor this using loss curves as seen in Figure 5, by verifying that the loss continues to drop for both the training and validation datasets.\nAfter the prediction-feedback loop (training and validation), a testing dataset is used to provide an unbiased evaluation of the model’s final performance. Unlike the validation set, which is used to guide the model tuning during training, the test set is completely withheld until all adjustments are complete. This ensures that the performance metrics accurately reflect how the model will behave on truly unseen data, offering a realistic measure of its generalization ability and reliability for real-world applications.\n\n\n\n\n\n\nNote\n\n\n\nIt is crucial that these three separate and distinct datasets (training, validation, and testing) are properly prepared for training deep neural networks. Mixing or reusing data between these datasets can lead to misleading performance metrics and poor generalization. Proper separation ensures that the model is evaluated fairly at each stage of development and that its reported accuracy truly reflects performance on new, unseen data.\n\n\n\n\nCommon deep learning tasks\n\nClassification\nClassification assigns each input (an image, pixel, object, or point cloud sample) to a discrete class. This is often the starting point in deep learning for ecological or environmental analysis.\nCommon forestry classification applications include:\n\nTree-species recognition: Using spectral signatures, textural patterns, or structural characteristics to classify (label) species at the tree or stand level.\nLand-cover mapping: Categorizing pixels into classes such as forest, water, bare ground, or herbaceous vegetation.\nDisturbance detection: Identifying wildfire scars, harvest events, pest outbreaks, or storm damage.\nHealth or stress classification: Detecting and identifying different stressed areas or detecting tree mortality at the tree or stand level.\n\n\n\n\n\n\n\nFigure 6: Classification\n\n\n\n\n\nRegression\nRegression models predict continuous numerical values, making them ideal for estimating biophysical variables derived from remote sensing datasets. Rather than assigning categories, they learn patterns that correspond to a continuous numerical output.\nTypical forestry-focused regression tasks include:\n\nAbove-ground biomass estimation: Using spectral reflectance, canopy texture or structural characteristics from lidar to estimate the AGB of a tree or stand.\nCanopy cover for leaf area index estimation: Modelling continuous vegetation density across forested landscapes.\nCrown diameter or volume: Predicting various individual-tree metrics.\n\n\n\n\n\n\n\nFigure 7: Regression\n\n\n\n\n\nSegmentation\nSegmentation assigns a label to every pixel/point (semantic segmentation) or separates individual objects within an image or point cloud (instance segmentation). This task is essential when the goal is to create detailed spatial maps rather than broad classifications.\nIn forestry applications, segmentation helps support:\n\nTree-crown delineation: Separating individual tree crowns in imagery or point clouds for per-tree analyses.\nStand or management-unit boundaries: Automatically outlining key forest changes or stand edges.\nVegetation structure mapping: Distinguishing between canopy, understory, stem, and ground points from lidar data.\n\n\n\n\n\n\n\nFigure 8: Segmentation"
-  },
-  {
-    "objectID": "01_intro.html#image-based-vs.-point-based-deep-learning",
-    "href": "01_intro.html#image-based-vs.-point-based-deep-learning",
-    "title": "Introduction to Deep Learning",
-    "section": "Image-Based vs. Point-Based Deep Learning",
-    "text": "Image-Based vs. Point-Based Deep Learning\n\nImage-based deep learning\nImage-based deep learning is a computer vision method that teaches computers to understand and interpret images. Instead of manually telling the computer what to look for, these algorithms automatically learn patterns from large sets of images. These algorithms can learn features like edges, shapes, and colours, and can eventually identify complex objects such as trees. Because these models learn directly from the data, they can help computers effectively see and make sense of the imagery.\n\n\n\n\n\n\nFigure 9: Image Based Deep Learning\n\n\n\nA common image-based deep learning technique is the convolutional neural network (CNN). CNNs use filters (also called kernels) that slide across an image to detect important visual features. These filters help the network to focus on local patterns while preserving the spatial relationships in the image. As the data moves through the different layers of the network, the CNN learns increasingly complex patterns.\n\n\n\n\n\n\nFigure 10: Convolutional Neural Networks\n\n\n\n\n\nPoint-based deep learning\nPoint-based deep learning is a method used to analyze 3D point cloud data. Unlike image data, which is structured in a grid of pixels, point clouds are irregular and unstructured, making them harder for traditional neural networks to process. Point-based deep neural networks are designed to handle this challenge by directly learning from the spatial relationships between points without requiring conversion into images or grids. By learning the geometric patterns directly from the raw point clouds, these models are able to provide an accurate and detailed understanding of complex 3D structures of the forest. Similar to image-based approaches as the data moves through successive layers, and increasingly complex patterns are be extracted.\n\n\n\n\n\n\nFigure 11: Point Based Deep Learning"
-  },
-  {
-    "objectID": "01_intro.html#key-terminology-and-concepts-to-know",
-    "href": "01_intro.html#key-terminology-and-concepts-to-know",
-    "title": "Introduction to Deep Learning",
-    "section": "Key Terminology and Concepts to Know",
-    "text": "Key Terminology and Concepts to Know\nBefore exploring data preparation, training workflows, and model evaluation, it is useful to establish a common vocabulary describing how deep neural networks operate. The terms below describe the core components, processes, and ideas that appear throughout all deep learning methods, regardless of the specific architecture or data type. Understanding these concepts will help clarify how models learn, how they are structured, and how different parts of the training pipeline fit together.\n\nParameters vs. hyperparameters\nParameters are the internal values of a neural network that are learned during training. These include the weights and biases in each layer. They are updated automatically through optimization algorithms and define how the model transforms inputs into predictions.\nHyperparameters control how a model learns rather than what it learns. Examples include learning rate, batch size, number of epochs, and model depth. Unlike parameters, hyperparameters are set by the user and are not learned during training. These often need to be tuned in order to achieve optimal results.\n\n\nInput features vs. labels vs. learned features\nInput Features are the input variables or measurements the model receives. In imagery, these might be pixel values from the spectral bands; in point clouds, they may include XYZ coordinates, intensity, or return number. Features describe the data but not the model’s predictions.\nLabels represent the target values the model is trying to predict. These can be discrete classes (e.g. species), continuous values (e.g. biomass), or spatial assignments (e.g. segmentation masks). Labels are essential for supervised learning.\nLearned Features are internal representations automatically discovered by the neural network as the data moves through its layers. Unlike input features, which come directly from the dataset, learned features are generated by the model itself. Early layers often capture simple patterns such as edges or local geometry, while deeper layers encode more abstract concepts such as textures, shapes, or structural patterns. These learned features enable deep neural networks to extract complex information without requiring manual feature engineering.\n\n\nData augmentation\nData augmentation refers to the process of artificially increasing the diversity of a training dataset by applying specific and controlled transformations to existing samples. Augmentation introduces realistic variability (e.g., geometric transformations, intensity perturbations, or spatial subsampling), while preserving the underlying labels. This helps improve model generalization by reducing overfitting and increasing robustness to noise, sensor differences, and site variability. Data augmentation is particularly valuable in forestry and remote sensing applications, where labelled data are limited, class imbalances are common, and acquisition conditions vary across regions and sensors.\n\n\nBatches & batch size\nInstead of processing the entire dataset at once, the model learns from small subsets of the data called batches. The batch size is the number of samples processed per training step. Batch size affects memory usage, training stability, and learning dynamics.\n\n\n\n\n\n\nFigure 12: Batches\n\n\n\n\n\nModel architecture vs. model weights\nThe model architecture defines the structure of the network, including the number and type of layers and how they are connected. Examples include CNNs for image and point based networks for 3D data. The architecture determines the model’s capacity to learn patterns, and differ based on the goal and task.\nModel weights are the numerical values stored within each layer that get updated during training while the architecture remains fixed, the weights change continuously, forming the learned representations of the data.\n\n\nForward pass vs. backward pass\nThe forward pass is the process where input data moves through the network, from the first layer to the final output, to generate predictions. All computations during this step use the current parameter values.\nThe backward pass computes gradients that describe how the loss changes with respect to each parameter. These gradients are then used by the optimizer to update the model’s parameters, allowing it to improve over time.\n\n\n\n\n\n\nFigure 13: Backward Pass\n\n\n\n\n\nTraining loop\nThe training loop refers to the repeated cycle of performing forward passes, computing loss, running backward passes, and updating parameters. This loop continues for a set number of epochs or until the model stops improving.\n\n\nGradient descent\nGradient decent is the core optimization idea that adjusts a model’s parameters to minimize the loss function. By moving the weights in the direction that decreases the error, the model incrementally improves its predictions.\n\n\nTransfer learning & fine-tuning\nTransfer learning is a technique where a deep neural network that has already been trained on a large, general-purpose dataset is reused as the starting point for a new task. Instead of training from scratch, the model begins with learned features that capture useful patterns, such as edges, textures, shapes, or geometric structures, that often transfer well across related tasks and data types.\nFine-tuning is the process of adjusting (or refining) some or all of the pretrained model’s weights on your specific dataset. This allows the model to adapt its learned features to the characteristics of your data, such as new species, sensor types, or forest structures. Fine-tuning is especially valuable when labelled data are limited, because it reduces the amount of training needed and often leads to better generalization than starting with a randomly initialized model."
-  },
-  {
-    "objectID": "01_intro.html#challenges-and-considerations-for-deep-learning-in-forestry-applications",
-    "href": "01_intro.html#challenges-and-considerations-for-deep-learning-in-forestry-applications",
-    "title": "Introduction to Deep Learning",
-    "section": "Challenges and Considerations for Deep Learning in Forestry Applications",
-    "text": "Challenges and Considerations for Deep Learning in Forestry Applications\nForestry data introduce unique complexities that shape how deep neural networks behave in real-world applications. Understanding these challenges at a high level helps set realistic expectations for model performance and highlights why certain design choices are necessary. The following considerations provide important context for why deep learning in forestry often requires additional care compared to more controlled or synthetic environments.\n\nTable 2: Key challenges and considerations for applying deep learning to forestry remote sensing.\n\n\n\n\n\n\n\n\nChallenge / Consideration\nDescription\nImpact on Deep Neural Networks\nPotential Solutions\n\n\n\n\nHigh Variability Across Sensors and Sites\nRemote sensing data originate from different platforms, sensors, and acquisition conditions, with variations in resolution, illumination, phenology, and sensor characteristics.\nModels may fail or struggle to generalize across sites, sensors, or forest types.\nFine-tuning, domain adaptation, cross-site and cross-sensor calibration.\n\n\nSpatial Autocorrelation\nNearby pixels, trees, or points are inherently more similar than distant ones due to spatial structure in forest environments.\nSpatially clustered training and test samples can inflate performance estimates and reduce true generalization.\nSpatially explicit sampling strategies, spatial cross-validation.\n\n\nImbalanced Ecological Classes\nForestry datasets often contain disproportionate representation of dominant species or canopy structures, with minority classes being underrepresented.\nModels tend to prioritize majority classes and perform poorly on rare or minority classes.\nClass weighting, modified loss functions, balanced or stratified sampling.\n\n\nModels Developed on Idealized or Synthetic Benchmarks\nMany deep learning architectures are developed and evaluated on synthetic or highly controlled datasets lacking real-world noise, occlusion, and structural complexity.\nStrong benchmark performance may not transfer to operational forestry data.\nFine-tuning on representative field datasets, model adaptation, incorporation of domain knowledge.\n\n\nLimited Quantity of Labeled Data\nHigh-quality labeled forestry data are scarce due to costly, time-consuming manual annotation requiring expert knowledge.\nLimited labeled data constrain model training and robustness.\nData augmentation, semi-supervised learning, transfer learning, pseudo-sample generation."
-  },
-  {
-    "objectID": "01_intro.html#frequently-asked-questions",
-    "href": "01_intro.html#frequently-asked-questions",
-    "title": "Introduction to Deep Learning",
-    "section": "Frequently Asked Questions",
-    "text": "Frequently Asked Questions\n\n\nHow does deep learning differ from machine learning or artificial intelligence?\n\nArtificial intelligence is the broad field of creating systems that perform tasks associated with human intelligence. Machine learning is a subset of artificial intelligence that uses data-driven algorithms to learn patterns and make predictions. Deep learning is a further subset of machine learning that uses multi-layered neural networks to automatically learn complex representations from data. Unlike many traditional machine learning methods, deep learning can extract features directly from raw inputs, reducing the need for manual feature generation.\n\n\n\nWhat makes deep learning deep?\n\nDeep neural networks are considered deep because they contain multiple layers of neurons through which data are successively transformed. Each layer learns increasingly abstract features, from simple edges or shapes to complex patterns and structures. The depth, or number of layers, enables these models to capture highly non-linear relationships that simpler models cannot represent.\n\n\n\nWhat are some advantages and disadvantages of deep learning?\n\nDeep learning excels at learning complex patterns, handling high-dimensional data, and achieving state-of-the-art performance in tasks like image classification, segmentation, and 3D analysis. However, it typically requires large amounts of labelled data, substantial computational resources, and careful tuning. Deep neural networks can also be harder to interpret, making it challenging to understand why a model makes certain predictions.\n\n\n\nWhen should a deep neural networks be used?\n\nDeep learning is most effective when you have large, diverse datasets and tasks with complex patterns that simpler models struggle to capture. As the complexity of the data or the task increases, deep learning becomes a more beneficial option. Raw lidar data, for example, is a complex dataset and is well suited for deep learning tasks.\n\n\n\n\n\n\nFigure 14: Data and Task Complexity for Deep and Machine Learning\n\n\n\n\n\n\nWhat computing resources are required to run a deep neural network?\n\nTraining deep neural networks generally benefits from using a GPU, which accelerates the large matrix operations involved. Smaller models or inference tasks can run on a standard CPU, but training deep neural networks on CPUs is typically slow. For larger datasets or 3D models, access to GPUs, high memory capacity, and efficient data pipelines becomes increasingly important.\n\n\n\nWhy do deep neural networks need so much data?\n\nDeep neural networks contain millions of parameters that must be learned during training. Large datasets help ensure these parameters capture general patterns rather than memorizing noise. With limited data, models are more likely to overfit. More data, especially diverse data, improves generalization.\n\n\n\nHow do I know which model architecture to choose?\n\nThe choice of architecture depends on the type of data, the goal, and the task. CNNs are well suited for image-based tasks, while point-based neural networks handle 3D point clouds. Architectures like U-Net are often used for segmentation, whereas regression problems might consider feedforward networks. A practical approach is to start with commonly used architectures and adapt them based on performance.\n\n\n\nHow long does it take to train a deep neural network?\n\nTraining time varies depending on model size, computing resources, and batch configuration. Small models may train in minutes to hours, while large models or 3D networks trained on high-resolution data can take days. Efficient hardware, optimized data loading, and appropriate batch sizes can significantly reduce training time.\n\n\n\nHow do I know if I have enough labelled data?\n\nA practical way to assess this is by observing model performance and generalization. Signs you may not have enough labelled data include overfitting, unstable validation performance, or high sensitivity to small changes in the training set. If performance does not improve despite tuning, acquiring more labelled samples or using techniques like data augmentation, transfer learning, or pseudo-sample generation can help compensate for limited data."
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#overview",
-    "href": "01-intro-deep-learning-slides.html#overview",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Overview",
-    "text": "Overview\nGoal: Introduce deep learning concepts for enhanced forest inventories (EFIs)\nBy the end of this section, you should be able to:\n\nExplain the role of AI in EFI modelling\n\nDistinguish AI, machine learning, and deep learning\n\nDescribe the structure of a deep neural network\n\nExplain how models learn (loss, gradients, epochs)\n\nCompare image-based vs. point-based deep learning\n\nUse core deep learning terminology correctly\n\nRecognize common forestry-specific challenges"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#artificial-intelligence-machine-learning-deep-learning",
-    "href": "01-intro-deep-learning-slides.html#artificial-intelligence-machine-learning-deep-learning",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Artificial Intelligence → Machine Learning → Deep Learning",
-    "text": "Artificial Intelligence → Machine Learning → Deep Learning\n\n\n\nArtificial Intelligence (AI): Systems that mimic human decision-making\n\nMachine Learning (ML): Models that improve through data-driven experience\n\nDeep Learning (DL): ML using neural networks with many hidden layers"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#deep-neural-networks-key-concepts",
-    "href": "01-intro-deep-learning-slides.html#deep-neural-networks-key-concepts",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Deep Neural Networks: Key Concepts",
-    "text": "Deep Neural Networks: Key Concepts\n\nLayers: Input → hidden → output\n\nDepth: Number of layers\n\nWidth: Number of neurons per layer\n\nTrade-offs: - ↑ depth/width → ↑ representational power\n- ↑ depth/width → ↑ computation, overfitting risk"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#the-neuron",
-    "href": "01-intro-deep-learning-slides.html#the-neuron",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "The Neuron",
-    "text": "The Neuron\n\nFundamental unit of a neural network\n\nComputes a weighted sum of inputs plus a bias\n\n\\[\n\\Large y = w_1x_1 + w_2x_2 + b\n\\]\n\nWeights & biases are learned during training"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#activation-functions",
-    "href": "01-intro-deep-learning-slides.html#activation-functions",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Activation Functions",
-    "text": "Activation Functions\n\n\n\nApplied to neuron output\n\nIntroduce non-linearity\nEnable learning of complex relationships"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#activation-functions-1",
-    "href": "01-intro-deep-learning-slides.html#activation-functions-1",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Activation Functions",
-    "text": "Activation Functions\n\n\n\nApplied to neuron output\n\nIntroduce non-linearity\nEnable learning of complex relationships\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\nThere are many types of activation functions, and you are encouraged to research which one would be best for your specific use case."
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#predictionfeedback-loop",
-    "href": "01-intro-deep-learning-slides.html#predictionfeedback-loop",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Prediction–Feedback Loop",
-    "text": "Prediction–Feedback Loop\n\n\nThe prediction-feedback loop is what makes learning possible as a deep neural network adapts to the patterns within the data and generalizes from them.\n\nModel makes a prediction\n\nPrediction is compared and assessed to the truth\n\nFeedback is provided to the model based on errors\nError guides the adjustments to the weights/bias"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#loss-gradients-and-epochs",
-    "href": "01-intro-deep-learning-slides.html#loss-gradients-and-epochs",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Loss, Gradients, and Epochs",
-    "text": "Loss, Gradients, and Epochs\n\nLoss function: Measures prediction error\n\nGradients: Sensitivity of loss to small changes in weights/bias\n\nEpoch: One full pass through the training data\n\nLearning occurs through repeated updates over epochs."
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#training-validation-testing",
-    "href": "01-intro-deep-learning-slides.html#training-validation-testing",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Training, Validation, Testing",
-    "text": "Training, Validation, Testing\n\nTraining: Learn parameters\n\nValidation: Tune hyperparameters, prevent overfitting\n\nTesting: Final, unbiased performance estimate"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#training-validation-testing-1",
-    "href": "01-intro-deep-learning-slides.html#training-validation-testing-1",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Training, Validation, Testing",
-    "text": "Training, Validation, Testing\n\nTraining: Learn parameters\n\nValidation: Tune hyperparameters, prevent overfitting\n\nTesting: Final, unbiased performance estimate\n\n\n\n\n\n\n\nNote\n\n\nNever mix training, validation, and testing data. Mixing or reusing data between these datasets can lead to misleading performance metrics and poor generalization."
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#common-deep-learning-tasks",
-    "href": "01-intro-deep-learning-slides.html#common-deep-learning-tasks",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Common Deep Learning Tasks",
-    "text": "Common Deep Learning Tasks\n\nClassification\nRegression\nSegmentation"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#classification",
-    "href": "01-intro-deep-learning-slides.html#classification",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Classification",
-    "text": "Classification\nGoal: Assign inputs to discrete classes\nForestry examples:\n\nTree species mapping\n\nLand cover classification\n\nDisturbance detection"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#regression",
-    "href": "01-intro-deep-learning-slides.html#regression",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Regression",
-    "text": "Regression\nGoal: Predict continuous values\nForestry examples:\n\nAbove-ground biomass\n\nCanopy cover / LAI\n\nTree height, crown size"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#segmentation",
-    "href": "01-intro-deep-learning-slides.html#segmentation",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Segmentation",
-    "text": "Segmentation\nGoal: Assign labels to every pixel or point\nForestry examples:\n\nTree crown delineation\n\nStand boundaries\n\nStructural mapping"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#segmentation-1",
-    "href": "01-intro-deep-learning-slides.html#segmentation-1",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Segmentation",
-    "text": "Segmentation\nGoal: Assign labels to every pixel or point\n\nSemantic segmentation: Assign a class to every pixel or point\n\nInstance segmentation: Separate individual objects from image or point cloud"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#image-based-vs.-point-based-deep-learning",
-    "href": "01-intro-deep-learning-slides.html#image-based-vs.-point-based-deep-learning",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Image-Based vs. Point-Based Deep Learning",
-    "text": "Image-Based vs. Point-Based Deep Learning\nTwo dominant approaches in remote sensing:\n\nImage-based methods\n\nPoint-based methods"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#image-based-deep-learning",
-    "href": "01-intro-deep-learning-slides.html#image-based-deep-learning",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Image-Based Deep Learning",
-    "text": "Image-Based Deep Learning\n\nOperates on raster imagery\n\nLearns spatial patterns and textures\n\nCommon inputs: RGB, multispectral, hyperspectral"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#convolutional-neural-networks-cnns",
-    "href": "01-intro-deep-learning-slides.html#convolutional-neural-networks-cnns",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Convolutional Neural Networks (CNNs)",
-    "text": "Convolutional Neural Networks (CNNs)\n\n\n\nCore image-based architecture\n\nUse sliding filters (kernels)\n\nDetect edges → textures → objects"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#point-based-deep-learning",
-    "href": "01-intro-deep-learning-slides.html#point-based-deep-learning",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Point-Based Deep Learning",
-    "text": "Point-Based Deep Learning\n\nOperates directly on 3D point clouds\n\nNo regular grid structure\n\nLearns from spatial relationships"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#core-terminology",
-    "href": "01-intro-deep-learning-slides.html#core-terminology",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Core Terminology",
-    "text": "Core Terminology\nEstablishing shared language before workflows and modeling."
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#parameters-vs.-hyperparameters",
-    "href": "01-intro-deep-learning-slides.html#parameters-vs.-hyperparameters",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Parameters vs. Hyperparameters",
-    "text": "Parameters vs. Hyperparameters\n\nParameters: Learned values (weights, biases)\n\nHyperparameters: User-defined settings\n\nLearning rate\n\nBatch size\n\nEpochs\n\nModel depth"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#inputs-labels-learned-features",
-    "href": "01-intro-deep-learning-slides.html#inputs-labels-learned-features",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Inputs, Labels, Learned Features",
-    "text": "Inputs, Labels, Learned Features\n\nInput features: What the model sees\n\nLabels: What the model predicts\n\nLearned features: Internal representations"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#data-augmentation",
-    "href": "01-intro-deep-learning-slides.html#data-augmentation",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Data Augmentation",
-    "text": "Data Augmentation\n\nArtificially increases training diversity\n\nImproves robustness and generalization\n\nEspecially useful with limited labels"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#batches-and-batch-size",
-    "href": "01-intro-deep-learning-slides.html#batches-and-batch-size",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Batches and Batch Size",
-    "text": "Batches and Batch Size\n\n\n\nData processed in small subsets (batches)\n\nBatch size: Samples per training step"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#architecture-vs.-weights",
-    "href": "01-intro-deep-learning-slides.html#architecture-vs.-weights",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Architecture vs. Weights",
-    "text": "Architecture vs. Weights\n\nArchitecture: Model/network structure (fixed)\n\nNumber and type of layers\nHow neurons/layers connect\n\nWeights: Learned numerical values (changes)\n\nUpdated during training\nLearned based on data"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#forward-vs.-backward-pass",
-    "href": "01-intro-deep-learning-slides.html#forward-vs.-backward-pass",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Forward vs. Backward Pass",
-    "text": "Forward vs. Backward Pass\n\nForward pass: Generate predictions\n\nBackward pass: Compute gradients and update weights"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#training-loop",
-    "href": "01-intro-deep-learning-slides.html#training-loop",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Training Loop",
-    "text": "Training Loop\nRepeated cycle:\n\nForward pass\n\nLoss computation\n\nBackward pass\n\nParameter update\n\nThis loop continues for a set number of epochs or until the model stops improving."
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#gradient-descent",
-    "href": "01-intro-deep-learning-slides.html#gradient-descent",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Gradient Descent",
-    "text": "Gradient Descent\n\nOptimization strategy\n\nHow the model adjusts its parameters to minimize loss\n\nMoves in direction of decreasing error and improve predictions"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#transfer-learning-and-fine-tuning",
-    "href": "01-intro-deep-learning-slides.html#transfer-learning-and-fine-tuning",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Transfer Learning and Fine-Tuning",
-    "text": "Transfer Learning and Fine-Tuning\n\nTransfer learning: Start from pretrained model\n\nFine-tuning: Adapt weights to your domain\n\nCommon in forestry due to limited labeled data."
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#deep-learning-in-forestry-challenges",
-    "href": "01-intro-deep-learning-slides.html#deep-learning-in-forestry-challenges",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Deep Learning in Forestry: Challenges",
-    "text": "Deep Learning in Forestry: Challenges\nForestry data introduce domain-specific constraints."
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#key-challenges-and-considerations",
-    "href": "01-intro-deep-learning-slides.html#key-challenges-and-considerations",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Key Challenges and Considerations",
-    "text": "Key Challenges and Considerations\n\n\n\n\n\n\n\n\nChallenge\nImpact\nCommon Solutions\n\n\n\n\nSensor & site variability\nPoor generalization\nFine-tuning, domain adaptation\n\n\nSpatial autocorrelation\nInflated accuracy\nSpatial CV, sampling strategies\n\n\nClass imbalance\nBias toward majority classes\nClass weighting, loss design\n\n\nSynthetic benchmarks\nLimited real-world transfer\nDomain adaptation\n\n\nLimited labels\nReduced robustness\nAugmentation, transfer learning"
-  },
-  {
-    "objectID": "01-intro-deep-learning-slides.html#questions",
-    "href": "01-intro-deep-learning-slides.html#questions",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Questions?",
-    "text": "Questions?"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Deep Learning with Airborne Laser Scanning Data for Forest Inventories",
-    "section": "",
-    "text": "Important\n\n\n\nThis workshop website is still underdevelopment and the content will continue to change until the workshop takes place on February 5th, 2026."
-  },
-  {
-    "objectID": "index.html#overview",
-    "href": "index.html#overview",
-    "title": "Deep Learning with Airborne Laser Scanning Data for Forest Inventories",
-    "section": "Overview",
-    "text": "Overview\nThis is an introductory workshop for deep learning techniques for Enhanced Forest Inventories (EFIs) presented at the Canadian Cross-Country EFI Checkup. This workshop covers a basic end-to-end deep learning workflow for EFI applications, covering an introduction into deep learning, to data preparation, and finally a demo of model training, evaluation, and deployment. There will also be some examples of real world forest inventory deep learning applications showcasing some of the possibilities there are with these techniques.\n\nYou will learn\n\nWhat deep learning is and how it can be used for EFIs.\nHow to prepare and read in data for use in deep learning.\nBasics of using the PyTorch Lightning deep learning library.\nDeep learning based forest attribute feature extraction.\nTraining a deep learning model for classification tasks.\nTesting and evaluating deep learning models.\n\n\n\n\n\n\n\nNote\n\n\n\nThis site will remain open after the workshop for participants to review the content or share it with others. Because deep neural networks often require long training times, all datasets, training outputs, and model evaluations have been precomputed and are provided as part of this tutorial."
-  },
-  {
-    "objectID": "index.html#setup",
-    "href": "index.html#setup",
-    "title": "Deep Learning with Airborne Laser Scanning Data for Forest Inventories",
-    "section": "Setup",
-    "text": "Setup\nTo get ready for this workshop follow the links below.\nGet Started View Schedule"
-  },
-  {
-    "objectID": "index.html#instructors",
-    "href": "index.html#instructors",
-    "title": "Deep Learning with Airborne Laser Scanning Data for Forest Inventories",
-    "section": "Instructors",
-    "text": "Instructors\n\n\n\n\n\n\n\nName\nAffiliation\n\n\n\n\nBrent A. Murray\nIntegrated Remote Sensing Studio. University of British Columbia\n\n\nHarry Seely\nIntegrated Remote Sensing Studio. University of British Columbia\n\n\nYuwei Cao\nIntegrated Remote Sensing Studio. University of British Columbia\n\n\nAhmed Ragab\nCanmetENERGY. Natural Resrouces Canada;Department of Mathematics and Industrial Engineering. Polytechnique Montreal"
+    "objectID": "05_examples.html#individual-tree-species",
+    "href": "05_examples.html#individual-tree-species",
+    "title": "Examples of Deep Learning Forest Inventory",
+    "section": "3) Individual Tree Species",
+    "text": "3) Individual Tree Species\nBased on the publication Individual tree species prediction using airborne laser scanning data and derived point-cloud metrics within a dual-stream deep learning approach by Murray et al (2025).\n\nWhy Tree Species Mapping Matters\nKnowing which tree species are present, and where they are located, is essential for modern forest inventories. Species information supports decisions related to timber supply, carbon estimation, habitat assessment, and forest management. Traditional inventories often rely on manual interpretation and report species information at the stand level, which limits detail and scalability.\nDeep learning methods offer powerful tools for mapping tree species, but they typically require large, well-labelled datasets for training. Field-based datasets are expensive and time-consuming to collect and typically do not cover the entire forested area. As a result, they often do not provide enough labelled examples to fully support deep learning approaches on their own. This creates a major challenge for applying deep learning to tree species classification at operational scales.\nAdvances in ALS data, combined with automated data generation methods, provide an opportunity to overcome this limitation by producing large, labelled datasets across extensive forested areas.\n\n\nData Used\nThis study used ALS data collected over the Romeo Malette Forest (RMF) in Ontario. Existing forest inventory maps and field plot data were also used to provide the tree species information needed for model training.\n\n\n\n\n\n\nFigure 9: Forest Plot Point Cloud\n\n\n\n\n\nAutomated Tree-Level Dataset Creation\nAn automated workflow was used to detect and segment individual trees directly from the ALS data. Tree species labels were then assigned using existing field measurements and supplemented with inventory information from pure stands, without manual tree delineation or hand-labelling. This approach produced a large dataset of individual tree point clouds, enabling the use of deep learning while avoiding a major bottleneck common in many tree-level studies.\n\n\nCombining Two Types of ALS Information\nThe core idea of this work was to combine two complementary sources of information. First, the raw 3D point clouds capture the detailed shape and structure of individual trees. Second, simple summary metrics describe overall tree characteristics such as height distribution, crown size, and return intensity. Each data type provides different but useful information for distinguishing tree species.\n\n\nDeep Learning Approach\nA dual-stream deep learning model was developed. One part of the model learns directly from the raw 3D point clouds, while the second part learns from the summary metrics. The outputs from both streams are combined to make a final tree species prediction. This design allows the model to use both detailed structural patterns and broader summary information in a single framework.\n\n\n\n\n\n\nFigure 10: Dual-Stream Model (adapted from Murray et al (2025))\n\n\n\n\n\nResults\nCombining point clouds with summary metrics improve tree species classification compared to using point clouds alone. The dual-stream approach produces more accurate predictions and more reliable confidence estimates across species. The largest gains were observed when both types of ALS information were used together, highlighting the value of this fusion in tree-level classification.\n\nTable 3: Evaluation metrics of the various model configurations\n\n\n\n\n\n\n\n\nModel\nOverall Accuracy\nF1-Score\nROC AUC\n\n\n\n\nEdgeConv\n0.55\n0.54\n0.74\n\n\nPoint Transformer\n0.61\n0.62\n0.80\n\n\nMulti-Branch\n0.58\n0.59\n0.76\n\n\nEdgeConv + Metrics Network\n0.69\n0.70\n0.88\n\n\nPoint Transformer + Metrics Network\n0.69\n0.70\n0.87\n\n\nMulti-Branch + Metrics Network\n0.69\n0.69\n0.86\n\n\n\n\n\n\n\n\n\nFigure 11: Point cloud samples for each species, with associated predicted probability from each model\n\n\n\n\n\nWhy This Matters for Forest Inventories\nThis approach reduces the need for manual interpretation and enables tree-level species mapping over large forested areas. By using data that are already commonly collected for forest inventories, the method is well suited for operational use. It demonstrates how deep learning can be used for enhanced forest inventories by adding detailed species information in a scalable and automated way.\n\n\nKey Take-Home Messages\n\nALS can support individual tree species mapping at large scales using deep learning\nAutomated workflows are critical for making deep learning practical in forestry\nCombining raw 3D data with simple summary metrics improves prediction performance\nDual-stream deep learning provides a simple and effective way to combine different types of ALS based forest information."
   }
 ]
