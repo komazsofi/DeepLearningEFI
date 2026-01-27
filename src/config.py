@@ -69,8 +69,7 @@ MODEL_CONFIG = {
     },
     'ocnn':{
         'model_name': 'ocnn',
-        'drop1': 0.5,
-        'emb_dims': 512,
+        'drop1': 0.1,
         'mat_diff_loss_scale': 0.0, # No regularization for DGCNN,
         'use_normal': False,
         'in_channel': 4

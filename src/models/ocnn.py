@@ -71,7 +71,7 @@ class get_model(nn.Module):
                                 out_channels=1,
                                 ocnn_stages=4,
                                 ocnn_late_channels=64,
-                                dropout=0.1,
+                                dropout=cfg['drop1'],
                                 ocnn_features="LF",
                                 nempty=False)
         
