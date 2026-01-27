@@ -21,9 +21,6 @@ class EfiModelModule(pl.LightningModule):
         model_module = importlib.import_module(f"models.{cfg['model_name']}")
         self.model = model_module.get_model(cfg)
 
-        # TODO: rm later, just getting model details for now
-        print(f"{cfg['model_name']} Summary\n: {self.model}")
-
         # 2. Setup Metric Calculators (one for validation, one for testing)
         self.val_metrics = MetricsCalculator(self.task, cfg['num_classes'])
         self.test_metrics = MetricsCalculator(self.task, cfg['num_classes'])
