@@ -35,7 +35,7 @@ def parse_args():
     parser.add_argument('--out_csv', type=str, default='predictions.csv',
                         help='Output CSV file')
     parser.add_argument('--num_point', type=int, default=8192, help='Point Number')
-    parser.add_argument('--no_fps', action='store_true')
+    parser.add_argument('--no_fps', action='store_true', help='disable FPS and use uniform sampling')
 
 
     return parser.parse_args()

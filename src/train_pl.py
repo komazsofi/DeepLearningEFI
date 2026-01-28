@@ -5,8 +5,8 @@ import torch
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint, LearningRateMonitor, EarlyStopping
 from pytorch_lightning.loggers import WandbLogger
+from pytorch_lightning.strategies import DDPStrategy
 from pathlib import Path
-import datetime
 import json
 
 # --- Project Imports ---
@@ -37,8 +37,8 @@ def parse_args():
     parser.add_argument('--log_dir', type=str, default='log', help='Experiment name')
     parser.add_argument('--decay_rate', type=float, default=1e-4)
     parser.add_argument('--process_data', action='store_true', default=False)
-    parser.add_argument('--no_fps', action='store_true')
-    parser.add_argument('--wandb_project', type=str, default='EFI_DL')
+    parser.add_argument('--no_fps', action='store_true', help='disable FPS and use uniform sampling')
+    parser.add_argument('--wandb_project', type=str, default='EFI_DL', help='Weights & Biases Project Name')
 
     return parser.parse_args()
 
@@ -119,34 +119,49 @@ def main(args):
     # Only construct model manually in train
     model_module = None if args.mode == "test" else EfiModelModule(full_cfg, args)
 
+
     # ---------------------------
     # Callbacks
     # ---------------------------
-    primary_metric = 'val/instance_acc' if task == 'classification' else 'val/r2_score'
-
+    primary_metric = 'val/instance_acc' if task == 'classification' else 'val/loss'
+    ckpt_mode = 'max' if task == 'classification' else 'min'
+    
     checkpoint_callback = ModelCheckpoint(
         dirpath=ckpt_dir,
         filename='best_model',
         monitor=primary_metric,
-        mode='max',
-        save_top_k=1
+        mode=ckpt_mode, # Maximize accuracy/R2 or minimize loss
+        save_top_k=1,
+        verbose=True
     )
 
     early_stop_callback = EarlyStopping(
-        monitor='val/loss',
+        monitor=primary_metric,
         patience=10,
-        mode='min'
+        mode=ckpt_mode
     )
 
     lr_monitor = LearningRateMonitor(logging_interval='epoch')
+    
+    # OPTIONAL: set up distributed training with multiple GPUs if needed
+    if args.ddp:
+        n_gpus = torch.cuda.device_count()
+        gpu_strategy = DDPStrategy(process_group_backend= "gloo", 
+                                   find_unused_parameters=False,
+                                   gradient_as_bucket_view=True)
+    else:
+        n_gpus = 1
+        gpu_strategy = 'auto'
 
     # ---------------------------
     # Trainer
     # ---------------------------
     trainer = pl.Trainer(
+        num_nodes=1,
+        strategy=gpu_strategy,
+        devices=n_gpus,
         max_epochs=args.epoch,
         accelerator='gpu' if torch.cuda.is_available() and not args.use_cpu else 'cpu',
-        devices=[int(g) for g in args.gpu.split(',')] if ',' in args.gpu else (1 if not args.use_cpu else 0),
         logger=wandb_logger,
         callbacks=[checkpoint_callback, lr_monitor, early_stop_callback],
         enable_progress_bar=True,

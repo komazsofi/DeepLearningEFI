@@ -31,7 +31,8 @@ MODEL_CONFIG = {
         'drop2': 0.0,
         'mat_diff_loss_scale': 0.001,
         'use_normal': True,
-        'in_channel': 6
+        'in_channel': 6,
+        'pretrained_ckpt': None
     },
     'pointnet2_msg':{
             'model_name': 'pointnet2_msg',
@@ -39,7 +40,8 @@ MODEL_CONFIG = {
             'drop2': 0.6,
             'mat_diff_loss_scale': 0.001,
             'use_normal': True,
-            'in_channel': 6
+            'in_channel': 6,
+            'pretrained_ckpt': None
     },
     'pointnet2_ssg':{
             'model_name': 'pointnet2_ssg',
@@ -47,7 +49,8 @@ MODEL_CONFIG = {
             'drop2': 0.4,
             'mat_diff_loss_scale': 0.001,
             'use_normal': True,
-            'in_channel': 6
+            'in_channel': 6,
+            'pretrained_ckpt': None
     },
     'pointnext':{
             'model_name': 'pointnext',
@@ -55,7 +58,8 @@ MODEL_CONFIG = {
             'drop2': 0.6,
             'mat_diff_loss_scale': 0.0, # No regularization for pointnext,
             'use_normal': True,
-            'in_channel': 6
+            'in_channel': 6,
+            'pretrained_ckpt': None
     },
     'dgcnn':{
             'model_name': 'dgcnn',
@@ -65,7 +69,16 @@ MODEL_CONFIG = {
             'emb_dims': 512,
             'mat_diff_loss_scale': 0.0, # No regularization for DGCNN,
             'use_normal': False,
-            'in_channel': 3
+            'in_channel': 3,
+            'pretrained_ckpt': None
     },
+    'ocnn':{
+        'model_name': 'ocnn',
+        'drop1': 0.1,
+        'mat_diff_loss_scale': 0.0, # No regularization for DGCNN,
+        'use_normal': False,
+        'in_channel': 4,
+        'pretrained_ckpt': './pretrained_ckpt/ocnn_lenet_nbk_scratch_2025_12_15_15_44_18-idXM6D_epoch=28-val_loss=0.13-val_r2=0.73.ckpt'
+},
     
 }

@@ -21,6 +21,10 @@ class EfiModelModule(pl.LightningModule):
         model_module = importlib.import_module(f"models.{cfg['model_name']}")
         self.model = model_module.get_model(cfg)
 
+        # Load pretrained model checkpoint
+        if cfg['pretrained_ckpt'] is not None:
+            self.load_checkpoint(cfg['pretrained_ckpt'])
+
         # 2. Setup Metric Calculators (one for validation, one for testing)
         self.val_metrics = MetricsCalculator(self.task, cfg['num_classes'])
         self.test_metrics = MetricsCalculator(self.task, cfg['num_classes'])
@@ -32,13 +36,22 @@ class EfiModelModule(pl.LightningModule):
 
     def _shared_step(self, batch):
         """Shared logic for training, validation, and test step."""
-        points, target, _ = batch
         
-        # Transpose [B, N, C] -> [B, C, N] and enforce float32
-        points = points.transpose(2, 1).float() 
+        if self.cfg['model_name'] == 'ocnn':
+            
+            target = batch['target']
+
+            # 1. Forward Pass
+            pred, trans_feat = self(batch)
+        else:
+            points, target, _ = batch
+
+            # Transpose [B, N, C] -> [B, C, N] and enforce float32
+            points = points.transpose(2, 1).float() 
+            
+            # 1. Forward Pass
+            pred, trans_feat = self(points)
         
-        # 1. Forward Pass
-        pred, trans_feat = self(points)
         
         # 2. Calculate Loss
         loss = calculate_total_loss(
@@ -181,16 +194,25 @@ class EfiModelModule(pl.LightningModule):
         Does not calculate loss or metrics.
         Runs when trainer.predict() is called.
         """
-        points, target, pid = batch 
+
+        if self.cfg['model_name'] == 'ocnn':
+            
+            target = batch['target']
+            pid = batch['pid']
+            pred, _ = self(batch)
         
-        # Transpose [B, N, C] -> [B, C, N] and enforce float32
-        points = points.transpose(2, 1).float() 
-        
-        # 1. Forward Pass
-        # Assuming self(points) returns (pred, trans_feat), we only return the prediction (pred)
-        pred, _ = self(points)
-        if self.task == 'classification':
-            pred = torch.argmax(pred, dim=1)
+        else:
+
+            points, target, pid = batch 
+            
+            # Transpose [B, N, C] -> [B, C, N] and enforce float32
+            points = points.transpose(2, 1).float() 
+            
+            # 1. Forward Pass
+            # Assuming self(points) returns (pred, trans_feat), we only return the prediction (pred)
+            pred, _ = self(points)
+            if self.task == 'classification':
+                pred = torch.argmax(pred, dim=1)
         
         # Return only the raw prediction tensor for the user
         return {
@@ -220,3 +242,31 @@ class EfiModelModule(pl.LightningModule):
                 'interval': 'epoch', # Run scheduler step after each epoch
             }
         }
+    
+    def load_checkpoint(self, path: str) -> None:
+        """
+        NOTE: This method is currently only set up to load OCNN model checkpoints.
+        """
+        
+        #Load the pytorch lightning checkpoint dict, only keeping the state_dict item
+        checkpoint = torch.load(path, weights_only=True)['state_dict']
+
+        # Renam 'model.' subsrting to 'model.ocnn.' to match current model structure
+        checkpoint = {k.replace("model.", "model.ocnn."): v for k, v in checkpoint.items()}
+
+        #Drop regressor module (different number of outputs leads to mismatch)
+        checkpoint = {k: v for k, v in checkpoint.items() if "regressor" not in k}
+
+        #Load the state dict weights and biases to OCNN
+        missing_keys, unexpected_keys = self.load_state_dict(checkpoint, strict=False)  # type: ignore
+
+        # Remove missing MLP keys since those are not present in backbone
+        missing_keys = [k for k in missing_keys if "mlp" not in k]
+
+        #Check that only missing keys were from the regressor module
+        missing_keys = [k for k in missing_keys if "regressor" not in k]
+
+        print(f"Missing keys: {missing_keys}")
+        print(f"Unexpected keys: {unexpected_keys}")
+
+        print(f"\033[92mLoaded pretrained weights from: {path}.\033[0m")

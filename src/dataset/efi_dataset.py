@@ -7,25 +7,30 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 from .data_utils import estimate_normals, sample_points
-
+from dataset.ocnn_utils import CustomTransform
 
 class EfiDataset(Dataset):
-    def __init__(self, root, csv_path, label_col, split='train', 
+    def __init__(self, root, csv_path, label_col, model_name, split='train', 
                  num_points=8192, task_type='classification', classes_list=None,
                  process_data=False, use_normals=False, use_fps=True):
         
         self.root = root
         self.csv_path = csv_path
         self.label_col = label_col
-        self.npoints = num_points
+        self.model_name = model_name
         self.task_type = task_type
         self.use_normals = use_normals
         self.use_fps = use_fps
         self.split = split
-        
         self.list_of_points = None
         self.list_of_labels = None
         self.list_of_pids = None
+
+        if model_name == 'ocnn':
+            self.npoints = 'all'
+        else:
+            self.npoints = num_points
+
 
         # 1. Parse CSV  -> meta_data
         self.meta_data = [] # Stores (plot_id, path, raw_label_value)
@@ -78,6 +83,21 @@ class EfiDataset(Dataset):
             self._load_cache()  # use cache
         else:
             print("No cache found. Loading data on-the-fly (slow).")
+    
+        # Specify octree build function
+        if self.model_name == 'ocnn':
+
+            self.load_octree_sample = CustomTransform(depth=6,
+                                        full_depth=2,
+                                        augment= True if self.split=='train' else False,
+                                        angle=(0, 0, 40),
+                                        interval=(1, 1, 1),
+                                        jitter=0.125,
+                                        downsample_prop=0.1)
+                        
+        else:
+            self.load_octree_sample = None
+
 
     # --- Processing Function ---
     def _process_and_cache(self):
@@ -89,7 +109,10 @@ class EfiDataset(Dataset):
         for item in tqdm(self.meta_data):
             # Load and Sample Point Cloud
             points = np.load(item['path']).astype(np.float32)
-            points = sample_points(points, self.npoints, use_fps=self.use_fps)
+
+            # OCNN uses all points to build octree
+            if self.model_name != 'ocnn':
+                points = sample_points(points, self.npoints, use_fps=self.use_fps)
 
             # Normals
             if self.use_normals:
@@ -156,7 +179,11 @@ class EfiDataset(Dataset):
             # On-the-fly fallback
             item = self.meta_data[index]
             points = np.load(item['path']).astype(np.float32)
-            points = sample_points(points, self.npoints, use_fps=self.use_fps)
+
+            # OCNN uses all points to build octree
+            if self.model_name != 'ocnn':
+                points = sample_points(points, self.npoints, use_fps=self.use_fps)
+
             if self.use_normals:
                 normals = estimate_normals(points[:,:3])
                 points = np.concatenate([points, normals], axis=1)
@@ -183,5 +210,12 @@ class EfiDataset(Dataset):
         if self.task_type == 'classification':
             return points, torch.tensor(label, dtype=torch.long), pid
         else:
-            # For regression, return float32 (usually shape [1] or scalar)
-            return points, torch.tensor(label, dtype=torch.float32), pid
+            if self.model_name == 'ocnn':
+                sample = self.load_octree_sample(points, index)
+                sample['target'] = torch.tensor(label, dtype=torch.float32)
+                sample['pid'] = pid
+                return sample
+            else:
+                # For regression, return float32 (usually shape [1] or scalar)
+                return points, torch.tensor(label, dtype=torch.float32), pid
+        

@@ -25,7 +25,12 @@ def calculate_total_loss(pred, target, trans_feat, task, mat_diff_loss_scale=0.0
     if task == 'regression':
         # Target must be float for regression. Pred [B, 1] -> [B].
         target = target.float()
-        pred = pred.view(-1)
+
+        if pred.shape != target.shape:
+            pred = pred.view(-1)
+        
+        assert pred.shape == target.shape, f"Pred shape {pred.shape} and target shape {target.shape} do not match."
+
         core_loss = core_criterion(pred, target)
     else:
         # Classification: F.nll_loss REQUIRES log-probabilities (log_softmax).

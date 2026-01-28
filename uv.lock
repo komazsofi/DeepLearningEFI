@@ -692,6 +692,7 @@ dependencies = [
     { name = "lightning" },
     { name = "matplotlib" },
     { name = "notebook" },
+    { name = "ocnn" },
     { name = "open3d" },
     { name = "openpyxl" },
     { name = "pandas" },
@@ -717,6 +718,7 @@ requires-dist = [
     { name = "lightning", specifier = "==2.5.0" },
     { name = "matplotlib", specifier = "==3.10.1" },
     { name = "notebook", specifier = "==7.4.1" },
+    { name = "ocnn", specifier = "==2.2.6" },
     { name = "open3d" },
     { name = "openpyxl", specifier = "==3.1.5" },
     { name = "pandas", specifier = "==2.2.2" },
@@ -2224,6 +2226,25 @@ version = "12.4.127"
 source = { registry = "https://pypi.org/simple" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/87/20/199b8713428322a2f22b722c62b8cc278cc53dffa9705d744484b5035ee9/nvidia_nvtx_cu12-12.4.127-py3-none-manylinux2014_x86_64.whl", hash = "sha256:781e950d9b9f60d8241ccea575b32f5105a5baf4c2351cab5256a24869f12a1a", size = 99144, upload-time = "2024-04-03T20:56:12.406Z" },
+]
+
+[[package]]
+name = "ocnn"
+version = "2.2.6"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy" },
+    { name = "packaging" },
+    { name = "torch", version = "2.5.1", source = { registry = "https://download.pytorch.org/whl/cu124" }, marker = "python_full_version < '3.13' and platform_machine == 'aarch64' and platform_python_implementation == 'CPython' and sys_platform == 'linux'" },
+    { name = "torch", version = "2.5.1", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform != 'linux' and sys_platform != 'win32'" },
+    { name = "torch", version = "2.5.1+cu124", source = { registry = "https://download.pytorch.org/whl/cu124" }, marker = "(python_full_version >= '3.13' and sys_platform == 'linux') or (platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_python_implementation != 'CPython' and sys_platform == 'linux') or sys_platform == 'win32'" },
+    { name = "torchvision", version = "0.20.1", source = { registry = "https://download.pytorch.org/whl/cu124" }, marker = "python_full_version < '3.13' and platform_machine == 'aarch64' and platform_python_implementation == 'CPython' and sys_platform == 'linux'" },
+    { name = "torchvision", version = "0.20.1", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform != 'linux' and sys_platform != 'win32'" },
+    { name = "torchvision", version = "0.20.1+cu124", source = { registry = "https://download.pytorch.org/whl/cu124" }, marker = "(python_full_version >= '3.13' and sys_platform == 'linux') or (platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_python_implementation != 'CPython' and sys_platform == 'linux') or sys_platform == 'win32'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c4/4f/5eba47a5e701d5c56a10f3c652a30cb475652c7a40ecd3d6680010a6b257/ocnn-2.2.6.tar.gz", hash = "sha256:6ac9845ecc1e472b387c5acff270254a44ddb2548bcbf0add570f0753c0a4698", size = 36422, upload-time = "2024-12-16T02:12:53.169Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cc/35/ce4d8dc393b0b8b409e10baf2bc2ea65bb7f6173143474dc894afb99fa4c/ocnn-2.2.6-py3-none-any.whl", hash = "sha256:cb0af92f0c0d79bbe98175c94312b298bb3a9f81e2ec1fac7afa0426dd842b07", size = 53253, upload-time = "2024-12-16T02:12:50.506Z" },
 ]
 
 [[package]]

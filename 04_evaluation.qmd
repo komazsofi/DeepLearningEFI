@@ -90,7 +90,8 @@ from pathlib import Path
 import random
 import pyvista as pv
 
-from src.plot_regression import plot_regression
+from src.regression_utils import plot_regression, convert_from_z_score
+
 ```
 
 
@@ -106,7 +107,7 @@ CLASS_MAP = {
 }
 
 # Load predictions
-test_df = pd.read_csv("src\pretrained_ckpt\peta_cls_dgcnn_bs16_lre4\checkpoints\predictions.csv")
+test_df = pd.read_csv(r"src/pretrained_ckpt/peta_cls_dgcnn_bs16_lre4/checkpoints/predictions.csv")
 
 y_true = test_df["dom_sp_type"]
 y_pred = test_df["pred_dom_sp_type"]
@@ -292,27 +293,6 @@ visualize_z_grid(correct_df, wrong_df, pc_dir, save_path="images/04_eval/cls_out
 
 - #TODO: re-use `visualize_z_grid` for plots with large AGB residuals 
 
-**Function to convert z-scored prdicted biomass to tonnes per hectare (Mg/ha)**
-
-```{python}
-
-def convert_from_z_score(z_vals, sd, mean):
-    """
-    Converts z-score back to original value using mean and sd
-
-    X = Z * standard_deviation + mean
-
-    :param z_vals: z-score values to be converted
-    :param sd: standard deviation of original data
-    :param mean: mean of original data
-    :return: input values converted to back to original units
-    """
-
-    z_score_val = z_vals * sd + mean
-
-    return z_score_val
-
-```
 
 **Summarize regression results**
 
@@ -320,7 +300,7 @@ def convert_from_z_score(z_vals, sd, mean):
 
 # Set filepaths for labels and predictions
 LABELS_FPATH = r'data/petawawa/labels.csv'
-OBS_PRED_FPATH = r'src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/predictions.csv'
+OBS_PRED_FPATH = r'src/log/efi_dl_workshop/peta_reg_ocnn_bs8_lr0.0001_2/checkpoints/predictions.csv'
 
 # Read predictions and make plot ID uppercase
 test_df = (pd.read_csv(OBS_PRED_FPATH)
@@ -352,7 +332,7 @@ plot_regression(obs=test_df['agb_mg_ha_obs'],
                 pred=test_df['agb_mg_ha_pred'],
                 title='Deep Neural Network',
                 fig_out_fpath='images/dnn_regression_plot.png',
-                hide=True)
+                hide=False)
 
 ```
 
