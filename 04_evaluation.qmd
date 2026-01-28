@@ -90,7 +90,7 @@ from pathlib import Path
 import random
 import pyvista as pv
 
-from src.regression_utils import plot_regression, convert_from_z_score
+from src.utils.regression_utils import plot_regression, convert_from_z_score
 
 ```
 

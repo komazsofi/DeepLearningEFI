@@ -221,8 +221,9 @@ window.Quarto = {
   <li><a href="#the-model-dynamic-graph-cnn-dgcnn" id="toc-the-model-dynamic-graph-cnn-dgcnn" class="nav-link" data-scroll-target="#the-model-dynamic-graph-cnn-dgcnn">The Model: Dynamic Graph CNN (DGCNN)</a>
   <ul class="collapse">
   <li><a href="#how-dgcnn-works" id="toc-how-dgcnn-works" class="nav-link" data-scroll-target="#how-dgcnn-works">How DGCNN Works</a></li>
-  <li><a href="#define-the-dgcnn-model-dgcnn.py" id="toc-define-the-dgcnn-model-dgcnn.py" class="nav-link" data-scroll-target="#define-the-dgcnn-model-dgcnn.py">Define the DGCNN Model (dgcnn.py)</a></li>
+  <li><a href="#implement-the-dgcnn-model-dgcnn.py" id="toc-implement-the-dgcnn-model-dgcnn.py" class="nav-link" data-scroll-target="#implement-the-dgcnn-model-dgcnn.py">Implement the DGCNN Model (dgcnn.py)</a></li>
   <li><a href="#loss-functions-loss_utils.py" id="toc-loss-functions-loss_utils.py" class="nav-link" data-scroll-target="#loss-functions-loss_utils.py">Loss Functions (loss_utils.py)</a></li>
+  <li><a href="#evaluation-metrics-metrics.py" id="toc-evaluation-metrics-metrics.py" class="nav-link" data-scroll-target="#evaluation-metrics-metrics.py">Evaluation Metrics (metrics.py)</a></li>
   <li><a href="#the-model-wrapper-efimodelmodule-efi_modelmodule.py" id="toc-the-model-wrapper-efimodelmodule-efi_modelmodule.py" class="nav-link" data-scroll-target="#the-model-wrapper-efimodelmodule-efi_modelmodule.py">The Model Wrapper: EfiModelModule (efi_modelmodule.py)</a>
   <ul class="collapse">
   <li><a href="#core-components-of-the-wrapper" id="toc-core-components-of-the-wrapper" class="nav-link" data-scroll-target="#core-components-of-the-wrapper">Core components of the wrapper</a></li>
@@ -304,10 +305,14 @@ window.Quarto = {
 </section>
 <section id="other-deep-learning-frameworks" class="level2">
 <h2 class="anchored" data-anchor-id="other-deep-learning-frameworks">Other Deep Learning Frameworks</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://static.packt-cdn.com/products/9781800561618/graphics/image/B16692_01_02.jpg" class="img-fluid figure-img" style="width:60.0%"></p>
-<figcaption>Deep learning fromeworks</figcaption>
+<div id="fig-dl_frames-graph" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dl_frames-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://static.packt-cdn.com/products/9781800561618/graphics/image/B16692_01_02.jpg" class="img-fluid figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-dl_frames-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1
+</figcaption>
 </figure>
 </div>
 <hr>
@@ -346,10 +351,14 @@ window.Quarto = {
 </section>
 <section id="deep-learning-pipeline" class="level1">
 <h1>Deep Learning Pipeline</h1>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./images/03_train/dl_pipeline.png" class="img-fluid figure-img"></p>
-<figcaption>Pipeline (<a href="https://subscription.packtpub.com/book/data/9781800561618/2/ch02lvl1sec05/understanding-the-key-components-of-pytorch-lightning">source</a>)</figcaption>
+<div id="fig-dl_pipeline-graph" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dl_pipeline-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="./images/03_train/dl_pipeline.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-dl_pipeline-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2
+</figcaption>
 </figure>
 </div>
 <section id="the-core-components-of-pytorch-lightning" class="level2">
@@ -359,10 +368,19 @@ window.Quarto = {
 <li><p><code>LightningModule</code> itself is a custom <code>torch.nn.Module</code> that is extended with dozens of additional functions like <code>on_fit_start</code> and <code>on_fit_end</code>. These functions allow us better control of Trainer’s flows and enables custom behaviors by overriding these hooks.</p></li>
 <li><p><code>Trainer</code> configures the training scope and manages the training loop with <code>LightningModule</code> and <code>LightningDataModule</code>. The simplest Trainer configuration is accomplished by setting flags like devices, accelerator, and strategy and by passing in our choice of loggers, profilers, callbacks, and plugins.</p></li>
 </ol>
+<div id="fig-pl-comp-graph" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pl-comp-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="./images/03_train/pl_modules.png" class="img-fluid figure-img"></p>
-<figcaption>Components</figcaption>
+<figcaption>Pytorch Lightning Components</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pl-comp-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Pytorch Lightning Components
+</figcaption>
 </figure>
 </div>
 <hr>
@@ -425,7 +443,7 @@ window.Quarto = {
 <li><p>How big each batch is</p></li>
 <li><p>How many background workers load data in parallel (make sure batches are efficiently provided to the GPU workers).</p></li>
 </ol>
-<div id="93a73abb" class="cell" data-execution_count="1">
+<div id="6b5f5d36" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># efi_datamodule.py</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytorch_lightning <span class="im">as</span> pl</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> DataLoader</span>
@@ -526,19 +544,19 @@ Note
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dgcnn-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: DGCNN Graph Convolution
+Figure&nbsp;4: DGCNN Graph Convolution
 </figcaption>
 </figure>
 </div>
 <p>This allows the model to progressively learn more complex, abstract relationships in the data, ultimately leading to highly accurate classification or attribute prediction for the entire plot.</p>
 </section>
-<section id="define-the-dgcnn-model-dgcnn.py" class="level2">
-<h2 class="anchored" data-anchor-id="define-the-dgcnn-model-dgcnn.py">Define the DGCNN Model (<a href="https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/dgcnn.py">dgcnn.py</a>)</h2>
+<section id="implement-the-dgcnn-model-dgcnn.py" class="level2">
+<h2 class="anchored" data-anchor-id="implement-the-dgcnn-model-dgcnn.py">Implement the DGCNN Model (<a href="https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/dgcnn.py">dgcnn.py</a>)</h2>
 <p>This section covers the implementation of the <code>DGCNN</code> model, including :</p>
 <ul>
 <li>KNN-based local graph construction</li>
 </ul>
-<div id="b2106b4d" class="cell" data-execution_count="2">
+<div id="d4c90126" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
@@ -583,7 +601,7 @@ Figure&nbsp;1: DGCNN Graph Convolution
 <ul>
 <li>Architecture construction (input features, layers, classification head, and regression head)</li>
 </ul>
-<div id="b98236c1" class="cell" data-execution_count="3">
+<div id="aa5c6a92" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
@@ -666,7 +684,7 @@ Figure&nbsp;1: DGCNN Graph Convolution
 <ul>
 <li>classification/regression heads</li>
 </ul>
-<div id="ca952fa9" class="cell" data-execution_count="4">
+<div id="2c287341" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ClassificationHead(nn.Module):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, in_dim, num_outputs, drop1<span class="op">=</span><span class="fl">0.5</span>, drop2<span class="op">=</span><span class="fl">0.5</span>):</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
@@ -708,7 +726,7 @@ Figure&nbsp;1: DGCNN Graph Convolution
 <h2 class="anchored" data-anchor-id="loss-functions-loss_utils.py">Loss Functions (<a href="https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/loss_utils.py">loss_utils.py</a>)</h2>
 <p>The <strong>loss function</strong>, or cost function, quantifies the <em>difference between the model’s prediction and the true target value</em>. It is the primary signal that guides the DNN during training.</p>
 <p>Our module uses task-specific loss components (Classification or Regression loss):</p>
-<div id="afe2c8ea" class="cell" data-execution_count="5">
+<div id="ecf159be" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_loss_function(task):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns the core loss function (either nn.Module or functional).</span></span>
@@ -742,6 +760,24 @@ l_n = \begin{cases}
     \end{cases}
 \]</span></p>
 </section>
+<section id="evaluation-metrics-metrics.py" class="level2">
+<h2 class="anchored" data-anchor-id="evaluation-metrics-metrics.py">Evaluation Metrics (<a href="https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/metrics.py">metrics.py</a>)</h2>
+<div id="c9950aae" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># overall accuracy</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pred_labels <span class="op">=</span> np.argmax(all_pred, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>overall_acc <span class="op">=</span> np.mean(pred_labels <span class="op">==</span> all_target)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># mean per-class accuracy</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> confusion_matrix(all_target, pred_labels)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>class_acc_array <span class="op">=</span> cm.diagonal() <span class="op">/</span> cm.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>) <span class="co"># # TP for each class / Total true samples per class</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>class_acc <span class="op">=</span> np.mean(class_acc_array[<span class="op">~</span>np.isnan(class_acc_array)])</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># r2 score</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>pred_values <span class="op">=</span> all_pred.flatten()</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>target_values <span class="op">=</span> all_target.flatten()</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>r2 <span class="op">=</span> r2_score(target_values, pred_values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
 <section id="the-model-wrapper-efimodelmodule-efi_modelmodule.py" class="level2">
 <h2 class="anchored" data-anchor-id="the-model-wrapper-efimodelmodule-efi_modelmodule.py">The Model Wrapper: EfiModelModule (<a href="https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/efi_modelmodule.py">efi_modelmodule.py</a>)</h2>
 <p>The <code>EfiModelModule</code> is a custom wrapper built using <code>PyTorch Lightning</code> (specifically inheriting from <code>pl.LightningModule</code>). Its primary job is to act as the “Brain” of your deep learning system—organizing the model <strong>architecture</strong>, the <strong>training logic</strong>, the <strong>optimization</strong>, and the <strong>evaluation metrics</strong> into a single, clean structure.</p>
@@ -767,32 +803,32 @@ l_n = \begin{cases}
 <li><strong>Hyperparameters</strong>: Load configs, and it uses self.save_hyperparameters() to automatically save arguments like learning rate or model version into checkpoints for easy reproducibility.</li>
 <li><strong>Initialize evaluation metrics</strong></li>
 </ul>
-<div id="f6dfa073" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> EfiModelModule(pl.LightningModule):</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, cfg, args):</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Store hyperparameters for W&amp;B/checkpointing</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.save_hyperparameters(cfg, args) </span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.cfg <span class="op">=</span> cfg</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.args <span class="op">=</span> args</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.task <span class="op">=</span> cfg[<span class="st">'task'</span>]</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 1. Load Model Backbone</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        model_module <span class="op">=</span> importlib.import_module(<span class="ss">f"models.</span><span class="sc">{</span>cfg[<span class="st">'model_name'</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.model <span class="op">=</span> model_module.get_model(cfg)</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 2. Setup Metric Calculators (one for validation, one for testing)</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.val_metrics <span class="op">=</span> MetricsCalculator(<span class="va">self</span>.task, cfg[<span class="st">'num_classes'</span>])</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.test_metrics <span class="op">=</span> MetricsCalculator(<span class="va">self</span>.task, cfg[<span class="st">'num_classes'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="74518376" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> EfiModelModule(pl.LightningModule):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, cfg, args):</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Store hyperparameters for W&amp;B/checkpointing</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.save_hyperparameters(cfg, args) </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.cfg <span class="op">=</span> cfg</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.args <span class="op">=</span> args</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.task <span class="op">=</span> cfg[<span class="st">'task'</span>]</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 1. Load Model Backbone</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        model_module <span class="op">=</span> importlib.import_module(<span class="ss">f"models.</span><span class="sc">{</span>cfg[<span class="st">'model_name'</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.model <span class="op">=</span> model_module.get_model(cfg)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 2. Setup Metric Calculators (one for validation, one for testing)</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.val_metrics <span class="op">=</span> MetricsCalculator(<span class="va">self</span>.task, cfg[<span class="st">'num_classes'</span>])</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.test_metrics <span class="op">=</span> MetricsCalculator(<span class="va">self</span>.task, cfg[<span class="st">'num_classes'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="2" type="1">
 <li>The forward pass (<code>forward</code>):</li>
 </ol>
 <p>Defines how data flows through the model during inference. You call it when you want to get an <code>output</code> from an input: <span class="math inline">\(y_\hat = model(x)\)</span></p>
-<div id="18e6b5da" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forward(<span class="va">self</span>, points):</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Standard model forward pass."""</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.model(points)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="0075b821" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forward(<span class="va">self</span>, points):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Standard model forward pass."""</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.model(points)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="3" type="1">
 <li>The logic hooks</li>
@@ -801,39 +837,39 @@ l_n = \begin{cases}
 <ul>
 <li><code>_shared_step</code>: Shared logic for training, validation, and test step</li>
 </ul>
-<div id="2f83a03f" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _shared_step(<span class="va">self</span>, batch):</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Shared logic for training, validation, and test step."""</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    points, target, _ <span class="op">=</span> batch <span class="co"># _ is plot_id, doesn't need in the these stpes</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Transpose [B, N, C] -&gt; [B, C, N] and enforce float32</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    points <span class="op">=</span> points.transpose(<span class="dv">2</span>, <span class="dv">1</span>).<span class="bu">float</span>() </span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Forward Pass</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    pred, trans_feat <span class="op">=</span> <span class="va">self</span>(points)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Calculate Loss</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> calculate_total_loss(</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        pred, </span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        target, </span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        trans_feat, </span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        task<span class="op">=</span><span class="va">self</span>.task</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> loss, pred, target</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3318b6cb" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _shared_step(<span class="va">self</span>, batch):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Shared logic for training, validation, and test step."""</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    points, target, _ <span class="op">=</span> batch <span class="co"># _ is plot_id, doesn't need in the these stpes</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Transpose [B, N, C] -&gt; [B, C, N] and enforce float32</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    points <span class="op">=</span> points.transpose(<span class="dv">2</span>, <span class="dv">1</span>).<span class="bu">float</span>() </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Forward Pass</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    pred, trans_feat <span class="op">=</span> <span class="va">self</span>(points)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Calculate Loss</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> calculate_total_loss(</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>        pred, </span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>        target, </span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>        trans_feat, </span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>        task<span class="op">=</span><span class="va">self</span>.task</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> loss, pred, target</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li><code>training_step</code>: Calculate the training loss.</li>
 </ul>
-<div id="25d5311a" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Training ---</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> training_step(<span class="va">self</span>, batch, batch_idx):</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    loss, _, _ <span class="op">=</span> <span class="va">self</span>._shared_step(batch)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Log basic training loss and learning rate for W&amp;B</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.log(<span class="st">'train/loss'</span>, loss, on_step<span class="op">=</span><span class="va">False</span>, on_epoch<span class="op">=</span><span class="va">True</span>, prog_bar<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.log(<span class="st">'train/lr'</span>, <span class="va">self</span>.optimizers().param_groups[<span class="dv">0</span>][<span class="st">'lr'</span>], on_step<span class="op">=</span><span class="va">True</span>, on_epoch<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> loss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="5cdc35f6" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Training ---</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> training_step(<span class="va">self</span>, batch, batch_idx):</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    loss, _, _ <span class="op">=</span> <span class="va">self</span>._shared_step(batch)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Log basic training loss and learning rate for W&amp;B</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.log(<span class="st">'train/loss'</span>, loss, on_step<span class="op">=</span><span class="va">False</span>, on_epoch<span class="op">=</span><span class="va">True</span>, prog_bar<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.log(<span class="st">'train/lr'</span>, <span class="va">self</span>.optimizers().param_groups[<span class="dv">0</span>][<span class="st">'lr'</span>], on_step<span class="op">=</span><span class="va">True</span>, on_epoch<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> loss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <blockquote class="blockquote">
 <p>What happens: This is the heart of the training loop. <code>Lightning</code> handles the boilerplate (<strong>forward pass, loss calculation, backward propagation, and optimizer updates</strong>) automatically based on what you return here.</p>
@@ -841,20 +877,20 @@ l_n = \begin{cases}
 <ul>
 <li><code>validation_step</code>: Monitor model performance on unseen data during training.</li>
 </ul>
-<div id="1401d69c" class="cell" data-execution_count="10">
+<div id="a9d2d98a" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Validation ---</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> validation_step(<span class="va">self</span>, batch, batch_idx):</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    loss, pred, target <span class="op">=</span> <span class="va">self</span>._shared_step(batch)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Log validation loss (PL automatically averages this over the epoch)</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.log(<span class="st">'val/loss'</span>, loss, on_step<span class="op">=</span><span class="va">False</span>, on_epoch<span class="op">=</span><span class="va">True</span>, prog_bar<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Update the full MetricsCalculator for end-of-epoch aggregation</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.val_metrics.update(pred, target, <span class="fl">0.0</span>)</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> loss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Validation ---</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> validation_step(<span class="va">self</span>, batch, batch_idx):</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    loss, pred, target <span class="op">=</span> <span class="va">self</span>._shared_step(batch)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Log validation loss (PL automatically averages this over the epoch)</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.log(<span class="st">'val/loss'</span>, loss, on_step<span class="op">=</span><span class="va">False</span>, on_epoch<span class="op">=</span><span class="va">True</span>, prog_bar<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Update the full MetricsCalculator for end-of-epoch aggregation</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.val_metrics.update(pred, target, <span class="fl">0.0</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> loss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <blockquote class="blockquote">
@@ -863,24 +899,24 @@ l_n = \begin{cases}
 <ul>
 <li><code>test_step</code>: Provide a final, unbiased evaluation after training is complete.</li>
 </ul>
-<div id="85a57def" class="cell" data-execution_count="11">
+<div id="19592818" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Test Step ---</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_step(<span class="va">self</span>, batch, batch_idx):</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Dedicated step for final, unbiased evaluation on the test set.</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Runs when trainer.test() is called.</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    loss, pred, target <span class="op">=</span> <span class="va">self</span>._shared_step(batch)</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Log test loss</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.log(<span class="st">'test/loss'</span>, loss, on_step<span class="op">=</span><span class="va">False</span>, on_epoch<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Update the full MetricsCalculator for end-of-epoch aggregation</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.test_metrics.update(pred, target, <span class="fl">0.0</span>)</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> loss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Test Step ---</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_step(<span class="va">self</span>, batch, batch_idx):</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Dedicated step for final, unbiased evaluation on the test set.</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Runs when trainer.test() is called.</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    loss, pred, target <span class="op">=</span> <span class="va">self</span>._shared_step(batch)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Log test loss</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.log(<span class="st">'test/loss'</span>, loss, on_step<span class="op">=</span><span class="va">False</span>, on_epoch<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Update the full MetricsCalculator for end-of-epoch aggregation</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.test_metrics.update(pred, target, <span class="fl">0.0</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> loss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <blockquote class="blockquote">
@@ -889,63 +925,63 @@ l_n = \begin{cases}
 <ul>
 <li><code>prediction_step</code> is used for generating raw output/predictions on unseen data, it does not calculating loss and metrices:</li>
 </ul>
-<div id="5536d27f" class="cell" data-execution_count="12">
+<div id="bdd5f1ce" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Prediction / Inference ---</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_step(<span class="va">self</span>, batch, batch_idx, dataloader_idx<span class="op">=</span><span class="dv">0</span>):</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Used for generating raw output/predictions on unseen data.</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Does not calculate loss or metrics.</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Runs when trainer.predict() is called.</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    points, target, pid <span class="op">=</span> batch </span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Transpose [B, N, C] -&gt; [B, C, N] and enforce float32</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    points <span class="op">=</span> points.transpose(<span class="dv">2</span>, <span class="dv">1</span>).<span class="bu">float</span>() </span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Forward Pass</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Assuming self(points) returns (pred, trans_feat), we only return the prediction (pred)</span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    pred, _ <span class="op">=</span> <span class="va">self</span>(points)</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="va">self</span>.task <span class="op">==</span> <span class="st">'classification'</span>:</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> torch.argmax(pred, dim<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Return only the raw prediction tensor for the user</span></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"plot_id"</span>: pid,</span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pred"</span>: pred.detach().cpu(),</span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"gt"</span>: target.detach().cpu()</span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Prediction / Inference ---</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_step(<span class="va">self</span>, batch, batch_idx, dataloader_idx<span class="op">=</span><span class="dv">0</span>):</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Used for generating raw output/predictions on unseen data.</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Does not calculate loss or metrics.</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Runs when trainer.predict() is called.</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    points, target, pid <span class="op">=</span> batch </span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Transpose [B, N, C] -&gt; [B, C, N] and enforce float32</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    points <span class="op">=</span> points.transpose(<span class="dv">2</span>, <span class="dv">1</span>).<span class="bu">float</span>() </span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Forward Pass</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Assuming self(points) returns (pred, trans_feat), we only return the prediction (pred)</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    pred, _ <span class="op">=</span> <span class="va">self</span>(points)</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="va">self</span>.task <span class="op">==</span> <span class="st">'classification'</span>:</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> torch.argmax(pred, dim<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Return only the raw prediction tensor for the user</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"plot_id"</span>: pid,</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pred"</span>: pred.detach().cpu(),</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"gt"</span>: target.detach().cpu()</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <ol start="4" type="1">
 <li>Optimizer and scheduler: <code>configure_optimizers</code>:</li>
 </ol>
 <p>This tells the trainer which algorithm to use (e.g., <code>Adam</code>, <code>SGD</code>) to adjust the model’s weights to continuously minimize this loss value and how the learning rate should change over time (Schedulers. e.g., <code>StepLR</code>).</p>
-<div id="5dd9b6e9" class="cell" data-execution_count="13">
+<div id="0ade8c76" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Optimizer Configuration ---</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> configure_optimizers(<span class="va">self</span>):</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Defines the optimizer and scheduler as required by PL."""</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    optimizer <span class="op">=</span> torch.optim.Adam(</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.parameters(),</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        lr<span class="op">=</span><span class="va">self</span>.args.learning_rate,</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        betas<span class="op">=</span>(<span class="fl">0.9</span>, <span class="fl">0.999</span>),</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        eps<span class="op">=</span><span class="fl">1e-08</span>,</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        weight_decay<span class="op">=</span><span class="va">self</span>.args.decay_rate</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    scheduler <span class="op">=</span> torch.optim.lr_scheduler.StepLR(optimizer, step_size<span class="op">=</span><span class="dv">20</span>, gamma<span class="op">=</span><span class="fl">0.7</span>)</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PL requires the scheduler to be returned in a dictionary format</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">'optimizer'</span>: optimizer,</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">'lr_scheduler'</span>: {</span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>            <span class="st">'scheduler'</span>: scheduler, </span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>            <span class="st">'interval'</span>: <span class="st">'epoch'</span>, <span class="co"># Run scheduler step after each epoch</span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Optimizer Configuration ---</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> configure_optimizers(<span class="va">self</span>):</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Defines the optimizer and scheduler as required by PL."""</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    optimizer <span class="op">=</span> torch.optim.Adam(</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.parameters(),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        lr<span class="op">=</span><span class="va">self</span>.args.learning_rate,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>        betas<span class="op">=</span>(<span class="fl">0.9</span>, <span class="fl">0.999</span>),</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        eps<span class="op">=</span><span class="fl">1e-08</span>,</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        weight_decay<span class="op">=</span><span class="va">self</span>.args.decay_rate</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    scheduler <span class="op">=</span> torch.optim.lr_scheduler.StepLR(optimizer, step_size<span class="op">=</span><span class="dv">20</span>, gamma<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PL requires the scheduler to be returned in a dictionary format</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">'optimizer'</span>: optimizer,</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">'lr_scheduler'</span>: {</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>            <span class="st">'scheduler'</span>: scheduler, </span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>            <span class="st">'interval'</span>: <span class="st">'epoch'</span>, <span class="co"># Run scheduler step after each epoch</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <hr>
@@ -957,79 +993,79 @@ l_n = \begin{cases}
 <section id="configurations-config.py" class="level2">
 <h2 class="anchored" data-anchor-id="configurations-config.py">Configurations (<a href="https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/config.py">config.py</a>)</h2>
 <p>Detail where the <code>cfg</code> (e.g., <code>config.py</code> configuration file) and args (e.g., command line arguments) are loaded and parsed.</p>
-<div id="31464fb6" class="cell" data-execution_count="14">
+<div id="fda72523" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>DATASET_CONFIG <span class="op">=</span> {</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'petawawa_cls'</span>: {</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">'task'</span>: <span class="st">'classification'</span>,</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">'root'</span>: <span class="st">'./data/petawawa/plot_point_clouds'</span>,</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">'csv'</span>: <span class="st">'./data/petawawa/labels.csv'</span>,</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">'classes'</span>: [</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">'conif'</span>, </span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">'decid'</span>, </span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">'mixed'</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        ],</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'label_col'</span>: <span class="st">'dom_sp_type'</span>,</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">'num_classes'</span>: <span class="dv">3</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'petawawa_reg'</span>: {</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">'task'</span>: <span class="st">'regression'</span>,</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">'root'</span>: <span class="st">'./data/petawawa/plot_point_clouds'</span>,</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">'csv'</span>: <span class="st">'./data/petawawa/biomass_labels.csv'</span>,</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">'classes'</span>: <span class="va">None</span>,</span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">'label_col'</span>: <span class="st">'total_agb_z'</span>,</span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">'num_classes'</span>: <span class="dv">1</span></span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>DATASET_CONFIG <span class="op">=</span> {</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'petawawa_cls'</span>: {</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">'task'</span>: <span class="st">'classification'</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">'root'</span>: <span class="st">'./data/petawawa/plot_point_clouds'</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">'csv'</span>: <span class="st">'./data/petawawa/labels.csv'</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">'classes'</span>: [</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">'conif'</span>, </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">'decid'</span>, </span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">'mixed'</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'label_col'</span>: <span class="st">'dom_sp_type'</span>,</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">'num_classes'</span>: <span class="dv">3</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'petawawa_reg'</span>: {</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">'task'</span>: <span class="st">'regression'</span>,</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">'root'</span>: <span class="st">'./data/petawawa/plot_point_clouds'</span>,</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">'csv'</span>: <span class="st">'./data/petawawa/biomass_labels.csv'</span>,</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">'classes'</span>: <span class="va">None</span>,</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">'label_col'</span>: <span class="st">'total_agb_z'</span>,</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">'num_classes'</span>: <span class="dv">1</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
 <section id="the-pytorch-lightning-trainer-train_pl.py" class="level2">
 <h2 class="anchored" data-anchor-id="the-pytorch-lightning-trainer-train_pl.py">The PyTorch Lightning Trainer (<a href="https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/train_pl.py">train_pl.py</a>)</h2>
 <p>The <code>Trainer</code> class is responsible for the entire training lifecycle, handling distributed training, checkpointing, and calling the <code>*step</code> hooks of the <code>EfiModelModule</code>.</p>
-<div id="b0341336" class="cell" data-execution_count="15">
+<div id="1a56d516" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Instantiate DataModule and Lightning Module</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>data_module <span class="op">=</span> EfiDataModule(full_cfg, args)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>model_module <span class="op">=</span> EfiModelModule(full_cfg, args)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Define Callbacks</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>primary_metric <span class="op">=</span> <span class="st">'val/instance_acc'</span> <span class="cf">if</span> task <span class="op">==</span> <span class="st">'classification'</span> <span class="cf">else</span> <span class="st">'val/r2_score'</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>checkpoint_callback <span class="op">=</span> ModelCheckpoint(</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    dirpath<span class="op">=</span>checkpoint_dir, </span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    filename<span class="op">=</span><span class="st">'</span><span class="sc">{epoch:02d}</span><span class="st">-</span><span class="sc">{val_loss:.4f}</span><span class="st">-{'</span> <span class="op">+</span> primary_metric.split(<span class="st">'/'</span>)[<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> <span class="st">':.4f}'</span>,</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    monitor<span class="op">=</span>primary_metric,</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    mode<span class="op">=</span><span class="st">'max'</span>, <span class="co"># Maximize accuracy/R2</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    save_top_k<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">True</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>lr_monitor <span class="op">=</span> LearningRateMonitor(logging_interval<span class="op">=</span><span class="st">'epoch'</span>)</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Instantiate the Trainer</span></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="co"># PL handles device setup automatically based on arguments</span></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>trainer <span class="op">=</span> pl.Trainer(</span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    max_epochs<span class="op">=</span>args.epoch,</span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    accelerator<span class="op">=</span><span class="st">'gpu'</span> <span class="cf">if</span> torch.cuda.is_available() <span class="kw">and</span> <span class="kw">not</span> args.use_cpu <span class="cf">else</span> <span class="st">'cpu'</span>,</span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    devices<span class="op">=</span>[<span class="bu">int</span>(g) <span class="cf">for</span> g <span class="kw">in</span> args.gpu.split(<span class="st">','</span>)] <span class="cf">if</span> <span class="st">','</span> <span class="kw">in</span> args.gpu <span class="cf">else</span> (<span class="dv">1</span> <span class="cf">if</span> <span class="kw">not</span> args.use_cpu <span class="cf">else</span> <span class="dv">0</span>),</span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    logger<span class="op">=</span>wandb_logger,</span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    callbacks<span class="op">=</span>[checkpoint_callback, lr_monitor],</span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    deterministic<span class="op">=</span><span class="va">True</span>, <span class="co"># For reproducibility</span></span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    enable_progress_bar<span class="op">=</span><span class="va">True</span></span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Start Training</span></span>
-<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> mode <span class="op">==</span> <span class="st">"training"</span>:</span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Starting PyTorch Lightning Training...'</span>)</span>
-<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>    trainer.fit(model_module, data_module)</span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Test the best checkpoint after training</span></span>
-<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">--- Testing Model ---'</span>)</span>
-<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>    trainer.test(datamodule<span class="op">=</span>data_module, ckpt_path<span class="op">=</span><span class="st">'best'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Instantiate DataModule and Lightning Module</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>data_module <span class="op">=</span> EfiDataModule(full_cfg, args)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>model_module <span class="op">=</span> EfiModelModule(full_cfg, args)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Define Callbacks</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>primary_metric <span class="op">=</span> <span class="st">'val/instance_acc'</span> <span class="cf">if</span> task <span class="op">==</span> <span class="st">'classification'</span> <span class="cf">else</span> <span class="st">'val/r2_score'</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>checkpoint_callback <span class="op">=</span> ModelCheckpoint(</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    dirpath<span class="op">=</span>checkpoint_dir, </span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    filename<span class="op">=</span><span class="st">'</span><span class="sc">{epoch:02d}</span><span class="st">-</span><span class="sc">{val_loss:.4f}</span><span class="st">-{'</span> <span class="op">+</span> primary_metric.split(<span class="st">'/'</span>)[<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> <span class="st">':.4f}'</span>,</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    monitor<span class="op">=</span>primary_metric,</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    mode<span class="op">=</span><span class="st">'max'</span>, <span class="co"># Maximize accuracy/R2</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    save_top_k<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">True</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>lr_monitor <span class="op">=</span> LearningRateMonitor(logging_interval<span class="op">=</span><span class="st">'epoch'</span>)</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Instantiate the Trainer</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="co"># PL handles device setup automatically based on arguments</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>trainer <span class="op">=</span> pl.Trainer(</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    max_epochs<span class="op">=</span>args.epoch,</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    accelerator<span class="op">=</span><span class="st">'gpu'</span> <span class="cf">if</span> torch.cuda.is_available() <span class="kw">and</span> <span class="kw">not</span> args.use_cpu <span class="cf">else</span> <span class="st">'cpu'</span>,</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>    devices<span class="op">=</span>[<span class="bu">int</span>(g) <span class="cf">for</span> g <span class="kw">in</span> args.gpu.split(<span class="st">','</span>)] <span class="cf">if</span> <span class="st">','</span> <span class="kw">in</span> args.gpu <span class="cf">else</span> (<span class="dv">1</span> <span class="cf">if</span> <span class="kw">not</span> args.use_cpu <span class="cf">else</span> <span class="dv">0</span>),</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>    logger<span class="op">=</span>wandb_logger,</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>    callbacks<span class="op">=</span>[checkpoint_callback, lr_monitor],</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>    deterministic<span class="op">=</span><span class="va">True</span>, <span class="co"># For reproducibility</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>    enable_progress_bar<span class="op">=</span><span class="va">True</span></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Start Training</span></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> mode <span class="op">==</span> <span class="st">"training"</span>:</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Starting PyTorch Lightning Training...'</span>)</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>    trainer.fit(model_module, data_module)</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Test the best checkpoint after training</span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">--- Testing Model ---'</span>)</span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>    trainer.test(datamodule<span class="op">=</span>data_module, ckpt_path<span class="op">=</span><span class="st">'best'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -1115,17 +1151,17 @@ Table&nbsp;1: The EFI Deep Learning Pipeline Logic
 <p><a href="https://wandb.ai/site/">Weights and Biases (wandb)</a> is an online deep learning tool that can track experiments, perform hyperparameter tuning and visualize results. It is an effective method for refining and comparing models with different configurations.</p>
 <p>The <code>WandbLogger</code> is integrated directly into the <code>train_pl.py</code> script. <code>W&amp;B</code> is a powerful tool that automatically logs everything:</p>
 <p><code>Metrics</code>: All the calculated <code>val/instance_acc</code>, <code>val/r2_score</code>, <code>train/loss</code>, etc., are plotted in real-time.</p>
-<div id="a7dc4269" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Setup W&amp;B Logger</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>wandb_logger <span class="op">=</span> WandbLogger(</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    project<span class="op">=</span>args.wandb_project,</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span>Path(<span class="st">'./log/'</span>).joinpath(task).joinpath(args.model).joinpath(args.log_dir <span class="kw">or</span> <span class="bu">str</span>(datetime.datetime.now().strftime(<span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st">_%H-%M'</span>))),</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    config<span class="op">=</span>{<span class="op">**</span>full_cfg, <span class="op">**</span><span class="bu">vars</span>(args)}, <span class="co"># Log all configs and arguments</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Use W&amp;B's run directory for checkpoints</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>checkpoint_dir <span class="op">=</span> Path(<span class="st">'./log'</span>) <span class="op">/</span> args.wandb_project <span class="op">/</span> wandb_logger.experiment.name <span class="op">/</span> <span class="st">'checkpoints'</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>checkpoint_dir.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="490b1822" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Setup W&amp;B Logger</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>wandb_logger <span class="op">=</span> WandbLogger(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    project<span class="op">=</span>args.wandb_project,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span>Path(<span class="st">'./log/'</span>).joinpath(task).joinpath(args.model).joinpath(args.log_dir <span class="kw">or</span> <span class="bu">str</span>(datetime.datetime.now().strftime(<span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st">_%H-%M'</span>))),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    config<span class="op">=</span>{<span class="op">**</span>full_cfg, <span class="op">**</span><span class="bu">vars</span>(args)}, <span class="co"># Log all configs and arguments</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Use W&amp;B's run directory for checkpoints</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>checkpoint_dir <span class="op">=</span> Path(<span class="st">'./log'</span>) <span class="op">/</span> args.wandb_project <span class="op">/</span> wandb_logger.experiment.name <span class="op">/</span> <span class="st">'checkpoints'</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>checkpoint_dir.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="wb-dashboard" class="level2">
 <h2 class="anchored" data-anchor-id="wb-dashboard">W&amp;B Dashboard</h2>
@@ -1137,16 +1173,23 @@ Table&nbsp;1: The EFI Deep Learning Pipeline Logic
 <h2 class="anchored" data-anchor-id="what-to-look-for-in-the-dashboard">What to Look for in the Dashboard</h2>
 <ul>
 <li>The <strong>Loss Curve</strong> (Train vs.&nbsp;Val): If <code>train/loss</code> continues to drop but <code>val/loss</code> starts rising, the model is <strong>overfitting</strong> (learning the plots by heart rather than the general forest structure).</li>
-<li><strong>Metrics</strong>, e.g., R² Score (biomass regression), overall accuracy (tree species classification)</li>
+<li><strong>Metrics</strong>, e.g., R² Score (biomass regression), overall accuracy and mean per-calss accuracy (tree species classification)</li>
 </ul>
+<blockquote class="blockquote">
+<p>Example: Model predicts dominant species very well, rare species always wrong: Overall accuracy = 90%, Mean class accuracy = 45%</p>
+</blockquote>
 </section>
 </section>
 <section id="hyperparameter-tuning-weights-and-biases" class="level1">
 <h1>Hyperparameter Tuning Weights and Biases</h1>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/03_train/hyperparameter_optimization.jpg" class="img-fluid figure-img" style="width:50.0%"></p>
-<figcaption>Hyperparameter tuning process</figcaption>
+<div id="fig-hp-tune-graph" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-hp-tune-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/03_train/hyperparameter_optimization.jpg" class="img-fluid figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-hp-tune-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5
+</figcaption>
 </figure>
 </div>
 <p>Compare results of different HPs using WANDB Sweep: DGCNN example</p>
@@ -1157,48 +1200,48 @@ Table&nbsp;1: The EFI Deep Learning Pipeline Logic
 <section id="predicting-predict.py" class="level1">
 <h1>Predicting (<a href="https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/predict.py">predict.py</a>)</h1>
 <p>Once your model has finished hyperparameter tuning and you have selected the best checkpoint, you can run predictions. The output is saved as a CSV containing the ground truth and the model’s estimate.</p>
-<div id="9ded5c2e" class="cell" data-execution_count="17">
+<div id="11a9684d" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># predict.py</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ... same as training for configs loading, datamodule, modelmodule, trainer initialize</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Run prediction</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Running prediction..."</span>)</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>outputs <span class="op">=</span> trainer.predict(model, dataloaders<span class="op">=</span>data_module)</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Parse outputs → CSV</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>records <span class="op">=</span> []</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> task <span class="op">==</span> <span class="st">"classification"</span>:</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> o <span class="kw">in</span> outputs:</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pid, gt, pred <span class="kw">in</span> <span class="bu">zip</span>(</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>            o[<span class="st">"plot_id"</span>],</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>            o[<span class="st">"gt"</span>],</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>            o[<span class="st">"pred"</span>]</span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>        ):</span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>            records.append({</span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>                <span class="st">"plot_id"</span>: pid,</span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>                <span class="st">"dom_sp_type"</span>: <span class="bu">int</span>(gt.item()),</span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>                <span class="st">"pred_dom_sp_type"</span>: <span class="bu">int</span>(pred.item())</span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>            })</span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:  <span class="co"># regression</span></span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> o <span class="kw">in</span> outputs:</span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pid, gt, pred <span class="kw">in</span> <span class="bu">zip</span>(</span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>            o[<span class="st">"plot_id"</span>],</span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>            o[<span class="st">"gt"</span>],</span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>            o[<span class="st">"pred"</span>]</span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>        ):</span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>            records.append({</span>
-<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>                <span class="st">"plot_id"</span>: pid,</span>
-<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>                <span class="st">"total_agb_z"</span>: <span class="bu">float</span>(gt.item()),</span>
-<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>                <span class="st">"total_agb_z_pred"</span>: <span class="bu">float</span>(pred.item())</span>
-<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>            })</span>
-<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(records)</span>
-<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>df.to_csv(os.path.join(os.path.dirname(args.ckpt_path), args.out_csv), index<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Predictions saved to: </span><span class="sc">{</span>os<span class="sc">.</span>path<span class="sc">.</span>join(os.path.dirname(args.ckpt_path), args.out_csv)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># predict.py</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ... same as training for configs loading, datamodule, modelmodule, trainer initialize</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Run prediction</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Running prediction..."</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>outputs <span class="op">=</span> trainer.predict(model, dataloaders<span class="op">=</span>data_module)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Parse outputs → CSV</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>records <span class="op">=</span> []</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> task <span class="op">==</span> <span class="st">"classification"</span>:</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> o <span class="kw">in</span> outputs:</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pid, gt, pred <span class="kw">in</span> <span class="bu">zip</span>(</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>            o[<span class="st">"plot_id"</span>],</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>            o[<span class="st">"gt"</span>],</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>            o[<span class="st">"pred"</span>]</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>        ):</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>            records.append({</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>                <span class="st">"plot_id"</span>: pid,</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>                <span class="st">"dom_sp_type"</span>: <span class="bu">int</span>(gt.item()),</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>                <span class="st">"pred_dom_sp_type"</span>: <span class="bu">int</span>(pred.item())</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>            })</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:  <span class="co"># regression</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> o <span class="kw">in</span> outputs:</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pid, gt, pred <span class="kw">in</span> <span class="bu">zip</span>(</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>            o[<span class="st">"plot_id"</span>],</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>            o[<span class="st">"gt"</span>],</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>            o[<span class="st">"pred"</span>]</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>        ):</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>            records.append({</span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>                <span class="st">"plot_id"</span>: pid,</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>                <span class="st">"total_agb_z"</span>: <span class="bu">float</span>(gt.item()),</span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>                <span class="st">"total_agb_z_pred"</span>: <span class="bu">float</span>(pred.item())</span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>            })</span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(records)</span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>df.to_csv(os.path.join(os.path.dirname(args.ckpt_path), args.out_csv), index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Predictions saved to: </span><span class="sc">{</span>os<span class="sc">.</span>path<span class="sc">.</span>join(os.path.dirname(args.ckpt_path), args.out_csv)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <section id="tree-species-classification" class="level2">
@@ -1319,6 +1362,21 @@ Table&nbsp;3: Example of Biomass Regression Results
     --learning_rate 0.0001 \
     --log_dir petawawa_species_cls_dgcnn \
     --process_data # First time / no cache</code></pre>
+<div id="fig-training-graph" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-training-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images\03_train\training_screenshot.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>Example</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-training-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Example of training
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="regression" class="level3">
 <h3 class="anchored" data-anchor-id="regression">Regression</h3>

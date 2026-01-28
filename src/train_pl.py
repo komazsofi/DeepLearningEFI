@@ -124,7 +124,7 @@ def main(args):
     # ---------------------------
     # Callbacks
     # ---------------------------
-    primary_metric = 'val/instance_acc' if task == 'classification' else 'val/loss'
+    primary_metric = 'val/overall_acc' if task == 'classification' else 'val/loss'
     ckpt_mode = 'max' if task == 'classification' else 'min'
     
     checkpoint_callback = ModelCheckpoint(

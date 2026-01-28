@@ -30,7 +30,11 @@ format:
 [Original Pytorch reimplementation for DGCNN](https://github.com/WangYueFt/dgcnn/blob/master/pytorch/model.py)
 
 ## Other Deep Learning Frameworks
-![Deep learning fromeworks](https://static.packt-cdn.com/products/9781800561618/graphics/image/B16692_01_02.jpg){width="60%"}
+
+::: {#fig-dl_frames-graph}
+![Deep learning fromeworks](https://static.packt-cdn.com/products/9781800561618/graphics/image/B16692_01_02.jpg){width=60%}
+Deep learning frameworks
+:::
 
 ---
 
@@ -73,7 +77,10 @@ Source code is available on [Github](https://github.com/Brent-Murray/DeepLearnin
 
 # Deep Learning Pipeline
 
+::: {#fig-dl_pipeline-graph}
 ![Pipeline ([source](https://subscription.packtpub.com/book/data/9781800561618/2/ch02lvl1sec05/understanding-the-key-components-of-pytorch-lightning))](./images/03_train/dl_pipeline.png)
+Deep learning pipenline
+:::
 
 ## The Core Components of Pytorch Lightning:
 
@@ -83,9 +90,15 @@ Source code is available on [Github](https://github.com/Brent-Murray/DeepLearnin
    
 3) `Trainer` configures the training scope and manages the training loop with `LightningModule` and `LightningDataModule`. The simplest Trainer configuration is accomplished by setting flags like devices, accelerator, and strategy and by passing in our choice of loggers, profilers, callbacks, and plugins.
    
-![Components](./images/03_train/pl_modules.png)
 
 
+::: {#fig-pl-comp-graph}
+
+![Pytorch Lightning Components](./images/03_train/pl_modules.png)
+
+Pytorch Lightning Components
+
+:::
 ---
 
 # The Data Foundation: The EFI Point Cloud Dataset
@@ -226,7 +239,7 @@ DGCNN Graph Convolution
 
 This allows the model to progressively learn more complex, abstract relationships in the data, ultimately leading to highly accurate classification or attribute prediction for the entire plot.
 
-## Define the DGCNN Model ([dgcnn.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/dgcnn.py))
+## Implement the DGCNN Model ([dgcnn.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/dgcnn.py))
 
 This section covers the implementation of the `DGCNN` model, including :
 
@@ -440,6 +453,24 @@ l_n = \begin{cases}
     |x_n - y_n| - 0.5 * beta, & \text{otherwise }
     \end{cases}
 $$
+
+## Evaluation Metrics ([metrics.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/metrics.py))
+
+```{python}
+# overall accuracy
+pred_labels = np.argmax(all_pred, axis=1)
+overall_acc = np.mean(pred_labels == all_target)
+
+# mean per-class accuracy
+cm = confusion_matrix(all_target, pred_labels)
+class_acc_array = cm.diagonal() / cm.sum(axis=1) # # TP for each class / Total true samples per class
+class_acc = np.mean(class_acc_array[~np.isnan(class_acc_array)])
+
+# r2 score
+pred_values = all_pred.flatten()
+target_values = all_target.flatten()
+r2 = r2_score(target_values, pred_values)
+```
 
 ## The Model Wrapper: EfiModelModule ([efi_modelmodule.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/efi_modelmodule.py))
 
@@ -785,11 +816,16 @@ Load Interactive W&B Dashboard
 ## What to Look for in the Dashboard
 
 - The **Loss Curve** (Train vs. Val): If `train/loss` continues to drop but `val/loss` starts rising, the model is **overfitting** (learning the plots by heart rather than the general forest structure).
-- **Metrics**, e.g., R² Score (biomass regression), overall accuracy (tree species classification)
+- **Metrics**, e.g., R² Score (biomass regression), overall accuracy and mean per-calss accuracy (tree species classification)
+
+> Example: Model predicts dominant species very well, rare species always wrong: Overall accuracy = 90%, Mean class accuracy = 45%
   
 # Hyperparameter Tuning Weights and Biases
 
+::: {#fig-hp-tune-graph}
 ![Hyperparameter tuning process](images/03_train/hyperparameter_optimization.jpg){width=50%}
+Hyperparameter tuning process
+:::
 
 Compare results of different HPs using WANDB Sweep: DGCNN example
 
@@ -891,6 +927,14 @@ python train_pl.py \
     --log_dir petawawa_species_cls_dgcnn \
     --process_data # First time / no cache
 ```
+
+::: {#fig-training-graph}
+
+![Example](images\03_train\training_screenshot.png){width=70%}
+
+Example of training
+
+::: 
 
 ### Regression
 To train the `DGCNN` model on the petawawa dataset for a biomass estimation task:

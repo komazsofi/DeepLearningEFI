@@ -2,9 +2,9 @@ import pytorch_lightning as pl
 import torch
 import importlib
 import numpy as np
+from sklearn.metrics import confusion_matrix, r2_score, mean_squared_error
 
 from .loss_utils import calculate_total_loss 
-from sklearn.metrics import confusion_matrix, r2_score, mean_squared_error
 from .metrics import MetricsCalculator
 
 class EfiModelModule(pl.LightningModule):
@@ -99,7 +99,7 @@ class EfiModelModule(pl.LightningModule):
 
         if self.task == 'classification':
             pred_labels = np.argmax(all_pred, axis=1)
-            instance_acc = np.mean(pred_labels == all_target)
+            overall_acc = np.mean(pred_labels == all_target)
 
             # Per-Class Accuracy
             cm = confusion_matrix(all_target, pred_labels)
@@ -109,7 +109,7 @@ class EfiModelModule(pl.LightningModule):
             class_acc = np.mean(class_acc_array[~np.isnan(class_acc_array)])
             
             # Log all classification metrics to W&B
-            val_logs['val/instance_acc'] = instance_acc
+            val_logs['val/overall_acc'] = overall_acc
             val_logs['val/class_acc'] = class_acc
             
         elif self.task == 'regression':
@@ -158,7 +158,7 @@ class EfiModelModule(pl.LightningModule):
 
         if self.task == 'classification':
             pred_labels = np.argmax(all_pred, axis=1)
-            instance_acc = np.mean(pred_labels == all_target)
+            overall_acc = np.mean(pred_labels == all_target)
 
             # Per-Class Accuracy
             cm = confusion_matrix(all_target, pred_labels)
@@ -167,7 +167,7 @@ class EfiModelModule(pl.LightningModule):
             class_acc = np.mean(class_acc_array[~np.isnan(class_acc_array)])
             
             # Log all classification metrics
-            test_logs['test/instance_acc'] = instance_acc
+            test_logs['test/overall_acc'] = overall_acc
             test_logs['test/class_acc'] = class_acc
             
         elif self.task == 'regression':
