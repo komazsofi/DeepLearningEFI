@@ -17,6 +17,23 @@ format:
         </script>
 ---
 
+# Relevant Resources
+---
+
+## Tutorial references of Pytorch Lightning
+[Official Tutorial](https://lightning.ai/pages/blog/pl-tutorial-and-overview/)
+
+## Paper
+[Wang Y. et al., 2019. Dynamic Graph CNN for Learning on Point Clouds](https://arxiv.org/abs/1801.07829)
+
+## Code
+[Original Pytorch reimplementation for DGCNN](https://github.com/WangYueFt/dgcnn/blob/master/pytorch/model.py)
+
+## Other Deep Learning Frameworks
+![Deep learning fromeworks](https://static.packt-cdn.com/products/9781800561618/graphics/image/B16692_01_02.jpg)
+
+---
+
 # Introduction
 
 Deep Neural Networks (DNN), specifically those designed for 3D point clouds, are powerful tools for automation. This tutorial outlines how to use the `PyTorch Lightning (PL)` framework to train a specific and highly effective model—the **Dynamic Graph CNN (DGCNN)**—on your plot data.
@@ -52,6 +69,23 @@ Source code is available on [Github](https://github.com/Brent-Murray/DeepLearnin
     └── train_pl.py
 ```
 
+---
+
+# Deep Learning Pipeline
+
+![Pipeline ([source](https://subscription.packtpub.com/book/data/9781800561618/2/ch02lvl1sec05/understanding-the-key-components-of-pytorch-lightning))](./images/03_train/dl_pipeline.png)
+
+## The Core Components of Pytorch Lightning:
+
+1) `LightningDataModule` wraps the data phase. It takes in a custom `PyTorch Dataset` and `DataLoader` which enables Trainer to handle data during training. If needed, `LightningDataModule` exposes the `setup` and `prepare_data` functions in case you need additional customization. 
+   
+2) `LightningModule` itself is a custom `torch.nn.Module` that is extended with dozens of additional functions like `on_fit_start` and `on_fit_end`. These functions allow us better control of Trainer’s flows and enables custom behaviors by overriding these hooks. 
+   
+3) `Trainer` configures the training scope and manages the training loop with `LightningModule` and `LightningDataModule`. The simplest Trainer configuration is accomplished by setting flags like devices, accelerator, and strategy and by passing in our choice of loggers, profilers, callbacks, and plugins.
+   
+![Components](./images/03_train/pl_modules.png)
+
+
 # How DGCNN Works
 
 While our framework supports multiple models (like PointNet, PointNet2, PointNeXt), we will focus on `DGCNN` (`--model dgcnn`) because of its superior ability to capture complex local geometry in point clouds—perfect for identifying fine details in forest structure.
@@ -78,20 +112,6 @@ DGCNN Graph Convolution
 :::
 
 This allows the model to progressively learn more complex, abstract relationships in the data, ultimately leading to highly accurate classification or attribute prediction for the entire plot.
-
-# Deep Learning Pipeline
-
-![Pipeline ([source](https://subscription.packtpub.com/book/data/9781800561618/2/ch02lvl1sec05/understanding-the-key-components-of-pytorch-lightning))](./images/03_train/dl_pipeline.png)
-
-## The Core Components of Pytorch Lightning:
-
-1) `LightningDataModule` wraps the data phase. It takes in a custom `PyTorch Dataset` and `DataLoader` which enables Trainer to handle data during training. If needed, `LightningDataModule` exposes the `setup` and `prepare_data` functions in case you need additional customization. 
-   
-2) `LightningModule` itself is a custom `torch.nn.Module` that is extended with dozens of additional functions like `on_fit_start` and `on_fit_end`. These functions allow us better control of Trainer’s flows and enables custom behaviors by overriding these hooks. 
-   
-3) `Trainer` configures the training scope and manages the training loop with `LightningModule` and `LightningDataModule`. The simplest Trainer configuration is accomplished by setting flags like devices, accelerator, and strategy and by passing in our choice of loggers, profilers, callbacks, and plugins.
-   
-![Components](./images/03_train/pl_modules.png)
 
 ---
 
@@ -910,17 +930,4 @@ python predict.py --model dgcnn --dataset_config_key petawawa_reg --ckpt_path /p
 python predict.py --model dgcnn --dataset_config_key petawawa_reg --ckpt_path log/EFI_DL/peta_reg_dgcnn_bs8_lre3/checkpoints/best_model.ckpt
 ```
 
-# Relevant Resources
----
 
-## Tutorial references of Pytorch Lightning
-[Official Tutorial](https://lightning.ai/pages/blog/pl-tutorial-and-overview/)
-
-## Paper
-[Wang Y. et al., 2019. Dynamic Graph CNN for Learning on Point Clouds](https://arxiv.org/abs/1801.07829)
-
-## Code
-[Original Pytorch reimplementation for DGCNN](https://github.com/WangYueFt/dgcnn/blob/master/pytorch/model.py)
-
-## Other Deep Learning Frameworks
-![Deep learning fromeworks](https://static.packt-cdn.com/products/9781800561618/graphics/image/B16692_01_02.jpg)

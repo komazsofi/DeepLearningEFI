@@ -4,7 +4,7 @@
     "href": "03_train.html",
     "title": "Training Deep Learning Models",
     "section": "",
-    "text": "Deep Neural Networks (DNN), specifically those designed for 3D point clouds, are powerful tools for automation. This tutorial outlines how to use the PyTorch Lightning (PL) framework to train a specific and highly effective model—the Dynamic Graph CNN (DGCNN)—on your plot data.\nOur goal is to automate complex analysis, such as:\n\nClassification: Automatically determining the forest type (e.g., coniferous/deciduous/mixed) for a plot.\nRegression: Estimating biomass or predicting tree attributes like total height or basal area.\n\nSource code is available on Github\n└── src\n    ├── README.md\n    ├── config.py\n    ├── dataset\n        ├── data_utils.py\n        ├── efi_datamodule.py\n        └── efi_dataset.py\n    ├── models\n        ├── dgcnn.py\n        ├── efi_modelmodule.py\n        ├── heads.py\n        ├── loss_utils.py\n        ├── metrics.py\n        ├── pointnet.py\n        ├── pointnet2_msg.py\n        ├── pointnet2_ssg.py\n        ├── pointnet2_utils.py\n        ├── pointnet_utils.py\n        └── pointnext.py\n    └── train_pl.py"
+    "text": "Official Tutorial\n\n\n\nWang Y. et al., 2019. Dynamic Graph CNN for Learning on Point Clouds\n\n\n\nOriginal Pytorch reimplementation for DGCNN\n\n\n\n\n\n\nDeep learning fromeworks"
   },
   {
     "objectID": "03_train.html#the-core-components-of-pytorch-lightning",
@@ -122,29 +122,29 @@
     "objectID": "03_train.html#tutorial-references-of-pytorch-lightning",
     "href": "03_train.html#tutorial-references-of-pytorch-lightning",
     "title": "Training Deep Learning Models",
-    "section": "Tutorial references of Pytorch Lightning",
-    "text": "Tutorial references of Pytorch Lightning\nOfficial Tutorial"
+    "section": "",
+    "text": "Official Tutorial"
   },
   {
     "objectID": "03_train.html#paper",
     "href": "03_train.html#paper",
     "title": "Training Deep Learning Models",
-    "section": "Paper",
-    "text": "Paper\nWang Y. et al., 2019. Dynamic Graph CNN for Learning on Point Clouds"
+    "section": "",
+    "text": "Wang Y. et al., 2019. Dynamic Graph CNN for Learning on Point Clouds"
   },
   {
     "objectID": "03_train.html#code",
     "href": "03_train.html#code",
     "title": "Training Deep Learning Models",
-    "section": "Code",
-    "text": "Code\nOriginal Pytorch reimplementation for DGCNN"
+    "section": "",
+    "text": "Original Pytorch reimplementation for DGCNN"
   },
   {
     "objectID": "03_train.html#other-deep-learning-frameworks",
     "href": "03_train.html#other-deep-learning-frameworks",
     "title": "Training Deep Learning Models",
-    "section": "Other Deep Learning Frameworks",
-    "text": "Other Deep Learning Frameworks\n\n\n\nDeep learning fromeworks"
+    "section": "",
+    "text": "Deep learning fromeworks"
   },
   {
     "objectID": "setup.html",
