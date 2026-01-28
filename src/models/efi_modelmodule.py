@@ -15,6 +15,7 @@ class EfiModelModule(pl.LightningModule):
         self.cfg = cfg
         self.args = args
         self.task = cfg['task']
+        self.batch_size = args.batch_size
 
         # 1. Load Model Backbone
         # NOTE: This import assumes a specific package structure (e.g., models.model_name)
@@ -69,8 +70,9 @@ class EfiModelModule(pl.LightningModule):
         loss, _, _ = self._shared_step(batch)
         
         # Log basic training loss and learning rate for W&B
-        self.log('train/loss', loss, on_step=False, on_epoch=True, prog_bar=True)
-        self.log('train/lr', self.optimizers().param_groups[0]['lr'], on_step=True, on_epoch=False)
+        self.log('train/loss', loss, on_step=False, on_epoch=True, prog_bar=True, batch_size=self.batch_size)
+        self.log('train/lr', self.optimizers().param_groups[0]['lr'], on_step=True, on_epoch=False, batch_size=self.batch_size)
+
         return loss
 
     # --- Validation ---
@@ -78,7 +80,7 @@ class EfiModelModule(pl.LightningModule):
         loss, pred, target = self._shared_step(batch)
         
         # 1. Log validation loss (PL automatically averages this over the epoch)
-        self.log('val/loss', loss, on_step=False, on_epoch=True, prog_bar=True)
+        self.log('val/loss', loss, on_step=False, on_epoch=True, prog_bar=True, batch_size=self.batch_size)
         
         # 2. Update the full MetricsCalculator for end-of-epoch aggregation
         self.val_metrics.update(pred, target, 0.0)
@@ -123,7 +125,7 @@ class EfiModelModule(pl.LightningModule):
             val_logs['val/rmse'] = rmse
 
         # PL logging handles synchronization across GPUs
-        self.log_dict(val_logs, on_step=False, on_epoch=True, prog_bar=False)
+        self.log_dict(val_logs, on_step=False, on_epoch=True, prog_bar=False, batch_size=self.batch_size)
         
         # Reset metric calculator for the next epoch
         self.val_metrics.reset()
@@ -137,7 +139,7 @@ class EfiModelModule(pl.LightningModule):
         loss, pred, target = self._shared_step(batch)
         
         # 1. Log test loss
-        self.log('test/loss', loss, on_step=False, on_epoch=True)
+        self.log('test/loss', loss, on_step=False, on_epoch=True, batch_size=self.batch_size)
         
         # 2. Update the full MetricsCalculator for end-of-epoch aggregation
         self.test_metrics.update(pred, target, 0.0)
@@ -181,7 +183,7 @@ class EfiModelModule(pl.LightningModule):
             test_logs['test/rmse'] = rmse
 
         # PL logging handles synchronization across GPUs
-        self.log_dict(test_logs, on_step=False, on_epoch=True, prog_bar=False)
+        self.log_dict(test_logs, on_step=False, on_epoch=True, prog_bar=False, batch_size=self.batch_size)
         
         # Reset metric calculator for the next run
         self.test_metrics.reset()
