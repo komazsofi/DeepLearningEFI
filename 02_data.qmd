@@ -469,7 +469,9 @@ ggsave(filename = here('images/field_vs_lidar_zq95.jpg'),
 
 ```
 
-![](images/field_vs_lidar_zq95.jpg)
+<div style="text-align:center;">
+  <img src="images/field_vs_lidar_zq95.jpg" style="width:80%; display:inline-block;"/>
+</div>
 
 ## 3) Determine Dominant Species Type
 
