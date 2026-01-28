@@ -205,7 +205,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>LiDAR metrics were calculated using the code below:</p>
 <p><a href="./compute_lidar_metrics.html" class="btn btn-primary">LiDAR Metric Derivation</a></p>
 <p>Load packages</p>
-<div id="ef3646d6" class="cell" data-execution_count="1">
+<div id="682f00f2" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -217,17 +217,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score, cohen_kappa_score, confusion_matrix, mean_squared_error, r2_score</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray <span class="im">as</span> rio</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> src.plot_regression <span class="im">import</span> plot_regression</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> src.regression_utils <span class="im">import</span> plot_regression</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <p>Set filepaths</p>
-<div id="d8a8f2a7" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>LABELS_FPATH <span class="op">=</span> <span class="vs">r'data/labels</span><span class="dv">.</span><span class="vs">csv'</span></span>
+<div id="c5f77ecc" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>LABELS_FPATH <span class="op">=</span> <span class="vs">r'data/petawawa/labels</span><span class="dv">.</span><span class="vs">csv'</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>METRICS_FPATH <span class="op">=</span> <span class="vs">r'data/lidar_metrics</span><span class="dv">.</span><span class="vs">csv'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>METRICS_FPATH <span class="op">=</span> <span class="vs">r'data/petawawa/lidar_metrics</span><span class="dv">.</span><span class="vs">csv'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Load labels and LiDAR metrics</p>
-<div id="86c19dd0" class="cell" data-execution_count="3">
+<div id="3fc0377a" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>metrics_df <span class="op">=</span> pd.read_csv(METRICS_FPATH)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>metric_names <span class="op">=</span> metrics_df.drop(<span class="st">'plot_id'</span>, axis<span class="op">=</span><span class="dv">1</span>).columns.tolist()</span>
@@ -250,7 +250,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="prepare-data-for-rf-modelling" class="level1">
 <h1>Prepare data for RF Modelling</h1>
-<div id="532fd4cd" class="cell" data-execution_count="4">
+<div id="a06aaf25" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check which ALS metric cols have NAs</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>na_counts <span class="op">=</span> df.isna().<span class="bu">sum</span>()</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -565,7 +565,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="e13d3211" class="cell" data-execution_count="5">
+<div id="8c88a39b" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign nummieric IDs to each dominant species</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'dom_sp_type_id'</span>] <span class="op">=</span> df[<span class="st">'dom_sp_type'</span>].astype(<span class="st">'category'</span>).cat.codes</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -581,7 +581,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>{0: 'conif', 1: 'decid', 2: 'mixed'}</code></pre>
 </div>
 </div>
-<div id="9bb6ad1b" class="cell" data-execution_count="6">
+<div id="85b3c941" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>train_df <span class="op">=</span> df[df[<span class="st">'split'</span>] <span class="op">==</span> <span class="st">'train'</span>].reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>test_df <span class="op">=</span> df[df[<span class="st">'split'</span>].isin((<span class="st">'val'</span>, <span class="st">'test'</span>))].reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -596,10 +596,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       dtype='object', length=103)</code></pre>
 </div>
 </div>
-<div id="03a179e9" class="cell" data-execution_count="7">
+<div id="cbf3959c" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split data into train and test sets (combine val into test since not needed as seperate for RF)</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>train_df <span class="op">=</span> df[df[<span class="st">'split'</span>] <span class="op">==</span> <span class="st">'train'</span>].reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>test_df <span class="op">=</span> df[df[<span class="st">'split'</span>].isin((<span class="st">'val'</span>, <span class="st">'test'</span>))].reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>train_df <span class="op">=</span> df[df[<span class="st">'split'</span>].isin((<span class="st">'train'</span>, <span class="st">'val'</span>))].reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>test_df <span class="op">=</span> df[df[<span class="st">'split'</span>] <span class="op">==</span> <span class="st">'test'</span>].reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create histograms showing each dataset class distributions</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
@@ -621,7 +621,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="train-rf-for-dominant-species-type-classification" class="level1">
 <h1>Train RF for Dominant Species Type Classification</h1>
-<div id="12ee46fa" class="cell" data-execution_count="8">
+<div id="1feb42f7" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_feature_importance(rf, metric_names, title):</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    importances <span class="op">=</span> rf.feature_importances_</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    importance_df <span class="op">=</span> pd.DataFrame({<span class="st">'Metric'</span>: metric_names, <span class="st">'importance'</span>: importances</span>
@@ -633,7 +633,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Importance Score'</span>)</span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="44a7b177" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:1000}}" data-execution_count="9">
+<div id="bbde37ed" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:1000}}" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>rf <span class="op">=</span> RandomForestClassifier(n_estimators<span class="op">=</span><span class="dv">100</span>, random_state<span class="op">=</span><span class="dv">25</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>rf.fit(train_df[metric_names], train_df[<span class="st">'dom_sp_type_id'</span>])</span>
@@ -665,17 +665,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>sns.heatmap(conf_matrix, annot<span class="op">=</span><span class="va">True</span>, fmt<span class="op">=</span><span class="st">'d'</span>, cmap<span class="op">=</span><span class="st">'Blues'</span>,</span>
 <span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>            xticklabels<span class="op">=</span>dom_sp_dict.values(),</span>
 <span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>            yticklabels<span class="op">=</span>dom_sp_dict.values())</span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Predicted Label'</span>)</span>
-<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Observed Label'</span>)</span>
-<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a><span class="co"># View metric importance</span></span>
-<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>plot_feature_importance(rf, metric_names, title<span class="op">=</span><span class="st">'Feature Importance from Random Forest Classifier'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Predicted Label'</span>)</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Observed Label'</span>)</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a><span class="co"># View metric importance</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>plot_feature_importance(rf, metric_names, title<span class="op">=</span><span class="st">'Feature Importance from Random Forest Classifier'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Overall Accuracy: 0.79
-Kappa: 0.61
-Class 0 (conif): Accuracy = 0.91
-Class 1 (decid): Accuracy = 0.65
-Class 2 (mixed): Accuracy = 0.57</code></pre>
+<pre><code>Overall Accuracy: 0.76
+Kappa: 0.57
+Class 1 (decid): Accuracy = 0.67
+Class 0 (conif): Accuracy = 0.95
+Class 2 (mixed): Accuracy = 0.44</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -687,7 +688,7 @@ Class 2 (mixed): Accuracy = 0.57</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="random_forest_files/figure-html/cell-10-output-3.png" width="870" height="523" class="figure-img"></p>
+<p><img src="random_forest_files/figure-html/cell-10-output-3.png" width="876" height="523" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -695,7 +696,7 @@ Class 2 (mixed): Accuracy = 0.57</code></pre>
 </section>
 <section id="train-rf-for-agb-estimation" class="level1">
 <h1>Train RF for AGB estimation</h1>
-<div id="ca355dcd" class="cell" data-execution_count="10">
+<div id="d2572c26" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>rf <span class="op">=</span> RandomForestRegressor(n_estimators<span class="op">=</span><span class="dv">100</span>, random_state<span class="op">=</span><span class="dv">25</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>rf.fit(train_df[metric_names], train_df[<span class="st">'agb_mg_ha_obs'</span>])</span>
@@ -706,13 +707,14 @@ Class 2 (mixed): Accuracy = 0.57</code></pre>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>plot_regression(obs<span class="op">=</span>test_df[<span class="st">'agb_mg_ha_obs'</span>], </span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>                pred<span class="op">=</span>test_df[<span class="st">'agb_mg_ha_pred'</span>],</span>
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>                title<span class="op">=</span><span class="st">'Random Forest'</span>,</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>                fig_out_fpath<span class="op">=</span><span class="st">'images/rf_regression_plot.png'</span>)</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>plot_feature_importance(rf, metric_names, title<span class="op">=</span><span class="st">'Feature Importance from Random Forest Regressor'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>                ax_lims<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">400</span>),</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>                fig_out_fpath<span class="op">=</span><span class="st">'images/rf_regression_plot.png'</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>plot_feature_importance(rf, metric_names, title<span class="op">=</span><span class="st">'Feature Importance from Random Forest Regressor'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="random_forest_files/figure-html/cell-11-output-1.png" width="459" height="469" class="figure-img"></p>
+<p><img src="random_forest_files/figure-html/cell-11-output-1.png" width="471" height="469" class="figure-img"></p>
 </figure>
 </div>
 </div>
