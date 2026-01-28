@@ -300,7 +300,7 @@ visualize_z_grid(correct_df, wrong_df, pc_dir, save_path="images/04_eval/cls_out
 
 # Set filepaths for labels and predictions
 LABELS_FPATH = r'data/petawawa/labels.csv'
-OBS_PRED_FPATH = r'src/log/efi_dl_workshop/peta_reg_ocnn_bs8_lr0.0001_2/checkpoints/predictions.csv'
+OBS_PRED_FPATH = r'src/pretrained_ckpt/peta_reg_ocnn_bs16_lre4_ckpt_ocnn_nbk_idXM6D/checkpoints/predictions.csv'
 
 # Read predictions and make plot ID uppercase
 test_df = (pd.read_csv(OBS_PRED_FPATH)

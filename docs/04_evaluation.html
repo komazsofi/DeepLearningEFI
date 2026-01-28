@@ -287,7 +287,7 @@ window.Quarto = {
 <ul>
 <li>Load libraries and prediction</li>
 </ul>
-<div id="85d7804d" class="cell" data-execution_count="1">
+<div id="e68cbb03" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -307,14 +307,14 @@ window.Quarto = {
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyvista <span class="im">as</span> pv</span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> src.regression_utils <span class="im">import</span> plot_regression, convert_from_z_score</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> src.utils.regression_utils <span class="im">import</span> plot_regression, convert_from_z_score</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="metrics" class="level3">
 <h3 class="anchored" data-anchor-id="metrics">Metrics</h3>
 <ul>
 <li>Load predictions</li>
 </ul>
-<div id="75a9ca66" class="cell" data-execution_count="2">
+<div id="3dbc48ab" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>CLASS_MAP <span class="op">=</span> {</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span>: <span class="st">"conif"</span>,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>: <span class="st">"decid"</span>,</span>
@@ -330,7 +330,7 @@ window.Quarto = {
 <ul>
 <li>Calculate metrics</li>
 </ul>
-<div id="61dcc230" class="cell" data-execution_count="3">
+<div id="43fb24ac" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ---- Summary metrics ----</span></span>
@@ -530,7 +530,7 @@ Figure&nbsp;1: Confusion matrix for tree species classification.
 </section>
 <section id="visualize-difficult-cases" class="level3">
 <h3 class="anchored" data-anchor-id="visualize-difficult-cases">Visualize difficult cases</h3>
-<div id="db72346c" class="cell" data-execution_count="7">
+<div id="d48233d7" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># helper functions</span></span>
@@ -595,7 +595,7 @@ Figure&nbsp;1: Confusion matrix for tree species classification.
 <span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> correct, wrong</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="f2f03ea4" class="cell" data-execution_count="8">
+<div id="ec26c244" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Folder with point clouds</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pc_dir <span class="op">=</span> Path(<span class="st">"data/petawawa/plot_point_clouds"</span>)  <span class="co"># contains prf003.npy, etc</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -628,10 +628,10 @@ Incorrect: 3</code></pre>
 <li>#TODO: re-use <code>visualize_z_grid</code> for plots with large AGB residuals</li>
 </ul>
 <p><strong>Summarize regression results</strong></p>
-<div id="7f8f9998" class="cell" data-execution_count="9">
+<div id="b492ac3c" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set filepaths for labels and predictions</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>LABELS_FPATH <span class="op">=</span> <span class="vs">r'data/petawawa/labels</span><span class="dv">.</span><span class="vs">csv'</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>OBS_PRED_FPATH <span class="op">=</span> <span class="vs">r'src/log/efi_dl_workshop/peta_reg_ocnn_bs8_lr0</span><span class="dv">.</span><span class="vs">0001_2/checkpoints/predictions</span><span class="dv">.</span><span class="vs">csv'</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>OBS_PRED_FPATH <span class="op">=</span> <span class="vs">r'src/pretrained_ckpt/peta_reg_ocnn_bs16_lre4_ckpt_ocnn_nbk_idXM6D/checkpoints/predictions</span><span class="dv">.</span><span class="vs">csv'</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Read predictions and make plot ID uppercase</span></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>test_df <span class="op">=</span> (pd.read_csv(OBS_PRED_FPATH)</span>
