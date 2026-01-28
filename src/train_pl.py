@@ -40,6 +40,7 @@ def parse_args():
     parser.add_argument('--no_fps', action='store_true', help='disable FPS and use uniform sampling')
     parser.add_argument('--wandb_project', type=str, default='EFI_DL', help='Weights & Biases Project Name')
     parser.add_argument('--ddp', action='store_true', default=False, help='Use DDP for multi-GPU training')
+    parser.add_argument('--pretrained_ckpt', type=str, default=None, help='Path to pretrained checkpoint')
     
     return parser.parse_args()
 
@@ -72,6 +73,9 @@ def main(args):
 
     task = 'classification' if dataset_cfg['num_classes'] > 1 else 'regression'
 
+    if args.pretrained_ckpt == 'None':
+        args.pretrained_ckpt = None
+
     full_cfg = {
         'model': args.model,
         'model_name': args.model,
@@ -94,7 +98,7 @@ def main(args):
     # ---------------------------
     if args.mode == "train":
         wandb_logger = WandbLogger(
-            project="forest_species_mapping",
+            project=args.wandb_project,
             group=task,
             job_type=args.model,
             name=args.log_dir,
@@ -104,7 +108,7 @@ def main(args):
     else:
         run_id = load_wandb_run_id(exp_root)
         wandb_logger = WandbLogger(
-            project="forest_species_mapping",
+            project=args.wandb_project,
             group=task,
             job_type="test",
             name=args.log_dir,

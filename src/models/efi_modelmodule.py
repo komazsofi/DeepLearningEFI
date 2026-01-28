@@ -23,8 +23,8 @@ class EfiModelModule(pl.LightningModule):
         self.model = model_module.get_model(cfg)
 
         # Load pretrained model checkpoint
-        if cfg['pretrained_ckpt'] is not None:
-            self.load_checkpoint(cfg['pretrained_ckpt'])
+        if args.pretrained_ckpt is not None:
+            self.load_checkpoint(args.pretrained_ckpt)
 
         # 2. Setup Metric Calculators (one for validation, one for testing)
         self.val_metrics = MetricsCalculator(self.task, cfg['num_classes'])
