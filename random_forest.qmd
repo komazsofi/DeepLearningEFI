@@ -28,16 +28,16 @@ from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.metrics import accuracy_score, cohen_kappa_score, confusion_matrix, mean_squared_error, r2_score
 import rioxarray as rio
 
-from src.plot_regression import plot_regression
+from src.regression_utils import plot_regression
 ```
 
 Set filepaths
 
 ```{python}
 
-LABELS_FPATH = r'data/labels.csv'
+LABELS_FPATH = r'data/petawawa/labels.csv'
 
-METRICS_FPATH = r'data/lidar_metrics.csv'
+METRICS_FPATH = r'data/petawawa/lidar_metrics.csv'
 
 
 ```
@@ -102,8 +102,8 @@ train_df.columns
 
 ```{python}
 # Split data into train and test sets (combine val into test since not needed as seperate for RF)
-train_df = df[df['split'] == 'train'].reset_index(drop=True)
-test_df = df[df['split'].isin(('val', 'test'))].reset_index(drop=True)
+train_df = df[df['split'].isin(('train', 'val'))].reset_index(drop=True)
+test_df = df[df['split'] == 'test'].reset_index(drop=True)
 
 # Create histograms showing each dataset class distributions
 fig, axes = plt.subplots(1, 2, figsize=(10, 8), sharey=True)
@@ -164,6 +164,7 @@ plt.figure(figsize=(10, 8))
 sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues',
             xticklabels=dom_sp_dict.values(),
             yticklabels=dom_sp_dict.values())
+
 plt.xlabel('Predicted Label')
 plt.ylabel('Observed Label')
 
@@ -185,6 +186,7 @@ test_df['agb_mg_ha_pred'] = rf.predict(test_df[metric_names])
 plot_regression(obs=test_df['agb_mg_ha_obs'], 
                 pred=test_df['agb_mg_ha_pred'],
                 title='Random Forest',
+                ax_lims=(0, 400),
                 fig_out_fpath='images/rf_regression_plot.png')
 
 plot_feature_importance(rf, metric_names, title='Feature Importance from Random Forest Regressor')

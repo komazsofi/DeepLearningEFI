@@ -330,20 +330,13 @@ test_df['agb_mg_ha_pred'] = convert_from_z_score(z_vals=test_df['total_agb_z_pre
 # Plot regression results
 plot_regression(obs=test_df['agb_mg_ha_obs'], 
                 pred=test_df['agb_mg_ha_pred'],
+                ax_lims=(0, 400),
                 title='Deep Neural Network',
                 fig_out_fpath='images/dnn_regression_plot.png',
                 hide=False)
 
 ```
 
-
-```{python}
-
-```
-
-```{python}
-
-```
 
 ```{python}
 
