@@ -455,7 +455,7 @@ field_zq95_df <- trees_df %>%
 zq95_df <- field_zq95_df %>%
               left_join(als_derived_zq95_df, by = 'plot_id')
 
-zq95_df %>%
+fig <- zq95_df %>%
   ggplot(aes(x = field_zq95, y = als_zq95)) + 
   geom_point() + 
   geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") +
@@ -464,7 +464,12 @@ zq95_df %>%
   xlab('Field-Derived ZQ95 (m)') + 
   ylab('LiDAR-Derived ZQ95 (m)')
 
+ggsave(filename = here('images/field_vs_lidar_zq95.jpg'),
+       plot = fig)
+
 ```
+
+![](images/field_vs_lidar_zq95.jpg)
 
 ## 3) Determine Dominant Species Type
 
@@ -525,7 +530,7 @@ perc_decid_df <- data.frame(plot_id = unique(trees_df$plot_id),
                                        if_else(perc_decid > (100 - DOMINANCE_PERC_THRESH) , 'mixed', 'conif')))
 
 
-perc_decid_df %>%
+fig <- perc_decid_df %>%
   mutate(dom_sp_type = if_else(dom_sp_type == 'conif', 'Coniferous',
                        if_else(dom_sp_type == 'decid', 'Deciduous', "Mixed"))) %>%
   ggplot(aes(x = perc_decid, fill = dom_sp_type)) + 
@@ -535,7 +540,12 @@ perc_decid_df %>%
   ylab("N Plots") + 
   scale_fill_discrete(name = "Dominant Type")
 
+ggsave(filename = here('images/perc_decid_histogram.jpg'),
+       plot = fig)
+
 ```
+
+![](images/perc_decid_histogram.jpg)
 
 ## 4) Derive Plot-Level Aboveground Biomass
 
