@@ -17,6 +17,27 @@ format:
         </script>
 ---
 
+# Relevant Resources
+---
+
+## Tutorial references of Pytorch Lightning
+[Official Tutorial](https://lightning.ai/pages/blog/pl-tutorial-and-overview/)
+
+## Paper
+[Wang Y. et al., 2019. Dynamic Graph CNN for Learning on Point Clouds](https://arxiv.org/abs/1801.07829)
+
+## Code
+[Original Pytorch reimplementation for DGCNN](https://github.com/WangYueFt/dgcnn/blob/master/pytorch/model.py)
+
+## Other Deep Learning Frameworks
+
+::: {#fig-dl_frames-graph}
+![Deep learning fromeworks](https://static.packt-cdn.com/products/9781800561618/graphics/image/B16692_01_02.jpg){width=60%}
+Deep learning frameworks
+:::
+
+---
+
 # Introduction
 
 Deep Neural Networks (DNN), specifically those designed for 3D point clouds, are powerful tools for automation. This tutorial outlines how to use the `PyTorch Lightning (PL)` framework to train a specific and highly effective model—the **Dynamic Graph CNN (DGCNN)**—on your plot data.
@@ -52,36 +73,14 @@ Source code is available on [Github](https://github.com/Brent-Murray/DeepLearnin
     └── train_pl.py
 ```
 
-# How DGCNN Works
-
-While our framework supports multiple models (like PointNet, PointNet2, PointNeXt), we will focus on `DGCNN` (`--model dgcnn`) because of its superior ability to capture complex local geometry in point clouds—perfect for identifying fine details in forest structure.
-
-Unlike standard `PointNet` looks at each point individually, DGCNN looks at the difference between a point and its neighbors ($x_i - x_j$). DGCNN is based on Spatial-based Graph convolution network, which formulate graph convolutions as aggregating feature information from neighbors.  
-
-> This is like an ecologist looking not just at one tree's height, but how much taller it is than its immediate neighbors—capturing the canopy texture.
-
-For every point in the cloud:
-
-1) Find **Neighbors**: It looks at the $k$ closest neighboring points (such as $x_{j_{i1}}$,...,$x_{j_{ik}}$ are closet to $x_i$).
-
-2) Build **a Local Graph**: It constructs a graph defining the **relationship** between the central point and its neighbors using edges $(i, j_{i1}) -> e_{ij_{i1}}$.
-
-3) **Dynamic Update**: After each layer of processing (`EdgeConv`), it re-evaluates the "neighborhood" in the feature space (hence Dynamic). 
-
-::: {#fig-dgcnn-graph layout-ncol=2}
-
-![graph construction](images/03_train/dgcnna.svg)
-
-![graph convolution](images/03_train/dgcnnb.svg)
-
-DGCNN Graph Convolution
-:::
-
-This allows the model to progressively learn more complex, abstract relationships in the data, ultimately leading to highly accurate classification or attribute prediction for the entire plot.
+---
 
 # Deep Learning Pipeline
 
+::: {#fig-dl_pipeline-graph}
 ![Pipeline ([source](https://subscription.packtpub.com/book/data/9781800561618/2/ch02lvl1sec05/understanding-the-key-components-of-pytorch-lightning))](./images/03_train/dl_pipeline.png)
+Deep learning pipenline
+:::
 
 ## The Core Components of Pytorch Lightning:
 
@@ -91,8 +90,15 @@ This allows the model to progressively learn more complex, abstract relationship
    
 3) `Trainer` configures the training scope and manages the training loop with `LightningModule` and `LightningDataModule`. The simplest Trainer configuration is accomplished by setting flags like devices, accelerator, and strategy and by passing in our choice of loggers, profilers, callbacks, and plugins.
    
-![Components](./images/03_train/pl_modules.png)
 
+
+::: {#fig-pl-comp-graph}
+
+![Pytorch Lightning Components](./images/03_train/pl_modules.png)
+
+Pytorch Lightning Components
+
+:::
 ---
 
 # The Data Foundation: The EFI Point Cloud Dataset
@@ -206,7 +212,34 @@ To summary: `EfiDataset` prepares one plot at a time (Reader & Preparer). `EfiDa
 
 # The Model: Dynamic Graph CNN (DGCNN)
 
-## Define the DGCNN Model ([dgcnn.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/dgcnn.py))
+## How DGCNN Works
+
+While our framework supports multiple models (like PointNet, PointNet2, PointNeXt), we will focus on `DGCNN` (`--model dgcnn`) because of its superior ability to capture complex local geometry in point clouds—perfect for identifying fine details in forest structure.
+
+Unlike standard `PointNet` looks at each point individually, DGCNN looks at the difference between a point and its neighbors ($x_i - x_j$). DGCNN is based on Spatial-based Graph convolution network, which formulate graph convolutions as aggregating feature information from neighbors.  
+
+> This is like an ecologist looking not just at one tree's height, but how much taller it is than its immediate neighbors—capturing the canopy texture.
+
+For every point in the cloud:
+
+1) Find **Neighbors**: It looks at the $k$ closest neighboring points (such as $x_{j_{i1}}$,...,$x_{j_{ik}}$ are closet to $x_i$).
+
+2) Build **a Local Graph**: It constructs a graph defining the **relationship** between the central point and its neighbors using edges $(i, j_{i1}) -> e_{ij_{i1}}$.
+
+3) **Dynamic Update**: After each layer of processing (`EdgeConv`), it re-evaluates the "neighborhood" in the feature space (hence Dynamic). 
+
+::: {#fig-dgcnn-graph layout-ncol=2}
+
+![graph construction](images/03_train/dgcnna.svg)
+
+![graph convolution](images/03_train/dgcnnb.svg)
+
+DGCNN Graph Convolution
+:::
+
+This allows the model to progressively learn more complex, abstract relationships in the data, ultimately leading to highly accurate classification or attribute prediction for the entire plot.
+
+## Implement the DGCNN Model ([dgcnn.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/dgcnn.py))
 
 This section covers the implementation of the `DGCNN` model, including :
 
@@ -420,6 +453,24 @@ l_n = \begin{cases}
     |x_n - y_n| - 0.5 * beta, & \text{otherwise }
     \end{cases}
 $$
+
+## Evaluation Metrics ([metrics.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/metrics.py))
+
+```{python}
+# overall accuracy
+pred_labels = np.argmax(all_pred, axis=1)
+overall_acc = np.mean(pred_labels == all_target)
+
+# mean per-class accuracy
+cm = confusion_matrix(all_target, pred_labels)
+class_acc_array = cm.diagonal() / cm.sum(axis=1) # # TP for each class / Total true samples per class
+class_acc = np.mean(class_acc_array[~np.isnan(class_acc_array)])
+
+# r2 score
+pred_values = all_pred.flatten()
+target_values = all_target.flatten()
+r2 = r2_score(target_values, pred_values)
+```
 
 ## The Model Wrapper: EfiModelModule ([efi_modelmodule.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/efi_modelmodule.py))
 
@@ -765,11 +816,16 @@ Load Interactive W&B Dashboard
 ## What to Look for in the Dashboard
 
 - The **Loss Curve** (Train vs. Val): If `train/loss` continues to drop but `val/loss` starts rising, the model is **overfitting** (learning the plots by heart rather than the general forest structure).
-- **Metrics**, e.g., R² Score (biomass regression), overall accuracy (tree species classification)
+- **Metrics**, e.g., R² Score (biomass regression), overall accuracy and mean per-calss accuracy (tree species classification)
+
+> Example: Model predicts dominant species very well, rare species always wrong: Overall accuracy = 90%, Mean class accuracy = 45%
   
 # Hyperparameter Tuning Weights and Biases
 
+::: {#fig-hp-tune-graph}
 ![Hyperparameter tuning process](images/03_train/hyperparameter_optimization.jpg){width=50%}
+Hyperparameter tuning process
+:::
 
 Compare results of different HPs using WANDB Sweep: DGCNN example
 
@@ -872,6 +928,14 @@ python train_pl.py \
     --process_data # First time / no cache
 ```
 
+::: {#fig-training-graph}
+
+![Example](images\03_train\training_screenshot.png){width=70%}
+
+Example of training
+
+::: 
+
 ### Regression
 To train the `DGCNN` model on the petawawa dataset for a biomass estimation task:
 
@@ -910,17 +974,4 @@ python predict.py --model dgcnn --dataset_config_key petawawa_reg --ckpt_path /p
 python predict.py --model dgcnn --dataset_config_key petawawa_reg --ckpt_path log/EFI_DL/peta_reg_dgcnn_bs8_lre3/checkpoints/best_model.ckpt
 ```
 
-# Relevant Resources
----
 
-## Tutorial references of Pytorch Lightning
-[Official Tutorial](https://lightning.ai/pages/blog/pl-tutorial-and-overview/)
-
-## Paper
-[Wang Y. et al., 2019. Dynamic Graph CNN for Learning on Point Clouds](https://arxiv.org/abs/1801.07829)
-
-## Code
-[Original Pytorch reimplementation for DGCNN](https://github.com/WangYueFt/dgcnn/blob/master/pytorch/model.py)
-
-## Other Deep Learning Frameworks
-![Deep learning fromeworks](https://static.packt-cdn.com/products/9781800561618/graphics/image/B16692_01_02.jpg)

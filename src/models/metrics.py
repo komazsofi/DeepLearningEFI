@@ -31,16 +31,16 @@ class MetricsCalculator:
 
         if self.task == 'classification':
             pred_labels = np.argmax(all_pred, axis=1)
-            instance_acc = np.mean(pred_labels == all_target)
+            overall_acc = np.mean(pred_labels == all_target)
 
             # Per-Class Accuracy
             cm = confusion_matrix(all_target, pred_labels)
             class_acc_array = cm.diagonal() / cm.sum(axis=1)
             class_acc = np.mean(class_acc_array[~np.isnan(class_acc_array)])
             
-            results.update({'instance_acc': instance_acc, 'class_acc': class_acc, 'confusion_matrix': cm})
+            results.update({'instance_acc': overall_acc, 'class_acc': class_acc, 'confusion_matrix': cm})
             
-            logger.info('Validation Loss: %.4f | Instance Acc: %f | Class Acc: %f' % (avg_loss, instance_acc, class_acc))
+            logger.info('Validation Loss: %.4f | Instance Acc: %f | Class Acc: %f' % (avg_loss, overall_acc, class_acc))
             
         elif self.task == 'regression':
             pred_values = all_pred.flatten()
