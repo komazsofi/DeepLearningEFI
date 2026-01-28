@@ -28,7 +28,7 @@ from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.metrics import accuracy_score, cohen_kappa_score, confusion_matrix, mean_squared_error, r2_score
 import rioxarray as rio
 
-from src.regression_utils import plot_regression
+from src.utils.regression_utils import plot_regression
 ```
 
 Set filepaths
@@ -160,13 +160,17 @@ for class_id in test_df['dom_sp_type_id'].unique():
 # Print confusion matrix
 conf_matrix = confusion_matrix(test_df['dom_sp_type_id'], test_df['pred_dom_sp_group_id'])
 
-plt.figure(figsize=(10, 8))
-sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues',
+fig, ax = plt.subplots(figsize=(6,5), layout='tight')
+
+sns.heatmap(ax=ax, data=conf_matrix, annot=True, fmt='d', cmap='Blues',
             xticklabels=dom_sp_dict.values(),
             yticklabels=dom_sp_dict.values())
 
-plt.xlabel('Predicted Label')
-plt.ylabel('Observed Label')
+ax.set_xlabel('Predicted Label')
+ax.set_ylabel('Observed Label')
+ax.set_title('Random Forest', fontsize=14, fontweight='bold')
+
+fig.savefig("images/rf_cls_confusion_matrix.jpg", dpi=300)
 
 # View metric importance
 plot_feature_importance(rf, metric_names, title='Feature Importance from Random Forest Classifier')

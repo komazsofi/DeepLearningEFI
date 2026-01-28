@@ -193,15 +193,22 @@ per_class_df
 # Print confusion matrix
 conf_matrix = confusion_matrix(y_true, y_pred)
 
-plt.figure()
-sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues',
+fig, ax = plt.subplots(figsize=(6,5), layout='tight')
+
+sns.heatmap(ax=ax, data=conf_matrix, annot=True, fmt='d', cmap='Blues',
             xticklabels=CLASS_MAP.values(),
             yticklabels=CLASS_MAP.values())
-plt.xlabel('Predicted Label')
-plt.ylabel('Observed Label')
-plt.tight_layout()
+
+ax.set_xlabel('Predicted Label')
+ax.set_ylabel('Observed Label')
+ax.set_title('Deep Neural Network', fontsize=14, fontweight='bold')
+
+# Export figure
+fig.savefig("images/dnn_cls_confusion_matrix.jpg", dpi=300)
+
 plt.show()
 ```
+
 ---
 
 ### Visualize difficult cases
@@ -352,13 +359,23 @@ plot_regression(obs=test_df['agb_mg_ha_obs'],
 <iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/q2oxsdbc" style="border:none;height:600px;width:100%" loading="lazy"></iframe>
 
 ## Random Forest
-For comparison, we can compare the DGCNN results with those obtained by training random forest (RF) model.
+For comparison, we can compare the DNN results with those obtained by training random forest (RF) model.
 
 [View the RF training and results here](random_forest.qmd)
+
+### Comparison for tree species classification
+
+<div style="display: flex; justify-content: center; gap: 20px;">
+  <img src='images/dnn_cls_confusion_matrix.jpg' alt="Image 1" style="width: 45%; min-width: 200px;">
+  <img src='images/rf_cls_confusion_matrix.jpg' alt="Image 2" style="width: 45%; min-width: 200px;">
+</div>
+
+### Comparison for AGB regression
 
 <div style="display: flex; justify-content: center; gap: 20px;">
   <img src='images/dnn_regression_plot.png' alt="Image 1" style="width: 45%; min-width: 200px;">
   <img src='images/rf_regression_plot.png' alt="Image 2" style="width: 45%; min-width: 200px;">
 </div>
+
 
 
