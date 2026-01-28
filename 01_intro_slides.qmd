@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Deep Learning for Enhanced Forest Inventories"
+title: "Introduction to Deep Learning"
 format:
   revealjs:
     include-in-header:
@@ -413,7 +413,3 @@ Forestry data introduce domain-specific constraints.
 | Class imbalance | Bias toward majority classes | Class weighting, loss design |
 | Synthetic benchmarks | Limited real-world transfer | Domain adaptation |
 | Limited labels | Reduced robustness | Augmentation, transfer learning |
-
----
-
-## Questions?

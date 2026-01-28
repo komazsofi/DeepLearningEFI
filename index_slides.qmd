@@ -1,0 +1,149 @@
+---
+title: "Introduction to Deep Learning for Enhanced Forest Inventories"
+format:
+  revealjs:
+    include-in-header:
+      - text: |
+          <style>
+            /* DEFAULT: figures/images at bottom + centered */
+            .reveal section img {
+              display: block;
+              margin-left: auto;
+              margin-right: auto;
+              margin-top: 1rem;
+            }
+
+            /* Optional: keep Quarto/Pandoc figures centered too */
+            .reveal section figure {
+              margin-left: auto;
+              margin-right: auto;
+            }
+
+            /* LEFT/RIGHT LAYOUT ONLY WHEN YOU USE .lr */
+            .lr { display: flex; gap: 1.2rem; align-items: flex-start; }
+            .lr .left { flex: 1 1 55%; }
+            .lr .right { flex: 1 1 45%; }
+
+            /* override default centering rules inside lr */
+            .lr img {
+              margin: 0 !important;
+              width: 100%;
+              height: auto;
+              max-height: 520px;
+              object-fit: contain;
+            }
+
+            /* ==============================
+               Instructor slide (table-based)
+               ============================== */
+
+            .avatar {
+              width: 110px;
+              height: 110px;
+              border-radius: 50%;
+              object-fit: cover;
+              display: block;
+              margin: 0 !important;
+              image-rendering: auto;
+            }
+
+            .instructors-table table {
+              border-collapse: collapse;
+              width: 100%;
+            }
+
+            .instructors-table table,
+            .instructors-table th,
+            .instructors-table td {
+              border: none !important;
+            }
+
+            .instructors-table td {
+              vertical-align: middle;
+              padding: 0.2rem 0.2rem;
+              text-align: left;
+            }
+            
+            /* force narrow image column */
+            .instructors-table colgroup col:first-child {
+              width: 130px;
+            }
+
+            /* prevent global centering rule from affecting avatars */
+            .instructors-table img {
+              margin: 0 !important;
+            }
+          </style>
+
+    output-file: "index-slides.html"
+    slide-number: true
+    navigation-mode: linear
+    transition: fade
+    center: true
+    theme: simple
+    width: 1280
+    height: 720
+    margin: 0.08
+    code-line-numbers: true
+    embed-resources: true
+---
+
+## Instructors
+
+::: {.instructors-table}
+
+|  |  |
+|-|-----|
+| ![](images/brent.jpg){.avatar} | **Brent A. Murray** - Integrated Remote Sensing Studio, University of British Columbia |
+| ![](images/harry.png){.avatar} | **Harry Seely** - Integrated Remote Sensing Studio, University of British Columbia |
+| ![](images/yuwei.jpg){.avatar} | **Yuwei Cao** - Integrated Remote Sensing Studio, University of British Columbia |
+| ![](images/ahmed.jpg){.avatar} | **Ahmed Ragab** - CanmetENERGY, Natural Resources Canada; Department of Mathematics and Industrial Engineering, Polytechnique Montreal |
+
+:::
+
+---
+
+## Overview
+This is an **introductory workshop for deep learning techniques for Enhanced Forest Inventories (EFIs)**. It will cover a basic end-to-end deep learning workflow for EFI applications covering an **introduction into deep learning**, to **data preparation**, and finally a **demo of model training, evaluation, and deployment**.
+
+---
+
+## What we hope you will learn
+
+- What deep learning is and how it can be used for EFIs.
+- How to prepare and read in data for use in deep learning.
+- Basics of using the PyTorch Lightning deep learning library.
+- Training a deep learning model for species classification and biomass prediction tasks.
+- Testing and evaluating deep learning models.
+
+---
+
+## How this tutorial is setup
+This workshop will be more of a high-level tutorial on how to implement deep learning into EFI workflows. With that in mind we encourage you to follow along on the website, take notes and ask questions along the way.
+
+::: callout-note
+This website will remain open after the workshop for participants to review the content or share it with others. Feel free to clone this <a href="https://github.com/Brent-Murray/DeepLearningEFI" tatarget="_blank">GitHub Repo</a> as it serves as a launching point for EFI deep learning projects.
+:::
+
+---
+
+## How to follow along
+To make the most out of this workshop:
+
+-  Follow along with the broad concepts and ideas being presented. 
+- All the code is provided in the <a href="https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src" target="_blank">src folder</a>.
+- Additionally all of the data and outputs are provided so you can enjoy the workshop without having to worry about coding at the same time.
+
+::: callout-note
+Often coding workshops move at a quick pace and it becomes easy to fall behind. Because deep neural networks often require long training times, all datasets, training outputs, and model evaluations have been precomputed and are provided as part of this tutorial. We highly encourage you to try out the code after the workshop.
+:::
+
+---
+
+## Be currious and ask questions
+
+We will be monitoring in the chat throughout the workshop and encourage you to ask questions as they come up and we will do our best to answer them in a timely manner.
+
+::: callout-note
+If you have questions after the workshop or encounter any issues you can submit an issue via <a href="https://github.com/Brent-Murray/DeepLearningEFI/issues/new" target="_blank">GitHub</a>.
+:::

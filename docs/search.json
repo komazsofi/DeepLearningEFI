@@ -25,7 +25,7 @@
     "href": "index.html#overview",
     "title": "Deep Learning with Airborne Laser Scanning Data for Forest Inventories",
     "section": "Overview",
-    "text": "Overview\nThis is an introductory workshop for deep learning techniques for Enhanced Forest Inventories (EFIs) presented at the Canadian Cross-Country EFI Checkup. This workshop covers a basic end-to-end deep learning workflow for EFI applications, covering an introduction into deep learning, to data preparation, and finally a demo of model training, evaluation, and deployment. There will also be some examples of real world forest inventory deep learning applications showcasing some of the possibilities there are with these techniques.\n\nYou will learn\n\nWhat deep learning is and how it can be used for EFIs.\nHow to prepare and read in data for use in deep learning.\nBasics of using the PyTorch Lightning deep learning library.\nDeep learning based forest attribute feature extraction.\nTraining a deep learning model for classification tasks.\nTesting and evaluating deep learning models.\n\n\n\n\n\n\n\nNote\n\n\n\nThis site will remain open after the workshop for participants to review the content or share it with others. Because deep neural networks often require long training times, all datasets, training outputs, and model evaluations have been precomputed and are provided as part of this tutorial."
+    "text": "Overview\nThis is an introductory workshop for deep learning techniques for Enhanced Forest Inventories (EFIs) presented at the Canadian Cross-Country EFI Checkup. This workshop covers a basic end-to-end deep learning workflow for EFI applications, covering an introduction into deep learning, to data preparation, and finally a demo of model training, evaluation, and deployment. There will also be some examples of real world forest inventory deep learning applications showcasing some of the possibilities there are with these techniques.\n\nYou will learn\n\nWhat deep learning is and how it can be used for EFIs.\nHow to prepare and read in data for use in deep learning.\nBasics of using the PyTorch Lightning deep learning library.\nTraining a deep learning model for species classification and biomass prediction tasks.\nTesting and evaluating deep learning models.\n\n\n\n\n\n\n\nNote\n\n\n\nThis site will remain open after the workshop for participants to review the content or share it with others. Because deep neural networks often require long training times, all datasets, training outputs, and model evaluations have been precomputed and are provided as part of this tutorial."
   },
   {
     "objectID": "index.html#setup",
@@ -240,217 +240,217 @@
   {
     "objectID": "01-intro-deep-learning-slides.html#overview",
     "href": "01-intro-deep-learning-slides.html#overview",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Overview",
     "text": "Overview\nGoal: Introduce deep learning concepts for enhanced forest inventories (EFIs)\nBy the end of this section, you should be able to:\n\nExplain the role of AI in EFI modelling\n\nDistinguish AI, machine learning, and deep learning\n\nDescribe the structure of a deep neural network\n\nExplain how models learn (loss, gradients, epochs)\n\nCompare image-based vs. point-based deep learning\n\nUse core deep learning terminology correctly\n\nRecognize common forestry-specific challenges"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#artificial-intelligence-machine-learning-deep-learning",
     "href": "01-intro-deep-learning-slides.html#artificial-intelligence-machine-learning-deep-learning",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Artificial Intelligence → Machine Learning → Deep Learning",
     "text": "Artificial Intelligence → Machine Learning → Deep Learning\n\n\n\nArtificial Intelligence (AI): Systems that mimic human decision-making\n\nMachine Learning (ML): Models that improve through data-driven experience\n\nDeep Learning (DL): ML using neural networks with many hidden layers"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#deep-neural-networks-key-concepts",
     "href": "01-intro-deep-learning-slides.html#deep-neural-networks-key-concepts",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Deep Neural Networks: Key Concepts",
     "text": "Deep Neural Networks: Key Concepts\n\nLayers: Input → hidden → output\n\nDepth: Number of layers\n\nWidth: Number of neurons per layer\n\nTrade-offs: - ↑ depth/width → ↑ representational power\n- ↑ depth/width → ↑ computation, overfitting risk"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#the-neuron",
     "href": "01-intro-deep-learning-slides.html#the-neuron",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "The Neuron",
     "text": "The Neuron\n\nFundamental unit of a neural network\n\nComputes a weighted sum of inputs plus a bias\n\n\\[\n\\Large y = w_1x_1 + w_2x_2 + b\n\\]\n\nWeights & biases are learned during training"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#activation-functions",
     "href": "01-intro-deep-learning-slides.html#activation-functions",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Activation Functions",
     "text": "Activation Functions\n\n\n\nApplied to neuron output\n\nIntroduce non-linearity\nEnable learning of complex relationships"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#activation-functions-1",
     "href": "01-intro-deep-learning-slides.html#activation-functions-1",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Activation Functions",
     "text": "Activation Functions\n\n\n\nApplied to neuron output\n\nIntroduce non-linearity\nEnable learning of complex relationships\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\nThere are many types of activation functions, and you are encouraged to research which one would be best for your specific use case."
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#predictionfeedback-loop",
     "href": "01-intro-deep-learning-slides.html#predictionfeedback-loop",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Prediction–Feedback Loop",
     "text": "Prediction–Feedback Loop\n\n\nThe prediction-feedback loop is what makes learning possible as a deep neural network adapts to the patterns within the data and generalizes from them.\n\nModel makes a prediction\n\nPrediction is compared and assessed to the truth\n\nFeedback is provided to the model based on errors\nError guides the adjustments to the weights/bias"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#loss-gradients-and-epochs",
     "href": "01-intro-deep-learning-slides.html#loss-gradients-and-epochs",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Loss, Gradients, and Epochs",
     "text": "Loss, Gradients, and Epochs\n\nLoss function: Measures prediction error\n\nGradients: Sensitivity of loss to small changes in weights/bias\n\nEpoch: One full pass through the training data\n\nLearning occurs through repeated updates over epochs."
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#training-validation-testing",
     "href": "01-intro-deep-learning-slides.html#training-validation-testing",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Training, Validation, Testing",
     "text": "Training, Validation, Testing\n\nTraining: Learn parameters\n\nValidation: Tune hyperparameters, prevent overfitting\n\nTesting: Final, unbiased performance estimate"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#training-validation-testing-1",
     "href": "01-intro-deep-learning-slides.html#training-validation-testing-1",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Training, Validation, Testing",
     "text": "Training, Validation, Testing\n\nTraining: Learn parameters\n\nValidation: Tune hyperparameters, prevent overfitting\n\nTesting: Final, unbiased performance estimate\n\n\n\n\n\n\n\nNote\n\n\nNever mix training, validation, and testing data. Mixing or reusing data between these datasets can lead to misleading performance metrics and poor generalization."
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#common-deep-learning-tasks",
     "href": "01-intro-deep-learning-slides.html#common-deep-learning-tasks",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Common Deep Learning Tasks",
     "text": "Common Deep Learning Tasks\n\nClassification\nRegression\nSegmentation"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#classification",
     "href": "01-intro-deep-learning-slides.html#classification",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Classification",
     "text": "Classification\nGoal: Assign inputs to discrete classes\nForestry examples:\n\nTree species mapping\n\nLand cover classification\n\nDisturbance detection"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#regression",
     "href": "01-intro-deep-learning-slides.html#regression",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Regression",
     "text": "Regression\nGoal: Predict continuous values\nForestry examples:\n\nAbove-ground biomass\n\nCanopy cover / LAI\n\nTree height, crown size"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#segmentation",
     "href": "01-intro-deep-learning-slides.html#segmentation",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Segmentation",
     "text": "Segmentation\nGoal: Assign labels to every pixel or point\nForestry examples:\n\nTree crown delineation\n\nStand boundaries\n\nStructural mapping"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#segmentation-1",
     "href": "01-intro-deep-learning-slides.html#segmentation-1",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Segmentation",
     "text": "Segmentation\nGoal: Assign labels to every pixel or point\n\nSemantic segmentation: Assign a class to every pixel or point\n\nInstance segmentation: Separate individual objects from image or point cloud"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#image-based-vs.-point-based-deep-learning",
     "href": "01-intro-deep-learning-slides.html#image-based-vs.-point-based-deep-learning",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Image-Based vs. Point-Based Deep Learning",
     "text": "Image-Based vs. Point-Based Deep Learning\nTwo dominant approaches in remote sensing:\n\nImage-based methods\n\nPoint-based methods"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#image-based-deep-learning",
     "href": "01-intro-deep-learning-slides.html#image-based-deep-learning",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Image-Based Deep Learning",
     "text": "Image-Based Deep Learning\n\nOperates on raster imagery\n\nLearns spatial patterns and textures\n\nCommon inputs: RGB, multispectral, hyperspectral"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#convolutional-neural-networks-cnns",
     "href": "01-intro-deep-learning-slides.html#convolutional-neural-networks-cnns",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Convolutional Neural Networks (CNNs)",
     "text": "Convolutional Neural Networks (CNNs)\n\n\n\nCore image-based architecture\n\nUse sliding filters (kernels)\n\nDetect edges → textures → objects"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#point-based-deep-learning",
     "href": "01-intro-deep-learning-slides.html#point-based-deep-learning",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Point-Based Deep Learning",
     "text": "Point-Based Deep Learning\n\nOperates directly on 3D point clouds\n\nNo regular grid structure\n\nLearns from spatial relationships"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#core-terminology",
     "href": "01-intro-deep-learning-slides.html#core-terminology",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Core Terminology",
     "text": "Core Terminology\nEstablishing shared language before workflows and modeling."
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#parameters-vs.-hyperparameters",
     "href": "01-intro-deep-learning-slides.html#parameters-vs.-hyperparameters",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Parameters vs. Hyperparameters",
     "text": "Parameters vs. Hyperparameters\n\nParameters: Learned values (weights, biases)\n\nHyperparameters: User-defined settings\n\nLearning rate\n\nBatch size\n\nEpochs\n\nModel depth"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#inputs-labels-learned-features",
     "href": "01-intro-deep-learning-slides.html#inputs-labels-learned-features",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Inputs, Labels, Learned Features",
     "text": "Inputs, Labels, Learned Features\n\nInput features: What the model sees\n\nLabels: What the model predicts\n\nLearned features: Internal representations"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#data-augmentation",
     "href": "01-intro-deep-learning-slides.html#data-augmentation",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Data Augmentation",
     "text": "Data Augmentation\n\nArtificially increases training diversity\n\nImproves robustness and generalization\n\nEspecially useful with limited labels"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#batches-and-batch-size",
     "href": "01-intro-deep-learning-slides.html#batches-and-batch-size",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Batches and Batch Size",
     "text": "Batches and Batch Size\n\n\n\nData processed in small subsets (batches)\n\nBatch size: Samples per training step"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#architecture-vs.-weights",
     "href": "01-intro-deep-learning-slides.html#architecture-vs.-weights",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Architecture vs. Weights",
     "text": "Architecture vs. Weights\n\nArchitecture: Model/network structure (fixed)\n\nNumber and type of layers\nHow neurons/layers connect\n\nWeights: Learned numerical values (changes)\n\nUpdated during training\nLearned based on data"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#forward-vs.-backward-pass",
     "href": "01-intro-deep-learning-slides.html#forward-vs.-backward-pass",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Forward vs. Backward Pass",
     "text": "Forward vs. Backward Pass\n\nForward pass: Generate predictions\n\nBackward pass: Compute gradients and update weights"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#training-loop",
     "href": "01-intro-deep-learning-slides.html#training-loop",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Training Loop",
     "text": "Training Loop\nRepeated cycle:\n\nForward pass\n\nLoss computation\n\nBackward pass\n\nParameter update\n\nThis loop continues for a set number of epochs or until the model stops improving."
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#gradient-descent",
     "href": "01-intro-deep-learning-slides.html#gradient-descent",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Gradient Descent",
     "text": "Gradient Descent\n\nOptimization strategy\n\nHow the model adjusts its parameters to minimize loss\n\nMoves in direction of decreasing error and improve predictions"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#transfer-learning-and-fine-tuning",
     "href": "01-intro-deep-learning-slides.html#transfer-learning-and-fine-tuning",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Transfer Learning and Fine-Tuning",
     "text": "Transfer Learning and Fine-Tuning\n\nTransfer learning: Start from pretrained model\n\nFine-tuning: Adapt weights to your domain\n\nCommon in forestry due to limited labeled data."
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#deep-learning-in-forestry-challenges",
     "href": "01-intro-deep-learning-slides.html#deep-learning-in-forestry-challenges",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Deep Learning in Forestry: Challenges",
     "text": "Deep Learning in Forestry: Challenges\nForestry data introduce domain-specific constraints."
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#key-challenges-and-considerations",
     "href": "01-intro-deep-learning-slides.html#key-challenges-and-considerations",
-    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "title": "Introduction to Deep Learning",
     "section": "Key Challenges and Considerations",
     "text": "Key Challenges and Considerations\n\n\n\n\n\n\n\n\nChallenge\nImpact\nCommon Solutions\n\n\n\n\nSensor & site variability\nPoor generalization\nFine-tuning, domain adaptation\n\n\nSpatial autocorrelation\nInflated accuracy\nSpatial CV, sampling strategies\n\n\nClass imbalance\nBias toward majority classes\nClass weighting, loss design\n\n\nSynthetic benchmarks\nLimited real-world transfer\nDomain adaptation\n\n\nLimited labels\nReduced robustness\nAugmentation, transfer learning"
   },
@@ -719,5 +719,47 @@
     "title": "Setup",
     "section": "4) Directory structure",
     "text": "4) Directory structure\nAfter downloading the data and setting up the python environment (see above), your directory structure should include the following (among other miscelaneous files):\n\n01_intro.qmd\n02_data.qmd\n03_train.qmd\n04_evaluation.qmd\n05_examples.qmd\ncompute_lidar_metrics.qmd\ndata\npyproject.toml\nrandom_forest.qmd\nschedule.qmd\nsetup.qmd\nsrc\nuv.lock\n.venv"
+  },
+  {
+    "objectID": "index-slides.html#instructors",
+    "href": "index-slides.html#instructors",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "Instructors",
+    "text": "Instructors\n\n\n\n\n\n\n\n\n\nBrent A. Murray - Integrated Remote Sensing Studio, University of British Columbia\n\n\n\nHarry Seely - Integrated Remote Sensing Studio, University of British Columbia\n\n\n\nYuwei Cao - Integrated Remote Sensing Studio, University of British Columbia\n\n\n\nAhmed Ragab - CanmetENERGY, Natural Resources Canada; Department of Mathematics and Industrial Engineering, Polytechnique Montreal"
+  },
+  {
+    "objectID": "index-slides.html#overview",
+    "href": "index-slides.html#overview",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "Overview",
+    "text": "Overview\nThis is an introductory workshop for deep learning techniques for Enhanced Forest Inventories (EFIs). It will cover a basic end-to-end deep learning workflow for EFI applications covering an introduction into deep learning, to data preparation, and finally a demo of model training, evaluation, and deployment."
+  },
+  {
+    "objectID": "index-slides.html#what-we-hope-you-will-learn",
+    "href": "index-slides.html#what-we-hope-you-will-learn",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "What we hope you will learn",
+    "text": "What we hope you will learn\n\nWhat deep learning is and how it can be used for EFIs.\nHow to prepare and read in data for use in deep learning.\nBasics of using the PyTorch Lightning deep learning library.\nTraining a deep learning model for species classification and biomass prediction tasks.\nTesting and evaluating deep learning models."
+  },
+  {
+    "objectID": "index-slides.html#how-this-tutorial-is-setup",
+    "href": "index-slides.html#how-this-tutorial-is-setup",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "How this tutorial is setup",
+    "text": "How this tutorial is setup\nThis workshop will be more of a high-level tutorial on how to implement deep learning into EFI workflows. With that in mind we encourage you to follow along on the website, take notes and ask questions along the way.\n\n\n\n\n\n\nNote\n\n\nThis website will remain open after the workshop for participants to review the content or share it with others. Feel free to clone this GitHub Repo as it serves as a launching point for EFI deep learning projects."
+  },
+  {
+    "objectID": "index-slides.html#how-to-follow-along",
+    "href": "index-slides.html#how-to-follow-along",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "How to follow along",
+    "text": "How to follow along\nTo make the most out of this workshop:\n\nFollow along with the broad concepts and ideas being presented.\nAll the code is provided in the src folder.\nAdditionally all of the data and outputs are provided so you can enjoy the workshop without having to worry about coding at the same time.\n\n\n\n\n\n\n\nNote\n\n\nOften coding workshops move at a quick pace and it becomes easy to fall behind. Because deep neural networks often require long training times, all datasets, training outputs, and model evaluations have been precomputed and are provided as part of this tutorial. We highly encourage you to try out the code after the workshop."
+  },
+  {
+    "objectID": "index-slides.html#be-currious-and-ask-questions",
+    "href": "index-slides.html#be-currious-and-ask-questions",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "Be currious and ask questions",
+    "text": "Be currious and ask questions\nWe will be monitoring in the chat throughout the workshop and encourage you to ask questions as they come up and we will do our best to answer them in a timely manner.\n\n\n\n\n\n\nNote\n\n\nIf you have questions after the workshop or encounter any issues you can submit an issue via GitHub."
   }
 ]

@@ -1,6 +1,6 @@
 ---
 title: "Deep Learning with Airborne Laser Scanning Data for Forest Inventories"
-subtitle: "Hands-on workshop"
+subtitle: "Tutorial"
 author:
   - name: "Brent A. Murray"
     affiliation: "University of British Columbia – Integrated Remote Sensing Studio"
@@ -26,8 +26,7 @@ This is an introductory workshop for deep learning techniques for Enhanced Fores
 - What deep learning is and how it can be used for EFIs.
 - How to prepare and read in data for use in deep learning.
 - Basics of using the <a href="https://lightning.ai/docs/pytorch/stable/" target="_blank">PyTorch Lightning</a> deep learning library.
-- Deep learning based forest attribute feature extraction.
-- Training a deep learning model for classification tasks.
+- Training a deep learning model for  species classification and biomass prediction tasks.
 - Testing and evaluating deep learning models.
 
 ::: callout-note
