@@ -90,7 +90,8 @@ from pathlib import Path
 import random
 import pyvista as pv
 
-from src.plot_regression import plot_regression
+from src.plot_regression import plot_regression, convert_from_z_score
+
 ```
 
 
@@ -282,27 +283,6 @@ visualize_z_grid(correct_df, wrong_df, pc_dir, save_path="images/04_eval/cls_out
 
 - #TODO: re-use `visualize_z_grid` for plots with large AGB residuals 
 
-**Function to convert z-scored prdicted biomass to tonnes per hectare (Mg/ha)**
-
-```{python}
-
-def convert_from_z_score(z_vals, sd, mean):
-    """
-    Converts z-score back to original value using mean and sd
-
-    X = Z * standard_deviation + mean
-
-    :param z_vals: z-score values to be converted
-    :param sd: standard deviation of original data
-    :param mean: mean of original data
-    :return: input values converted to back to original units
-    """
-
-    z_score_val = z_vals * sd + mean
-
-    return z_score_val
-
-```
 
 **Summarize regression results**
 
