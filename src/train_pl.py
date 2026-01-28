@@ -28,7 +28,7 @@ def parse_args():
     parser.add_argument('--use_cpu', action='store_true', default=False)
     parser.add_argument('--gpu', type=str, default='0')
     parser.add_argument('--batch_size', type=int, default=8)
-    parser.add_argument('--model', type=str, default='pointnet')
+    parser.add_argument('--model', type=str, default='dgcnn')
     parser.add_argument('--dataset_config_key', type=str, default='petawawa_cls',
                         choices=DATASET_CONFIG.keys())
     parser.add_argument('--epoch', default=150, type=int)
@@ -39,7 +39,8 @@ def parse_args():
     parser.add_argument('--process_data', action='store_true', default=False)
     parser.add_argument('--no_fps', action='store_true', help='disable FPS and use uniform sampling')
     parser.add_argument('--wandb_project', type=str, default='EFI_DL', help='Weights & Biases Project Name')
-
+    parser.add_argument('--ddp', action='store_true', default=False, help='Use DDP for multi-GPU training')
+    
     return parser.parse_args()
 
 # ---------------------------
