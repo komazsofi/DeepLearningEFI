@@ -20,7 +20,7 @@ Expert knowledge is critical when preparing data for deep leanring workflows sin
 
 **The complete preprocessed dataset can be downloaded [here](https://ln5.sync.com/dl/88a6f5dd0#u24mrtkh-d5dqhart-zrg42shx-jfhhk8u5) as an alternative to running this notebook.**
 
-If you wish to run the preprocessing, the original height normalized ALS and sample plot data for the PRF can be downloaded from the NFIS:
+If you wish to run the preprocessing, the original height normalized ALS and sample plot data for this analysis can be downloaded from the NFIS:
 
 * LiDAR: [https://opendata.nfis.org/downloads/petawawa/Raster/LiDAR_2018/PRF_benchmarking_harmonized_2018_ALS.zip](https://opendata.nfis.org/downloads/petawawa/Raster/LiDAR_2018/PRF_benchmarking_harmonized_2018_ALS.zip)
 
@@ -32,7 +32,7 @@ This tutorial makes use of the `lidR` package to prepare LiDAR data for deep lea
 
 ## Dataset Background
 
-The Petawawa Resereach Forest (PRF) is the oldest research forest in Canada, established in 1918. It is a remote sensing supersite and is part of the [GEO-TREES](https://geo-trees.org/) network. The PRF represents a rich collection of open access traditional forest inventory and remote sensing data, including multiple LiDAR and aerial imagery aquisitions in addition to a large history of field plot measurements. These data are available at the [National Forest Information System website](https://opendata.nfis.org/mapserver/PRF.html). An article by [White et al. (2019)](https://doi.org/10.5558/tfc2019-024) summarizes the PRF in greater detail.
+The Petawawa Research Forest (PRF) is the oldest research forest in Canada, established in 1918. It is a remote sensing supersite and is part of the [GEO-TREES](https://geo-trees.org/) network. The PRF represents a rich collection of open access traditional forest inventory and remote sensing data, including multiple LiDAR and aerial imagery aquisitions in addition to a large history of field plot measurements. These data are available at the [National Forest Information System website](https://opendata.nfis.org/mapserver/PRF.html). An article by [White et al. (2019)](https://doi.org/10.5558/tfc2019-024) summarizes the PRF in greater detail.
 
 In this workshop we make use of enhanced forest inventory sample plots collected in the PRF in 2018. We are also using single photon airborne laser scanning (ALS) data also collected in 2018.
 
@@ -99,7 +99,7 @@ LIDAR_DIR = NA # The full ALS dataset is optional as preprocessed point clouds a
 
 ## Packages
 
-Ensure the following package dependencies are installed. Note that [reticulate](https://rstudio.github.io/reticulate/) is an R package that allows for interfacing between R and Python languages. To use reticulate in this case, you need to have a python virtual environment set up beforehand. Python environment setup instructions are provided [here](setup.qmd). Ensure that the data and python environment are all stored in the same root directory as the tutorial files.
+Ensure the following package dependencies are installed. Note that [reticulate](https://rstudio.github.io/reticulate/) is an R package that allows for interfacing between R and Python languages. To use reticulate in this case, you need to have a Python virtual environment set up beforehand. Python environment setup instructions are provided [here](setup.qmd). Ensure that the data and Python environment are all stored in the same root directory as the tutorial files.
 
 ```{r}
 #| code-fold: true
@@ -116,7 +116,7 @@ library(readxl)
 library(purrr)
 library(DT)
 
-# Import python numpy module using reticulate
+# Import Python numpy module using reticulate
 np <- reticulate::import("numpy")
 
 ```
@@ -165,7 +165,7 @@ view_table <- function(df){
 
 **The code below includes the LiDAR preprocessing steps to prepare the ALS point cloud data for use in deep neural network model development.**
 
-Most of these preprocessing steps are standard in any ALS - forest inventory workflow and described in greater detail in the [lidR package documentation](https://r-lidar.github.io/lidRbook/). The steps are implemented as functions below, which are applied to each individual plot-level point cloud extracted from the full LiDAR aquisiton. These steps include:
+Most of these preprocessing steps are standard in any ALS - forest inventory workflow and described in greater detail in the [lidR package documentation](https://r-lidar.github.io/lidRbook/). The steps are implemented as functions below, which are applied to each individual plot-level point cloud extracted from the full LiDAR acquisition. These steps include:
 
 1) Extract and clean ALS point clouds contained within the boundary of the ground reference plots. We do this using the function `extract_pc` in the code below. 
 
@@ -258,7 +258,7 @@ Here we apply the functions defined above to each individual sample plot point c
 
 5) Convert point clouds to arrays and normalize using `pc_to_matrix` and `normalize_pc_xy`
 
-6) Calculate the 9th height percentile using `calc_pc_zq95`
+6) Calculate the 95th height percentile using `calc_pc_zq95`
 
 7) Export the numpy point cloud files and the 95th height percentile data.
 
@@ -306,7 +306,7 @@ if(PROCESS_LIDAR){
   # Ensure the point cloud directory exists
   dir.create(PLOT_PC_DIR, recursive = TRUE, showWarnings = FALSE)
 
-  # Export point clouds to numpy (.npy) files for use in python
+  # Export point clouds to numpy (.npy) files for use in Python
   mapply(write_pc_to_npy, 
         pc = pc_ls,
         plot_id = plot_centers$plot_id,
@@ -417,7 +417,7 @@ trees_df %>%
 # Check for NAs
 stopifnot(all(!is.na(trees_df$species)))
 
-# Sort by decreasing species occurence based on count
+# Sort by decreasing species occurrence based on count
 trees_df %>%
   count(species) %>%
   mutate(percent = round(n / sum(n) * 100, 2)) %>%
@@ -597,7 +597,7 @@ trees_df$species[trees_df$species == "American Elm"] <- "White Elm"
 #Northern White Cedar as Eastern white cedar
 trees_df$species[trees_df$species == "Northern White Cedar"] <- "Eastern White Cedar"
 
-#Check that all species names in data coreespond to those in allometric eqs
+#Check that all species names in data correspond to those in allometric eqs
 stopifnot(
   all(unique(trees_df$species) %in% unique(allo_df$species))
 )
@@ -693,7 +693,7 @@ get_tree_comp_biomass <- function(tree_df, use_height=FALSE){
 
 4) Sum tree AGB for each plot to get plot-level AGB (`total_agb_kg`)
 
-5) Convert to tonnes per hecatre (Mg/ha) using the plot area in hectares (`0.06246 ha`)
+5) Convert to tonnes per hectare (Mg/ha) using the plot area in hectares (`0.06246 ha`)
 
 ```{r}
 #| code-fold: false
