@@ -4,7 +4,7 @@
     "href": "03_train.html",
     "title": "Training Deep Learning Models",
     "section": "",
-    "text": "Official Tutorial\n\n\n\nWang Y. et al., 2019. Dynamic Graph CNN for Learning on Point Clouds\n\n\n\nOriginal Pytorch reimplementation for DGCNN\n\n\n\n\n\n\n\n\n\nFigure 1"
+    "text": "Official Tutorial\n\n\n\nWang Y. et al., 2019. Dynamic Graph CNN for Learning on Point Clouds\n\n\n\nOriginal Pytorch reimplementation for DGCNN\n\n\n\n\n\n\n\n\n\nFigure 1: Deep learning frameworks"
   },
   {
     "objectID": "03_train.html#tutorial-references-of-pytorch-lightning",
@@ -32,14 +32,14 @@
     "href": "03_train.html#other-deep-learning-frameworks",
     "title": "Training Deep Learning Models",
     "section": "",
-    "text": "Figure 1"
+    "text": "Figure 1: Deep learning frameworks"
   },
   {
     "objectID": "03_train.html#the-core-components-of-pytorch-lightning",
     "href": "03_train.html#the-core-components-of-pytorch-lightning",
     "title": "Training Deep Learning Models",
     "section": "The Core Components of Pytorch Lightning:",
-    "text": "The Core Components of Pytorch Lightning:\n\nLightningDataModule wraps the data phase. It takes in a custom PyTorch Dataset and DataLoader which enables Trainer to handle data during training. If needed, LightningDataModule exposes the setup and prepare_data functions in case you need additional customization.\nLightningModule itself is a custom torch.nn.Module that is extended with dozens of additional functions like on_fit_start and on_fit_end. These functions allow us better control of Trainer’s flows and enables custom behaviors by overriding these hooks.\nTrainer configures the training scope and manages the training loop with LightningModule and LightningDataModule. The simplest Trainer configuration is accomplished by setting flags like devices, accelerator, and strategy and by passing in our choice of loggers, profilers, callbacks, and plugins.\n\n\n\n\n\n\n\nPytorch Lightning Components\n\n\n\n\nFigure 3: Pytorch Lightning Components"
+    "text": "The Core Components of Pytorch Lightning:\n\nLightningDataModule wraps the data phase. It takes in a custom PyTorch Dataset and DataLoader which enables Trainer to handle data during training. If needed, LightningDataModule exposes the setup and prepare_data functions in case you need additional customization.\nLightningModule itself is a custom torch.nn.Module that is extended with dozens of additional functions like on_fit_start and on_fit_end. These functions allow us better control of Trainer’s flows and enables custom behaviors by overriding these hooks.\nTrainer configures the training scope and manages the training loop with LightningModule and LightningDataModule. The simplest Trainer configuration is accomplished by setting flags like devices, accelerator, and strategy and by passing in our choice of loggers, profilers, callbacks, and plugins.\n\n\n\n\n\n\n\nFigure 3: Pytorch Lightning Components"
   },
   {
     "objectID": "03_train.html#the-efidataset-efi_dataset.py",
@@ -151,7 +151,7 @@
     "href": "03_train.html#training",
     "title": "Training Deep Learning Models",
     "section": "Training",
-    "text": "Training\n\nClassification\nTo train the DGCNN model on the petawawa dataset for a species classification task:\npython train_pl.py \\\n    --model dgcnn \\\n    --dataset_config_key petawawa_cls \\\n    --batch_size 16 \\\n    --epoch 150 \\\n    --learning_rate 0.0001 \\\n    --log_dir petawawa_species_cls_dgcnn \\\n    --process_data # First time / no cache\n\n\n\n\n\n\nExample\n\n\n\n\nFigure 6: Example of training\n\n\n\n\n\nRegression\nTo train the DGCNN model on the petawawa dataset for a biomass estimation task:\npython train_pl.py \\\n    --model dgcnn \\\n    --dataset_config_key petawawa_reg \\\n    --batch_size 16 \\\n    --epoch 150 \\\n    --learning_rate 0.0001 \\\n    --log_dir petawawa_bio_reg_dgcnn \\\n    --process_data # First time / no cache"
+    "text": "Training\n\nClassification\nTo train the DGCNN model on the petawawa dataset for a species classification task:\npython train_pl.py \\\n    --model dgcnn \\\n    --dataset_config_key petawawa_cls \\\n    --batch_size 16 \\\n    --epoch 150 \\\n    --learning_rate 0.0001 \\\n    --log_dir petawawa_species_cls_dgcnn \\\n    --process_data # First time / no cache\n\n\n\n\n\n\nFigure 6: Example of training\n\n\n\n\n\nRegression\nTo train the DGCNN model on the petawawa dataset for a biomass estimation task:\npython train_pl.py \\\n    --model dgcnn \\\n    --dataset_config_key petawawa_reg \\\n    --batch_size 16 \\\n    --epoch 150 \\\n    --learning_rate 0.0001 \\\n    --log_dir petawawa_bio_reg_dgcnn \\\n    --process_data # First time / no cache"
   },
   {
     "objectID": "03_train.html#testing",
