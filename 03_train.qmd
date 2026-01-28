@@ -30,7 +30,7 @@ format:
 [Original Pytorch reimplementation for DGCNN](https://github.com/WangYueFt/dgcnn/blob/master/pytorch/model.py)
 
 ## Other Deep Learning Frameworks
-![Deep learning fromeworks](https://static.packt-cdn.com/products/9781800561618/graphics/image/B16692_01_02.jpg)
+![Deep learning fromeworks](https://static.packt-cdn.com/products/9781800561618/graphics/image/B16692_01_02.jpg){width="60%"}
 
 ---
 
@@ -85,33 +85,6 @@ Source code is available on [Github](https://github.com/Brent-Murray/DeepLearnin
    
 ![Components](./images/03_train/pl_modules.png)
 
-
-# How DGCNN Works
-
-While our framework supports multiple models (like PointNet, PointNet2, PointNeXt), we will focus on `DGCNN` (`--model dgcnn`) because of its superior ability to capture complex local geometry in point clouds—perfect for identifying fine details in forest structure.
-
-Unlike standard `PointNet` looks at each point individually, DGCNN looks at the difference between a point and its neighbors ($x_i - x_j$). DGCNN is based on Spatial-based Graph convolution network, which formulate graph convolutions as aggregating feature information from neighbors.  
-
-> This is like an ecologist looking not just at one tree's height, but how much taller it is than its immediate neighbors—capturing the canopy texture.
-
-For every point in the cloud:
-
-1) Find **Neighbors**: It looks at the $k$ closest neighboring points (such as $x_{j_{i1}}$,...,$x_{j_{ik}}$ are closet to $x_i$).
-
-2) Build **a Local Graph**: It constructs a graph defining the **relationship** between the central point and its neighbors using edges $(i, j_{i1}) -> e_{ij_{i1}}$.
-
-3) **Dynamic Update**: After each layer of processing (`EdgeConv`), it re-evaluates the "neighborhood" in the feature space (hence Dynamic). 
-
-::: {#fig-dgcnn-graph layout-ncol=2}
-
-![graph construction](images/03_train/dgcnna.svg)
-
-![graph convolution](images/03_train/dgcnnb.svg)
-
-DGCNN Graph Convolution
-:::
-
-This allows the model to progressively learn more complex, abstract relationships in the data, ultimately leading to highly accurate classification or attribute prediction for the entire plot.
 
 ---
 
@@ -225,6 +198,33 @@ To summary: `EfiDataset` prepares one plot at a time (Reader & Preparer). `EfiDa
 ::: 
 
 # The Model: Dynamic Graph CNN (DGCNN)
+
+## How DGCNN Works
+
+While our framework supports multiple models (like PointNet, PointNet2, PointNeXt), we will focus on `DGCNN` (`--model dgcnn`) because of its superior ability to capture complex local geometry in point clouds—perfect for identifying fine details in forest structure.
+
+Unlike standard `PointNet` looks at each point individually, DGCNN looks at the difference between a point and its neighbors ($x_i - x_j$). DGCNN is based on Spatial-based Graph convolution network, which formulate graph convolutions as aggregating feature information from neighbors.  
+
+> This is like an ecologist looking not just at one tree's height, but how much taller it is than its immediate neighbors—capturing the canopy texture.
+
+For every point in the cloud:
+
+1) Find **Neighbors**: It looks at the $k$ closest neighboring points (such as $x_{j_{i1}}$,...,$x_{j_{ik}}$ are closet to $x_i$).
+
+2) Build **a Local Graph**: It constructs a graph defining the **relationship** between the central point and its neighbors using edges $(i, j_{i1}) -> e_{ij_{i1}}$.
+
+3) **Dynamic Update**: After each layer of processing (`EdgeConv`), it re-evaluates the "neighborhood" in the feature space (hence Dynamic). 
+
+::: {#fig-dgcnn-graph layout-ncol=2}
+
+![graph construction](images/03_train/dgcnna.svg)
+
+![graph convolution](images/03_train/dgcnnb.svg)
+
+DGCNN Graph Convolution
+:::
+
+This allows the model to progressively learn more complex, abstract relationships in the data, ultimately leading to highly accurate classification or attribute prediction for the entire plot.
 
 ## Define the DGCNN Model ([dgcnn.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/dgcnn.py))
 
