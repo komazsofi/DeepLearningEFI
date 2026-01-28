@@ -32,7 +32,9 @@ format:
 ## Other Deep Learning Frameworks
 
 ::: {#fig-dl_frames-graph}
-![Deep learning fromeworks](https://static.packt-cdn.com/products/9781800561618/graphics/image/B16692_01_02.jpg){width=60%}
+
+![](https://static.packt-cdn.com/products/9781800561618/graphics/image/B16692_01_02.jpg){width=60%}
+
 Deep learning frameworks
 :::
 
@@ -78,8 +80,11 @@ Source code is available on [Github](https://github.com/Brent-Murray/DeepLearnin
 # Deep Learning Pipeline
 
 ::: {#fig-dl_pipeline-graph}
-![Pipeline ([source](https://subscription.packtpub.com/book/data/9781800561618/2/ch02lvl1sec05/understanding-the-key-components-of-pytorch-lightning))](./images/03_train/dl_pipeline.png)
-Deep learning pipenline
+
+![](./images/03_train/dl_pipeline.png)
+
+Pipeline ([source](https://subscription.packtpub.com/book/data/9781800561618/2/ch02lvl1sec05/understanding-the-key-components-of-pytorch-lightning))
+
 :::
 
 ## The Core Components of Pytorch Lightning:
@@ -94,7 +99,7 @@ Deep learning pipenline
 
 ::: {#fig-pl-comp-graph}
 
-![Pytorch Lightning Components](./images/03_train/pl_modules.png)
+![](./images/03_train/pl_modules.png)
 
 Pytorch Lightning Components
 
@@ -823,7 +828,9 @@ Load Interactive W&B Dashboard
 # Hyperparameter Tuning Weights and Biases
 
 ::: {#fig-hp-tune-graph}
-![Hyperparameter tuning process](images/03_train/hyperparameter_optimization.jpg){width=50%}
+
+![](images/03_train/hyperparameter_optimization.jpg){width=50%}
+
 Hyperparameter tuning process
 :::
 
@@ -930,7 +937,7 @@ python train_pl.py \
 
 ::: {#fig-training-graph}
 
-![Example](images\03_train\training_screenshot.png){width=70%}
+![](images\03_train\training_screenshot.png){width=100%}
 
 Example of training
 
