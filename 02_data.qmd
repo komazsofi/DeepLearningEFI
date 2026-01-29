@@ -286,6 +286,9 @@ if(PROCESS_LIDAR){
   # Clean point clouds
   las_ls <- purrr::map(las_ls, clean_pc, .progress = TRUE)
 
+  # Ensure the LAS dir exists
+  dir.create(PLOT_LAS_DIR, recursive = TRUE, showWarnings = FALSE)
+
   # Export cleaned las files
   for(i in 1:nrow(plot_centers)){
     plot_id <- plot_centers$plot_id[i]
