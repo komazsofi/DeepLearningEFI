@@ -5,6 +5,7 @@ execute:
 jupyter: python3
 format:
   html:
+    code-fold: true
     toc: True
     text: |
         <script>
@@ -231,7 +232,7 @@ def visualize_z_grid(correct_df, wrong_df, pc_dir, save_path=None):
             if pid is None:
                 continue  # empty subplot
 
-            gt = CLASS_MAP[int(r.dom_sp_type)]
+            obs = CLASS_MAP[int(r.dom_sp_type)]
             pred = CLASS_MAP[int(r.pred_dom_sp_type)]
 
             pts = np.load(pc_dir / f"{pid}.npy")[:, :3]
@@ -247,7 +248,7 @@ def visualize_z_grid(correct_df, wrong_df, pc_dir, save_path=None):
             )
 
             plotter.add_text(
-                f"{pid}\nGT:{gt} | Pred:{pred}",
+                f"{pid}\nobs:{obs} | Pred:{pred}",
                 position=(0.02,0.9),
                 viewport=True,
                 font_size=11,
@@ -298,70 +299,157 @@ visualize_z_grid(correct_df, wrong_df, pc_dir, save_path="images/04_eval/cls_out
 
 ## Forest Aboveground Biomass Regression
 
-- #TODO: re-use `visualize_z_grid` for plots with large AGB residuals 
+Forest aboveground biomass (AGB) regression is a more complex modelling task compared to classifying dominant tree species.
 
+We begin by evaluating DGCNN model trained with hyperparameters that achieved the best validation performance. 
 
-**Summarize regression results**
+**Code below include a function for loading regression predictions and converting them from Z-score to original scale.**
 
 ```{python}
 
-# Set filepaths for labels and predictions
-LABELS_FPATH = r'data/petawawa/labels.csv'
-OBS_PRED_FPATH = r'src/pretrained_ckpt/peta_reg_ocnn_bs16_lre4_ckpt_ocnn_nbk_idXM6D/checkpoints/predictions.csv'
+# Define a funmction to read 
+def load_reg_pred(obs_pred_fpath, labels_df, mean_agb, sd_agb):
+    
+    # Read predictions and make plot ID uppercase
+    df = (pd.read_csv(obs_pred_fpath)
+                .assign(plot_id=lambda df: df['plot_id'].str.upper()))
 
-# Read predictions and make plot ID uppercase
-test_df = (pd.read_csv(OBS_PRED_FPATH)
-               .assign(plot_id=lambda df: df['plot_id'].str.upper()))
+    # Drop Z-scored AGB labels from dataframes
+    df.pop('total_agb_z')
+
+    # Convert predicted Z-scores back to original AGB values (tonnes per hectare)
+    df['agb_mg_ha_pred'] = convert_from_z_score(z_vals=df['total_agb_z_pred'],
+                                                sd=sd_agb,
+                                                mean=mean_agb)
+    
+    df = df.merge(labels_df, on='plot_id', how='left')
+
+    return df
+
+```
+
+**Load observed and predicted AGB values.**
+
+Previously, we generated predictions using the trained model on the test dataset, which are stored in the `predictions.csv` file within the model checkpoint directory (`src/pretrained_ckpt/...`).
+
+We also need to load the observed AGB values from the `labels.csv`.
+
+**Below we generate an observed predicted scatterplot including regression metrics for DGCNN.** 
+
+We can see that the model fit was quite poor.
+
+```{python}
+
+LABELS_FPATH = r'data/petawawa/labels.csv'
+
+dgcnn_pred_fpath = r'src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/predictions.csv'
 
 # Read labels
 labels_df = (pd.read_csv(LABELS_FPATH)
              .assign(plot_id=lambda df: df['plot_id'].str.upper())
              .rename(columns={'total_agb_mg_ha': 'agb_mg_ha_obs'}))
 
-# Drop Z-scored AGB labels from dataframes
-test_df.pop('total_agb_z')
-labels_df.pop('total_agb_z')
-
-# Join with labels DF
-test_df = test_df.merge(labels_df, on='plot_id', how='left')
-
 # Set mean and standard deviation for Z-score conversion
-mean_agb = test_df['agb_mg_ha_obs'].mean()
-sd_agb = test_df['agb_mg_ha_obs'].std()
+mean_agb = labels_df['agb_mg_ha_obs'].mean()
+sd_agb = labels_df['agb_mg_ha_obs'].std()
 
-# Convert predicted Z-scores back to original AGB values (tonnes per hectare)
-test_df['agb_mg_ha_pred'] = convert_from_z_score(z_vals=test_df['total_agb_z_pred'],
-                                            sd=sd_agb,
-                                            mean=mean_agb)
+# Load DGCNN predictions
+dgcnn_obs_pred_df = load_reg_pred(dgcnn_pred_fpath, labels_df, mean_agb, sd_agb)
 
 # Plot regression results
-plot_regression(obs=test_df['agb_mg_ha_obs'], 
-                pred=test_df['agb_mg_ha_pred'],
+plot_regression(obs=dgcnn_obs_pred_df['agb_mg_ha_obs'], 
+                pred=dgcnn_obs_pred_df['agb_mg_ha_pred'],
                 ax_lims=(0, 400),
-                title='Deep Neural Network',
-                fig_out_fpath='images/dnn_regression_plot.png',
+                title='DGCNN',
+                fig_out_fpath='images/dgcnn_regression_plot.jpg',
+                hide=False)
+
+
+```
+
+### Improving DNN Performance
+
+Deep neural networks (DNNs) often have poor model fit when trained out-of-the-box on small datasets. Recall that most prominent DNNs are typically trained using Millions of samples.
+
+In situations like the Petawawa dataset, with only n = 249 samples, there are a few steps that can be taken to achieve improved performance.
+
+First, we can try a different DNN architecture that may be better suited to forest AGB regression. Some research has indicated that  3-D CNNs perform better for AGB estimation. For example, [Oehmcke et al. (2024)](https://doi.org/10.1016/j.rse.2023.113968) found that the Minkowski Engine sparse 3-D CNN outperformed point-based DNNs such as PointNet and KPConv for AGB regression.
+
+Following this logic, we will evaluate the effectiveness of a similar Octree-CNN (OCNN) model that was implemented by [Seely et al. (2023)](https://doi.org/10.1016/j.srs.2023.100110).
+
+**Below we evaluate the performance of OCNN on the PRF dataset.**
+
+```{python}
+
+# Load OCNN predictions
+ocnn_pred_fpath = r'src/pretrained_ckpt/peta_reg_ocnn_bs16_lre3_ckpt_no_ckpt/checkpoints/predictions.csv'
+
+ocnn_obs_pred_df = load_reg_pred(ocnn_pred_fpath, labels_df, mean_agb, sd_agb)
+
+plot_regression(obs=ocnn_obs_pred_df['agb_mg_ha_obs'], 
+                pred=ocnn_obs_pred_df['agb_mg_ha_pred'],
+                ax_lims=(0, 400),
+                title='OCNN',
+                fig_out_fpath='images/ocnn_regression_plot.jpg',
                 hide=False)
 
 ```
 
+We can see that OCNN achieved a better fit compared to DGCNN, reducing RMSE and bias and improving R².
+
+We can take this a step further and apply [transfer learning (TL)](https://d2l.ai/chapter_computer-vision/fine-tuning.html) to train OCNN. 
+
+Conventionally, DNN model weights are randomly initialized, which means the model begins training with no prior knowledge. TL involves initializing the model weights using a pre-trained OCNN model that was trained on a similar larger dataset. 
+
+In this case, we will use a version of OCNN that was pretrained on the New Brunswick forest inventory dataset from [Seely et al. (2023)](https://doi.org/10.1016/j.srs.2023.100110). This pretrained model checkpoint is stored at `src/pretrained_ckpt/ocnn_nbk_idXM6D.ckpt`.
+
+**Below we evaluate the transfer learning OCNN (OCNN-TL) performance on the PRF dataset.**
+
+We can see that transfer learning further improved the model fit.
 
 ```{python}
 
+# Different model checkpoints
+
+ocnn_tl_pred_fpath = r'src/pretrained_ckpt/peta_reg_ocnn_bs16_lre4_ckpt_ocnn_nbk_idXM6D/checkpoints/predictions.csv'
+
+ocnn_tl_obs_pred_df = load_reg_pred(ocnn_tl_pred_fpath, labels_df, mean_agb, sd_agb)
+
+plot_regression(obs=ocnn_tl_obs_pred_df['agb_mg_ha_obs'], 
+                pred=ocnn_tl_obs_pred_df['agb_mg_ha_pred'],
+                ax_lims=(0, 400),
+                title='OCNN-TL',
+                fig_out_fpath='images/ocnn_tl_regression_plot.jpg',
+                hide=False)
 ```
 
 ---
 
+Building on the poor DGCNN performance, we explored two methods of improving DNN model performance for AGB estimation:
+
+1) Using a different DNN architecture (OCNN)
+2) Applying transfer learning (OCNN-TL)
+
+Due to the hiogh degree of flexibility in DNN architectures and training strategies, there are many other potential avenues for improving model performance that can be explored. These include but are not limited to:
+
+- Hyperparameter tuning
+- Data augmentation
+- Ensemble modelling
+- ...
+
+[Safonova et al. 2023](https://doi.org/10.1016/j.jag.2023.103569) provides additional strategies for improving DNN performance for remote sensing applications in scenarios with small datasets.
 
 # Compare results to Random Forest using LiDAR Metrics
 
-## Other deep neural networks
+While it is useful to compare the performance of different deep neural networks, it is also important to benchmark DNN results against conventional machine learning approaches for EFI that rely on LiDAR metrics. The most common approach is to use Random Forest (RF) models trained using plot-level LiDAR height metrics as predictors.
 
-<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/q2oxsdbc" style="border:none;height:600px;width:100%" loading="lazy"></iframe>
+[View the RF training workflow and results here](random_forest.qmd)
 
-## Random Forest
-For comparison, we can compare the DNN results with those obtained by training random forest (RF) model.
+**Below we compare the best DNN results to RF results for both tree species classification and AGB regression.**
 
-[View the RF training and results here](random_forest.qmd)
+Overall, we can see that the DNN models implemented in this tutorial provided a modest improvement compared to RF models trained using LiDAR metrics. It is possible that this improvement could have been further increased with additional DNN hyperparameter tuning and training strategies.
+
+It is important to note the computational cost of training DNNs and the complexity of the code and overall workflow compared to RF. In some cases, the improvement in performance may not justify the added complexity of DNNs compared to RF for EFI applications.
 
 ### Comparison for tree species classification
 
@@ -373,9 +461,12 @@ For comparison, we can compare the DNN results with those obtained by training r
 ### Comparison for AGB regression
 
 <div style="display: flex; justify-content: center; gap: 20px;">
-  <img src='images/dnn_regression_plot.png' alt="Image 1" style="width: 45%; min-width: 200px;">
-  <img src='images/rf_regression_plot.png' alt="Image 2" style="width: 45%; min-width: 200px;">
+  <img src='images/ocnn_tl_regression_plot.jpg' alt="Image 1" style="width: 45%; min-width: 200px;">
+  <img src='images/rf_regression_plot.jpg' alt="Image 2" style="width: 45%; min-width: 200px;">
 </div>
 
+## Other deep neural networks
+
+<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/q2oxsdbc" style="border:none;height:600px;width:100%" loading="lazy"></iframe>
 
 

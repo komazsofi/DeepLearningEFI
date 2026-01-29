@@ -191,7 +191,7 @@ plot_regression(obs=test_df['agb_mg_ha_obs'],
                 pred=test_df['agb_mg_ha_pred'],
                 title='Random Forest',
                 ax_lims=(0, 400),
-                fig_out_fpath='images/rf_regression_plot.png')
+                fig_out_fpath='images/rf_regression_plot.jpg')
 
 plot_feature_importance(rf, metric_names, title='Feature Importance from Random Forest Regressor')
 
