@@ -222,11 +222,11 @@ window.Quarto = {
 <p><img src="images/dl_efi_high_level_figure.jpg" class="img-fluid"></p>
 <section id="how-is-deep-learning-going-to-change-efi-workflows" class="level2">
 <h2 class="anchored" data-anchor-id="how-is-deep-learning-going-to-change-efi-workflows">How is Deep Learning Going to Change EFI Workflows?</h2>
-<p>Existing research across many EFI modelling objectives (e.g., species classification, individual tree segmentation, biomass regression, etc.) has demonstrated that deep neural networks (DNNs) operating directly on point cloud data often outperform conventional modelling approaches (e.g., random forest) which rely on LiDAR metrics. These performance gains are promising and may signal a shift towards greater use of deep learning workflows when developing EFIs. Below, we summarize three studies by Seely et al.&nbsp;(2026), Cao et al.&nbsp;(2025), and Murray et al.&nbsp;(2025) that exemplify how deep learning can be used to extract more information from ALS point cloud data, resulting in more accurate forest aboveground biomass and species proportion estimates. All three studies were performed in the Romeo Malette Forest (RMF).</p>
+<p>Existing research across many EFI modelling objectives (e.g., species classification, individual tree segmentation, biomass regression, etc.) has demonstrated that deep neural networks (DNNs) operating directly on point cloud data often outperform conventional modelling approaches (e.g., random forest) that rely on LiDAR metrics. These performance gains are promising and may signal a shift towards greater use of deep learning workflows when developing EFIs. Below, we summarize three studies by Seely et al.&nbsp;(2026), Cao et al.&nbsp;(2025), and Murray et al.&nbsp;(2025) that exemplify how deep learning can be used to extract more information from ALS point cloud data, resulting in more accurate forest aboveground biomass and species proportion estimates. All three studies were performed in the Romeo Malette Forest (RMF).</p>
 </section>
 <section id="study-area" class="level2">
 <h2 class="anchored" data-anchor-id="study-area">Study Area</h2>
-<p>The RMF situated in northern Ontario within the Timmins District, is part of the boreal forest of Canada. It encompasses approximately 6,300 km2, of which 5,824 km2 is forested, extending between 47.8°N and 48.8°N and from 81.0°W to 82.4°W. The region experiences a continental climate, with mean annual precipitation ranging from 770 to 975 mm and mean annual minimum temperatures between 1.0 °C and − 5.0 °C from 1990 to 2010; over the same period, mean annual maximum temperatures varied from 15 °C to 8 °C. Elevations range from 240 to 280 m, and the terrain is characterised by minimal exposed bedrock and extensive, poorly drained flat areas.</p>
+<p>The RMF, situated in northern Ontario within the Timmins District, is part of the boreal forest of Canada. It encompasses approximately 6,300 km², of which 5,824 km² is forested, extending between 47.8°N and 48.8°N and from 81.0°W to 82.4°W. The region experiences a continental climate, with mean annual precipitation ranging from 770 to 975 mm and mean annual minimum temperatures between 1.0 °C and −5.0 °C from 1990 to 2010; over the same period, mean annual maximum temperatures varied from 8 °C to 15 °C. Elevations range from 240 to 280 m, and the terrain is characterized by minimal exposed bedrock and extensive, poorly drained flat areas.</p>
 <div id="fig-study-area" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-study-area-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -241,18 +241,18 @@ Figure&nbsp;1: The Romeo Malette Forest
 </section>
 <section id="biomass-component-regression" class="level2">
 <h2 class="anchored" data-anchor-id="biomass-component-regression">1) Biomass Component Regression</h2>
-<p><em>Based on the publication <a href="https://doi.org/10.1093/forestry/cpag004" target="”_blank”">Addressing The Small Data Problem in Forestry: Self-Supervised Learning for Aboveground Biomass Estimation</a> by Seely etal. (2026).</em></p>
+<p>*Based on the publication <a href="https://doi.org/10.1093/forestry/cpag004" target="_blank">Addressing The Small Data Problem in Forestry: Self-Supervised Learning for Aboveground Biomass Estimation</a> by Seely et al.&nbsp;(2026).</p>
 <section id="why-aboveground-biomass-component-regression" class="level3">
 <h3 class="anchored" data-anchor-id="why-aboveground-biomass-component-regression">Why Aboveground Biomass Component Regression?</h3>
-<p>Aboveground biomass (AGB) is a key element of forest inventories and is necessary for a variety of forest-related decision-making processes, including timber harvesting and wildfire fuel assessment. Forest AGB is often divided into its sub-components — wood, branch, bark, and foliage — to fulfil more specific information needs. For example, quantifying branch, bark and foliage biomass can inform <a href="https://natural-resources.canada.ca/forest-forestry/forest-industry-trade/forest-bioenergy">post-harvest bioenergy applications</a>.</p>
+<p>Aboveground biomass (AGB) is a key element of forest inventories and is necessary for a variety of forest-related decision-making processes, including timber harvesting and wildfire fuel assessment. Forest AGB is often divided into its sub-components — wood, branch, bark, and foliage — to fulfill more specific information needs. For example, quantifying branch, bark, and foliage biomass can inform <a href="https://natural-resources.canada.ca/forest-forestry/forest-industry-trade/forest-bioenergy">post-harvest bioenergy applications</a>.</p>
 </section>
 <section id="biomass-dataset" class="level3">
 <h3 class="anchored" data-anchor-id="biomass-dataset">Biomass Dataset</h3>
-<p>The RMF (described above) has 244 fixed area ground plots that were sampled in 2019. ALS data were collected across the RMF in 2018 with a density of 40 points/m^2. Total and component biomass were calculated for individual trees using allometric equations, which were aggregated to the plot level for use as response variables.</p>
+<p>The RMF (described above) has 244 fixed-area ground plots that were sampled in 2019. ALS data were collected across the RMF in 2018 with a density of 40 points/m². Total and component biomass were calculated for individual trees using allometric equations, which were aggregated to the plot level for use as response variables.</p>
 </section>
 <section id="deep-neural-network-architecture" class="level3">
 <h3 class="anchored" data-anchor-id="deep-neural-network-architecture">Deep Neural Network Architecture</h3>
-<p>We employed the <a href="https://github.com/octree-nn/ocnn-pytorch">Octree-CNN architecture</a> (hereby OCNN) from <a href="https://doi.org/10.48550/arXiv.1712.01537">Wang et al.&nbsp;(2017)</a>, which has been demonstrated to be effective for modelling forest AGB components in previous research (<a href="https://doi.org/10.1016/j.srs.2023.100110">Seely et al.&nbsp;2023</a>; <a href="https://doi.org/10.1080/01431161.2025.2492412">2025</a>). OCNN operates on point cloud data by converted it to an octree format and performing 3D convolutions at various depths (i.e., resolutions).</p>
+<p>We employed the <a href="https://github.com/octree-nn/ocnn-pytorch">Octree-CNN architecture</a> (hereafter OCNN) from <a href="https://doi.org/10.48550/arXiv.1712.01537">Wang et al.&nbsp;(2017)</a>, which has been demonstrated to be effective for modelling forest AGB components in previous research (<a href="https://doi.org/10.1016/j.srs.2023.100110">Seely et al.&nbsp;2023</a>; <a href="https://doi.org/10.1080/01431161.2025.2492412">2025</a>). OCNN operates on point cloud data by converting it to an octree format and performing 3D convolutions at various depths (i.e., resolutions).</p>
 <div id="fig-ssl-workflow" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ssl-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -266,7 +266,7 @@ Figure&nbsp;2: Octree-CNN performs 3D convolutions on multiple point cloud resol
 </section>
 <section id="self-supervised-learning-workflow" class="level3">
 <h3 class="anchored" data-anchor-id="self-supervised-learning-workflow">Self-Supervised Learning Workflow</h3>
-<p>Self-supervised learning (SSL) is a DNN modelling framework that can alleviate large dataset requirements and has been widely used in AI applications such as <a href="https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf">ChatGPT</a>. The SSL workflow in this study involved pretraining OCNN on the 500,000 unlabelled point clouds and fine-tuning OCNN on the RMF dataset (n = 244 plots). We developed a novel pretraining task for OCNN using ALS metrics as multioutput regression targets to provide the model with prior information about forest structure. We fine-tuned OCNN (hereby OCNN-F) using the pretrained version of the model as a starting point. We then compared OCNN-F to random forest (RF) and OCNN trained from scratch (i.e., random starting conditions, OCNN-S).</p>
+<p>Self-supervised learning (SSL) is a DNN modelling framework that can alleviate large dataset requirements and has been widely used in AI applications such as <a href="https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf">ChatGPT</a>. The SSL workflow in this study involved pretraining OCNN on 500,000 unlabelled point clouds and fine-tuning OCNN on the RMF dataset (n = 244 plots). We developed a novel pretraining task for OCNN using ALS metrics as multioutput regression targets to provide the model with prior information about forest structure. We fine-tuned OCNN (hereafter OCNN-F) using the pretrained version of the model as a starting point. We then compared OCNN-F to random forest (RF) and OCNN trained from scratch (i.e., random starting conditions, OCNN-S).</p>
 <div id="fig-ssl-workflow" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ssl-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -282,7 +282,7 @@ Figure&nbsp;3: Self-supervised learning workflow for direct AGB estimation from 
 <h3 class="anchored" data-anchor-id="results">Results</h3>
 <section id="model-comparison" class="level4">
 <h4 class="anchored" data-anchor-id="model-comparison">Model Comparison</h4>
-<p>Across all response variables (total and component AGB), OCNN-F had the best fit on average (R2 = 0.78), followed by RF (R2 = 0.75) and OCNN-S (R2 = 0.73). OCNN-F generally outperformed OCNN-S and RF, reducing relative RMSE by up to 5%. Both OCNN variants demonstrated lower bias compared to RF.</p>
+<p>Across all response variables (total and component AGB), OCNN-F had the best fit on average (R² = 0.78), followed by RF (R² = 0.75) and OCNN-S (R² = 0.73). OCNN-F generally outperformed OCNN-S and RF, reducing relative RMSE by up to 5%. Both OCNN variants demonstrated lower bias compared to RF.</p>
 <table class="caption-top table">
 <caption>Table 1: Performance metrics for total AGB estimation including R², root mean squared error (RMSE), and bias for Octree-CNN trained from scratch (OCNN-S), fine-tuned (OCNN-F), and random forest (RF). Metrics are summarized using the median value from five-fold cross-validation (n = 25 runs per model).</caption>
 <thead>
@@ -317,7 +317,7 @@ Figure&nbsp;3: Self-supervised learning workflow for direct AGB estimation from 
 </section>
 <section id="effect-of-dataset-size" class="level4">
 <h4 class="anchored" data-anchor-id="effect-of-dataset-size">Effect of Dataset Size</h4>
-<p>When OCNN-F, OCNN-S and RF were trained using increasingly fewer sample plots, the SSL approach provided larger improvements. For example, in situations with less than 60 training samples, OCNN-F outperformed RF and OCNN-S by 2 - 4% in terms of relative RMSE.</p>
+<p>When OCNN-F, OCNN-S, and RF were trained using increasingly fewer sample plots, the SSL approach provided larger improvements. For example, in situations with fewer than 60 training samples, OCNN-F outperformed RF and OCNN-S by 2–4% in terms of relative RMSE.</p>
 <div id="fig-ssl-agb-map" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ssl-agb-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -349,14 +349,14 @@ Figure&nbsp;5: Total and component forest aboveground biomass maps of the RMF ge
 <ul>
 <li>SSL has potential to substantially increase DNN performance for EFI, especially in scenarios with limited data</li>
 <li>SSL can also reduce computational demands by speeding up model training time</li>
-<li>Pretrained SSL models can be fine-tuned on new out-of-distribution datasets allowing for broader use cases (e.g., species classification)</li>
+<li>Pretrained SSL models can be fine-tuned on new out-of-distribution datasets, allowing for broader use cases (e.g., species classification)</li>
 </ul>
 <hr>
 </section>
 </section>
 <section id="tree-species-composition" class="level2">
 <h2 class="anchored" data-anchor-id="tree-species-composition">2) Tree Species Composition</h2>
-<p><em>Based on the publication <a href="https://doi.org/10.1016/j.isprsjprs.2025.11.026" target="”_blank”">M3FNet: Multi-modal multi-temporal multi-scale data fusion network for tree species composition mapping</a> by Cao et al.&nbsp;(2025).</em></p>
+<p>*Based on the publication <a href="https://doi.org/10.1016/j.isprsjprs.2025.11.026" target="_blank">M3FNet: Multi-modal multi-temporal multi-scale data fusion network for tree species composition mapping</a> by Cao et al.&nbsp;(2025).</p>
 <section id="why-tree-species-composition-mapping" class="level3">
 <h3 class="anchored" data-anchor-id="why-tree-species-composition-mapping">Why Tree Species Composition Mapping?</h3>
 <p>Accurate information on tree species composition (TSC) is critical for forest inventories, serving as a foundational element for forest management. By identifying TSC and its spatial patterns, forest managers can implement sustainable management practices, such as targeted silvicultural intervention, monitoring forest health, and analysing the resilience of forests.</p>
@@ -383,11 +383,11 @@ Figure&nbsp;6: Data Processing
 </section>
 <section id="deep-neural-network-architecture-1" class="level3">
 <h3 class="anchored" data-anchor-id="deep-neural-network-architecture-1">Deep Neural Network Architecture</h3>
-<p>Our proposed network architecture employs a multi-stream design to effectively process and fuse information from multispectral satellite imagery and 3D point cloud data. The model comprises two parallel streams—one dedicated to processing spectral information (Superpixel Stream) and another dedicated to processing structural information (Point Cloud Stream)—and a Fusion Stream to integrate the learnt features.</p>
+<p>Our proposed network architecture employs a multi-stream design to effectively process and fuse information from multispectral satellite imagery and 3D point cloud data. The model comprises two parallel streams—one dedicated to processing spectral information (Superpixel Stream) and another dedicated to processing structural information (Point Cloud Stream)—and a Fusion Stream to integrate the learned features.</p>
 <div id="fig-fusion-model" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fusion-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images\05_examples_TSC\architecture-m3f.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+<img src="images/05_examples_TSC/architecture-m3f.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fusion-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;7: Multi-modal data fusion network
@@ -438,7 +438,7 @@ Figure&nbsp;7: Multi-modal data fusion network
 <div id="fig-mapping-result" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-mapping-result-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images\05_examples_TSC\wall2wall_proportions_hillshade.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+<img src="images/05_examples_TSC/wall2wall_proportions_hillshade.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mapping-result-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;8: Wall-to-wall prediction results for the Romeo Malette Forest (RMF). Left: Predicted proportions of Black Spruce (SB; red channel), Jack Pine (PJ; green channel), and all remaining species (blue channel) within each polygon.
@@ -458,7 +458,7 @@ Figure&nbsp;8: Wall-to-wall prediction results for the Romeo Malette Forest (RMF
 </section>
 <section id="individual-tree-species" class="level2">
 <h2 class="anchored" data-anchor-id="individual-tree-species">3) Individual Tree Species</h2>
-<p><em>Based on the publication <a href="https://doi.org/10.1016/j.jag.2025.104877" target="”_blank”">Individual tree species prediction using airborne laser scanning data and derived point-cloud metrics within a dual-stream deep learning approach</a> by Murray et al (2025).</em></p>
+<p>*Based on the publication <a href="https://doi.org/10.1016/j.jag.2025.104877" target="_blank">Individual tree species prediction using airborne laser scanning data and derived point-cloud metrics within a dual-stream deep learning approach</a> by Murray et al.&nbsp;(2025).</p>
 <section id="why-tree-species-mapping-matters" class="level3">
 <h3 class="anchored" data-anchor-id="why-tree-species-mapping-matters">Why Tree Species Mapping Matters</h3>
 <p>Knowing which tree species are present, and where they are located, is essential for modern forest inventories. Species information supports decisions related to timber supply, carbon estimation, habitat assessment, and forest management. Traditional inventories often rely on manual interpretation and report species information at the stand level, which limits detail and scalability.</p>
@@ -503,13 +503,13 @@ Figure&nbsp;10: Dual-Stream Model (adapted from Murray et al (2025))
 </section>
 <section id="results-2" class="level3">
 <h3 class="anchored" data-anchor-id="results-2">Results</h3>
-<p>Combining point clouds with summary metrics improve tree species classification compared to using point clouds alone. The dual-stream approach produces more accurate predictions and more reliable confidence estimates across species. The largest gains were observed when both types of ALS information were used together, highlighting the value of this fusion in tree-level classification.</p>
+<p>Combining point clouds with summary metrics improves tree species classification compared to using point clouds alone. The dual-stream approach produces more accurate predictions and more reliable confidence estimates across species. The largest gains were observed when both types of ALS information were used together, highlighting the value of this fusion in tree-level classification.</p>
 <table class="caption-top table">
 <caption>Table 3: Evaluation metrics of the various model configurations</caption>
 <colgroup>
-<col style="width: 65%">
-<col style="width: 11%">
-<col style="width: 11%">
+<col style="width: 51%">
+<col style="width: 23%">
+<col style="width: 12%">
 <col style="width: 11%">
 </colgroup>
 <thead>
@@ -562,7 +562,7 @@ Figure&nbsp;10: Dual-Stream Model (adapted from Murray et al (2025))
 <div id="fig-predictive-probability" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-predictive-probability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images\treespecies/predictive_probability.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+<img src="images/treespecies/predictive_probability.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-predictive-probability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;11: Point cloud samples for each species, with associated predicted probability from each model
@@ -580,7 +580,7 @@ Figure&nbsp;11: Point cloud samples for each species, with associated predicted 
 <li>ALS can support individual tree species mapping at large scales using deep learning</li>
 <li>Automated workflows are critical for making deep learning practical in forestry</li>
 <li>Combining raw 3D data with simple summary metrics improves prediction performance</li>
-<li>Dual-stream deep learning provides a simple and effective way to combine different types of ALS based forest information.</li>
+<li>Dual-stream deep learning provides a simple and effective way to combine different types of ALS-based forest information.</li>
 </ul>
 
 
