@@ -10,17 +10,17 @@ execute:
 
 ![](https://opendata.nfis.org/mapserver/PRF_Layout.jpg){fig-alt="Petawawa Forest Map" caption="" width="80%"}
 
-This section will provide preprocessing code to prepare LiDAR and sample plot data for subsequent point cloud deep learning model development.
+This section provides preprocessing code to prepare LiDAR and sample plot data for subsequent point cloud deep learning model development.
 
 ::: callout-note
-Expert knowledge is critical when preparing data for deep leanring workflows since small artifacts or errors in the data can have large impacts on downstream model performance.
+Expert knowledge is critical when preparing data for deep learning workflows, since small artifacts or errors in the data can have large impacts on downstream model performance.
 :::
 
 ## Relevant Resources
 
 **The complete preprocessed dataset can be downloaded [here](https://ln5.sync.com/dl/88a6f5dd0#u24mrtkh-d5dqhart-zrg42shx-jfhhk8u5) as an alternative to running this notebook.**
 
-If you wish to run the preprocessing, the original height normalized ALS and sample plot data for this analysis can be downloaded from the NFIS:
+If you wish to run the preprocessing, the original height-normalized ALS and sample plot data for this analysis can be downloaded from the NFIS:
 
 * LiDAR: [https://opendata.nfis.org/downloads/petawawa/Raster/LiDAR_2018/PRF_benchmarking_harmonized_2018_ALS.zip](https://opendata.nfis.org/downloads/petawawa/Raster/LiDAR_2018/PRF_benchmarking_harmonized_2018_ALS.zip)
 
@@ -32,11 +32,11 @@ This tutorial makes use of the `lidR` package to prepare LiDAR data for deep lea
 
 ## Dataset Background
 
-The Petawawa Research Forest (PRF) is the oldest research forest in Canada, established in 1918. It is a remote sensing supersite and is part of the [GEO-TREES](https://geo-trees.org/) network. The PRF represents a rich collection of open access traditional forest inventory and remote sensing data, including multiple LiDAR and aerial imagery aquisitions in addition to a large history of field plot measurements. These data are available at the [National Forest Information System website](https://opendata.nfis.org/mapserver/PRF.html). An article by [White et al. (2019)](https://doi.org/10.5558/tfc2019-024) summarizes the PRF in greater detail.
+The Petawawa Research Forest (PRF) is the oldest research forest in Canada, established in 1918. It is a remote sensing supersite and is part of the [GEO-TREES](https://geo-trees.org/) network. The PRF represents a rich collection of open access traditional forest inventory and remote sensing data, including multiple LiDAR and aerial imagery acquisitions in addition to a large history of field plot measurements. These data are available at the [National Forest Information System website](https://opendata.nfis.org/mapserver/PRF.html). An article by [White et al. (2019)](https://doi.org/10.5558/tfc2019-024) summarizes the PRF in greater detail.
 
-In this workshop we make use of enhanced forest inventory sample plots collected in the PRF in 2018. We are also using single photon airborne laser scanning (ALS) data also collected in 2018.
+In this workshop, we make use of enhanced forest inventory sample plots collected in the PRF in 2018. We are also using single photon airborne laser scanning (ALS) data also collected in 2018.
 
-**Key information about dataset**
+**Key information about the dataset**
 
 * Sample plots are fixed-area and have a 14.1 m radius (625 m^2^).
 
@@ -123,7 +123,7 @@ np <- reticulate::import("numpy")
 
 ## Study Area
 
-We can start by examining the study area, including vector data representing ALS coverage of the PRF (i.e., the lidar index) and ground sample plot locations. 
+We can start by examining the study area, including vector data representing ALS coverage of the PRF (i.e., the LiDAR index) and ground sample plot locations. 
 
 The plot data in this case were sampled in 2018 as a remeasurement of Temporary Sample Plots (TSP) originally established in
 2013-2014 in support of an earlier LiDAR acquisition project.
@@ -165,7 +165,7 @@ view_table <- function(df){
 
 **The code below includes the LiDAR preprocessing steps to prepare the ALS point cloud data for use in deep neural network model development.**
 
-Most of these preprocessing steps are standard in any ALS - forest inventory workflow and described in greater detail in the [lidR package documentation](https://r-lidar.github.io/lidRbook/). The steps are implemented as functions below, which are applied to each individual plot-level point cloud extracted from the full LiDAR acquisition. These steps include:
+Most of these preprocessing steps are standard in any ALS - forest inventory workflow and are described in greater detail in the [lidR package documentation](https://r-lidar.github.io/lidRbook/). The steps are implemented as functions below, which are applied to each individual plot-level point cloud extracted from the full LiDAR acquisition. These steps include:
 
 1) Extract and clean ALS point clouds contained within the boundary of the ground reference plots. We do this using the function `extract_pc` in the code below. 
 
@@ -173,11 +173,11 @@ Most of these preprocessing steps are standard in any ALS - forest inventory wor
 
 3) Beyond this point, we abandon the LAS object from the lidR package and convert the point cloud to a simpler 3D array using the `pc_to_matrix` function. We do this because storing data in a simpler array format allows for faster reading time for deep learning model training. 
 
-4) We then normalize the point cloud data such that it has the X and Y coordinates are (0,0) at the center of the point cloud. This step improves deep neural network training outcomes as was outlined in early research by [Qi et al. (2017)](https://proceedings.neurips.cc/paper/2017/hash/d8bf84be3800d12f74d8b05e9b89836f-Abstract.html). This is performed using the `normalize_pc_xy` function. Note that the Z coordinates are left as height above ground in meters. 
+4) We then normalize the point cloud data such that the X and Y coordinates are (0,0) at the center of the point cloud. This step improves deep neural network training outcomes as was outlined in early research by [Qi et al. (2017)](https://proceedings.neurips.cc/paper/2017/hash/d8bf84be3800d12f74d8b05e9b89836f-Abstract.html). This is performed using the `normalize_pc_xy` function. Note that the Z coordinates are left as height above ground in meters. 
 
-5) We calculate the 95th height percentile for each plot point cloud for later comparison to ensure that there is good alignment between plot level canopy height measurements and LiDAR height. We do this with the `calc_pc_zq95` function.
+5) We calculate the 95th height percentile for each plot point cloud for later comparison to ensure that there is good alignment between plot-level canopy height measurements and LiDAR height. We do this with the `calc_pc_zq95` function.
 
-6) Export point clouds to numpy files (.npy) for later use in model development using the `write_pc_to_npy`. Note that other file formats (e.g., pickle, LAS, HDF5, PLY, etc.) are also used in point cloud deep learning applications. The choice of file format is case dependent. Here we favour the .npy format since it is fast and easy to work with in Python.
+6) Export point clouds to numpy files (.npy) for later use in model development using the `write_pc_to_npy` function. Note that other file formats (e.g., pickle, LAS, HDF5, PLY, etc.) are also used in point cloud deep learning applications. The choice of file format is case dependent. Here we favour the .npy format since it is fast and easy to work with in Python.
 
 ```{r}
 #| code-fold: true
@@ -356,10 +356,9 @@ plot_pc(demo_pc)
 
 ```
 
-
 #### Preprocessed point clouds
 
-Image below shows the 249 sample plot point clouds in the PRF from 2018. Plots are listed in decreasing order based on canopy height. Click image to view in full screen.
+The image below shows the 249 sample plot point clouds in the PRF from 2018. Plots are listed in decreasing order based on canopy height. Click the image to view in full screen.
 
 <a href="images/seely_etal_2025_prf_point_clouds.jpg" target="_blank">
   <img src="images/seely_etal_2025_prf_point_clouds.jpg" style="width:100%; display:block;"/>
@@ -367,7 +366,7 @@ Image below shows the 249 sample plot point clouds in the PRF from 2018. Plots a
 
 ## 2) Prepare Sample Plot Data
 
-We now move on to loading and examining the tree level measurements across the PRF sample plots (n = 249).
+We now move on to loading and examining the tree-level measurements across the PRF sample plots (n = 249).
 
 Below we perform the following:
 
@@ -377,7 +376,7 @@ Below we perform the following:
 
   3) Remove any dead stems from the tree list and join the data with the species names
 
-**Below we load tree level measurements and inspect the data**
+**Below we load tree-level measurements and inspect the data**
 
 ```{r}
 #| code-fold: true
@@ -432,15 +431,15 @@ trees_df %>%
 
 ### Check alignment between LiDAR and plot data
 
-An effective way to check the alignment between the preprocessed LiDAR and plot data is by comparing plot-level canopy height measurements with LiDAR-derived 95th height percentile. If there is a strong correlation this indicates good alignment.
+An effective way to check the alignment between the preprocessed LiDAR and plot data is by comparing plot-level canopy height measurements with LiDAR-derived 95th height percentile. If there is a strong correlation, this indicates good alignment.
 
 Below we perform the following:
 
-1) Load the previously derived LiDAR derived 95th height percentile values (ZQ95)
+1) Load the previously derived LiDAR-derived 95th height percentile values (ZQ95)
 
 2) Derive plot-level ZQ95 based on field tree height measurements.
 
-3) Visualize the field-derived ZQ95 vs. the LiDAR derived ZQ95.
+3) Visualize the field-derived ZQ95 vs. the LiDAR-derived ZQ95.
 
 ```{r}
 #| code-fold: true
@@ -475,7 +474,7 @@ ggsave(filename = here('images/field_vs_lidar_zq95.jpg'),
 
 ## 3) Determine Dominant Species Type
 
-Here we can classify each plot as dominated by coniferous, deciduous or mixed. These three classes will later be used to train a deep neural network classifier in the `TRAIN` section of the tutorial.
+Here we classify each plot as dominated by coniferous, deciduous, or mixed. These three classes will later be used to train a deep neural network classifier in the `TRAIN` section of the tutorial.
 
 For the purpose of this tutorial, we will use total volume (`tvol`) derived from field plot tree measurements to define species dominance.
 
@@ -483,7 +482,7 @@ In the code below we do the following:
 
 1) Set a volume percentage threshold to define species dominance (`DOMINANCE_PERC_THRESH`). 
 
-2) Define a function (`get_tvol_d_perc`) to derive the plot total volume (`plot_tvol`) and the total deciduous volume (`decid_tvol`). We then use both of these to derive the percentage deciduous volume comprising each plot.
+2) Define a function (`get_tvol_d_perc`) to derive the plot total volume (`plot_tvol`) and the total deciduous volume (`decid_tvol`). We then use both of these to derive the percentage of deciduous volume comprising each plot.
 
 3) We apply the `get_tvol_d_perc` to each plot and use the `DOMINANCE_PERC_THRESH` to assign a plot to either coniferous, deciduous, or mixed using the following logic:
 
@@ -553,7 +552,7 @@ ggsave(filename = here('images/perc_decid_histogram.jpg'),
 
 ### Prepare species-specific allometric equations
 
-Load Canadian national tree aboveground biomass equations allometric parameters (Lambert et al., 2005)
+Load Canadian national tree aboveground biomass equation allometric parameters (Lambert et al., 2005)
 
 [Lambert, M.-C.; Ung, C.-H.; Raulier, F. 2005. Canadian national tree aboveground biomass equations. Can. J. For. Res. 35:1996-2018.](https://cdnsciencepub.com/doi/10.1139/x05-112)
 
@@ -566,7 +565,6 @@ Note that for the purpose of this tutorial, we use the DBH-only allometric equat
 2) Fix issues with species names to match those in the allometric data
 
 3) Check that all species names match
-
 
 ```{r}
 #| code-fold: false
@@ -691,7 +689,7 @@ get_tree_comp_biomass <- function(tree_df, use_height=FALSE){
 
 2) Apply the `get_tree_comp_biomass` to calculate tree component biomass (Foliage, Bark, Branch, Wood)
 
-3) Sum tree biomass components to get `total_biomass_kg` in Kilograms (kg) for each tree
+3) Sum tree biomass components to get `total_biomass_kg` in kilograms (kg) for each tree
 
 4) Sum tree AGB for each plot to get plot-level AGB (`total_agb_kg`)
 
@@ -740,11 +738,11 @@ ggsave(filename = here('images/agb_histogram.jpg'),
 
 In deep learning applications, there is a requirement for three different subsets of your dataset: training, validation, and test. These are referred to as dataset `splits`.
 
-* `Training` split is used to fit the deep neural network to patterns in the data in order to predict the target
+* The `Training` split is used to fit the deep neural network to patterns in the data in order to predict the target.
 
-* `Validation` split is used during model fitting iteratively to evaluate whether the model is generalizing well. Typically model training is stopped when performance on the validation split is optimal.
+* The `Validation` split is used during model fitting iteratively to evaluate whether the model is generalizing well. Typically, model training is stopped when performance on the validation split is optimal.
 
-* `Test` split is used for final model assessment. The test data is kept completely isolated during the model fitting process and is used at the end to evaluate how well the deep neural network generalizes to unseen data.
+* The `Test` split is used for final model assessment. The test data is kept completely isolated during the model fitting process and is used at the end to evaluate how well the deep neural network generalizes to unseen data.
 
 **Below we combine the biomass and dominant species data**
 
@@ -767,7 +765,7 @@ stopifnot(
 **We randomly assign 70% of the plots to the train split, 15% to validation, and the remaining 15% to test.**
 
 ::: callout-note
-Note that in many cases, it is useful to divide sample into splits using a stratified sampling procedure based on the response variable. For for purpose of in this tutorial, we will simply assign samples to each split randomly. However, note that for imbalanced datasets this may result in poor model performance, especially if the test split does not align well with the train split. As such, other strategies can be used to get better alignment between splits, such as stratified sampling or cross-validation.
+Note that in many cases, it is useful to divide samples into splits using a stratified sampling procedure based on the response variable. For the purpose of this tutorial, we will simply assign samples to each split randomly. However, note that for imbalanced datasets this may result in poor model performance, especially if the test split does not align well with the train split. As such, other strategies can be used to get better alignment between splits, such as stratified sampling or cross-validation.
 :::
 
 ```{r}
@@ -877,8 +875,7 @@ ggsave(filename = here('images/total_agb_splits_boxplots.jpg'),
 
 ## 6) Z-score AGB
 
-In many deep learning regression problems, response variables are z-score normalized to improve training stability. Here we z-score the AGB values as shown in code and plot below.
-
+In many deep learning regression problems, response variables are z-score normalized to improve training stability. Here we z-score the AGB values as shown in the code and plot below.
 
 ```{r}
 #| code-fold: true
@@ -920,7 +917,7 @@ ggsave(filename = here('images/total_agb_z_histogram.jpg'),
 
 We have finished preparing the LiDAR, dominant species, and biomass data for deep learning training. This yields the following in our `data` directory:
 
-1) Sample plot point cloud stored as numpy array files (.npy) in `data/petawawa/plot_point_clouds`
+1) Sample plot point clouds stored as numpy array files (.npy) in `data/petawawa/plot_point_clouds`
 
 2) Dominant tree species and aboveground biomass of each plot stored in `data/petawawa/labels.csv`
 
@@ -938,7 +935,6 @@ labels_df <- labels_df %>% filter(plot_id %in% pc_id_ls)
 write.csv(labels_df, LABELS_FPATH, row.names=FALSE)
 
 ```
-
 
 **Below we visualize an example point cloud with dominant species and biomass labels**
 ```{r}
