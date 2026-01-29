@@ -270,21 +270,21 @@
     "href": "01-intro-deep-learning-slides.html#deep-neural-networks-key-concepts",
     "title": "Introduction to Deep Learning",
     "section": "Deep Neural Networks: Key Concepts",
-    "text": "Deep Neural Networks: Key Concepts\n\nLayers: Input → hidden → output\n\nDepth: Number of layers\n\nWidth: Number of neurons per layer\n\nTrade-offs: - ↑ depth/width → ↑ representational power\n- ↑ depth/width → ↑ computation, overfitting risk"
+    "text": "Deep Neural Networks: Key Concepts"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#the-neuron",
     "href": "01-intro-deep-learning-slides.html#the-neuron",
     "title": "Introduction to Deep Learning",
     "section": "The Neuron",
-    "text": "The Neuron\n\nFundamental unit of a neural network\n\nComputes a weighted sum of inputs plus a bias\n\n\\[\n\\Large y = w_1x_1 + w_2x_2 + b\n\\]\n\nWeights & biases are learned during training"
+    "text": "The Neuron\n\n\n\nFundamental unit of a neural network\n\nComputes a weighted sum of inputs plus a bias\n\n\\[\n\\Large y = w_1x_1 + w_2x_2 + b\n\\]\n\nWeights & biases are learned during training"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#activation-functions",
     "href": "01-intro-deep-learning-slides.html#activation-functions",
     "title": "Introduction to Deep Learning",
     "section": "Activation Functions",
-    "text": "Activation Functions\n\n\n\nApplied to neuron output\n\nIntroduce non-linearity\nEnable learning of complex relationships"
+    "text": "Activation Functions\n\n\n\nApplied to neuron output\n\nIntroduce non-linearity\nEnable learning of complex relationships\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\nThere are many types of activation functions, and you are encouraged to research which one would be best for your specific use case."
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#activation-functions-1",
@@ -298,7 +298,7 @@
     "href": "01-intro-deep-learning-slides.html#predictionfeedback-loop",
     "title": "Introduction to Deep Learning",
     "section": "Prediction–Feedback Loop",
-    "text": "Prediction–Feedback Loop\n\n\nThe prediction-feedback loop is what makes learning possible as a deep neural network adapts to the patterns within the data and generalizes from them.\n\nModel makes a prediction\n\nPrediction is compared and assessed to the truth\n\nFeedback is provided to the model based on errors\nError guides the adjustments to the weights/bias"
+    "text": "Prediction–Feedback Loop\n\n\nThe prediction-feedback loop is what makes learning possible as a deep neural network adapts to the patterns within the data and generalizes from them."
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#loss-gradients-and-epochs",
@@ -326,7 +326,7 @@
     "href": "01-intro-deep-learning-slides.html#common-deep-learning-tasks",
     "title": "Introduction to Deep Learning",
     "section": "Common Deep Learning Tasks",
-    "text": "Common Deep Learning Tasks\n\nClassification\nRegression\nSegmentation"
+    "text": "Common Deep Learning Tasks\nLearning is guided by defining what the task to be accomplished is.\n\nClassification\nRegression\nSegmentation"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#classification",
@@ -438,7 +438,7 @@
     "href": "01-intro-deep-learning-slides.html#training-loop",
     "title": "Introduction to Deep Learning",
     "section": "Training Loop",
-    "text": "Training Loop\nRepeated cycle:\n\nForward pass\n\nLoss computation\n\nBackward pass\n\nParameter update\n\nThis loop continues for a set number of epochs or until the model stops improving."
+    "text": "Training Loop\nRepeated cycle until optimal point reached:\n\nForward pass (predict)\nLoss computation (assess)\nBackward pass (feedback)\nParameter update (adjust)"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#gradient-descent",
@@ -719,5 +719,68 @@
     "title": "Setup",
     "section": "4) Directory structure",
     "text": "4) Directory structure\nAfter downloading the data and setting up the python environment (see above), your directory structure should include the following (among other miscelaneous files):\n\n01_intro.qmd\n02_data.qmd\n03_train.qmd\n04_evaluation.qmd\n05_examples.qmd\ncompute_lidar_metrics.qmd\ndata\npyproject.toml\nrandom_forest.qmd\nschedule.qmd\nsetup.qmd\nsrc\nuv.lock\n.venv"
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#what-is-deep-learning",
+    "href": "01-intro-deep-learning-slides.html#what-is-deep-learning",
+    "title": "Introduction to Deep Learning",
+    "section": "What Is Deep Learning?",
+    "text": "What Is Deep Learning?"
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#neural-network-components",
+    "href": "01-intro-deep-learning-slides.html#neural-network-components",
+    "title": "Introduction to Deep Learning",
+    "section": "Neural Network Components",
+    "text": "Neural Network Components\n\nLayers: Input → hidden → output\n\nDepth: Number of layers\n\nWidth: Number of neurons per layer"
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#neural-network-components-1",
+    "href": "01-intro-deep-learning-slides.html#neural-network-components-1",
+    "title": "Introduction to Deep Learning",
+    "section": "Neural Network Components",
+    "text": "Neural Network Components\nTrade-offs:\n\nIncreases in depth/width → increase representational power\n\nIncreases in depth/width → increase computation, overfitting risk"
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#how-do-neural-networks-learn",
+    "href": "01-intro-deep-learning-slides.html#how-do-neural-networks-learn",
+    "title": "Introduction to Deep Learning",
+    "section": "How Do Neural Networks Learn?",
+    "text": "How Do Neural Networks Learn?"
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#goal-loss-gradients-and-epochs",
+    "href": "01-intro-deep-learning-slides.html#goal-loss-gradients-and-epochs",
+    "title": "Introduction to Deep Learning",
+    "section": "Goal: Loss, Gradients, and Epochs",
+    "text": "Goal: Loss, Gradients, and Epochs\nLearning is driven by the loss function which guides the adjustments of the weights/biases over a number of epochs.\n\nLoss function: Measures prediction error\n\nGradients: Sensitivity of loss to small changes in weights/bias\n\nEpoch: One full pass through the training data"
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#task-classification",
+    "href": "01-intro-deep-learning-slides.html#task-classification",
+    "title": "Introduction to Deep Learning",
+    "section": "Task: Classification",
+    "text": "Task: Classification\nGoal: Assign inputs to discrete classes\nForestry examples:\n\nTree species mapping\n\nLand cover classification\n\nDisturbance detection"
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#task-regression",
+    "href": "01-intro-deep-learning-slides.html#task-regression",
+    "title": "Introduction to Deep Learning",
+    "section": "Task: Regression",
+    "text": "Task: Regression\nGoal: Predict continuous values\nForestry examples:\n\nAbove-ground biomass\n\nCanopy cover / LAI\n\nTree height, crown size"
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#task-segmentation",
+    "href": "01-intro-deep-learning-slides.html#task-segmentation",
+    "title": "Introduction to Deep Learning",
+    "section": "Task: Segmentation",
+    "text": "Task: Segmentation\nGoal: Assign labels to every pixel or point\nForestry examples:\n\nTree crown delineation\n\nStand boundaries\n\nStructural mapping"
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#data-training-validation-testing",
+    "href": "01-intro-deep-learning-slides.html#data-training-validation-testing",
+    "title": "Introduction to Deep Learning",
+    "section": "Data: Training, Validation, Testing",
+    "text": "Data: Training, Validation, Testing\nLearning happens through patterns identified in the data.\n\nTraining: Learn parameters\n\nValidation: Tune hyperparameters, prevent overfitting\n\nTesting: Final, unbiased performance estimate\n\n\n\n\n\n\n\nNote\n\n\nNever mix training, validation, and testing data. Mixing or reusing data between these datasets can lead to misleading performance metrics and poor generalization."
   }
 ]

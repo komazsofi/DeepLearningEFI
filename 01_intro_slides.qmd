@@ -64,6 +64,10 @@ format:
 
 ---
 
+## What Is Deep Learning?
+
+---
+
 ## Artificial Intelligence → Machine Learning → Deep Learning
 
 ::: {.lr}
@@ -79,18 +83,27 @@ format:
 :::
 :::
 
-
 ---
 
 ## Deep Neural Networks: Key Concepts
 
+---
+
+## Neural Network Components
+
 - **Layers:** Input → hidden → output  
 - **Depth:** Number of layers  
-- **Width:** Number of neurons per layer  
+- **Width:** Number of neurons per layer
 
+![](images/neuralnet.png)
+
+---
+
+## Neural Network Components
 **Trade-offs:**
-- ↑ depth/width → ↑ representational power  
-- ↑ depth/width → ↑ computation, overfitting risk  
+
+- Increases in depth/width → increase representational power  
+- Increases in depth/width → increase computation, overfitting risk  
 
 ![](images/neuralnet.png)
 
@@ -98,6 +111,8 @@ format:
 
 ## The Neuron
 
+::: {.lr}
+:::{.left}
 - Fundamental unit of a neural network  
 - Computes a weighted sum of inputs plus a bias  
 
@@ -106,16 +121,6 @@ $$
 $$
 
 - **Weights & biases** are learned during training  
-
----
-
-## Activation Functions
-
-::: {.lr}
-::: {.left}
-- Applied to neuron output  
-- Introduce **non-linearity**
-- Enable learning of complex relationships  
 :::
 
 ::: {.right}
@@ -145,16 +150,15 @@ There are many types of activation functions, and you are encouraged to research
 
 ---
 
+## How Do Neural Networks Learn?
+
+---
+
 ## Prediction–Feedback Loop
 
 ::: {.lr}
 ::: {.left}
 The **prediction-feedback loop** is what makes **learning** possible as a deep neural network adapts to the patterns within the data and generalizes from them.
-
-- Model makes a prediction  
-- Prediction is compared and assessed to the truth  
-- Feedback is provided to the model based on errors
-- Error guides the adjustments to the weights/bias
 
 :::
 
@@ -165,39 +169,19 @@ The **prediction-feedback loop** is what makes **learning** possible as a deep n
 
 ---
 
-## Loss, Gradients, and Epochs
+## Goal: Loss, Gradients, and Epochs
+Learning is driven by the loss function which guides the adjustments of the weights/biases over a number of epochs.
 
 - **Loss function:** Measures prediction error  
 - **Gradients:** Sensitivity of loss to small changes in weights/bias  
 - **Epoch:** One full pass through the training data  
 
-Learning occurs through repeated updates over epochs.
-
 ![](images/epochs.gif)
 
 ---
 
-## Training, Validation, Testing
-
-- **Training:** Learn parameters  
-- **Validation:** Tune hyperparameters, prevent overfitting  
-- **Testing:** Final, unbiased performance estimate  
-
----
-
-## Training, Validation, Testing
-
-- **Training:** Learn parameters  
-- **Validation:** Tune hyperparameters, prevent overfitting  
-- **Testing:** Final, unbiased performance estimate  
-
-::: callout-note
-Never mix training, validation, and testing data. Mixing or reusing data between these datasets can lead to misleading performance metrics and poor generalization.
-:::
-
----
-
 ## Common Deep Learning Tasks
+Learning is guided by defining what the task to be accomplished is.
 
 - **Classification**
 - **Regression**
@@ -205,7 +189,7 @@ Never mix training, validation, and testing data. Mixing or reusing data between
 
 ---
 
-## Classification
+## Task: Classification
 
 **Goal:** Assign inputs to discrete classes
 
@@ -219,7 +203,7 @@ Forestry examples:
 
 ---
 
-## Regression
+## Task: Regression
 
 **Goal:** Predict continuous values
 
@@ -233,7 +217,7 @@ Forestry examples:
 
 ---
 
-## Segmentation
+## Task: Segmentation
 
 **Goal:** Assign labels to every pixel or point
 
@@ -247,12 +231,16 @@ Forestry examples:
 
 ---
 
-## Segmentation
+## Data: Training, Validation, Testing
+Learning happens through patterns identified in the data.
 
-**Goal:** Assign labels to every pixel or point
+- **Training:** Learn parameters  
+- **Validation:** Tune hyperparameters, prevent overfitting  
+- **Testing:** Final, unbiased performance estimate  
 
-- **Semantic segmentation:** Assign a class to every pixel or point  
-- **Instance segmentation:** Separate individual objects from image or point cloud
+::: callout-note
+Never mix training, validation, and testing data. Mixing or reusing data between these datasets can lead to misleading performance metrics and poor generalization.
+:::
 
 ---
 
@@ -359,33 +347,16 @@ Establishing shared language before workflows and modeling.
 
 ---
 
-## Forward vs. Backward Pass
-
-- **Forward pass:** Generate predictions  
-- **Backward pass:** Compute gradients and update weights  
-
-![](images/backwardpass.png){width=80%}
-
----
-
 ## Training Loop
 
-Repeated cycle:
+Repeated cycle until optimal point reached:
 
-1. Forward pass  
-2. Loss computation  
-3. Backward pass  
-4. Parameter update  
+1. Forward pass (predict)
+2. Loss computation (assess)
+3. Backward pass (feedback)
+4. Parameter update (adjust)
 
-This loop continues for a set number of epochs or until the model stops improving.
-
----
-
-## Gradient Descent
-
-- Optimization strategy  
-- How the model adjusts its parameters to minimize loss  
-- Moves in direction of decreasing error and improve predictions
+![](images/backwardpass.png){width=60%}
 
 ---
 
@@ -413,3 +384,9 @@ Forestry data introduce domain-specific constraints.
 | Class imbalance | Bias toward majority classes | Class weighting, loss design |
 | Synthetic benchmarks | Limited real-world transfer | Domain adaptation |
 | Limited labels | Reduced robustness | Augmentation, transfer learning |
+
+---
+
+::: callout-important
+**Human expertise** is essential in AI-derived forest inventories because models **do not define objectives, meaning, or validity** on their own. **Forestry knowledge** is required to **select appropriate data, define training and modelling approaches, and interpret outputs/results** ensuring they are scientifically sound, enabling deep learning to serve as a powerful tool for informed forest management decision-making.
+:::
