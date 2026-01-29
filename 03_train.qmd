@@ -20,14 +20,14 @@ format:
 # Relevant Resources
 ---
 
-## Tutorial references of Pytorch Lightning
+## Tutorial references of PyTorch Lightning
 [Official Tutorial](https://lightning.ai/pages/blog/pl-tutorial-and-overview/)
 
 ## Paper
 [Wang Y. et al., 2019. Dynamic Graph CNN for Learning on Point Clouds](https://arxiv.org/abs/1801.07829)
 
 ## Code
-[Original Pytorch reimplementation for DGCNN](https://github.com/WangYueFt/dgcnn/blob/master/pytorch/model.py)
+[Original PyTorch reimplementation for DGCNN](https://github.com/WangYueFt/dgcnn/blob/master/pytorch/model.py)
 
 ## Other Deep Learning Frameworks
 
@@ -42,15 +42,15 @@ Deep learning frameworks
 
 # Introduction
 
-Deep Neural Networks (DNN), specifically those designed for 3D point clouds, are powerful tools for automation. This tutorial outlines how to use the `PyTorch Lightning (PL)` framework to train a specific and highly effective model—the **Dynamic Graph CNN (DGCNN)**—on your plot data.
+Deep Neural Networks (DNNs), specifically those designed for 3D point clouds, are powerful tools for automation. This tutorial outlines how to use the `PyTorch Lightning (PL)` framework to train a specific and highly effective model—the **Dynamic Graph CNN (DGCNN)**—on your plot data.
 
-Our goal is to automate complex analysis, such as:
+Our goal is to automate complex analyses, such as:
 
 1) **Classification**: Automatically determining the **forest type** (e.g., coniferous/deciduous/mixed) for a plot.
    
 2) **Regression**: Estimating **biomass** or predicting tree attributes like total height or basal area.
 
-Source code is available on [Github](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src)
+Source code is available on [GitHub](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src)
 
 ```
 └── src
@@ -87,11 +87,11 @@ Pipeline ([source](https://subscription.packtpub.com/book/data/9781800561618/2/c
 
 :::
 
-## The Core Components of Pytorch Lightning:
+## The Core Components of PyTorch Lightning:
 
-1) `LightningDataModule` wraps the data phase. It takes in a custom `PyTorch Dataset` and `DataLoader` which enables Trainer to handle data during training. If needed, `LightningDataModule` exposes the `setup` and `prepare_data` functions in case you need additional customization. 
+1) `LightningDataModule` wraps the data phase. It takes in a custom `PyTorch Dataset` and `DataLoader`, which enables the Trainer to handle data during training. If needed, `LightningDataModule` exposes the `setup` and `prepare_data` functions in case you need additional customization. 
    
-2) `LightningModule` itself is a custom `torch.nn.Module` that is extended with dozens of additional functions like `on_fit_start` and `on_fit_end`. These functions allow us better control of Trainer’s flows and enables custom behaviors by overriding these hooks. 
+2) `LightningModule` itself is a custom `torch.nn.Module` that is extended with dozens of additional functions like `on_fit_start` and `on_fit_end`. These functions allow us better control of Trainer’s flows and enable custom behaviors by overriding these hooks. 
    
 3) `Trainer` configures the training scope and manages the training loop with `LightningModule` and `LightningDataModule`. The simplest Trainer configuration is accomplished by setting flags like devices, accelerator, and strategy and by passing in our choice of loggers, profilers, callbacks, and plugins.
    
@@ -101,7 +101,7 @@ Pipeline ([source](https://subscription.packtpub.com/book/data/9781800561618/2/c
 
 ![](./images/03_train/pl_modules.png)
 
-Pytorch Lightning Components
+PyTorch Lightning Components
 
 :::
 ---
@@ -138,13 +138,13 @@ The `EfiDataset` class defines how to read your raw point cloud files (e.g., `.n
 
 4. Caches processed data
 
-- If `--process_data` is enabled, it saves a processed version to disk (`_process_and_cache()`). Future runs load this cached data instead of reprocessing `_load_cache()`. This avoids resampling the raw data every time you train, drastically speeding up development. Else: `on-the-fly`.
+- If `--process_data` is enabled, it saves a processed version to disk (`_process_and_cache()`). Future runs load this cached data instead of reprocessing (`_load_cache()`). This avoids resampling the raw data every time you train, drastically speeding up development. Else: `on-the-fly`.
  
-> Why 8192? Point clouds are massive. We downsample to a fixed number so we can process them in Batches. If we used the full points of a LiDAR plot, we'd run out of GPU memory instantly. 8192 is a typical 'Sweet Spot' for DNNs to retain structure information without crashing the hardware. We didn't test all possible settings in our demo, try it out!
+> Why 8192? Point clouds are massive. We downsample to a fixed number so we can process them in batches. If we used the full points of a LiDAR plot, we'd run out of GPU memory instantly. 8192 is a typical 'sweet spot' for DNNs to retain structural information without crashing the hardware. We didn't test all possible settings in our demo—try it out!
 
 ## The `EfiDataModule` ([efi_datamodule.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/dataset/efi_datamodule.py))
 
-In the Pytorch Lightning framework, the `EfiDataModule` wraps the `EfiDataset` to handle the data workflow. It controls how **plots** move through the training system.
+In the PyTorch Lightning framework, the `EfiDataModule` wraps the `EfiDataset` to handle the data workflow. It controls how **plots** move through the training system.
 
 ### What it manages
 
@@ -155,7 +155,7 @@ The `setup()` function creates three datasets:
 - `val_dataset` 
 - `test_dataset`
 
-Each one uses the same loading logic, but different rows from the label file ((e.g., using the `split` column in `labels.csv`)).
+Each one uses the same loading logic, but different rows from the label file (e.g., using the `split` column in `labels.csv`).
 
 2. How big each batch is
 
@@ -210,9 +210,9 @@ class EfiDataModule(pl.LightningDataModule):
 ```
 
 ::: callout-note
-Lightning call order in `DataModule`: `prepare_data()` if process data → `setup()` → `DataLoder` → GPU → Model 
+Lightning call order in `DataModule`: `prepare_data()` if process data → `setup()` → `DataLoader` → GPU → Model 
 
-To summary: `EfiDataset` prepares one plot at a time (Reader & Preparer). `EfiDataModule` manages how plots are grouped and fed into training (Traffic Controller).
+To summarize: `EfiDataset` prepares one plot at a time (Reader & Preparer). `EfiDataModule` manages how plots are grouped and fed into training (Traffic Controller).
 ::: 
 
 # The Model: Dynamic Graph CNN (DGCNN)
@@ -221,7 +221,7 @@ To summary: `EfiDataset` prepares one plot at a time (Reader & Preparer). `EfiDa
 
 While our framework supports multiple models (like PointNet, PointNet2, PointNeXt), we will focus on `DGCNN` (`--model dgcnn`) because of its superior ability to capture complex local geometry in point clouds—perfect for identifying fine details in forest structure.
 
-Unlike standard `PointNet` looks at each point individually, DGCNN looks at the difference between a point and its neighbors ($x_i - x_j$). DGCNN is based on Spatial-based Graph convolution network, which formulate graph convolutions as aggregating feature information from neighbors.  
+Unlike standard `PointNet`, which looks at each point individually, DGCNN looks at the difference between a point and its neighbors ($x_i - x_j$). DGCNN is based on a spatial-based graph convolution network, which formulates graph convolutions as aggregating feature information from neighbors.  
 
 > This is like an ecologist looking not just at one tree's height, but how much taller it is than its immediate neighbors—capturing the canopy texture.
 
@@ -246,10 +246,12 @@ This allows the model to progressively learn more complex, abstract relationship
 
 ## Implement the DGCNN Model ([dgcnn.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/dgcnn.py))
 
-This section covers the implementation of the `DGCNN` model, including :
+This section covers the implementation of the `DGCNN` model, including:
 
 - KNN-based local graph construction
-  
+- Architecture construction (input features, layers, classification head, and regression head)
+- Classification/regression heads
+
 ```{python }
 #| code-fold: true
 #| code-overflow: wrap
@@ -434,7 +436,7 @@ def get_loss_function(task):
         raise ValueError(f"Unknown task type: {task}")
 ```
 
-- For classification tasks: `F.nll_loss` ([Pytorch Implementation](https://docs.pytorch.org/docs/stable/generated/torch.nn.NLLLoss.html#torch.nn.NLLLoss)
+- For classification tasks: `F.nll_loss` ([PyTorch Implementation](https://docs.pytorch.org/docs/stable/generated/torch.nn.NLLLoss.html#torch.nn.NLLLoss)
 ). 
 
 This function is typically used when the model outputs log-probabilities (often obtained by applying a log-softmax activation to the raw logits). It penalizes the model when it assigns a low probability to the correct class:
@@ -445,7 +447,7 @@ $$
 
 where $y$ is the true class index, $\hat{y}$ is the vector of log-probabilities output by the model (e.g., via F.log_softmax), and $\hat{y}_c$ is the log-probability corresponding to the true class $c$.
 
-- For regression tasks: `F.smooth_l1_loss` ([Pytorch Implementation](https://docs.pytorch.org/docs/stable/generated/torch.nn.SmoothL1Loss.html#torch.nn.SmoothL1Loss)).
+- For regression tasks: `F.smooth_l1_loss` ([PyTorch Implementation](https://docs.pytorch.org/docs/stable/generated/torch.nn.SmoothL1Loss.html#torch.nn.SmoothL1Loss)).
 
 This function is a robust alternative to Mean Squared Error (L2) and Mean Absolute Error (L1). It behaves like L2 loss for small errors (which gives a smoother gradient for optimization) and like L1 loss for large errors (which makes it less sensitive to outliers).
 
@@ -484,11 +486,8 @@ The `EfiModelModule` is a custom wrapper built using `PyTorch Lightning` (specif
 The `EfiModelModule` connects four things into one clean interface:
 
 - The neural network (DGCNN)
-
 - The loss function
-
 - The optimizer
-
 - The evaluation metrics
 
 > Instead of writing long training loops, you describe what happens to one batch, and Lightning handles the rest.
@@ -502,7 +501,7 @@ The `EfiModelModule` typically organizes code into four main functional blocks:
 This is where the model is born.
 
 - **Model Setup**: It usually initializes a **backbone** (like `DGCNN`), a task-specific **head** (like a classification layer).
-- **Hyperparameters**: Load configs, and it uses self.save_hyperparameters() to automatically save arguments like learning rate or model version into checkpoints for easy reproducibility.
+- **Hyperparameters**: Loads configs, and it uses self.save_hyperparameters() to automatically save arguments like learning rate or model version into checkpoints for easy reproducibility.
 - **Initialize evaluation metrics**
 
 ```{python}
@@ -617,7 +616,7 @@ def test_step(self, batch, batch_idx):
 
 > This is only called when you explicitly run `trainer.test()`. It uses the "best" version of the model saved during training to see how it performs on a strictly held-out dataset. 
 
-- `prediction_step` is used for generating raw output/predictions on unseen data, it does not calculating loss and metrices:
+- `predict_step` is used for generating raw output/predictions on unseen data; it does not calculate loss and metrics:
 
 ```{python}
 #| code-fold: true
@@ -649,7 +648,7 @@ def predict_step(self, batch, batch_idx, dataloader_idx=0):
 
 4) Optimizer and scheduler: `configure_optimizers`: 
 
-This tells the trainer which algorithm to use (e.g., `Adam`, `SGD`) to adjust the model's weights to continuously minimize this loss value and how the learning rate should change over time (Schedulers. e.g., `StepLR`). 
+This tells the trainer which algorithm to use (e.g., `Adam`, `SGD`) to adjust the model's weights to continuously minimize this loss value and how the learning rate should change over time (Schedulers, e.g., `StepLR`). 
 
 ```{python}
 #| code-fold: true
@@ -764,9 +763,9 @@ else:
 | Component   | Responsibility                                         | Key Hook                         |
 |-------------|---------------------------------------------------------|----------------------------------|
 | DataModule | Loads `.npy` files and applies spatial splits           | `setup()`                       |
-| ModelModule| Defines DGCNN architecture and loss functions           | `forward()` `*_step()`                    |
-| Trainer    | Manages loops, hardware, and W&B logging                | `fit()`                        |
-| Callbacks  | Saves the best model weights automatically              | `on_validation_epoch_end()`  |
+| ModelModule| Defines DGCNN architecture and loss functions           | `forward()`, `*_step()`          |
+| Trainer    | Manages loops, hardware, and W&B logging                | `fit()`                         |
+| Callbacks  | Saves the best model weights automatically              | `on_validation_epoch_end()`      |
 
 : The EFI Deep Learning Pipeline Logic {#tbl-logic-map}
 
@@ -793,7 +792,7 @@ When you pass the `EfiModelModule` and `EfiDataModule` to a `Lightning Trainer` 
 
 # Monitoring with Weights & Biases (W&B)
 
-[Weights and Biases (wandb)](https://wandb.ai/site/) is an online deep learning tool that can track experiments, perform hyperparameter tuning and visualize results. It is an effective method for refining and comparing models with different configurations.
+[Weights and Biases (wandb)](https://wandb.ai/site/) is an online deep learning tool that can track experiments, perform hyperparameter tuning, and visualize results. It is an effective method for refining and comparing models with different configurations.
 
 The `WandbLogger` is integrated directly into the `train_pl.py` script. `W&B` is a powerful tool that automatically logs everything:
 
@@ -821,11 +820,11 @@ Load Interactive W&B Dashboard
 ## What to Look for in the Dashboard
 
 - The **Loss Curve** (Train vs. Val): If `train/loss` continues to drop but `val/loss` starts rising, the model is **overfitting** (learning the plots by heart rather than the general forest structure).
-- **Metrics**, e.g., R² Score (biomass regression), overall accuracy and mean per-calss accuracy (tree species classification)
+- **Metrics**, e.g., R² Score (biomass regression), overall accuracy and mean per-class accuracy (tree species classification)
 
 > Example: Model predicts dominant species very well, rare species always wrong: Overall accuracy = 90%, Mean class accuracy = 45%
   
-# Hyperparameter Tuning Weights and Biases
+# Hyperparameter Tuning with Weights and Biases
 
 ::: {#fig-hp-tune-graph}
 
@@ -834,7 +833,7 @@ Load Interactive W&B Dashboard
 Hyperparameter tuning process
 :::
 
-Compare results of different HPs using WANDB Sweep: DGCNN example
+Compare results of different HPs using W&B Sweep: DGCNN example
 
 Load Interactive W&B Sweep
 
@@ -918,11 +917,11 @@ For regression, we compare the standardized Above Ground Biomass (AGB) values. T
 # How to Run
 ## Environment Setup
 
-see `python_environment_setup.md`
+See the [`Get Started`](setup.qmd) page.
 
 ## Training
 ### Classification
-To train the `DGCNN` model on the petawawa dataset for a species classification task:
+To train the `DGCNN` model on the Petawawa dataset for a species classification task:
 
 ```{bash}
 python train_pl.py \
@@ -937,14 +936,14 @@ python train_pl.py \
 
 ::: {#fig-training-graph}
 
-![](images\03_train\training_screenshot.png){width=100%}
+![](images/03_train/training_screenshot.png){width=100%}
 
 Example of training
 
 ::: 
 
 ### Regression
-To train the `DGCNN` model on the petawawa dataset for a biomass estimation task:
+To train the `DGCNN` model on the Petawawa dataset for a biomass estimation task:
 
 ```{bash}
 python train_pl.py \
