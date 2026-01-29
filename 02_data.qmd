@@ -17,7 +17,7 @@ Expert knowledge is critical when preparing data for deep learning workflows, si
 
 ## Relevant Resources
 
-**The complete preprocessed dataset can be downloaded [here](https://ln5.sync.com/dl/88a6f5dd0#u24mrtkh-d5dqhart-zrg42shx-jfhhk8u5) as an alternative to running this notebook.**
+**The complete preprocessed dataset can be downloaded [here](https://doi.org/10.5281/zenodo.18420757) as an alternative to running this notebook.**
 
 If you wish to run the preprocessing, the original height-normalized ALS and sample plot data for this analysis can be downloaded from the NFIS:
 
@@ -63,7 +63,7 @@ In this workshop, we make use of enhanced forest inventory sample plots collecte
 
 ## Filepaths
 
-Ensure that the data is downloaded from [here](https://ln5.sync.com/dl/88a6f5dd0#u24mrtkh-d5dqhart-zrg42shx-jfhhk8u5) and that the filepaths below are correct prior to running any code.
+Ensure that the data is downloaded from [here](https://doi.org/10.5281/zenodo.18420757) and that the filepaths below are correct prior to running any code.
 
 Currently, the variable `PROCESS_LIDAR` is set to `FALSE`, which skips the LiDAR preprocessing code to save time. The preprocessed point cloud data is already provided in the dataset downloaded from the link above. However, if you wish to preprocess the ALS data, you can download the full Petawawa ALS dataset [here](https://opendata.nfis.org/downloads/petawawa/Raster/LiDAR_2018/PRF_benchmarking_harmonized_2018_ALS.zip). 
 

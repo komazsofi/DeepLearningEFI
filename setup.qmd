@@ -19,7 +19,7 @@ Change to the repository directory:
 
 ## 2) Data
 
-The preprocessed data can be downloaded **[here](https://ln5.sync.com/dl/88a6f5dd0#u24mrtkh-d5dqhart-zrg42shx-jfhhk8u5)**. Ensure the data is stored in the same folder where your code is stored.
+The preprocessed data can be downloaded **[here](https://doi.org/10.5281/zenodo.18420757)**. Ensure the data is stored in the same folder where your code is stored.
 
 **For specific data preprocessing information, see the [Data Section](02_data.qmd)**
 
