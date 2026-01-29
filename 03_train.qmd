@@ -17,17 +17,20 @@ format:
         </script>
 ---
 
-# Relevant Resources
----
+## Relevant Resources
 
-## Tutorial references of PyTorch Lightning
+Below we provide references to additional materials relevant to this section.
+
+### Tutorial references of PyTorch Lightning
 [Official Tutorial](https://lightning.ai/pages/blog/pl-tutorial-and-overview/)
 
-## Paper
+### Paper
 [Wang Y. et al., 2019. Dynamic Graph CNN for Learning on Point Clouds](https://arxiv.org/abs/1801.07829)
 
-## Code
+### Code
 [Original PyTorch reimplementation for DGCNN](https://github.com/WangYueFt/dgcnn/blob/master/pytorch/model.py)
+
+---
 
 ## Other Deep Learning Frameworks
 
