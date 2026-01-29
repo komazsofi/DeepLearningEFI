@@ -3,7 +3,6 @@ title: "Data Preparation"
 format:
   html:
     toc: True
-    toc-depth: 1
 execute:
   echo: true
 ---
