@@ -31,7 +31,7 @@ Post-processing: For classification, raw logits must be converted to class indic
 
 # Key Evaluation Metrics
 
-The choice of metric depends entirely on the task type, as implemented in your on_test_epoch_end hook:
+The choice of metric depends entirely on the task type, as implemented in your `on_test_epoch_end` hook:
 
 ## Classification Metrics
 
@@ -47,7 +47,6 @@ Confusion Matrix: A table that visualizes the performance of the classification 
 
 Root Mean Squared Error (RMSE): Measures the average magnitude of the errors. Since the errors are squared before being averaged, RMSE gives a relatively high weight to large errors.
 
-
 $$\text{RMSE} = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2}$$
 
 R-squared ($R^2$): Represents the proportion of the variance for a dependent variable that's explained by the independent variable(s) in a regression model. $R^2$ ranges from $0$ to $1$, with $1$ being a perfect fit.
@@ -60,7 +59,7 @@ Visualizing the results is often more informative than numerical logs alone.
 
 Qualitative Visualization: For point cloud applications, visualize the point cloud data colored by the model's predicted label versus the true label to identify spatial regions where the model struggles.
 
-> The generated predictions also uploaded to github:
+> The generated predictions are also uploaded to GitHub:
 > 
 > [Classification](./src/pretrained_ckpt/peta_cls_dgcnn_bs8_lre3/checkpoints/predictions.csv)
 > 
@@ -71,7 +70,6 @@ Qualitative Visualization: For point cloud applications, visualize the point clo
 - Load libraries and prediction
 
 ```{python}
-
 import pandas as pd
 import seaborn as sns
 import numpy as np
@@ -94,7 +92,6 @@ import pyvista as pv
 from src.utils.regression_utils import plot_regression, convert_from_z_score
 
 ```
-
 
 ### Metrics
 
@@ -280,7 +277,6 @@ def sample_grid(df, n_per_row=3, seed=42):
 ```
 
 ```{python}
-
 # Folder with point clouds
 pc_dir = Path("data/petawawa/plot_point_clouds")  # contains prf003.npy, etc
 
@@ -299,14 +295,13 @@ visualize_z_grid(correct_df, wrong_df, pc_dir, save_path="images/04_eval/cls_out
 
 # Forest Aboveground Biomass Regression
 
-Forest aboveground biomass (AGB) regression is a more complex modelling task compared to classifying dominant tree species.
+Forest aboveground biomass (AGB) regression is a more complex modeling task compared to classifying dominant tree species.
 
-We begin by evaluating DGCNN model trained with hyperparameters that achieved the best validation performance. 
+We begin by evaluating the DGCNN model trained with hyperparameters that achieved the best validation performance. 
 
-**Code below include a function for loading regression predictions and converting them from Z-score to original scale.**
+**The code below includes a function for loading regression predictions and converting them from Z-score to the original scale.**
 
 ```{python}
-
 # Define a funmction to read 
 def load_reg_pred(obs_pred_fpath, labels_df, mean_agb, sd_agb):
     
@@ -332,14 +327,13 @@ def load_reg_pred(obs_pred_fpath, labels_df, mean_agb, sd_agb):
 
 Previously, we generated predictions using the trained model on the test dataset, which are stored in the `predictions.csv` file within the model checkpoint directory (`src/pretrained_ckpt/...`).
 
-We also need to load the observed AGB values from the `labels.csv`.
+We also need to load the observed AGB values from `labels.csv`.
 
-**Below we generate an observed predicted scatterplot including regression metrics for DGCNN.** 
+**Below we generate an observed vs. predicted scatterplot including regression metrics for DGCNN.** 
 
 We can see that the model fit was quite poor.
 
 ```{python}
-
 LABELS_FPATH = r'data/petawawa/labels.csv'
 
 dgcnn_pred_fpath = r'src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/predictions.csv'
@@ -369,18 +363,17 @@ plot_regression(obs=dgcnn_obs_pred_df['agb_mg_ha_obs'],
 
 ### Improving DNN Performance
 
-Deep neural networks (DNNs) often have poor model fit when trained out-of-the-box on small datasets. Recall that most prominent DNNs are typically trained using Millions of samples.
+Deep neural networks (DNNs) often have poor model fit when trained out-of-the-box on small datasets. Recall that most prominent DNNs are typically trained using millions of samples.
 
 In situations like the Petawawa dataset, with only n = 249 samples, there are a few steps that can be taken to achieve improved performance.
 
-First, we can try a different DNN architecture that may be better suited to forest AGB regression. Some research has indicated that  3-D CNNs perform better for AGB estimation. For example, [Oehmcke et al. (2024)](https://doi.org/10.1016/j.rse.2023.113968) found that the Minkowski Engine sparse 3-D CNN outperformed point-based DNNs such as PointNet and KPConv for AGB regression.
+First, we can try a different DNN architecture that may be better suited to forest AGB regression. Some research has indicated that 3-D CNNs perform better for AGB estimation. For example, [Oehmcke et al. (2024)](https://doi.org/10.1016/j.rse.2023.113968) found that the Minkowski Engine sparse 3-D CNN outperformed point-based DNNs such as PointNet and KPConv for AGB regression.
 
 Following this logic, we will evaluate the effectiveness of a similar Octree-CNN (OCNN) model that was implemented by [Seely et al. (2023)](https://doi.org/10.1016/j.srs.2023.100110).
 
 **Below we evaluate the performance of OCNN on the PRF dataset.**
 
 ```{python}
-
 # Load OCNN predictions
 ocnn_pred_fpath = r'src/pretrained_ckpt/peta_reg_ocnn_bs16_lre3_ckpt_no_ckpt/checkpoints/predictions.csv'
 
@@ -395,11 +388,11 @@ plot_regression(obs=ocnn_obs_pred_df['agb_mg_ha_obs'],
 
 ```
 
-We can see that OCNN achieved a better fit compared to DGCNN, reducing RMSE and bias and improving R².
+We can see that OCNN achieved a better fit compared to DGCNN, reducing RMSE and bias and improving $R^2$.
 
 We can take this a step further and apply [transfer learning (TL)](https://d2l.ai/chapter_computer-vision/fine-tuning.html) to train OCNN. 
 
-Conventionally, DNN model weights are randomly initialized, which means the model begins training with no prior knowledge. TL involves initializing the model weights using a pre-trained OCNN model that was trained on a similar larger dataset. 
+Conventionally, DNN model weights are randomly initialized, which means the model begins training with no prior knowledge. TL involves initializing the model weights using a pre-trained OCNN model that was trained on a similar, larger dataset. 
 
 In this case, we will use a version of OCNN that was pretrained on the New Brunswick forest inventory dataset from [Seely et al. (2023)](https://doi.org/10.1016/j.srs.2023.100110). This pretrained model checkpoint is stored at `src/pretrained_ckpt/ocnn_nbk_idXM6D.ckpt`.
 
@@ -408,7 +401,6 @@ In this case, we will use a version of OCNN that was pretrained on the New Bruns
 We can see that transfer learning further improved the model fit.
 
 ```{python}
-
 # Different model checkpoints
 
 ocnn_tl_pred_fpath = r'src/pretrained_ckpt/peta_reg_ocnn_bs16_lre4_ckpt_ocnn_nbk_idXM6D/checkpoints/predictions.csv'
@@ -430,7 +422,7 @@ Building on the poor DGCNN performance, we explored two methods of improving DNN
 1) Using a different DNN architecture (OCNN)
 2) Applying transfer learning (OCNN-TL)
 
-Due to the hiogh degree of flexibility in DNN architectures and training strategies, there are many other potential avenues for improving model performance that can be explored. These include but are not limited to:
+Due to the high degree of flexibility in DNN architectures and training strategies, there are many other potential avenues for improving model performance that can be explored. These include, but are not limited to:
 
 - Hyperparameter tuning
 - Data augmentation
