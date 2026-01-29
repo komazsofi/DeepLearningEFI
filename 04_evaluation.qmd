@@ -66,7 +66,7 @@ Qualitative Visualization: For point cloud applications, visualize the point clo
 > 
 > [Regression](./src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/predictions.csv)
 
-## Tree Species Classification
+# Tree Species Classification
 
 - Load libraries and prediction
 
@@ -202,7 +202,7 @@ sns.heatmap(ax=ax, data=conf_matrix, annot=True, fmt='d', cmap='Blues',
 
 ax.set_xlabel('Predicted Label')
 ax.set_ylabel('Observed Label')
-ax.set_title('Deep Neural Network', fontsize=14, fontweight='bold')
+ax.set_title('DGCNN', fontsize=14, fontweight='bold')
 
 # Export figure
 fig.savefig("images/dnn_cls_confusion_matrix.jpg", dpi=300)
@@ -297,7 +297,7 @@ visualize_z_grid(correct_df, wrong_df, pc_dir, save_path="images/04_eval/cls_out
 
 ---
 
-## Forest Aboveground Biomass Regression
+# Forest Aboveground Biomass Regression
 
 Forest aboveground biomass (AGB) regression is a more complex modelling task compared to classifying dominant tree species.
 
