@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Setup – Deep Learning for Forest Inventories</title>
+<title>Introduction to Deep Learning for Enhanced Forest Inventories – Deep Learning for Forest Inventories</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -132,19 +132,21 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#code" id="toc-code" class="nav-link active" data-scroll-target="#code">1) Code</a></li>
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">2) Data</a></li>
-  <li><a href="#python-environment-setup" id="toc-python-environment-setup" class="nav-link" data-scroll-target="#python-environment-setup">3) Python Environment Setup</a></li>
-  <li><a href="#directory-structure" id="toc-directory-structure" class="nav-link" data-scroll-target="#directory-structure">4) Directory structure</a></li>
+  <li><a href="#instructors" id="toc-instructors" class="nav-link active" data-scroll-target="#instructors">Instructors</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#what-we-hope-you-will-learn" id="toc-what-we-hope-you-will-learn" class="nav-link" data-scroll-target="#what-we-hope-you-will-learn">What we hope you will learn</a></li>
+  <li><a href="#how-this-tutorial-is-setup" id="toc-how-this-tutorial-is-setup" class="nav-link" data-scroll-target="#how-this-tutorial-is-setup">How this tutorial is setup</a></li>
+  <li><a href="#how-to-follow-along" id="toc-how-to-follow-along" class="nav-link" data-scroll-target="#how-to-follow-along">How to follow along</a></li>
+  <li><a href="#be-currious-and-ask-questions" id="toc-be-currious-and-ask-questions" class="nav-link" data-scroll-target="#be-currious-and-ask-questions">Be currious and ask questions</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/Brent-Murray/DeepLearningEFI/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/Brent-Murray/DeepLearningEFI/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index-slides.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Setup</h1>
+<h1 class="title">Introduction to Deep Learning for Enhanced Forest Inventories</h1>
 </div>
 
 
@@ -161,57 +163,109 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="code" class="level2">
-<h2 class="anchored" data-anchor-id="code">1) Code</h2>
-<p>Setup begins with downloading all the code from the GitHub repository. Open up a terminal in the folder where you intend to set up the project. You can download the codebase using git as follows in the terminal:</p>
-<p>Clone the GitHub repository:</p>
-<p><code>git clone https://github.com/Brent-Murray/DeepLearningEFI</code></p>
-<p>Change to the repository directory:</p>
-<p><code>cd DeepLearningEFI</code></p>
+<section id="instructors" class="level2">
+<h2 class="anchored" data-anchor-id="instructors">Instructors</h2>
+<div class="instructors-table">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 83%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><img src="images/brent.jpg" class="avatar img-fluid"></td>
+<td><strong>Brent A. Murray</strong> - Integrated Remote Sensing Studio, University of British Columbia</td>
+</tr>
+<tr class="even">
+<td><img src="images/harry.png" class="avatar img-fluid"></td>
+<td><strong>Harry Seely</strong> - Integrated Remote Sensing Studio, University of British Columbia</td>
+</tr>
+<tr class="odd">
+<td><img src="images/yuwei.jpg" class="avatar img-fluid"></td>
+<td><strong>Yuwei Cao</strong> - Integrated Remote Sensing Studio, University of British Columbia</td>
+</tr>
+<tr class="even">
+<td><img src="images/ahmed.jpg" class="avatar img-fluid"></td>
+<td><strong>Ahmed Ragab</strong> - CanmetENERGY, Natural Resources Canada; Department of Mathematics and Industrial Engineering, Polytechnique Montreal</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
 </section>
-<section id="data" class="level2">
-<h2 class="anchored" data-anchor-id="data">2) Data</h2>
-<p>The preprocessed data can be downloaded <strong><a href="https://doi.org/10.5281/zenodo.18420757">here</a></strong>. Ensure the data is stored in the same folder where your code is stored.</p>
-<p><strong>For specific data preprocessing information, see the <a href="./02_data.html">Data Section</a></strong></p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>This is an <strong>introductory workshop for deep learning techniques for Enhanced Forest Inventories (EFIs)</strong>. It will cover a basic end-to-end deep learning workflow for EFI applications covering an <strong>introduction into deep learning</strong>, to <strong>data preparation</strong>, and finally a <strong>demo of model training, evaluation, and deployment</strong>.</p>
+<hr>
 </section>
-<section id="python-environment-setup" class="level2">
-<h2 class="anchored" data-anchor-id="python-environment-setup">3) Python Environment Setup</h2>
-<p><strong>Environment setup is performed using the <a href="https://docs.astral.sh/uv/">uv package manager</a> which will need to be installed to run the tutorial code.</strong></p>
-<p>The uv package manager allows for the installation of specific package versions to maintain reproducibility. The list of packages and their versions is included in the <a href="pyproject.toml"><code>pyproject.toml</code></a> file.</p>
-<p><strong>This code has been tested on Windows 11 and Ubuntu 24.04.2</strong></p>
-<ol type="1">
-<li><p>Install uv package manager by following the instructions at <a href="https://docs.astral.sh/uv/getting-started/installation">https://docs.astral.sh/uv/getting-started/installation</a></p>
-<p>On a Windows system, this can be done by running the following command in PowerShell:</p>
-<pre class="terminal"><code>-ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"</code></pre>
-<p>On a Linux or MacOS system, run the following command in the terminal:</p>
-<pre class="terminal"><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre></li>
-<li><p>Open a terminal and check that uv is installed by running</p>
-<pre class="terminal"><code>uv --help</code></pre></li>
-<li><p>Ensure uv is up-to-date by running</p>
-<pre class="terminal"><code>uv self update</code></pre></li>
-<li><p>Intialize the uv environment and install dependencies.</p>
-<pre class="terminal"><code>uv sync</code></pre></li>
-</ol>
-</section>
-<section id="directory-structure" class="level2">
-<h2 class="anchored" data-anchor-id="directory-structure">4) Directory structure</h2>
-<p>After downloading the data and setting up the python environment (see above), your directory structure should include the following (among other miscelaneous files):</p>
+<section id="what-we-hope-you-will-learn" class="level2">
+<h2 class="anchored" data-anchor-id="what-we-hope-you-will-learn">What we hope you will learn</h2>
 <ul>
-<li>01_intro.qmd</li>
-<li>02_data.qmd</li>
-<li>03_train.qmd</li>
-<li>04_evaluation.qmd</li>
-<li>05_examples.qmd</li>
-<li>compute_lidar_metrics.qmd</li>
-<li>data</li>
-<li>pyproject.toml</li>
-<li>random_forest.qmd</li>
-<li>schedule.qmd</li>
-<li>setup.qmd</li>
-<li>src</li>
-<li>uv.lock</li>
-<li>.venv</li>
+<li>What deep learning is and how it can be used for EFIs.</li>
+<li>How to prepare and read in data for use in deep learning.</li>
+<li>Basics of using the PyTorch Lightning deep learning library.</li>
+<li>Training a deep learning model for species classification and biomass prediction tasks.</li>
+<li>Testing and evaluating deep learning models.</li>
 </ul>
+<hr>
+</section>
+<section id="how-this-tutorial-is-setup" class="level2">
+<h2 class="anchored" data-anchor-id="how-this-tutorial-is-setup">How this tutorial is setup</h2>
+<p>This workshop will be more of a high-level tutorial on how to implement deep learning into EFI workflows. With that in mind we encourage you to follow along on the website, take notes and ask questions along the way.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This website will remain open after the workshop for participants to review the content or share it with others. Feel free to clone this <a href="https://github.com/Brent-Murray/DeepLearningEFI" tatarget="_blank">GitHub Repo</a> as it serves as a launching point for EFI deep learning projects.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="how-to-follow-along" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-follow-along">How to follow along</h2>
+<p>To make the most out of this workshop:</p>
+<ul>
+<li>Follow along with the broad concepts and ideas being presented.</li>
+<li>All the code is provided in the <a href="https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src" target="_blank">src folder</a>.</li>
+<li>Additionally all of the data and outputs are provided so you can enjoy the workshop without having to worry about coding at the same time.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Often coding workshops move at a quick pace and it becomes easy to fall behind. Because deep neural networks often require long training times, all datasets, training outputs, and model evaluations have been precomputed and are provided as part of this tutorial. We highly encourage you to try out the code after the workshop.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="be-currious-and-ask-questions" class="level2">
+<h2 class="anchored" data-anchor-id="be-currious-and-ask-questions">Be currious and ask questions</h2>
+<p>We will be monitoring in the chat throughout the workshop and encourage you to ask questions as they come up and we will do our best to answer them in a timely manner.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you have questions after the workshop or encounter any issues you can submit an issue via <a href="https://github.com/Brent-Murray/DeepLearningEFI/issues/new" target="_blank">GitHub</a>.</p>
+</div>
+</div>
 
 
 </section>

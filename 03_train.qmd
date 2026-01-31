@@ -218,9 +218,18 @@ Lightning call order in `DataModule`: `prepare_data()` if process data → `setu
 To summarize: `EfiDataset` prepares one plot at a time (Reader & Preparer). `EfiDataModule` manages how plots are grouped and fed into training (Traffic Controller).
 ::: 
 
-# The Model: Dynamic Graph CNN (DGCNN)
+# The Model: EfiModelModule ([efi_modelmodule.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/efi_modelmodule.py))
 
-## How DGCNN Works
+The `EfiModelModule` is a custom wrapper built using `PyTorch Lightning` (specifically inheriting from `pl.LightningModule`). Its primary job is to act as the "Brain" of your deep learning system—organizing the model **architecture**, the **training logic**, the **optimization**, and the **evaluation metrics** into a single, clean structure.
+
+The `EfiModelModule` connects four things into one clean interface:
+
+- The neural network (DGCNN)
+- The loss function
+- The optimizer
+- The evaluation metrics
+
+## How Dynamic Graph CNN (DGCNN) Works
 
 While our framework supports multiple models (like PointNet, PointNet2, PointNeXt), we will focus on `DGCNN` (`--model dgcnn`) because of its superior ability to capture complex local geometry in point clouds—perfect for identifying fine details in forest structure.
 
@@ -482,20 +491,7 @@ target_values = all_target.flatten()
 r2 = r2_score(target_values, pred_values)
 ```
 
-## The Model Wrapper: EfiModelModule ([efi_modelmodule.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/efi_modelmodule.py))
-
-The `EfiModelModule` is a custom wrapper built using `PyTorch Lightning` (specifically inheriting from `pl.LightningModule`). Its primary job is to act as the "Brain" of your deep learning system—organizing the model **architecture**, the **training logic**, the **optimization**, and the **evaluation metrics** into a single, clean structure.
-
-The `EfiModelModule` connects four things into one clean interface:
-
-- The neural network (DGCNN)
-- The loss function
-- The optimizer
-- The evaluation metrics
-
-> Instead of writing long training loops, you describe what happens to one batch, and Lightning handles the rest.
-
-### Core components of the wrapper
+## Core components of the wrapper
 
 The `EfiModelModule` typically organizes code into four main functional blocks:
 
@@ -678,6 +674,9 @@ def configure_optimizers(self):
     }
 ```
 
+
+> Instead of writing long training loops, you describe what happens to one batch, and Lightning handles the rest.
+
 ---
 
 # Training Deep Learning Models in PyTorch Lightning
@@ -716,7 +715,7 @@ DATASET_CONFIG = {
 
 
 ## The PyTorch Lightning Trainer ([train_pl.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/train_pl.py))
-The `Trainer` class is responsible for the entire training lifecycle, handling distributed training, checkpointing, and calling the `*step` hooks of the `EfiModelModule`.
+The `Trainer` class is responsible for the entire training lifecycle, handling distributed training, and checkpointing.
 
 ```{python}
 #| code-fold: true
@@ -794,6 +793,13 @@ When you pass the `EfiModelModule` and `EfiDataModule` to a `Lightning Trainer` 
 ---
 
 # Monitoring with Weights & Biases (W&B)
+
+::: {#fig-learning-curve}
+
+![](https://www.googleapis.com/download/storage/v1/b/kaggle-user-content/o/inbox%2F4533747%2F61b58caa4e9b00ead191242796e86e27%2Ffitting.JPG?generation=1594728310000042&alt=media){width=60%}
+
+Learning curve
+:::
 
 [Weights and Biases (wandb)](https://wandb.ai/site/) is an online deep learning tool that can track experiments, perform hyperparameter tuning, and visualize results. It is an effective method for refining and comparing models with different configurations.
 
