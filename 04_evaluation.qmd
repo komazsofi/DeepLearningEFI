@@ -61,7 +61,7 @@ Qualitative Visualization: For point cloud applications, visualize the point clo
 
 > The generated predictions are also uploaded to GitHub:
 > 
-> [Classification](./src/pretrained_ckpt/peta_cls_dgcnn_bs8_lre3/checkpoints/predictions.csv)
+> [Classification](./src/pretrained_ckpt/peta_cls_dgcnn_bs16_lre4/checkpoints/predictions.csv)
 > 
 > [Regression](./src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/predictions.csv)
 
@@ -290,6 +290,8 @@ correct_df, wrong_df = sample_grid(test_df, n_per_row=3)
 visualize_z_grid(correct_df, wrong_df, pc_dir, save_path="images/04_eval/cls_output.png")
 
 ```
+
+In the figure above we can see some point cloud samples from out testing set that have been classified correctly (top row) and some examples that have been misclassified (bottom row). Visualizing these outputs helps the user to understand the where the errors have occurred and maybe why they have occurred as well based on their domain knowledge.
 
 ---
 

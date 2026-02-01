@@ -311,6 +311,7 @@ Establishing shared language before workflows and modeling.
 - **Input features:** What the model sees  
 - **Labels:** What the model predicts  
 - **Learned features:** Internal representations  
+- **Logits:** Outputs of the final layer of a model
 
 ---
 

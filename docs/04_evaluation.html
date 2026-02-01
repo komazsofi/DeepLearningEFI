@@ -106,10 +106,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
-
-
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
-
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -284,7 +281,7 @@ window.Quarto = {
 <p>Qualitative Visualization: For point cloud applications, visualize the point cloud data colored by the model’s predicted label versus the true label to identify spatial regions where the model struggles.</p>
 <blockquote class="blockquote">
 <p>The generated predictions are also uploaded to GitHub:</p>
-<p><a href="./src/pretrained_ckpt/peta_cls_dgcnn_bs8_lre3/checkpoints/predictions.csv">Classification</a></p>
+<p><a href="./src/pretrained_ckpt/peta_cls_dgcnn_bs16_lre4/checkpoints/predictions.csv">Classification</a></p>
 <p><a href="./src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/predictions.csv">Regression</a></p>
 </blockquote>
 </section>
@@ -293,7 +290,7 @@ window.Quarto = {
 <ul>
 <li>Load libraries and prediction</li>
 </ul>
-<div id="628ebd60" class="cell" data-execution_count="1">
+<div id="bbc755a2" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -323,7 +320,7 @@ window.Quarto = {
 <ul>
 <li>Load predictions</li>
 </ul>
-<div id="fb53f34c" class="cell" data-execution_count="2">
+<div id="a66fc58e" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>CLASS_MAP <span class="op">=</span> {</span>
@@ -342,7 +339,7 @@ window.Quarto = {
 <ul>
 <li>Calculate metrics</li>
 </ul>
-<div id="b2bb8601" class="cell" data-execution_count="3">
+<div id="10130342" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ---- Summary metrics ----</span></span>
@@ -404,7 +401,7 @@ window.Quarto = {
 Table&nbsp;1: Tree species classification performance on the test dataset.
 </figcaption>
 <div aria-describedby="tbl-cls-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="12">
 <div>
 
 
@@ -467,7 +464,7 @@ Table&nbsp;1: Tree species classification performance on the test dataset.
 Table&nbsp;2: Per-class precision, recall, and F1-score for tree species classification.
 </figcaption>
 <div aria-describedby="tbl-cls-perclass-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="13">
 <div>
 
 
@@ -557,7 +554,7 @@ Figure&nbsp;1: Confusion matrix for tree species classification.
 </section>
 <section id="visualize-difficult-cases" class="level3">
 <h3 class="anchored" data-anchor-id="visualize-difficult-cases">Visualize difficult cases</h3>
-<div id="bf6e9470" class="cell" data-execution_count="7">
+<div id="7146707b" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># helper functions</span></span>
@@ -622,7 +619,7 @@ Figure&nbsp;1: Confusion matrix for tree species classification.
 <span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> correct, wrong</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="c0a37e18" class="cell" data-execution_count="8">
+<div id="b3a0d7fa" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Folder with point clouds</span></span>
@@ -649,6 +646,7 @@ Incorrect: 3</code></pre>
 </div>
 </div>
 </div>
+<p>In the figure above we can see some point cloud samples from out testing set that have been classified correctly (top row) and some examples that have been misclassified (bottom row). Visualizing these outputs helps the user to understand the where the errors have occurred and maybe why they have occurred as well based on their domain knowledge.</p>
 <hr>
 </section>
 </section>
@@ -657,7 +655,7 @@ Incorrect: 3</code></pre>
 <p>Forest aboveground biomass (AGB) regression is a more complex modeling task compared to classifying dominant tree species.</p>
 <p>We begin by evaluating the DGCNN model trained with hyperparameters that achieved the best validation performance.</p>
 <p><strong>The code below includes a function for loading regression predictions and converting them from Z-score to the original scale.</strong></p>
-<div id="230b9d5e" class="cell" data-execution_count="9">
+<div id="8253ccf3" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a funmction to read </span></span>
@@ -685,7 +683,7 @@ Incorrect: 3</code></pre>
 <p>We also need to load the observed AGB values from <code>labels.csv</code>.</p>
 <p><strong>Below we generate an observed vs.&nbsp;predicted scatterplot including regression metrics for DGCNN.</strong></p>
 <p>We can see that the model fit was quite poor.</p>
-<div id="41e92b06" class="cell" data-execution_count="10">
+<div id="c38627ff" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>LABELS_FPATH <span class="op">=</span> <span class="vs">r'data/petawawa/labels</span><span class="dv">.</span><span class="vs">csv'</span></span>
@@ -715,7 +713,7 @@ Incorrect: 3</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="04_evaluation_files/figure-html/cell-11-output-1.png" width="471" height="469" class="figure-img"></p>
+<p><img src="04_evaluation_files/figure-html/cell-11-output-1.png" width="472" height="469" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -727,7 +725,7 @@ Incorrect: 3</code></pre>
 <p>First, we can try a different DNN architecture that may be better suited to forest AGB regression. Some research has indicated that 3-D CNNs perform better for AGB estimation. For example, <a href="https://doi.org/10.1016/j.rse.2023.113968">Oehmcke et al.&nbsp;(2024)</a> found that the Minkowski Engine sparse 3-D CNN outperformed point-based DNNs such as PointNet and KPConv for AGB regression.</p>
 <p>Following this logic, we will evaluate the effectiveness of a similar Octree-CNN (OCNN) model that was implemented by <a href="https://doi.org/10.1016/j.srs.2023.100110">Seely et al.&nbsp;(2023)</a>.</p>
 <p><strong>Below we evaluate the performance of OCNN on the PRF dataset.</strong></p>
-<div id="a1e2359d" class="cell" data-execution_count="11">
+<div id="eafca428" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load OCNN predictions</span></span>
@@ -745,7 +743,7 @@ Incorrect: 3</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="04_evaluation_files/figure-html/cell-12-output-1.png" width="471" height="469" class="figure-img"></p>
+<p><img src="04_evaluation_files/figure-html/cell-12-output-1.png" width="472" height="469" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -756,7 +754,7 @@ Incorrect: 3</code></pre>
 <p>In this case, we will use a version of OCNN that was pretrained on the New Brunswick forest inventory dataset from <a href="https://doi.org/10.1016/j.srs.2023.100110">Seely et al.&nbsp;(2023)</a>. This pretrained model checkpoint is stored at <code>src/pretrained_ckpt/ocnn_nbk_idXM6D.ckpt</code>.</p>
 <p><strong>Below we evaluate the transfer learning OCNN (OCNN-TL) performance on the PRF dataset.</strong></p>
 <p>We can see that transfer learning further improved the model fit.</p>
-<div id="8a88f120" class="cell" data-execution_count="12">
+<div id="2e77c188" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Different model checkpoints</span></span>
@@ -775,7 +773,7 @@ Incorrect: 3</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="04_evaluation_files/figure-html/cell-13-output-1.png" width="471" height="469" class="figure-img"></p>
+<p><img src="04_evaluation_files/figure-html/cell-13-output-1.png" width="472" height="469" class="figure-img"></p>
 </figure>
 </div>
 </div>
