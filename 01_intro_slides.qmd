@@ -316,10 +316,17 @@ Establishing shared language before workflows and modeling.
 ---
 
 ## Data Augmentation
-
+::: {.lr}
+::: {.left}
 - Artificially increases training diversity  
 - Improves robustness and generalization  
 - Especially useful with limited labels  
+:::
+
+::: {.right}
+![](images/augmentations.png){width=80%}
+:::
+:::
 
 ---
 
