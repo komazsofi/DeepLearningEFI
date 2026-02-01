@@ -256,7 +256,7 @@
     "href": "01-intro-deep-learning-slides.html#overview",
     "title": "Introduction to Deep Learning",
     "section": "Overview",
-    "text": "Overview\nGoal: Introduce deep learning concepts for enhanced forest inventories (EFIs)\nBy the end of this section, you should be able to:\n\nExplain the role of AI in EFI modelling\n\nDistinguish AI, machine learning, and deep learning\n\nDescribe the structure of a deep neural network\n\nExplain how models learn (loss, gradients, epochs)\n\nCompare image-based vs. point-based deep learning\n\nUse core deep learning terminology correctly\n\nRecognize common forestry-specific challenges"
+    "text": "Overview\nGoal: Introduce deep learning concepts for enhanced forest inventories (EFIs)"
   },
   {
     "objectID": "01-intro-deep-learning-slides.html#artificial-intelligence-machine-learning-deep-learning",
@@ -1062,5 +1062,19 @@
     "title": "Introduction to Deep Learning",
     "section": "Key Challenges and Considerations",
     "text": "Key Challenges and Considerations\n\n\n\n\n\n\n\n\nChallenge\nImpact\nCommon Solutions\n\n\n\n\nSensor & site variability\nPoor generalization\nFine-tuning, domain adaptation\n\n\nSpatial autocorrelation\nInflated accuracy\nSpatial CV, sampling strategies\n\n\nClass imbalance\nBias toward majority classes\nClass weighting, loss design\n\n\nSynthetic benchmarks\nLimited real-world transfer\nDomain adaptation\n\n\nLimited labels\nReduced robustness\nAugmentation, transfer learning\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nHuman expertise is essential in AI-derived forest inventories because models do not define objectives, meaning, or validity on their own. Forestry knowledge is required to select appropriate data, define training and modelling approaches, and interpret outputs/results ensuring they are scientifically sound, enabling deep learning to serve as a powerful tool for informed forest management decision-making."
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#set-abstraction",
+    "href": "01-intro-deep-learning-slides.html#set-abstraction",
+    "title": "Introduction to Deep Learning",
+    "section": "Set Abstraction",
+    "text": "Set Abstraction\n\nCommon point-based architecture\nGroup nearby points instead of grids\nLearn local geometry → shapes → objects"
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#overview-1",
+    "href": "01-intro-deep-learning-slides.html#overview-1",
+    "title": "Introduction to Deep Learning",
+    "section": "Overview",
+    "text": "Overview\nBy the end of this section, you should be able to:\n\nExplain the role of AI in EFI modelling\n\nDistinguish AI, machine learning, and deep learning\n\nDescribe the structure of a deep neural network\n\nExplain how models learn (loss, gradients, epochs)\n\nCompare image-based vs. point-based deep learning\n\nUse core deep learning terminology correctly\n\nRecognize common forestry-specific challenges"
   }
 ]

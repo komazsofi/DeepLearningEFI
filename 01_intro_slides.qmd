@@ -52,6 +52,9 @@ format:
 
 **Goal:** Introduce deep learning concepts for enhanced forest inventories (EFIs)
 
+---
+
+## Overview
 **By the end of this section, you should be able to:**
 
 - Explain the role of AI in EFI modelling  
@@ -286,6 +289,16 @@ Two dominant approaches in remote sensing:
 - Learns from spatial relationships  
 
 ![](images/pointdl.png){width=80%}
+
+---
+
+## Set Abstraction
+
+- Common point-based architecture
+- Group nearby points instead of grids
+- Learn local geometry → shapes → objects  
+
+![](images/setabstraction.png){width=80%}
 
 ---
 
