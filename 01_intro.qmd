@@ -210,7 +210,7 @@ Before exploring data preparation, training workflows, and model evaluation, it 
 ### Data augmentation
 **Data augmentation** refers to the process of artificially increasing the diversity of a training dataset by applying specific and controlled transformations to existing samples. Augmentation introduces realistic variability (e.g., geometric transformations, intensity perturbations, or spatial subsampling), while preserving the underlying labels. This helps improve model generalization by reducing overfitting and increasing robustness to noise, sensor differences, and site variability. Data augmentation is particularly valuable in forestry and remote sensing applications, where labelled data are limited, class imbalances are common, and acquisition conditions vary across regions and sensors.
 
-![Point cloud augmentations](images/augmentations.png){#fig-augmentations fig-align="center" width=80%}
+![Point Cloud Augmentations](images/augmentations.png){#fig-augmentations fig-align="center" width=80%}
 
 ### Batches & batch size
 Instead of processing the entire dataset at once, the model learns from small subsets of the data called **batches**. The **batch size** is the number of samples processed per training step. Batch size affects memory usage, training stability, and learning dynamics.

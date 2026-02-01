@@ -17,11 +17,10 @@ format:
         </script>
 ---
 
-This section details how to interpret the results from the final test run and how to use the trained model effectively.
+## Overview
+This section describes how to evaluate trained deep learning models using an independent test dataset. It focuses on interpreting results from the final test run performed with the optimal network configuration after convergence. The evaluation procedures are demonstrated through our two case studies: tree species classification and biomass regression.
 
----
-
-# Evaluating Deep Learning Predictions
+## Evaluating Deep Learning Predictions
 
 Evaluation goes beyond just logging the final loss. It requires inspecting the raw outputs and ensuring they make sense in the context of the problem.
 
@@ -29,11 +28,11 @@ Prediction vs. Target: The core of evaluation is comparing the model's output (r
 
 Post-processing: For classification, raw logits must be converted to class indices (e.g., using `np.argmax(all_pred, axis=1)`) before calculating metrics like accuracy or confusion matrices.
 
-# Key Evaluation Metrics
+## Key Evaluation Metrics
 
 The choice of metric depends entirely on the task type, as implemented in your `on_test_epoch_end` hook:
 
-## Classification Metrics
+### Classification metrics
 
 Instance Accuracy: The proportion of correctly classified individual samples (points or objects).
 
@@ -43,7 +42,7 @@ $$\text{Class Acc} = \frac{1}{N_{c}} \sum_{c=1}^{N_{c}} \frac{\text{True Positiv
 
 Confusion Matrix: A table that visualizes the performance of the classification model, where each row represents the instances in an actual class, and each column represents the instances in a predicted class.
 
-## Regression Metrics
+### Regression metrics
 
 Root Mean Squared Error (RMSE): Measures the average magnitude of the errors. Since the errors are squared before being averaged, RMSE gives a relatively high weight to large errors.
 
@@ -51,9 +50,8 @@ $$\text{RMSE} = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2}$$
 
 R-squared ($R^2$): Represents the proportion of the variance for a dependent variable that's explained by the independent variable(s) in a regression model. $R^2$ ranges from $0$ to $1$, with $1$ being a perfect fit.
 
----
 
-# Prediction Results and Visualization
+## Prediction Results and Visualization
 
 Visualizing the results is often more informative than numerical logs alone.
 
@@ -65,9 +63,12 @@ Qualitative Visualization: For point cloud applications, visualize the point clo
 > 
 > [Regression](./src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/predictions.csv)
 
-# Tree Species Classification
+## Tree Species Classification
 
-- Load libraries and prediction
+First we need to load in our libraries and our predictions that we generated at the end of the train section.
+
+### Load libraries
+Metrics can be calculated from libraries such as scikit-learn. `sklearn.metrics` provides common predefined functions that we can use to evaluate our predictions from our examples.
 
 ```{python}
 import pandas as pd
@@ -92,10 +93,8 @@ import pyvista as pv
 from src.utils.regression_utils import plot_regression, convert_from_z_score
 
 ```
-
-### Metrics
-
-- Load predictions
+### Load predictions
+We then can load in our predictions of our test dataset which we load in as a dataframe with true and predicted observations.
 
 ```{python}
 CLASS_MAP = {
@@ -104,7 +103,7 @@ CLASS_MAP = {
     2: "mixed"
 }
 
-# Load predictions
+## Load Predictions
 test_df = pd.read_csv(r"src/pretrained_ckpt/peta_cls_dgcnn_bs16_lre4/checkpoints/predictions.csv")
 
 y_true = test_df["dom_sp_type"]
@@ -112,7 +111,8 @@ y_pred = test_df["pred_dom_sp_type"]
 
 ```
 
-- Calculate metrics
+### Calculate overall classification metrics
+For classification, we often calculate multiple accuracy metrics such as **overall accuracy, Cohen’s kappa, and F1-score**. Providing multiple metrics allows a more comprehensive assessment of model performance, as each metric captures different aspects of classification quality, particularly in the presence of class imbalance or unequal error costs.
 
 ```{python}
 #| code-fold: true
@@ -156,10 +156,6 @@ per_class_df = (
     })
 )
 ```
-
-Print results:
-
-- Overall performance
 ```{python}
 #| label: tbl-cls-metrics
 #| tbl-cap: "Tree species classification performance on the test dataset."
@@ -170,8 +166,10 @@ summary_df["Value"] = summary_df["Value"].map(lambda x: f"{x:.3f}")
 
 summary_df
 ```
+### Calculate class specific metrics
+Per-class metrics such as **precision and recall** provide insight into how well individual classes are identified, highlighting class-specific errors that may be obscured by aggregate accuracy measures. **Confusion matrices** further support this analysis by explicitly showing the distribution of correct and incorrect predictions across classes, enabling a detailed interpretation of misclassification patterns.
 
-- Per-class metrics
+
 ```{python}
 #| label: tbl-cls-perclass
 #| tbl-cap: "Per-class precision, recall, and F1-score for tree species classification."
@@ -181,7 +179,6 @@ for col in ["Precision", "Recall", "F1-score"]:
 per_class_df
 ```
 
-- Confusion matrix
 
 ```{python}
 #| label: fig-cls-confmat
@@ -207,9 +204,9 @@ fig.savefig("images/dnn_cls_confusion_matrix.jpg", dpi=300)
 plt.show()
 ```
 
----
-
 ### Visualize difficult cases
+
+It is often beneficial to visualize individual examples to better understand model predictions. The figure below shows point cloud samples from the testing set, including correctly classified cases (top row) and misclassified cases (bottom row). Such visualizations help identify where errors occur and, when combined with domain knowledge, provide insight into potential causes of misclassification
 
 ```{python}
 #| code-fold: true
@@ -291,11 +288,7 @@ visualize_z_grid(correct_df, wrong_df, pc_dir, save_path="images/04_eval/cls_out
 
 ```
 
-In the figure above we can see some point cloud samples from out testing set that have been classified correctly (top row) and some examples that have been misclassified (bottom row). Visualizing these outputs helps the user to understand the where the errors have occurred and maybe why they have occurred as well based on their domain knowledge.
-
----
-
-# Forest Aboveground Biomass Regression
+## Forest Aboveground Biomass Regression
 
 Forest aboveground biomass (AGB) regression is a more complex modeling task compared to classifying dominant tree species.
 
@@ -363,7 +356,7 @@ plot_regression(obs=dgcnn_obs_pred_df['agb_mg_ha_obs'],
 
 ```
 
-### Improving DNN Performance
+### Improving DNN performance
 
 Deep neural networks (DNNs) often have poor model fit when trained out-of-the-box on small datasets. Recall that most prominent DNNs are typically trained using millions of samples.
 
