@@ -544,6 +544,17 @@ Figure&nbsp;11: Point Based Deep Learning
 </figcaption>
 </figure>
 </div>
+<p>A common point-based deep learning technique is <strong>set abstraction</strong>, used in models such as PointNet++ <a href="https://dl.acm.org/doi/10.5555/3295222.3295263" target="_blank">(Qi et al., 2017)</a>. Instead of sliding filters over a grid like a CNN, set abstraction groups nearby points in the point cloud to capture local geometric patterns. Each layer selects representative points, gathers their neighbours, and learns features from these local groups. As the data moves through successive layers, the model captures increasingly complex 3D structures from fine details to larger objects such as trees and forest canopies.</p>
+<div id="fig-set-abstraction" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-set-abstraction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/setabstraction.png" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-set-abstraction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;12: Set Abstraction (adapted from Qi et al., (2017))
+</figcaption>
+</figure>
+</div>
 </section>
 </section>
 <section id="key-terminology-and-concepts-to-know" class="level2">
@@ -570,7 +581,7 @@ Figure&nbsp;11: Point Based Deep Learning
 <img src="images/augmentations.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-augmentations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;12: Point cloud augmentations
+Figure&nbsp;13: Point cloud augmentations
 </figcaption>
 </figure>
 </div>
@@ -584,7 +595,7 @@ Figure&nbsp;12: Point cloud augmentations
 <img src="images/batch.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-batches-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;13: Batches
+Figure&nbsp;14: Batches
 </figcaption>
 </figure>
 </div>
@@ -604,7 +615,7 @@ Figure&nbsp;13: Batches
 <img src="images/backwardpass.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-backwardpass-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;14: Backward Pass
+Figure&nbsp;15: Backward Pass
 </figcaption>
 </figure>
 </div>
@@ -707,7 +718,7 @@ Deep learning excels at learning complex patterns, handling high-dimensional dat
 <img src="images/dlcomplexity.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deeplearning-complexity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;15: Data and Task Complexity for Deep and Machine Learning
+Figure&nbsp;16: Data and Task Complexity for Deep and Machine Learning
 </figcaption>
 </figure>
 </div>

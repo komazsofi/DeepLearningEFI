@@ -186,6 +186,10 @@ A common image-based deep learning technique is the **convolutional neural netwo
 
 ![Point Based Deep Learning](images/pointdl.png){#fig-pointdl fig-align="center" width=80%}
 
+A common point-based deep learning technique is **set abstraction**, used in models such as PointNet++ <a href="https://dl.acm.org/doi/10.5555/3295222.3295263" target="_blank">(Qi et al., 2017)</a>. Instead of sliding filters over a grid like a CNN, set abstraction groups nearby points in the point cloud to capture local geometric patterns. Each layer selects representative points, gathers their neighbours, and learns features from these local groups. As the data moves through successive layers, the model captures increasingly complex 3D structures from fine details to larger objects such as trees and forest canopies.
+
+![Set Abstraction (adapted from Qi et al., (2017))](images/setabstraction.png){#fig-set-abstraction fig-align="center"}
+
 ## Key Terminology and Concepts to Know
 Before exploring data preparation, training workflows, and model evaluation, it is useful to establish a common vocabulary describing how deep neural networks operate. The terms below describe the core components, processes, and ideas that appear throughout all deep learning methods, regardless of the specific architecture or data type. Understanding these concepts will help clarify how models learn, how they are structured, and how different parts of the training pipeline fit together.
 
