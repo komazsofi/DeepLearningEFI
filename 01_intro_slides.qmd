@@ -50,7 +50,7 @@ format:
 
 ## Overview
 
-**Goal:** Introduce deep learning concepts for enhanced forest inventories (EFIs)
+**Goal:** Provide an introduction to deep learning concepts and how they can be applied to enhanced forest inventories (EFIs)
 
 ---
 
