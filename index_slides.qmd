@@ -88,6 +88,10 @@ format:
     embed-resources: true
 ---
 
+![](images/workshoptitle.png)
+
+---
+
 ## Instructors
 
 ::: {.instructors-table}
