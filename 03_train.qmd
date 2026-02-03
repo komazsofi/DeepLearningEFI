@@ -111,17 +111,27 @@ PyTorch Lightning Components
 
 # The Data Foundation: The EFI Point Cloud Dataset
 
-The first step in any deep learning project is getting your data from files on disk into **tensors** on the GPU. In this project, that job is handled by two Python scripts:
+The first step in any deep learning project is getting your data from files on disk into **tensors** on the GPU. 
+
+
+In this project, that job is handled by two Python scripts:
 
 - `EfiDataset.py` — reads and prepares individual plots
 
 - `EfiDataModule.py` — organizes those plots into **training**, **validation**, and **test loaders**
+
+::: {.callout-tip}
+Tensor?
+
+Tensors are the fundamental building block of deep learning. Their job is to represent data in a numerical way. An n-dimensional array of numbers, a 0-dimension tensor is a scalar, a 1-dimension tensor is a vector
+:::
 
 ## The `EfiDataset` ([efi_dataset.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/dataset/efi_dataset.py))
 
 The `EfiDataset` class defines how to read your raw point cloud files (e.g., `.npy` format saved for each plot) and your labels file (e.g., `labels.csv` in our workshop) for the model.
 
 ### What it does
+
 
 1. Reads raw files
 
@@ -142,6 +152,14 @@ The `EfiDataset` class defines how to read your raw point cloud files (e.g., `.n
 4. Caches processed data
 
 - If `--process_data` is enabled, it saves a processed version to disk (`_process_and_cache()`). Future runs load this cached data instead of reprocessing (`_load_cache()`). This avoids resampling the raw data every time you train, drastically speeding up development. Else: `on-the-fly`.
+
+::: {#fig-pc-tensor-graph}
+
+![](./images/03_train/ChatGPT_pc_tensor.png){width="70%"}
+
+`EfiDataset` workflow
+
+:::
  
 > Why 8192? Point clouds are massive. We downsample to a fixed number so we can process them in batches. If we used the full points of a LiDAR plot, we'd run out of GPU memory instantly. 8192 is a typical 'sweet spot' for DNNs to retain structural information without crashing the hardware. We didn't test all possible settings in our demo—try it out!
 
@@ -166,6 +184,14 @@ Each one uses the same loading logic, but different rows from the label file (e.
 1. How big each batch is
 
 2. How many background workers load data in parallel (make sure batches are efficiently provided to the GPU workers).
+
+::: {#fig-datamodule-graph}
+
+![](./images/03_train/ChatGPT_datamodule.png){width="70%"}
+
+`EfiDataModule` workflow
+
+:::
 
 ```{python}
 #| code-overflow: wrap

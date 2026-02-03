@@ -381,11 +381,26 @@ Figure&nbsp;3: PyTorch Lightning Components
 </section>
 <section id="the-data-foundation-the-efi-point-cloud-dataset" class="level1">
 <h1>The Data Foundation: The EFI Point Cloud Dataset</h1>
-<p>The first step in any deep learning project is getting your data from files on disk into <strong>tensors</strong> on the GPU. In this project, that job is handled by two Python scripts:</p>
+<p>The first step in any deep learning project is getting your data from files on disk into <strong>tensors</strong> on the GPU.</p>
+<p>In this project, that job is handled by two Python scripts:</p>
 <ul>
 <li><p><code>EfiDataset.py</code> — reads and prepares individual plots</p></li>
 <li><p><code>EfiDataModule.py</code> — organizes those plots into <strong>training</strong>, <strong>validation</strong>, and <strong>test loaders</strong></p></li>
 </ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Tensor?</p>
+<p>Tensors are the fundamental building block of deep learning. Their job is to represent data in a numerical way. An n-dimensional array of numbers, a 0-dimension tensor is a scalar, a 1-dimension tensor is a vector</p>
+</div>
+</div>
 <section id="the-efidataset-efi_dataset.py" class="level2">
 <h2 class="anchored" data-anchor-id="the-efidataset-efi_dataset.py">The <code>EfiDataset</code> (<a href="https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/dataset/efi_dataset.py">efi_dataset.py</a>)</h2>
 <p>The <code>EfiDataset</code> class defines how to read your raw point cloud files (e.g., <code>.npy</code> format saved for each plot) and your labels file (e.g., <code>labels.csv</code> in our workshop) for the model.</p>
@@ -417,6 +432,16 @@ Figure&nbsp;3: PyTorch Lightning Components
 <ul>
 <li>If <code>--process_data</code> is enabled, it saves a processed version to disk (<code>_process_and_cache()</code>). Future runs load this cached data instead of reprocessing (<code>_load_cache()</code>). This avoids resampling the raw data every time you train, drastically speeding up development. Else: <code>on-the-fly</code>.</li>
 </ul>
+<div id="fig-pc-tensor-graph" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pc-tensor-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="./images/03_train/ChatGPT_pc_tensor.png" class="img-fluid figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pc-tensor-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: <code>EfiDataset</code> workflow
+</figcaption>
+</figure>
+</div>
 <blockquote class="blockquote">
 <p>Why 8192? Point clouds are massive. We downsample to a fixed number so we can process them in batches. If we used the full points of a LiDAR plot, we’d run out of GPU memory instantly. 8192 is a typical ‘sweet spot’ for DNNs to retain structural information without crashing the hardware. We didn’t test all possible settings in our demo—try it out!</p>
 </blockquote>
@@ -441,7 +466,17 @@ Figure&nbsp;3: PyTorch Lightning Components
 <li><p>How big each batch is</p></li>
 <li><p>How many background workers load data in parallel (make sure batches are efficiently provided to the GPU workers).</p></li>
 </ol>
-<div id="311acf8c" class="cell" data-execution_count="1">
+<div id="fig-datamodule-graph" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-datamodule-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="./images/03_train/ChatGPT_datamodule.png" class="img-fluid figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-datamodule-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: <code>EfiDataModule</code> workflow
+</figcaption>
+</figure>
+</div>
+<div id="6667425a" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># efi_datamodule.py</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytorch_lightning <span class="im">as</span> pl</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> DataLoader</span>
@@ -550,7 +585,7 @@ Note
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dgcnn-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: DGCNN Graph Convolution
+Figure&nbsp;6: DGCNN Graph Convolution
 </figcaption>
 </figure>
 </div>
@@ -564,7 +599,7 @@ Figure&nbsp;4: DGCNN Graph Convolution
 <li>Architecture construction (input features, layers, classification head, and regression head)</li>
 <li>Classification/regression heads</li>
 </ul>
-<div id="a82b1c1a" class="cell" data-execution_count="2">
+<div id="16e463d9" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
@@ -609,7 +644,7 @@ Figure&nbsp;4: DGCNN Graph Convolution
 <ul>
 <li>Architecture construction (input features, layers, classification head, and regression head)</li>
 </ul>
-<div id="199aaae0" class="cell" data-execution_count="3">
+<div id="04b37a4a" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
@@ -692,7 +727,7 @@ Figure&nbsp;4: DGCNN Graph Convolution
 <ul>
 <li>classification/regression heads</li>
 </ul>
-<div id="5c9a91ed" class="cell" data-execution_count="4">
+<div id="5193b32b" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ClassificationHead(nn.Module):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, in_dim, num_outputs, drop1<span class="op">=</span><span class="fl">0.5</span>, drop2<span class="op">=</span><span class="fl">0.5</span>):</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
@@ -734,7 +769,7 @@ Figure&nbsp;4: DGCNN Graph Convolution
 <h2 class="anchored" data-anchor-id="loss-functions-loss_utils.py">Loss Functions (<a href="https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/loss_utils.py">loss_utils.py</a>)</h2>
 <p>The <strong>loss function</strong>, or cost function, quantifies the <em>difference between the model’s prediction and the true target value</em>. It is the primary signal that guides the DNN during training.</p>
 <p>Our module uses task-specific loss components (Classification or Regression loss):</p>
-<div id="2907ecf2" class="cell" data-execution_count="5">
+<div id="7f9b9c0d" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_loss_function(task):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns the core loss function (either nn.Module or functional).</span></span>
@@ -770,7 +805,7 @@ l_n = \begin{cases}
 </section>
 <section id="evaluation-metrics-metrics.py" class="level2">
 <h2 class="anchored" data-anchor-id="evaluation-metrics-metrics.py">Evaluation Metrics (<a href="https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/metrics.py">metrics.py</a>)</h2>
-<div id="37fc4064" class="cell" data-execution_count="6">
+<div id="59cb0278" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># overall accuracy</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pred_labels <span class="op">=</span> np.argmax(all_pred, axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>overall_acc <span class="op">=</span> np.mean(pred_labels <span class="op">==</span> all_target)</span>
@@ -798,7 +833,7 @@ l_n = \begin{cases}
 <li><strong>Hyperparameters</strong>: Loads configs, and it uses self.save_hyperparameters() to automatically save arguments like learning rate or model version into checkpoints for easy reproducibility.</li>
 <li><strong>Initialize evaluation metrics</strong></li>
 </ul>
-<div id="9687f97b" class="cell" data-execution_count="7">
+<div id="0ecc22b3" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> EfiModelModule(pl.LightningModule):</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, cfg, args):</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
@@ -820,7 +855,7 @@ l_n = \begin{cases}
 <li>The forward pass (<code>forward</code>):</li>
 </ol>
 <p>Defines how data flows through the model during <strong>inference</strong>. You call it when you want to get an <code>output</code> from an input: <span class="math inline">\(\hat{y} = model(x)\)</span></p>
-<div id="c43e1b17" class="cell" data-execution_count="8">
+<div id="f9374a90" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forward(<span class="va">self</span>, points):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Standard model forward pass."""</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.model(points)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -832,7 +867,7 @@ l_n = \begin{cases}
 <ul>
 <li><code>_shared_step</code>: Shared logic for training, validation, and test step</li>
 </ul>
-<div id="e1c7f16e" class="cell" data-execution_count="9">
+<div id="0363c8fa" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _shared_step(<span class="va">self</span>, batch):</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Shared logic for training, validation, and test step."""</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    points, target, _ <span class="op">=</span> batch <span class="co"># _ is plot_id, doesn't need in the these stpes</span></span>
@@ -856,7 +891,7 @@ l_n = \begin{cases}
 <ul>
 <li><code>training_step</code>: Calculate the training loss.</li>
 </ul>
-<div id="635c3997" class="cell" data-execution_count="10">
+<div id="18900980" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Training ---</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> training_step(<span class="va">self</span>, batch, batch_idx):</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    loss, _, _ <span class="op">=</span> <span class="va">self</span>._shared_step(batch)</span>
@@ -899,7 +934,7 @@ Tip
 <ul>
 <li><code>validation_step</code>: Monitor model performance on unseen data during training.</li>
 </ul>
-<div id="9bd93e15" class="cell" data-execution_count="11">
+<div id="106583fb" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Validation ---</span></span>
@@ -921,7 +956,7 @@ Tip
 <ul>
 <li><code>test_step</code>: Provide a final, unbiased evaluation after training is complete.</li>
 </ul>
-<div id="e1b9941a" class="cell" data-execution_count="12">
+<div id="bcf02fb9" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Test Step ---</span></span>
@@ -947,7 +982,7 @@ Tip
 <ul>
 <li><code>predict_step</code> is used for generating raw output/predictions on unseen data; it does not calculate loss and metrics:</li>
 </ul>
-<div id="a3b9ebb7" class="cell" data-execution_count="13">
+<div id="6e63616f" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Prediction / Inference ---</span></span>
@@ -980,7 +1015,7 @@ Tip
 <li>Optimizer and scheduler: <code>configure_optimizers</code>:</li>
 </ol>
 <p>This tells the trainer which algorithm to use (e.g., <code>Adam</code>, <code>SGD</code>) to adjust the model’s weights to continuously minimize this loss value and how the learning rate should change over time (Schedulers, e.g., <code>StepLR</code>).</p>
-<div id="58822fd0" class="cell" data-execution_count="14">
+<div id="da406184" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Optimizer Configuration ---</span></span>
@@ -1017,7 +1052,7 @@ Tip
 <section id="configurations-config.py" class="level2">
 <h2 class="anchored" data-anchor-id="configurations-config.py">Configurations (<a href="https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/config.py">config.py</a>)</h2>
 <p>Detail where the <code>cfg</code> (e.g., <code>config.py</code> configuration file) and args (e.g., command line arguments) are loaded and parsed.</p>
-<div id="4e8c1bac" class="cell" data-execution_count="15">
+<div id="891edefd" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>DATASET_CONFIG <span class="op">=</span> {</span>
@@ -1049,7 +1084,7 @@ Tip
 <section id="the-pytorch-lightning-trainer-train_pl.py" class="level2">
 <h2 class="anchored" data-anchor-id="the-pytorch-lightning-trainer-train_pl.py">The PyTorch Lightning Trainer (<a href="https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/train_pl.py">train_pl.py</a>)</h2>
 <p>The <code>Trainer</code> class is responsible for the entire training lifecycle, handling distributed training, and checkpointing.</p>
-<div id="78378352" class="cell" data-execution_count="16">
+<div id="d12345ff" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set seeds for pseudo-random generators</span></span>
@@ -1230,14 +1265,14 @@ Table&nbsp;1: The EFI Deep Learning Pipeline Logic
 <img src="https://www.googleapis.com/download/storage/v1/b/kaggle-user-content/o/inbox%2F4533747%2F61b58caa4e9b00ead191242796e86e27%2Ffitting.JPG?generation=1594728310000042&amp;alt=media" class="img-fluid figure-img" style="width:60.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-learning-curve-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: Learning curve (<a href="https://www.googleapis.com/download/storage/v1/b/kaggle-user-content/o/inbox%2F4533747%2F61b58caa4e9b00ead191242796e86e27%2Ffitting.JPG?generation=1594728310000042&amp;alt=media">source</a>)
+Figure&nbsp;7: Learning curve (<a href="https://www.googleapis.com/download/storage/v1/b/kaggle-user-content/o/inbox%2F4533747%2F61b58caa4e9b00ead191242796e86e27%2Ffitting.JPG?generation=1594728310000042&amp;alt=media">source</a>)
 </figcaption>
 </figure>
 </div>
 <p><a href="https://wandb.ai/site/">Weights and Biases (wandb)</a> is an online deep learning tool that can track experiments, perform hyperparameter tuning, and visualize results. It is an effective method for refining and comparing models with different configurations.</p>
 <p>The <code>WandbLogger</code> is integrated directly into the <code>train_pl.py</code> script. <code>W&amp;B</code> is a powerful tool that automatically logs everything:</p>
 <p><code>Metrics</code>: All the calculated <code>val/instance_acc</code>, <code>val/r2_score</code>, <code>train/loss</code>, etc., are plotted in real-time.</p>
-<div id="17aa3069" class="cell" data-execution_count="17">
+<div id="f9ec1884" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Setup W&amp;B Logger</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>wandb_logger <span class="op">=</span> WandbLogger(</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    project<span class="op">=</span>args.wandb_project,</span>
@@ -1274,7 +1309,7 @@ Figure&nbsp;5: Learning curve (<a href="https://www.googleapis.com/download/stor
 <img src="images/03_train/hyperparameter_optimization.jpg" class="img-fluid figure-img" style="width:50.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hp-tune-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: Hyperparameter tuning process
+Figure&nbsp;8: Hyperparameter tuning process
 </figcaption>
 </figure>
 </div>
@@ -1286,7 +1321,7 @@ Figure&nbsp;6: Hyperparameter tuning process
 <section id="predicting-predict.py" class="level1">
 <h1>Predicting (<a href="https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/predict.py">predict.py</a>)</h1>
 <p>Once your model has finished hyperparameter tuning and you have selected the best checkpoint, you can run predictions. The output is saved as a CSV containing the ground truth and the model’s estimate.</p>
-<div id="1ba4f28f" class="cell" data-execution_count="18">
+<div id="0893396b" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># predict.py</span></span>
@@ -1454,7 +1489,7 @@ Table&nbsp;3: Example of Biomass Regression Results
 <img src="images/03_train/training_screenshot.png" class="img-fluid figure-img" style="width:100.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-training-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7: Example of training
+Figure&nbsp;9: Example of training
 </figcaption>
 </figure>
 </div>
