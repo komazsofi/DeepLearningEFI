@@ -65,7 +65,7 @@ The uv package manager allows for the installation of specific package versions 
 
 ## 4) Directory structure
 
-After downloading the data and setting up the python environment (see above), your directory structure should include the following (among other miscelaneous files):
+After downloading the data and setting up the python environment (see above), your directory structure should include the following (among other miscellaneous files):
 
 * 01_intro.qmd
 * 02_data.qmd

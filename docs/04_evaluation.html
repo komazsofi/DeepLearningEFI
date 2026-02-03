@@ -106,10 +106,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
-
-
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
-
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -205,21 +202,25 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#evaluating-deep-learning-predictions" id="toc-evaluating-deep-learning-predictions" class="nav-link active" data-scroll-target="#evaluating-deep-learning-predictions">Evaluating Deep Learning Predictions</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#evaluating-deep-learning-predictions" id="toc-evaluating-deep-learning-predictions" class="nav-link" data-scroll-target="#evaluating-deep-learning-predictions">Evaluating Deep Learning Predictions</a></li>
   <li><a href="#key-evaluation-metrics" id="toc-key-evaluation-metrics" class="nav-link" data-scroll-target="#key-evaluation-metrics">Key Evaluation Metrics</a>
   <ul class="collapse">
-  <li><a href="#classification-metrics" id="toc-classification-metrics" class="nav-link" data-scroll-target="#classification-metrics">Classification Metrics</a></li>
-  <li><a href="#regression-metrics" id="toc-regression-metrics" class="nav-link" data-scroll-target="#regression-metrics">Regression Metrics</a></li>
+  <li><a href="#classification-metrics" id="toc-classification-metrics" class="nav-link" data-scroll-target="#classification-metrics">Classification metrics</a></li>
+  <li><a href="#regression-metrics" id="toc-regression-metrics" class="nav-link" data-scroll-target="#regression-metrics">Regression metrics</a></li>
   </ul></li>
   <li><a href="#prediction-results-and-visualization" id="toc-prediction-results-and-visualization" class="nav-link" data-scroll-target="#prediction-results-and-visualization">Prediction Results and Visualization</a></li>
   <li><a href="#tree-species-classification" id="toc-tree-species-classification" class="nav-link" data-scroll-target="#tree-species-classification">Tree Species Classification</a>
   <ul class="collapse">
-  <li><a href="#metrics" id="toc-metrics" class="nav-link" data-scroll-target="#metrics">Metrics</a></li>
+  <li><a href="#load-libraries" id="toc-load-libraries" class="nav-link" data-scroll-target="#load-libraries">Load libraries</a></li>
+  <li><a href="#load-predictions" id="toc-load-predictions" class="nav-link" data-scroll-target="#load-predictions">Load predictions</a></li>
+  <li><a href="#calculate-overall-classification-metrics" id="toc-calculate-overall-classification-metrics" class="nav-link" data-scroll-target="#calculate-overall-classification-metrics">Calculate overall classification metrics</a></li>
+  <li><a href="#calculate-class-specific-metrics" id="toc-calculate-class-specific-metrics" class="nav-link" data-scroll-target="#calculate-class-specific-metrics">Calculate class specific metrics</a></li>
   <li><a href="#visualize-difficult-cases" id="toc-visualize-difficult-cases" class="nav-link" data-scroll-target="#visualize-difficult-cases">Visualize difficult cases</a></li>
   </ul></li>
   <li><a href="#forest-aboveground-biomass-regression" id="toc-forest-aboveground-biomass-regression" class="nav-link" data-scroll-target="#forest-aboveground-biomass-regression">Forest Aboveground Biomass Regression</a>
   <ul class="collapse">
-  <li><a href="#improving-dnn-performance" id="toc-improving-dnn-performance" class="nav-link" data-scroll-target="#improving-dnn-performance">Improving DNN Performance</a></li>
+  <li><a href="#improving-dnn-performance" id="toc-improving-dnn-performance" class="nav-link" data-scroll-target="#improving-dnn-performance">Improving DNN performance</a></li>
   </ul></li>
   <li><a href="#compare-results-to-random-forest-using-lidar-metrics" id="toc-compare-results-to-random-forest-using-lidar-metrics" class="nav-link" data-scroll-target="#compare-results-to-random-forest-using-lidar-metrics">Compare results to Random Forest using LiDAR Metrics</a>
   <ul class="collapse">
@@ -252,48 +253,50 @@ window.Quarto = {
 </header>
 
 
-<p>This section details how to interpret the results from the final test run and how to use the trained model effectively.</p>
-<hr>
-<section id="evaluating-deep-learning-predictions" class="level1">
-<h1>Evaluating Deep Learning Predictions</h1>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>This section describes how to evaluate trained deep learning models using an independent test dataset. It focuses on interpreting results from the final test run performed with the optimal network configuration after convergence. The evaluation procedures are demonstrated through our two case studies: tree species classification and biomass regression.</p>
+</section>
+<section id="evaluating-deep-learning-predictions" class="level2">
+<h2 class="anchored" data-anchor-id="evaluating-deep-learning-predictions">Evaluating Deep Learning Predictions</h2>
 <p>Evaluation goes beyond just logging the final loss. It requires inspecting the raw outputs and ensuring they make sense in the context of the problem.</p>
 <p>Prediction vs.&nbsp;Target: The core of evaluation is comparing the model’s output (raw logits or predicted values) against the ground truth. This is handled within the <code>on_test_epoch_end</code> hook, where raw predictions are aggregated.</p>
 <p>Post-processing: For classification, raw logits must be converted to class indices (e.g., using <code>np.argmax(all_pred, axis=1)</code>) before calculating metrics like accuracy or confusion matrices.</p>
 </section>
-<section id="key-evaluation-metrics" class="level1">
-<h1>Key Evaluation Metrics</h1>
+<section id="key-evaluation-metrics" class="level2">
+<h2 class="anchored" data-anchor-id="key-evaluation-metrics">Key Evaluation Metrics</h2>
 <p>The choice of metric depends entirely on the task type, as implemented in your <code>on_test_epoch_end</code> hook:</p>
-<section id="classification-metrics" class="level2">
-<h2 class="anchored" data-anchor-id="classification-metrics">Classification Metrics</h2>
+<section id="classification-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="classification-metrics">Classification metrics</h3>
 <p>Instance Accuracy: The proportion of correctly classified individual samples (points or objects).</p>
 <p>Class Accuracy (Mean Class Accuracy): The average accuracy across all possible classes. This is vital for imbalanced datasets, as it prevents the model from being judged solely by its performance on the most frequent class.</p>
 <p><span class="math display">\[\text{Class Acc} = \frac{1}{N_{c}} \sum_{c=1}^{N_{c}} \frac{\text{True Positives}_c}{\text{Total Samples}_c}\]</span></p>
 <p>Confusion Matrix: A table that visualizes the performance of the classification model, where each row represents the instances in an actual class, and each column represents the instances in a predicted class.</p>
 </section>
-<section id="regression-metrics" class="level2">
-<h2 class="anchored" data-anchor-id="regression-metrics">Regression Metrics</h2>
+<section id="regression-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="regression-metrics">Regression metrics</h3>
 <p>Root Mean Squared Error (RMSE): Measures the average magnitude of the errors. Since the errors are squared before being averaged, RMSE gives a relatively high weight to large errors.</p>
 <p><span class="math display">\[\text{RMSE} = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2}\]</span></p>
 <p>R-squared (<span class="math inline">\(R^2\)</span>): Represents the proportion of the variance for a dependent variable that’s explained by the independent variable(s) in a regression model. <span class="math inline">\(R^2\)</span> ranges from <span class="math inline">\(0\)</span> to <span class="math inline">\(1\)</span>, with <span class="math inline">\(1\)</span> being a perfect fit.</p>
-<hr>
 </section>
 </section>
-<section id="prediction-results-and-visualization" class="level1">
-<h1>Prediction Results and Visualization</h1>
+<section id="prediction-results-and-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="prediction-results-and-visualization">Prediction Results and Visualization</h2>
 <p>Visualizing the results is often more informative than numerical logs alone.</p>
 <p>Qualitative Visualization: For point cloud applications, visualize the point cloud data colored by the model’s predicted label versus the true label to identify spatial regions where the model struggles.</p>
 <blockquote class="blockquote">
 <p>The generated predictions are also uploaded to GitHub:</p>
-<p><a href="./src/pretrained_ckpt/peta_cls_dgcnn_bs8_lre3/checkpoints/predictions.csv">Classification</a></p>
+<p><a href="./src/pretrained_ckpt/peta_cls_dgcnn_bs16_lre4/checkpoints/predictions.csv">Classification</a></p>
 <p><a href="./src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/predictions.csv">Regression</a></p>
 </blockquote>
 </section>
-<section id="tree-species-classification" class="level1">
-<h1>Tree Species Classification</h1>
-<ul>
-<li>Load libraries and prediction</li>
-</ul>
-<div id="628ebd60" class="cell" data-execution_count="1">
+<section id="tree-species-classification" class="level2">
+<h2 class="anchored" data-anchor-id="tree-species-classification">Tree Species Classification</h2>
+<p>First we need to load in our libraries and our predictions that we generated at the end of the train section.</p>
+<section id="load-libraries" class="level3">
+<h3 class="anchored" data-anchor-id="load-libraries">Load libraries</h3>
+<p>Metrics can be calculated from libraries such as scikit-learn. <code>sklearn.metrics</code> provides common predefined functions that we can use to evaluate our predictions from our examples.</p>
+<div id="7f069f0d" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -318,12 +321,11 @@ window.Quarto = {
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> src.utils.regression_utils <span class="im">import</span> plot_regression, convert_from_z_score</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<section id="metrics" class="level3">
-<h3 class="anchored" data-anchor-id="metrics">Metrics</h3>
-<ul>
-<li>Load predictions</li>
-</ul>
-<div id="fb53f34c" class="cell" data-execution_count="2">
+</section>
+<section id="load-predictions" class="level3">
+<h3 class="anchored" data-anchor-id="load-predictions">Load predictions</h3>
+<p>We then can load in our predictions of our test dataset which we load in as a dataframe with true and predicted observations.</p>
+<div id="f34302a6" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>CLASS_MAP <span class="op">=</span> {</span>
@@ -332,17 +334,18 @@ window.Quarto = {
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span>: <span class="st">"mixed"</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Load predictions</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">## Load Predictions</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>test_df <span class="op">=</span> pd.read_csv(<span class="vs">r"src/pretrained_ckpt/peta_cls_dgcnn_bs16_lre4/checkpoints/predictions</span><span class="dv">.</span><span class="vs">csv"</span>)</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>y_true <span class="op">=</span> test_df[<span class="st">"dom_sp_type"</span>]</span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> test_df[<span class="st">"pred_dom_sp_type"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<ul>
-<li>Calculate metrics</li>
-</ul>
-<div id="b2bb8601" class="cell" data-execution_count="3">
+</section>
+<section id="calculate-overall-classification-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="calculate-overall-classification-metrics">Calculate overall classification metrics</h3>
+<p>For classification, we often calculate multiple accuracy metrics such as <strong>overall accuracy, Cohen’s kappa, and F1-score</strong>. Providing multiple metrics allows a more comprehensive assessment of model performance, as each metric captures different aspects of classification quality, particularly in the presence of class imbalance or unequal error costs.</p>
+<div id="09d2a966" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ---- Summary metrics ----</span></span>
@@ -386,11 +389,7 @@ window.Quarto = {
 <span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<p>Print results:</p>
-<ul>
-<li>Overall performance</li>
-</ul>
-<div class="cell" data-tbl-colwidths="[30,20]" data-execution_count="4">
+<div class="cell" data-tbl-colwidths="[30,20]" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>summary_df <span class="op">=</span> pd.DataFrame(summary_data)</span>
@@ -398,7 +397,7 @@ window.Quarto = {
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>summary_df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div id="tbl-cls-metrics" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-colwidths="[30,20]" data-execution_count="4">
+<div id="tbl-cls-metrics" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="5" data-tbl-colwidths="[30,20]">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cls-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;1: Tree species classification performance on the test dataset.
@@ -451,17 +450,18 @@ Table&nbsp;1: Tree species classification performance on the test dataset.
 </figure>
 </div>
 </div>
-<ul>
-<li>Per-class metrics</li>
-</ul>
-<div class="cell" data-execution_count="5">
+</section>
+<section id="calculate-class-specific-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="calculate-class-specific-metrics">Calculate class specific metrics</h3>
+<p>Per-class metrics such as <strong>precision and recall</strong> provide insight into how well individual classes are identified, highlighting class-specific errors that may be obscured by aggregate accuracy measures. <strong>Confusion matrices</strong> further support this analysis by explicitly showing the distribution of correct and incorrect predictions across classes, enabling a detailed interpretation of misclassification patterns.</p>
+<div class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> [<span class="st">"Precision"</span>, <span class="st">"Recall"</span>, <span class="st">"F1-score"</span>]:</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    per_class_df[col] <span class="op">=</span> per_class_df[col].<span class="bu">map</span>(<span class="kw">lambda</span> x: <span class="ss">f"</span><span class="sc">{</span>x<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>per_class_df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div id="tbl-cls-perclass" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="5">
+<div id="tbl-cls-perclass" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="6">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cls-perclass-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;2: Per-class precision, recall, and F1-score for tree species classification.
@@ -516,10 +516,7 @@ Table&nbsp;2: Per-class precision, recall, and F1-score for tree species classif
 </figure>
 </div>
 </div>
-<ul>
-<li>Confusion matrix</li>
-</ul>
-<div id="cell-fig-cls-confmat" class="cell" data-fig-height="5" data-fig-width="6" data-execution_count="6">
+<div id="cell-fig-cls-confmat" class="cell" data-fig-height="5" data-fig-width="6" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print confusion matrix</span></span>
@@ -553,11 +550,11 @@ Figure&nbsp;1: Confusion matrix for tree species classification.
 </div>
 </div>
 </div>
-<hr>
 </section>
 <section id="visualize-difficult-cases" class="level3">
 <h3 class="anchored" data-anchor-id="visualize-difficult-cases">Visualize difficult cases</h3>
-<div id="bf6e9470" class="cell" data-execution_count="7">
+<p>It is often beneficial to visualize individual examples to better understand model predictions. The figure below shows point cloud samples from the testing set, including correctly classified cases (top row) and misclassified cases (bottom row). Such visualizations help identify where errors occur and, when combined with domain knowledge, provide insight into potential causes of misclassification</p>
+<div id="aa45ae2d" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># helper functions</span></span>
@@ -622,7 +619,7 @@ Figure&nbsp;1: Confusion matrix for tree species classification.
 <span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> correct, wrong</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="c0a37e18" class="cell" data-execution_count="8">
+<div id="af9bbfc1" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Folder with point clouds</span></span>
@@ -649,15 +646,14 @@ Incorrect: 3</code></pre>
 </div>
 </div>
 </div>
-<hr>
 </section>
 </section>
-<section id="forest-aboveground-biomass-regression" class="level1">
-<h1>Forest Aboveground Biomass Regression</h1>
+<section id="forest-aboveground-biomass-regression" class="level2">
+<h2 class="anchored" data-anchor-id="forest-aboveground-biomass-regression">Forest Aboveground Biomass Regression</h2>
 <p>Forest aboveground biomass (AGB) regression is a more complex modeling task compared to classifying dominant tree species.</p>
 <p>We begin by evaluating the DGCNN model trained with hyperparameters that achieved the best validation performance.</p>
 <p><strong>The code below includes a function for loading regression predictions and converting them from Z-score to the original scale.</strong></p>
-<div id="230b9d5e" class="cell" data-execution_count="9">
+<div id="3d6e5003" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a funmction to read </span></span>
@@ -685,7 +681,7 @@ Incorrect: 3</code></pre>
 <p>We also need to load the observed AGB values from <code>labels.csv</code>.</p>
 <p><strong>Below we generate an observed vs.&nbsp;predicted scatterplot including regression metrics for DGCNN.</strong></p>
 <p>We can see that the model fit was quite poor.</p>
-<div id="41e92b06" class="cell" data-execution_count="10">
+<div id="9bd642d2" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>LABELS_FPATH <span class="op">=</span> <span class="vs">r'data/petawawa/labels</span><span class="dv">.</span><span class="vs">csv'</span></span>
@@ -715,19 +711,19 @@ Incorrect: 3</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="04_evaluation_files/figure-html/cell-11-output-1.png" width="471" height="469" class="figure-img"></p>
+<p><img src="04_evaluation_files/figure-html/cell-11-output-1.png" width="472" height="469" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <section id="improving-dnn-performance" class="level3">
-<h3 class="anchored" data-anchor-id="improving-dnn-performance">Improving DNN Performance</h3>
+<h3 class="anchored" data-anchor-id="improving-dnn-performance">Improving DNN performance</h3>
 <p>Deep neural networks (DNNs) often have poor model fit when trained out-of-the-box on small datasets. Recall that most prominent DNNs are typically trained using millions of samples.</p>
 <p>In situations like the Petawawa dataset, with only n = 249 samples, there are a few steps that can be taken to achieve improved performance.</p>
 <p>First, we can try a different DNN architecture that may be better suited to forest AGB regression. Some research has indicated that 3-D CNNs perform better for AGB estimation. For example, <a href="https://doi.org/10.1016/j.rse.2023.113968">Oehmcke et al.&nbsp;(2024)</a> found that the Minkowski Engine sparse 3-D CNN outperformed point-based DNNs such as PointNet and KPConv for AGB regression.</p>
 <p>Following this logic, we will evaluate the effectiveness of a similar Octree-CNN (OCNN) model that was implemented by <a href="https://doi.org/10.1016/j.srs.2023.100110">Seely et al.&nbsp;(2023)</a>.</p>
 <p><strong>Below we evaluate the performance of OCNN on the PRF dataset.</strong></p>
-<div id="a1e2359d" class="cell" data-execution_count="11">
+<div id="0bd64566" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load OCNN predictions</span></span>
@@ -745,7 +741,7 @@ Incorrect: 3</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="04_evaluation_files/figure-html/cell-12-output-1.png" width="471" height="469" class="figure-img"></p>
+<p><img src="04_evaluation_files/figure-html/cell-12-output-1.png" width="472" height="469" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -756,7 +752,7 @@ Incorrect: 3</code></pre>
 <p>In this case, we will use a version of OCNN that was pretrained on the New Brunswick forest inventory dataset from <a href="https://doi.org/10.1016/j.srs.2023.100110">Seely et al.&nbsp;(2023)</a>. This pretrained model checkpoint is stored at <code>src/pretrained_ckpt/ocnn_nbk_idXM6D.ckpt</code>.</p>
 <p><strong>Below we evaluate the transfer learning OCNN (OCNN-TL) performance on the PRF dataset.</strong></p>
 <p>We can see that transfer learning further improved the model fit.</p>
-<div id="8a88f120" class="cell" data-execution_count="12">
+<div id="d8db4f18" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Different model checkpoints</span></span>
@@ -775,7 +771,7 @@ Incorrect: 3</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="04_evaluation_files/figure-html/cell-13-output-1.png" width="471" height="469" class="figure-img"></p>
+<p><img src="04_evaluation_files/figure-html/cell-13-output-1.png" width="472" height="469" class="figure-img"></p>
 </figure>
 </div>
 </div>

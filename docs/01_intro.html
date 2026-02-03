@@ -187,7 +187,7 @@ window.Quarto = {
   <li><a href="#key-terminology-and-concepts-to-know" id="toc-key-terminology-and-concepts-to-know" class="nav-link" data-scroll-target="#key-terminology-and-concepts-to-know">Key Terminology and Concepts to Know</a>
   <ul class="collapse">
   <li><a href="#parameters-vs.-hyperparameters" id="toc-parameters-vs.-hyperparameters" class="nav-link" data-scroll-target="#parameters-vs.-hyperparameters">Parameters vs.&nbsp;hyperparameters</a></li>
-  <li><a href="#input-features-vs.-labels-vs.-learned-features" id="toc-input-features-vs.-labels-vs.-learned-features" class="nav-link" data-scroll-target="#input-features-vs.-labels-vs.-learned-features">Input features vs.&nbsp;labels vs.&nbsp;learned features</a></li>
+  <li><a href="#input-features-vs.-labels-vs.-learned-features-vs.-logits" id="toc-input-features-vs.-labels-vs.-learned-features-vs.-logits" class="nav-link" data-scroll-target="#input-features-vs.-labels-vs.-learned-features-vs.-logits">Input features vs.&nbsp;labels vs.&nbsp;learned features vs.&nbsp;logits</a></li>
   <li><a href="#data-augmentation" id="toc-data-augmentation" class="nav-link" data-scroll-target="#data-augmentation">Data augmentation</a></li>
   <li><a href="#batches-batch-size" id="toc-batches-batch-size" class="nav-link" data-scroll-target="#batches-batch-size">Batches &amp; batch size</a></li>
   <li><a href="#model-architecture-vs.-model-weights" id="toc-model-architecture-vs.-model-weights" class="nav-link" data-scroll-target="#model-architecture-vs.-model-weights">Model architecture vs.&nbsp;model weights</a></li>
@@ -296,7 +296,7 @@ window.Quarto = {
 <li>Automatic extraction of structural representations from ALS data that captures both the horizontal and vertical forest complexity</li>
 <li>More consistent feature extraction across regions and forest types</li>
 </ul>
-<p><strong>Human expertise remains critical</strong> in selecting appropriate data sources, interpreting learned features and validating that extracted pattens are meaningful for real-world forestry.</p>
+<p><strong>Human expertise remains critical</strong> in selecting appropriate data sources, interpreting learned features and validating that extracted patterns are meaningful for real-world forestry.</p>
 </section>
 <section id="predictive-modelling-estimating-forest-attributes-at-scale" class="level3">
 <h3 class="anchored" data-anchor-id="predictive-modelling-estimating-forest-attributes-at-scale">Predictive modelling: estimating forest attributes at scale</h3>
@@ -410,7 +410,7 @@ Figure&nbsp;4: Prediction-Feedback Loop
 </figcaption>
 </figure>
 </div>
-<p>This prediction–feedback loop is driven by the goal of the <strong>loss function</strong>, which guides the model in adjusting its weights and biases toward an optimal solution. The loss function assesses the difference between the true and predicted <strong>labels</strong>, typically, with the objective of minimizing the error between the two. There are multiple types of loss functions, each providing different forms of feedback to the model. Choosing an appropriate loss function depends on the task (e.g., classification, regression), and is a crucial step in the deep neural networks design.</p>
+<p>This prediction–feedback loop is driven by the goal of the <strong>loss function</strong>, which guides the model in adjusting its weights and biases toward an optimal solution. The loss function assesses the difference between the true and predicted <strong>labels</strong>, typically, with the objective of minimizing the error between the two. There are multiple types of loss functions, each providing different forms of feedback to the model. Choosing an appropriate loss function depends on the task (e.g., classification, regression), and is a crucial step in the deep neural network’s design.</p>
 <p>A key part of this update process involves <strong>gradients</strong>, which measure how sensitive the loss is to small changes in each weight or bias. Gradients point the model in the direction that most reduces error, allowing the network to adjust its parameters efficiently. During training, these gradients are computed and used to iteratively update the weights so that, over time, the model’s predictions become more accurate. Although gradients operate behind the scenes, they are central to how deep neural networks learn from the data.</p>
 <p>Over multiple iterations, or <strong>epochs</strong>, the model continually adjusts its weights and biases based on the feedback received from the loss function. Eventually, the model reaches a point where no further improvements are made given the available data, and the loss begins to stabilize, indicating that the model has converged to an optimal or near-optimal solution.</p>
 <div id="fig-epochs" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -533,7 +533,7 @@ Figure&nbsp;10: Convolutional Neural Networks
 </section>
 <section id="point-based-deep-learning" class="level3">
 <h3 class="anchored" data-anchor-id="point-based-deep-learning">Point-based deep learning</h3>
-<p><strong>Point-based</strong> deep learning is a method used to analyze 3D point cloud data. Unlike image data, which is structured in a grid of pixels, point clouds are irregular and unstructured, making them harder for traditional neural networks to process. Point-based deep neural networks are designed to handle this challenge by directly learning from the spatial relationships between points without requiring conversion into images or grids. By learning the geometric patterns directly from the raw point clouds, these models are able to provide an accurate and detailed understanding of complex 3D structures of the forest. Similar to image-based approaches as the data moves through successive layers, and increasingly complex patterns are be extracted.</p>
+<p><strong>Point-based</strong> deep learning is a method used to analyze 3D point cloud data. Unlike image data, which is structured in a grid of pixels, point clouds are irregular and unstructured, making them harder for traditional neural networks to process. Point-based deep neural networks are designed to handle this challenge by directly learning from the spatial relationships between points without requiring conversion into images or grids. By learning the geometric patterns directly from the raw point clouds, these models are able to provide an accurate and detailed understanding of complex 3D structures of the forest. Similar to image-based approaches as the data moves through successive layers, and increasingly complex patterns are extracted.</p>
 <div id="fig-pointdl" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-pointdl-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -541,6 +541,17 @@ Figure&nbsp;10: Convolutional Neural Networks
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pointdl-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;11: Point Based Deep Learning
+</figcaption>
+</figure>
+</div>
+<p>A common point-based deep learning technique is <strong>set abstraction</strong>, used in models such as PointNet++ <a href="https://dl.acm.org/doi/10.5555/3295222.3295263" target="_blank">(Qi et al., 2017)</a>. Instead of sliding filters over a grid like a CNN, set abstraction groups nearby points in the point cloud to capture local geometric patterns. Each layer selects representative points, gathers their neighbours, and learns features from these local groups. As the data moves through successive layers, the model captures increasingly complex 3D structures from fine details to larger objects such as trees and forest canopies.</p>
+<div id="fig-set-abstraction" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-set-abstraction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/setabstraction.png" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-set-abstraction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;12: Set Abstraction (adapted from Qi et al., (2017))
 </figcaption>
 </figure>
 </div>
@@ -554,15 +565,26 @@ Figure&nbsp;11: Point Based Deep Learning
 <p><strong>Parameters</strong> are the internal values of a neural network that are learned during training. These include the weights and biases in each layer. They are updated automatically through optimization algorithms and define how the model transforms inputs into predictions.</p>
 <p><strong>Hyperparameters</strong> control <em>how</em> a model learns rather than what it learns. Examples include learning rate, batch size, number of epochs, and model depth. Unlike parameters, hyperparameters are set by the user and are not learned during training. These often need to be tuned in order to achieve optimal results.</p>
 </section>
-<section id="input-features-vs.-labels-vs.-learned-features" class="level3">
-<h3 class="anchored" data-anchor-id="input-features-vs.-labels-vs.-learned-features">Input features vs.&nbsp;labels vs.&nbsp;learned features</h3>
+<section id="input-features-vs.-labels-vs.-learned-features-vs.-logits" class="level3">
+<h3 class="anchored" data-anchor-id="input-features-vs.-labels-vs.-learned-features-vs.-logits">Input features vs.&nbsp;labels vs.&nbsp;learned features vs.&nbsp;logits</h3>
 <p><strong>Input Features</strong> are the input variables or measurements the model receives. In imagery, these might be pixel values from the spectral bands; in point clouds, they may include XYZ coordinates, intensity, or return number. Features describe the data but not the model’s predictions.</p>
 <p><strong>Labels</strong> represent the target values the model is trying to predict. These can be discrete classes (e.g.&nbsp;species), continuous values (e.g.&nbsp;biomass), or spatial assignments (e.g.&nbsp;segmentation masks). Labels are essential for supervised learning.</p>
 <p><strong>Learned Features</strong> are internal representations automatically discovered by the neural network as the data moves through its layers. Unlike input features, which come directly from the dataset, learned features are generated by the model itself. Early layers often capture simple patterns such as edges or local geometry, while deeper layers encode more abstract concepts such as textures, shapes, or structural patterns. These learned features enable deep neural networks to extract complex information without requiring manual feature engineering.</p>
+<p><strong>Logits</strong> are the raw, unnormalized outputs of a neural network’s final layer before an activation function is applied. In classification tasks, they represent the model’s scores for each class and are typically transformed into probabilities using functions such as softmax or sigmoid. Logits are commonly used directly by the loss function for numerical stability.</p>
 </section>
 <section id="data-augmentation" class="level3">
 <h3 class="anchored" data-anchor-id="data-augmentation">Data augmentation</h3>
 <p><strong>Data augmentation</strong> refers to the process of artificially increasing the diversity of a training dataset by applying specific and controlled transformations to existing samples. Augmentation introduces realistic variability (e.g., geometric transformations, intensity perturbations, or spatial subsampling), while preserving the underlying labels. This helps improve model generalization by reducing overfitting and increasing robustness to noise, sensor differences, and site variability. Data augmentation is particularly valuable in forestry and remote sensing applications, where labelled data are limited, class imbalances are common, and acquisition conditions vary across regions and sensors.</p>
+<div id="fig-augmentations" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-augmentations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/augmentations.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-augmentations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13: Point Cloud Augmentations
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="batches-batch-size" class="level3">
 <h3 class="anchored" data-anchor-id="batches-batch-size">Batches &amp; batch size</h3>
@@ -573,14 +595,14 @@ Figure&nbsp;11: Point Based Deep Learning
 <img src="images/batch.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-batches-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;12: Batches
+Figure&nbsp;14: Batches
 </figcaption>
 </figure>
 </div>
 </section>
 <section id="model-architecture-vs.-model-weights" class="level3">
 <h3 class="anchored" data-anchor-id="model-architecture-vs.-model-weights">Model architecture vs.&nbsp;model weights</h3>
-<p>The <strong>model architecture</strong> defines the structure of the network, including the number and type of layers and how they are connected. Examples include CNNs for image and point based networks for 3D data. The architecture determines the model’s capacity to learn patterns, and differ based on the goal and task.</p>
+<p>The <strong>model architecture</strong> defines the structure of the network, including the number and type of layers and how they are connected. Examples include CNNs for image and point based networks for 3D data. The architecture determines the model’s capacity to learn patterns, and differs based on the goal and task.</p>
 <p><strong>Model weights</strong> are the numerical values stored within each layer that get updated during training while the architecture remains fixed, the weights change continuously, forming the learned representations of the data.</p>
 </section>
 <section id="forward-pass-vs.-backward-pass" class="level3">
@@ -593,7 +615,7 @@ Figure&nbsp;12: Batches
 <img src="images/backwardpass.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-backwardpass-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;13: Backward Pass
+Figure&nbsp;15: Backward Pass
 </figcaption>
 </figure>
 </div>
@@ -604,7 +626,7 @@ Figure&nbsp;13: Backward Pass
 </section>
 <section id="gradient-descent" class="level3">
 <h3 class="anchored" data-anchor-id="gradient-descent">Gradient descent</h3>
-<p><strong>Gradient decent</strong> is the core optimization idea that adjusts a model’s parameters to minimize the loss function. By moving the weights in the direction that decreases the error, the model incrementally improves its predictions.</p>
+<p><strong>Gradient descent</strong> is the core optimization idea that adjusts a model’s parameters to minimize the loss function. By moving the weights in the direction that decreases the error, the model incrementally improves its predictions.</p>
 </section>
 <section id="transfer-learning-fine-tuning" class="level3">
 <h3 class="anchored" data-anchor-id="transfer-learning-fine-tuning">Transfer learning &amp; fine-tuning</h3>
@@ -614,7 +636,7 @@ Figure&nbsp;13: Backward Pass
 </section>
 <section id="challenges-and-considerations-for-deep-learning-in-forestry-applications" class="level2">
 <h2 class="anchored" data-anchor-id="challenges-and-considerations-for-deep-learning-in-forestry-applications">Challenges and Considerations for Deep Learning in Forestry Applications</h2>
-<p>Forestry data introduce unique complexities that shape how deep neural networks behave in real-world applications. Understanding these challenges at a high level helps set realistic expectations for model performance and highlights why certain design choices are necessary. The following considerations provide important context for why deep learning in forestry often requires additional care compared to more controlled or synthetic environments.</p>
+<p>Forestry data introduces unique complexities that shape how deep neural networks behave in real-world applications. Understanding these challenges at a high level helps set realistic expectations for model performance and highlights why certain design choices are necessary. The following considerations provide important context for why deep learning in forestry often requires additional care compared to more controlled or synthetic environments.</p>
 <table class="caption-top table">
 <caption>Table 2: Key challenges and considerations for applying deep learning to forestry remote sensing.</caption>
 <colgroup>
@@ -696,7 +718,7 @@ Deep learning excels at learning complex patterns, handling high-dimensional dat
 <img src="images/dlcomplexity.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deeplearning-complexity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;14: Data and Task Complexity for Deep and Machine Learning
+Figure&nbsp;16: Data and Task Complexity for Deep and Machine Learning
 </figcaption>
 </figure>
 </div>
