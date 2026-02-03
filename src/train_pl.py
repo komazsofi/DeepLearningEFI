@@ -3,6 +3,7 @@ import sys
 import argparse
 import torch
 import pytorch_lightning as pl
+from pytorch_lightning import seed_everything
 from pytorch_lightning.callbacks import ModelCheckpoint, LearningRateMonitor, EarlyStopping
 from pytorch_lightning.loggers import WandbLogger
 from pytorch_lightning.strategies import DDPStrategy
@@ -115,7 +116,8 @@ def main(args):
             id=run_id,
             resume="must"
         )
-
+    # set seeds for pseudo-random generators
+    seed_everything(42, workers=True)
     # ---------------------------
     # Data + Model
     # ---------------------------
@@ -123,7 +125,6 @@ def main(args):
 
     # Only construct model manually in train
     model_module = None if args.mode == "test" else EfiModelModule(full_cfg, args)
-
 
     # ---------------------------
     # Callbacks

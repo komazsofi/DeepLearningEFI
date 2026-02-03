@@ -92,7 +92,7 @@ Pipeline ([source](https://subscription.packtpub.com/book/data/9781800561618/2/c
 
 ## The Core Components of PyTorch Lightning:
 
-1) `LightningDataModule` wraps the data phase. It takes in a custom `PyTorch Dataset` and `DataLoader`, which enables the Trainer to handle data during training. If needed, `LightningDataModule` exposes the `setup` and `prepare_data` functions in case you need additional customization. 
+1) `LightningDataModule` standardizes the training, val, test splits, data preparation and transforms. It takes in a custom `PyTorch Dataset` and `DataLoader`, which enables the Trainer to handle data during training. If needed, `LightningDataModule` exposes the `setup` and `prepare_data` functions in case you need additional customization. 
    
 2) `LightningModule` itself is a custom `torch.nn.Module` that is extended with dozens of additional functions like `on_fit_start` and `on_fit_end`. These functions allow us better control of Trainer’s flows and enable custom behaviors by overriding these hooks. 
    
@@ -154,15 +154,18 @@ In the PyTorch Lightning framework, the `EfiDataModule` wraps the `EfiDataset` t
 1. Which plots go into:
 
 The `setup()` function creates three datasets: 
+
 - `train_dataset` 
+  
 - `val_dataset` 
+  
 - `test_dataset`
 
 Each one uses the same loading logic, but different rows from the label file (e.g., using the `split` column in `labels.csv`).
 
-2. How big each batch is
+1. How big each batch is
 
-3. How many background workers load data in parallel (make sure batches are efficiently provided to the GPU workers).
+2. How many background workers load data in parallel (make sure batches are efficiently provided to the GPU workers).
 
 ```{python}
 #| code-overflow: wrap
@@ -523,16 +526,17 @@ class EfiModelModule(pl.LightningModule):
 ```
 2) The forward pass (`forward`): 
    
-Defines how data flows through the model during inference. You call it when you want to get an `output` from an input: $y_\hat = model(x)$
+Defines how data flows through the model during **inference**. You call it when you want to get an `output` from an input: $\hat{y} = model(x)$
 
 ```{python}
 def forward(self, points):
     """Standard model forward pass."""
     return self.model(points)
 ```
+
 3) The logic hooks
    
-In `PyTorch Lightning`, the **"loops"** are broken down into specific hooks: `training_step`, `validation_step`, `test_step`, `predict_step`: what happens during one "step" of training or evaluation or testing . 
+In `PyTorch Lightning`, the `loops` are broken down into specific hooks: `training_step`, `validation_step`, `test_step`, `predict_step`: what happens during one "step" of training or evaluation or testing . 
 
 - `_shared_step`: Shared logic for training, validation, and test step
   
@@ -565,13 +569,39 @@ def _shared_step(self, batch):
 def training_step(self, batch, batch_idx):
     loss, _, _ = self._shared_step(batch)
     
+    # logs metrics for each training_step,
+    # and the average across the epoch, to the progress bar and logger
     # Log basic training loss and learning rate for W&B
     self.log('train/loss', loss, on_step=False, on_epoch=True, prog_bar=True)
     self.log('train/lr', self.optimizers().param_groups[0]['lr'], on_step=True, on_epoch=False)
     return loss
 ```
 
-> What happens: This is the heart of the training loop. `Lightning` handles the boilerplate (**forward pass, loss calculation, backward propagation, and optimizer updates**) automatically based on what you return here.  
+::: {.callout-tip}
+
+ What happens: This is the heart of the training loop. `Lightning` handles the boilerplate (**forward pass, loss calculation, backward propagation, and optimizer updates**) automatically based on what you return here. 
+
+Under the hood, Lightning does the following (pseudocode):
+
+```python
+# enable gradient calculation
+torch.set_grad_enabled(True)
+
+for batch_idx, batch in enumerate(train_dataloader):
+    loss = training_step(batch, batch_idx)
+
+    # clear gradients
+    optimizer.zero_grad()
+
+    # backward
+    loss.backward()
+
+    # update parameters
+    optimizer.step()
+```
+:::
+ 
+
 
 - `validation_step`: Monitor model performance on unseen data during training.
 
@@ -715,56 +745,102 @@ DATASET_CONFIG = {
 
 
 ## The PyTorch Lightning Trainer ([train_pl.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/train_pl.py))
+
 The `Trainer` class is responsible for the entire training lifecycle, handling distributed training, and checkpointing.
 
 ```{python}
 #| code-fold: true
-# 3. Instantiate DataModule and Lightning Module
+# set seeds for pseudo-random generators
+seed_everything(42, workers=True)
+# ---------------------------
+# Data + Model
+# ---------------------------
 data_module = EfiDataModule(full_cfg, args)
-model_module = EfiModelModule(full_cfg, args)
 
-# 4. Define Callbacks
-primary_metric = 'val/instance_acc' if task == 'classification' else 'val/r2_score'
+# Only construct model manually in train
+model_module = None if args.mode == "test" else EfiModelModule(full_cfg, args)
+
+# ---------------------------
+# Callbacks
+# ---------------------------
+primary_metric = 'val/overall_acc' if task == 'classification' else 'val/loss'
+ckpt_mode = 'max' if task == 'classification' else 'min'
 
 checkpoint_callback = ModelCheckpoint(
-    dirpath=checkpoint_dir, 
-    filename='{epoch:02d}-{val_loss:.4f}-{' + primary_metric.split('/')[-1] + ':.4f}',
+    dirpath=ckpt_dir,
+    filename='best_model',
     monitor=primary_metric,
-    mode='max', # Maximize accuracy/R2
+    mode=ckpt_mode, # Maximize accuracy/R2 or minimize loss
     save_top_k=1,
     verbose=True
 )
-lr_monitor = LearningRateMonitor(logging_interval='epoch')
 
-# 5. Instantiate the Trainer
-# PL handles device setup automatically based on arguments
-trainer = pl.Trainer(
-    max_epochs=args.epoch,
-    accelerator='gpu' if torch.cuda.is_available() and not args.use_cpu else 'cpu',
-    devices=[int(g) for g in args.gpu.split(',')] if ',' in args.gpu else (1 if not args.use_cpu else 0),
-    logger=wandb_logger,
-    callbacks=[checkpoint_callback, lr_monitor],
-    deterministic=True, # For reproducibility
-    enable_progress_bar=True
+early_stop_callback = EarlyStopping(
+    monitor=primary_metric,
+    patience=10,
+    mode=ckpt_mode
 )
 
-# 6. Start Training
-if mode == "training":
-    print('Starting PyTorch Lightning Training...')
-    trainer.fit(model_module, data_module)
+lr_monitor = LearningRateMonitor(logging_interval='epoch')
 
-# Test the best checkpoint after training
+# OPTIONAL: set up distributed training with multiple GPUs if needed
+if args.ddp:
+    n_gpus = torch.cuda.device_count()
+    gpu_strategy = DDPStrategy(process_group_backend= "gloo", 
+                                find_unused_parameters=False,
+                                gradient_as_bucket_view=True)
 else:
-    print('\n--- Testing Model ---')
-    trainer.test(datamodule=data_module, ckpt_path='best')
+    n_gpus = 1
+    gpu_strategy = 'auto'
+
+# ---------------------------
+# Trainer
+# ---------------------------
+trainer = pl.Trainer(
+    num_nodes=1,
+    strategy=gpu_strategy,
+    devices=n_gpus,
+    max_epochs=args.epoch,
+    accelerator='gpu' if torch.cuda.is_available() and not args.use_cpu else 'cpu',
+    logger=wandb_logger,
+    callbacks=[checkpoint_callback, lr_monitor, early_stop_callback],
+    enable_progress_bar=True,
+    log_every_n_steps=2,
+)
+
+# ---------------------------
+# Run
+# ---------------------------
+if args.mode == "train":
+    print("\n--- TRAINING ---")
+    trainer.fit(model_module, datamodule=data_module)
+
+else:
+    print("\n--- TEST ONLY ---")
+    trainer.test(
+        ckpt_path=str(ckpt_dir / "best_model.ckpt"),
+        datamodule=data_module
+    )
 
 ```
+
+::: {.callout-note}
+Under the hood, it handles all loop details for you, some examples include:
+
+- Automatically enabling/disabling grads
+
+- Running the training, validation and test dataloaders
+
+- Calling the Callbacks at the appropriate times
+
+- Putting batches and computations on the correct devices
+:::
 
 ## Summary: EFI Deep Learning Pipeline Logic
 
 | Component   | Responsibility                                         | Key Hook                         |
 |-------------|---------------------------------------------------------|----------------------------------|
-| DataModule | Loads `.npy` files and applies spatial splits           | `setup()`                       |
+| DataModule | Loads `.npy` files and applies splits           | `setup()`                       |
 | ModelModule| Defines DGCNN architecture and loss functions           | `forward()`, `*_step()`          |
 | Trainer    | Manages loops, hardware, and W&B logging                | `fit()`                         |
 | Callbacks  | Saves the best model weights automatically              | `on_validation_epoch_end()`      |
@@ -785,7 +861,7 @@ When you pass the `EfiModelModule` and `EfiDataModule` to a `Lightning Trainer` 
   - **Forward & Loss**: `Trainer` calls `training_step()` in the `ModelModule`.
   - **Optimization**: Lightning automatically runs `loss.backward()` and `optimizer.step()`.
   - **Metrics**: Metrics are logged via `self.log()`.
-- The Validation Loop (Usually after each Epoch):
+- The Validation Loop (after each Epoch):
   - **Evaluation**: Trainer switches to `eval()` mode.
   - **Metrics**: Trainer calls `validation_step()` to check `accuracy/loss` on the **validation set**.
   - **Checkpointing**: If validation performance improves, the `Trainer` saves the **model weights**.
@@ -798,7 +874,7 @@ When you pass the `EfiModelModule` and `EfiDataModule` to a `Lightning Trainer` 
 
 ![](https://www.googleapis.com/download/storage/v1/b/kaggle-user-content/o/inbox%2F4533747%2F61b58caa4e9b00ead191242796e86e27%2Ffitting.JPG?generation=1594728310000042&alt=media){width=60%}
 
-Learning curve
+Learning curve ([source](https://www.googleapis.com/download/storage/v1/b/kaggle-user-content/o/inbox%2F4533747%2F61b58caa4e9b00ead191242796e86e27%2Ffitting.JPG?generation=1594728310000042&alt=media))
 :::
 
 [Weights and Biases (wandb)](https://wandb.ai/site/) is an online deep learning tool that can track experiments, perform hyperparameter tuning, and visualize results. It is an effective method for refining and comparing models with different configurations.
