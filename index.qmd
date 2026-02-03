@@ -10,6 +10,8 @@ author:
     affiliation: "University of British Columbia – Integrated Remote Sensing Studio"
   - name: "Ahmed Ragab"
     affiliation: "Natural Resources Canada - CanmetENERGY;<br>Polytechnique Montreal - Department of Mathematics and Industrial Engineering"
+  - name: "Nicholas Coops"
+    affiliation: "University of British Columbia – Integrated Remote Sensing Studio"
 format:
   html:
     toc: True
