@@ -846,7 +846,7 @@ Compare results of different HPs using W&B Sweep: DGCNN example
 
 Load Interactive W&B Sweep
 
-<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/qs96lr1s" style="border:none;height:600px;width:100%" loading="lazy"></iframe>
+<iframe src="https://api.wandb.ai/links/ubc-yuwei-cao/9s0cpx7w" style="border:none;height:600px;width:100%" loading="lazy"></iframe>
 
 # Predicting ([predict.py](https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src/models/predict.py))
 
