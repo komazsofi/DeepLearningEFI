@@ -161,5 +161,5 @@ This approach reduces the need for manual interpretation and enables tree-level 
 - Combining raw 3D data with simple summary metrics improves prediction performance
 - Dual-stream deep learning provides a simple and effective way to combine different types of ALS-based forest information.
 
-## How Can Deep Learning Going to Change EFI Workflows?
+## How Can Deep Learning Change EFI Workflows?
 Existing research across many EFI modelling objectives (e.g., species classification, individual tree segmentation, biomass regression, etc.) has demonstrated that deep neural networks (DNNs) operating directly on point cloud data often outperform conventional modelling approaches (e.g., random forest) that rely on LiDAR metrics. These performance gains are promising and may signal a shift towards greater use of deep learning workflows when developing EFIs. With further research involving benchmarking and model development, we may see improvements offered by DNNs for EFIs across Canada. However, it remains critical to weigh performance gains against model complexity and computational demands when considering the operational use of deep learning for EFIs. 
