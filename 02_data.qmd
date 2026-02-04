@@ -840,7 +840,46 @@ labels_df %>%
   view_table()
 ```
 
-### Visualize the dataset splits**
+### Visualize the dataset splits
+
+**View the splits mapped across the PRF**
+
+```{r}
+
+prf_aoi <- lidar_index %>%
+              st_buffer(1) %>%
+              st_union() %>%
+              st_as_sf()
+
+fig <- plot_centers %>%
+  left_join(labels_df, by = 'plot_id') %>%
+  mutate(split = str_to_title(split)) %>%
+  mutate(split = factor(split,
+                        levels = c('Train', 'Val', 'Test'),
+                        ordered = TRUE)) %>%
+  ggplot() +
+    geom_sf(data = prf_aoi, fill = 'lightgrey', color = 'black', alpha = 0.5) +
+    geom_sf(aes(color = split), size = 2.5) +
+    theme_minimal() +
+    scale_color_brewer(name='', palette = "Set1", direction=-1) +
+    theme(
+      panel.grid = element_blank(),
+      axis.ticks = element_blank(),
+      axis.text = element_blank(),
+      legend.position = "bottom",
+      legend.text = element_text(size = 18)
+    )
+
+ggsave(filename = here('images/plot_splits_map.jpg'),
+       plot = fig)
+
+
+
+```
+
+![](images/plot_splits_map.jpg)
+
+**View the splits by species and biomass**
 
 ```{r}
 #| code-fold: true
