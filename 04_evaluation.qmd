@@ -362,6 +362,8 @@ Deep neural networks (DNNs) often have poor model fit when trained out-of-the-bo
 
 In situations like the Petawawa dataset, with only n = 249 samples, there are a few steps that can be taken to achieve improved performance.
 
+**Trying a different DNN architecture**
+
 First, we can try a different DNN architecture that may be better suited to forest AGB regression. Some research has indicated that 3-D CNNs perform better for AGB estimation. For example, [Oehmcke et al. (2024)](https://doi.org/10.1016/j.rse.2023.113968) found that the Minkowski Engine sparse 3-D CNN outperformed point-based DNNs such as PointNet and KPConv for AGB regression.
 
 Following this logic, we will evaluate the effectiveness of a similar Octree-CNN (OCNN) model that was implemented by [Seely et al. (2023)](https://doi.org/10.1016/j.srs.2023.100110).
@@ -384,6 +386,8 @@ plot_regression(obs=ocnn_obs_pred_df['agb_mg_ha_obs'],
 ```
 
 We can see that OCNN achieved a better fit compared to DGCNN, reducing RMSE and bias and improving $R^2$.
+
+**Transfer learning**
 
 We can take this a step further and apply [transfer learning (TL)](https://d2l.ai/chapter_computer-vision/fine-tuning.html) to train OCNN. 
 
@@ -417,14 +421,18 @@ Building on the poor DGCNN performance, we explored two methods of improving DNN
 1) Using a different DNN architecture (OCNN)
 2) Applying transfer learning (OCNN-TL)
 
+**Other strategies to boost DNN performance**
+
 Due to the high degree of flexibility in DNN architectures and training strategies, there are many other potential avenues for improving model performance that can be explored. These include, but are not limited to:
 
 - Hyperparameter tuning
 - Data augmentation
 - Ensemble modelling
-- ...
 
-[Safonova et al. 2023](https://doi.org/10.1016/j.jag.2023.103569) provides additional strategies for improving DNN performance for remote sensing applications in scenarios with small datasets.
+**[Safonova et al. 2023](https://doi.org/10.1016/j.jag.2023.103569)** provides additional strategies for improving DNN performance for remote sensing applications in scenarios with small datasets which are shown in the figure below.
+
+![Flowchart from Safonova et al. (2023)](images/small_data_dl_flowchart.jpg){#fig-small-data-flowchart fig-align="center" width=60%}
+
 
 # Compare results to Random Forest using LiDAR Metrics
 
