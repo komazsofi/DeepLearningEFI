@@ -7,8 +7,7 @@ format:
 
 ![](images/dl_efi_high_level_figure.jpg)
 
-## How is Deep Learning Going to Change EFI Workflows?
-Existing research across many EFI modelling objectives (e.g., species classification, individual tree segmentation, biomass regression, etc.) has demonstrated that deep neural networks (DNNs) operating directly on point cloud data often outperform conventional modelling approaches (e.g., random forest) that rely on LiDAR metrics. These performance gains are promising and may signal a shift towards greater use of deep learning workflows when developing EFIs. Below, we summarize three studies by Seely et al. (2026), Cao et al. (2025), and Murray et al. (2025) that exemplify how deep learning can be used to extract more information from ALS point cloud data, resulting in more accurate forest aboveground biomass and species proportion estimates. All three studies were performed in the Romeo Malette Forest (RMF).
+**Below, we summarize three studies by Seely et al. (2026), Cao et al. (2025), and Murray et al. (2025) that exemplify how deep learning can be used to extract more information from ALS point cloud data, resulting in more accurate forest aboveground biomass and species proportion estimates. All three studies were performed in the Romeo Malette Forest (RMF).**
 
 ## Study Area
 The RMF, situated in northern Ontario within the Timmins District, is part of the boreal forest of Canada. It encompasses approximately 6,300 km², of which 5,824 km² is forested, extending between 47.8°N and 48.8°N and from 81.0°W to 82.4°W. The region experiences a continental climate, with mean annual precipitation ranging from 770 to 975 mm and mean annual minimum temperatures between 1.0 °C and −5.0 °C from 1990 to 2010; over the same period, mean annual maximum temperatures varied from 8 °C to 15 °C. Elevations range from 240 to 280 m, and the terrain is characterized by minimal exposed bedrock and extensive, poorly drained flat areas.
@@ -18,7 +17,7 @@ The RMF, situated in northern Ontario within the Timmins District, is part of th
 ---
 
 ## 1) Biomass Component Regression
-*Based on the publication <a href=https://doi.org/10.1093/forestry/cpag004 target="_blank">Addressing The Small Data Problem in Forestry: Self-Supervised Learning for Aboveground Biomass Estimation</a> by Seely et al. (2026).
+**Based on the publication <a href=https://doi.org/10.1093/forestry/cpag004 target="_blank">Addressing The Small Data Problem in Forestry: Self-Supervised Learning for Aboveground Biomass Estimation</a> by Seely et al. (2026).**
 
 ### Why Aboveground Biomass Component Regression?
 Aboveground biomass (AGB) is a key element of forest inventories and is necessary for a variety of forest-related decision-making processes, including timber harvesting and wildfire fuel assessment. Forest AGB is often divided into its sub-components — wood, branch, bark, and foliage — to fulfill more specific information needs. For example, quantifying branch, bark, and foliage biomass can inform [post-harvest bioenergy applications](https://natural-resources.canada.ca/forest-forestry/forest-industry-trade/forest-bioenergy). 
@@ -67,7 +66,7 @@ We applied OCNN-F across the entire RMF for inference. The results are shown in 
 ---
 
 ## 2) Tree Species Composition
-*Based on the publication <a href=https://doi.org/10.1016/j.isprsjprs.2025.11.026 target="_blank">M3FNet: Multi-modal multi-temporal multi-scale data fusion network for tree species composition mapping</a> by Cao et al. (2025).
+**Based on the publication <a href=https://doi.org/10.1016/j.isprsjprs.2025.11.026 target="_blank">M3FNet: Multi-modal multi-temporal multi-scale data fusion network for tree species composition mapping</a> by Cao et al. (2025).**
 
 ### Why Tree Species Composition Mapping?
 Accurate information on tree species composition (TSC) is critical for forest inventories, serving as a foundational element for forest management. By identifying TSC and its spatial patterns, forest managers can implement sustainable management practices, such as targeted silvicultural intervention, monitoring forest health, and analysing the resilience of forests.  
@@ -112,7 +111,7 @@ Spatial distribution of the prediction of two leading species—Black Spruce (SB
 ---
 
 ## 3) Individual Tree Species
-*Based on the publication <a href=https://doi.org/10.1016/j.jag.2025.104877 target="_blank">Individual tree species prediction using airborne laser scanning data and derived point-cloud metrics within a dual-stream deep learning approach</a> by Murray et al. (2025).
+**Based on the publication <a href=https://doi.org/10.1016/j.jag.2025.104877 target="_blank">Individual tree species prediction using airborne laser scanning data and derived point-cloud metrics within a dual-stream deep learning approach</a> by Murray et al. (2025).**
 
 ### Why Tree Species Mapping Matters
 Knowing which tree species are present, and where they are located, is essential for modern forest inventories. Species information supports decisions related to timber supply, carbon estimation, habitat assessment, and forest management. Traditional inventories often rely on manual interpretation and report species information at the stand level, which limits detail and scalability. 
@@ -161,3 +160,6 @@ This approach reduces the need for manual interpretation and enables tree-level 
 - Automated workflows are critical for making deep learning practical in forestry
 - Combining raw 3D data with simple summary metrics improves prediction performance
 - Dual-stream deep learning provides a simple and effective way to combine different types of ALS-based forest information.
+
+## How Can Deep Learning Going to Change EFI Workflows?
+Existing research across many EFI modelling objectives (e.g., species classification, individual tree segmentation, biomass regression, etc.) has demonstrated that deep neural networks (DNNs) operating directly on point cloud data often outperform conventional modelling approaches (e.g., random forest) that rely on LiDAR metrics. These performance gains are promising and may signal a shift towards greater use of deep learning workflows when developing EFIs. With further research involving benchmarking and model development, we may see improvements offered by DNNs for EFIs across Canada. However, it remains critical to weigh performance gains against model complexity and computational demands when considering the operational use of deep learning for EFIs. 
