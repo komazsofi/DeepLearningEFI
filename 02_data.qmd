@@ -160,6 +160,13 @@ view_table <- function(df){
 
 ## 1) LiDAR Preprocessing
 
+### Differences between conventional and deep learning ALS preprocessing for EFI
+
+The flowchart below summarizes the ALS preprocessing pipeline to prepare data for EFI modelling using conventional and deep learning approaches. At the end of the flowchart, the key difference between the two approaches is the lack of LiDAR metric derivation.
+
+![](images/lidar_preprocess_workflow.jpg)
+
+
 ### Steps and Functions
 
 **The code below includes the LiDAR preprocessing steps to prepare the ALS point cloud data for use in deep neural network model development.**
