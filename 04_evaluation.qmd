@@ -366,7 +366,7 @@ In situations like the Petawawa dataset, with only n = 249 samples, there are a 
 
 First, we can try a different DNN architecture that may be better suited to forest AGB regression. Some research has indicated that 3-D CNNs perform better for AGB estimation. For example, [Oehmcke et al. (2024)](https://doi.org/10.1016/j.rse.2023.113968) found that the Minkowski Engine sparse 3-D CNN outperformed point-based DNNs such as PointNet and KPConv for AGB regression.
 
-Following this logic, we will evaluate the effectiveness of a similar Octree-CNN (OCNN) model that was implemented by [Seely et al. (2023)](https://doi.org/10.1016/j.srs.2023.100110).
+Following this logic, we will evaluate the effectiveness of a similar [Octree-CNN (OCNN)](https://github.com/octree-nn/ocnn-pytorch) model that was implemented by [Seely et al. (2023)](https://doi.org/10.1016/j.srs.2023.100110).
 
 **Below we evaluate the performance of OCNN on the PRF dataset.**
 
