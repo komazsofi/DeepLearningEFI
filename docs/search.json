@@ -39,7 +39,7 @@
     "href": "index-slides.html#how-this-tutorial-is-setup",
     "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
     "section": "How this tutorial is setup",
-    "text": "How this tutorial is setup\nThis workshop will be more of a high-level tutorial on how to implement deep learning into EFI workflows. With that in mind we encourage you to follow along on the website, take notes and ask questions along the way.\n\n\n\n\n\n\nNote\n\n\nThis website will remain open after the workshop for participants to review the content or share it with others. Feel free to clone this GitHub Repo as it serves as a launching point for EFI deep learning projects."
+    "text": "How this tutorial is setup\nThis workshop will be more of a intoductory tutorial on how to implement deep learning into EFI workflows. With that in mind we encourage you to follow along on the website, take notes and ask questions along the way.\n\n\n\n\n\n\nNote\n\n\nThis website will remain open after the workshop for participants to review the content or share it with others. Feel free to clone this GitHub Repo as it serves as a launching point for EFI deep learning projects."
   },
   {
     "objectID": "index-slides.html#dont-get-lost-in-the-code",
