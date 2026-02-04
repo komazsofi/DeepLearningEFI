@@ -27,6 +27,8 @@ If you wish to run the preprocessing, the original height-normalized ALS and sam
 
 ### The lidR package
 
+![](images/lidr.png)
+
 This tutorial makes use of the `lidR` package to prepare LiDAR data for deep learning. LiDAR preprocessing can often be complex and is a critical step in an enhanced forest inventory workflow. However, it is not the focus of this workshop. For more detailed information about LiDAR preprocessing, see the [lidR package tutorial](https://r-lidar.github.io/lidRbook/).
 
 ## Dataset Background
@@ -838,7 +840,7 @@ labels_df %>%
   view_table()
 ```
 
-**Visualize the dataset splits**
+### Visualize the dataset splits**
 
 ```{r}
 #| code-fold: true
@@ -881,6 +883,8 @@ ggsave(filename = here('images/total_agb_splits_boxplots.jpg'),
 ![](images/species_splits_barplot.jpg)
 
 ![](images/total_agb_splits_boxplots.jpg)
+
+
 
 ## 6) Z-score AGB
 
