@@ -137,7 +137,7 @@ There is code provided for this workshop, but you don't need to be an expert pro
 
 - Focus on the **theory, concepts, and workflows** we are explaining.
 - Use the code later as a reference to reinforce what you learned.
-- If something isn’t clear, **ask questions in the chat** (or after the workshop)
+- If something isn’t clear, **ask questions in the chat** (or after the workshop on GitHub)
 
 ::: callout-note
 We’ve precomputed datasets, training outputs, and evaluations so you can follow along without coding live.

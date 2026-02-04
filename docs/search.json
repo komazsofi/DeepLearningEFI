@@ -46,7 +46,7 @@
     "href": "index-slides.html#dont-get-lost-in-the-code",
     "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
     "section": "Don’t get lost in the code",
-    "text": "Don’t get lost in the code\nThere is code provided for this workshop, but you don’t need to be an expert programmer or run any code during this session.\n\nFocus on the theory, concepts, and workflows we are explaining.\nUse the code later as a reference to reinforce what you learned.\nIf something isn’t clear, ask questions in the chat (or after the workshop)\n\n\n\n\n\n\n\nNote\n\n\nWe’ve precomputed datasets, training outputs, and evaluations so you can follow along without coding live."
+    "text": "Don’t get lost in the code\nThere is code provided for this workshop, but you don’t need to be an expert programmer or run any code during this session.\n\nFocus on the theory, concepts, and workflows we are explaining.\nUse the code later as a reference to reinforce what you learned.\nIf something isn’t clear, ask questions in the chat (or after the workshop on GitHub)\n\n\n\n\n\n\n\nNote\n\n\nWe’ve precomputed datasets, training outputs, and evaluations so you can follow along without coding live."
   },
   {
     "objectID": "index-slides.html#how-to-follow-along",
