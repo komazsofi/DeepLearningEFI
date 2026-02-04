@@ -859,7 +859,7 @@ fig <- plot_centers %>%
                         ordered = TRUE)) %>%
   ggplot() +
     geom_sf(data = prf_aoi, fill = 'lightgrey', color = 'black', alpha = 0.5) +
-    geom_sf(aes(color = split), size = 2.5) +
+    geom_sf(aes(color = split), size = 2) +
     theme_minimal() +
     scale_color_brewer(name='', palette = "Set1", direction=-1) +
     theme(
@@ -867,7 +867,7 @@ fig <- plot_centers %>%
       axis.ticks = element_blank(),
       axis.text = element_blank(),
       legend.position = "bottom",
-      legend.text = element_text(size = 18)
+      legend.text = element_text(size = 16)
     )
 
 ggsave(filename = here('images/plot_splits_map.jpg'),
