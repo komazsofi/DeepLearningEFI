@@ -92,7 +92,7 @@ format:
 
 ---
 
-## Instructors
+## Instructors and Authors
 
 ::: {.instructors-table}
 

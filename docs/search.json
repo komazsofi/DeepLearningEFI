@@ -761,5 +761,435 @@
     "title": "Setup",
     "section": "4) Directory structure",
     "text": "4) Directory structure\nAfter downloading the data and setting up the python environment (see above), your directory structure should include the following (among other miscellaneous files):\n\n01_intro.qmd\n02_data.qmd\n03_train.qmd\n04_evaluation.qmd\n05_examples.qmd\ncompute_lidar_metrics.qmd\ndata\npyproject.toml\nrandom_forest.qmd\nschedule.qmd\nsetup.qmd\nsrc\nuv.lock\n.venv"
+<<<<<<< HEAD
+=======
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#what-is-deep-learning",
+    "href": "01-intro-deep-learning-slides.html#what-is-deep-learning",
+    "title": "Introduction to Deep Learning",
+    "section": "What Is Deep Learning?",
+    "text": "What Is Deep Learning?"
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#neural-network-components",
+    "href": "01-intro-deep-learning-slides.html#neural-network-components",
+    "title": "Introduction to Deep Learning",
+    "section": "Neural Network Components",
+    "text": "Neural Network Components\n\nLayers: Input → hidden → output\n\nDepth: Number of layers\n\nWidth: Number of neurons per layer"
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#neural-network-components-1",
+    "href": "01-intro-deep-learning-slides.html#neural-network-components-1",
+    "title": "Introduction to Deep Learning",
+    "section": "Neural Network Components",
+    "text": "Neural Network Components\nTrade-offs:\n\nIncreases in depth/width → increase representational power\n\nIncreases in depth/width → increase computation, overfitting risk"
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#how-do-neural-networks-learn",
+    "href": "01-intro-deep-learning-slides.html#how-do-neural-networks-learn",
+    "title": "Introduction to Deep Learning",
+    "section": "How Do Neural Networks Learn?",
+    "text": "How Do Neural Networks Learn?"
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#goal-loss-gradients-and-epochs",
+    "href": "01-intro-deep-learning-slides.html#goal-loss-gradients-and-epochs",
+    "title": "Introduction to Deep Learning",
+    "section": "Goal: Loss, Gradients, and Epochs",
+    "text": "Goal: Loss, Gradients, and Epochs\nLearning is driven by the loss function which guides the adjustments of the weights/biases over a number of epochs.\n\nLoss function: Measures prediction error\n\nGradients: Sensitivity of loss to small changes in weights/bias\n\nEpoch: One full pass through the training data"
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#task-classification",
+    "href": "01-intro-deep-learning-slides.html#task-classification",
+    "title": "Introduction to Deep Learning",
+    "section": "Task: Classification",
+    "text": "Task: Classification\nGoal: Assign inputs to discrete classes\nForestry examples:\n\nTree species mapping\n\nLand cover classification\n\nDisturbance detection"
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#task-regression",
+    "href": "01-intro-deep-learning-slides.html#task-regression",
+    "title": "Introduction to Deep Learning",
+    "section": "Task: Regression",
+    "text": "Task: Regression\nGoal: Predict continuous values\nForestry examples:\n\nAbove-ground biomass\n\nCanopy cover / LAI\n\nTree height, crown size"
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#task-segmentation",
+    "href": "01-intro-deep-learning-slides.html#task-segmentation",
+    "title": "Introduction to Deep Learning",
+    "section": "Task: Segmentation",
+    "text": "Task: Segmentation\nGoal: Assign labels to every pixel or point\nForestry examples:\n\nTree crown delineation\n\nStand boundaries\n\nStructural mapping"
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#data-training-validation-testing",
+    "href": "01-intro-deep-learning-slides.html#data-training-validation-testing",
+    "title": "Introduction to Deep Learning",
+    "section": "Data: Training, Validation, Testing",
+    "text": "Data: Training, Validation, Testing\nLearning happens through patterns identified in the data.\n\nTraining: Learn parameters\n\nValidation: Tune hyperparameters, prevent overfitting\n\nTesting: Final, unbiased performance estimate\n\n\n\n\n\n\n\nNote\n\n\nNever mix training, validation, and testing data. Mixing or reusing data between these datasets can lead to misleading performance metrics and poor generalization."
+  },
+  {
+    "objectID": "03_train.html#how-dynamic-graph-cnn-dgcnn-works",
+    "href": "03_train.html#how-dynamic-graph-cnn-dgcnn-works",
+    "title": "Training Deep Learning Models",
+    "section": "How Dynamic Graph CNN (DGCNN) Works",
+    "text": "How Dynamic Graph CNN (DGCNN) Works\nWhile our framework supports multiple models (like PointNet, PointNet2, PointNeXt), we will focus on DGCNN (--model dgcnn) because of its superior ability to capture complex local geometry in point clouds—perfect for identifying fine details in forest structure.\nUnlike standard PointNet, which looks at each point individually, DGCNN looks at the difference between a point and its neighbors (\\(x_i - x_j\\)). DGCNN is based on a spatial-based graph convolution network, which formulates graph convolutions as aggregating feature information from neighbors.\n\nThis is like an ecologist looking not just at one tree’s height, but how much taller it is than its immediate neighbors—capturing the canopy texture.\n\nFor every point in the cloud:\n\nFind Neighbors: It looks at the \\(k\\) closest neighboring points (such as \\(x_{j_{i1}}\\),…,\\(x_{j_{ik}}\\) are closet to \\(x_i\\)).\nBuild a Local Graph: It constructs a graph defining the relationship between the central point and its neighbors using edges \\((i, j_{i1}) -&gt; e_{ij_{i1}}\\).\nDynamic Update: After each layer of processing (EdgeConv), it re-evaluates the “neighborhood” in the feature space (hence Dynamic).\n\n\n\n\n\n\n\n\n\ngraph construction\n\n\n\n\n\n\n\ngraph convolution\n\n\n\n\n\n\nFigure 6: DGCNN Graph Convolution\n\n\n\nThis allows the model to progressively learn more complex, abstract relationships in the data, ultimately leading to highly accurate classification or attribute prediction for the entire plot."
+  },
+  {
+    "objectID": "03_train.html#core-components-of-the-wrapper",
+    "href": "03_train.html#core-components-of-the-wrapper",
+    "title": "Training Deep Learning Models",
+    "section": "Core components of the wrapper",
+    "text": "Core components of the wrapper\nThe EfiModelModule typically organizes code into four main functional blocks:\n\nInitialization (__init__)\n\nThis is where the model is born.\n\nModel Setup: It usually initializes a backbone (like DGCNN), a task-specific head (like a classification layer).\nHyperparameters: Loads configs, and it uses self.save_hyperparameters() to automatically save arguments like learning rate or model version into checkpoints for easy reproducibility.\nInitialize evaluation metrics\n\n\nclass EfiModelModule(pl.LightningModule):\n    def __init__(self, cfg, args):\n        super().__init__()\n        # Store hyperparameters for W&B/checkpointing\n        self.save_hyperparameters(cfg, args) \n        self.cfg = cfg\n        self.args = args\n        self.task = cfg['task']\n\n        # 1. Load Model Backbone\n        model_module = importlib.import_module(f\"models.{cfg['model_name']}\")\n        self.model = model_module.get_model(cfg)\n\n        # 2. Setup Metric Calculators (one for validation, one for testing)\n        self.val_metrics = MetricsCalculator(self.task, cfg['num_classes'])\n        self.test_metrics = MetricsCalculator(self.task, cfg['num_classes'])\n\n\nThe forward pass (forward):\n\nDefines how data flows through the model during inference. You call it when you want to get an output from an input: \\(\\hat{y} = model(x)\\)\n\ndef forward(self, points):\n    \"\"\"Standard model forward pass.\"\"\"\n    return self.model(points)\n\n\nThe logic hooks\n\nIn PyTorch Lightning, the loops are broken down into specific hooks: training_step, validation_step, test_step, predict_step: what happens during one “step” of training or evaluation or testing .\n\n_shared_step: Shared logic for training, validation, and test step\n\n\ndef _shared_step(self, batch):\n    \"\"\"Shared logic for training, validation, and test step.\"\"\"\n    points, target, _ = batch # _ is plot_id, doesn't need in the these stpes\n    \n    # Transpose [B, N, C] -&gt; [B, C, N] and enforce float32\n    points = points.transpose(2, 1).float() \n    \n    # 1. Forward Pass\n    pred, trans_feat = self(points)\n    \n    # 2. Calculate Loss\n    loss = calculate_total_loss(\n        pred, \n        target, \n        trans_feat, \n        task=self.task\n    )\n    \n    return loss, pred, target\n\n\ntraining_step: Calculate the training loss.\n\n\n# --- Training ---\ndef training_step(self, batch, batch_idx):\n    loss, _, _ = self._shared_step(batch)\n    \n    # logs metrics for each training_step,\n    # and the average across the epoch, to the progress bar and logger\n    # Log basic training loss and learning rate for W&B\n    self.log('train/loss', loss, on_step=False, on_epoch=True, prog_bar=True)\n    self.log('train/lr', self.optimizers().param_groups[0]['lr'], on_step=True, on_epoch=False)\n    return loss\n\n\n\n\n\n\n\nTip\n\n\n\nWhat happens: This is the heart of the training loop. Lightning handles the boilerplate (forward pass, loss calculation, backward propagation, and optimizer updates) automatically based on what you return here.\nUnder the hood, Lightning does the following (pseudocode):\n# enable gradient calculation\ntorch.set_grad_enabled(True)\n\nfor batch_idx, batch in enumerate(train_dataloader):\n    loss = training_step(batch, batch_idx)\n\n    # clear gradients\n    optimizer.zero_grad()\n\n    # backward\n    loss.backward()\n\n    # update parameters\n    optimizer.step()\n\n\n\nvalidation_step: Monitor model performance on unseen data during training.\n\n\n\nCode\n# --- Validation ---\ndef validation_step(self, batch, batch_idx):\n    loss, pred, target = self._shared_step(batch)\n    \n    # 1. Log validation loss (PL automatically averages this over the epoch)\n    self.log('val/loss', loss, on_step=False, on_epoch=True, prog_bar=True)\n    \n    # 2. Update the full MetricsCalculator for end-of-epoch aggregation\n    self.val_metrics.update(pred, target, 0.0)\n    \n    return loss\n\n\n\nUsually triggered at the end of every training epoch. It helps track if the model is overfitting. Unlike the training step, it does not update model weights.\n\n\ntest_step: Provide a final, unbiased evaluation after training is complete.\n\n\n\nCode\n# --- Test Step ---\ndef test_step(self, batch, batch_idx):\n    \"\"\"\n    Dedicated step for final, unbiased evaluation on the test set.\n    Runs when trainer.test() is called.\n    \"\"\"\n    loss, pred, target = self._shared_step(batch)\n    \n    # 1. Log test loss\n    self.log('test/loss', loss, on_step=False, on_epoch=True)\n    \n    # 2. Update the full MetricsCalculator for end-of-epoch aggregation\n    self.test_metrics.update(pred, target, 0.0)\n    \n    return loss\n\n\n\nThis is only called when you explicitly run trainer.test(). It uses the “best” version of the model saved during training to see how it performs on a strictly held-out dataset.\n\n\npredict_step is used for generating raw output/predictions on unseen data; it does not calculate loss and metrics:\n\n\n\nCode\n# --- Prediction / Inference ---\ndef predict_step(self, batch, batch_idx, dataloader_idx=0):\n    \"\"\"\n    Used for generating raw output/predictions on unseen data.\n    Does not calculate loss or metrics.\n    Runs when trainer.predict() is called.\n    \"\"\"\n    points, target, pid = batch \n    \n    # Transpose [B, N, C] -&gt; [B, C, N] and enforce float32\n    points = points.transpose(2, 1).float() \n    \n    # 1. Forward Pass\n    # Assuming self(points) returns (pred, trans_feat), we only return the prediction (pred)\n    pred, _ = self(points)\n    if self.task == 'classification':\n        pred = torch.argmax(pred, dim=1)\n    \n    # Return only the raw prediction tensor for the user\n    return {\n        \"plot_id\": pid,\n        \"pred\": pred.detach().cpu(),\n        \"gt\": target.detach().cpu()\n    }\n\n\n\nOptimizer and scheduler: configure_optimizers:\n\nThis tells the trainer which algorithm to use (e.g., Adam, SGD) to adjust the model’s weights to continuously minimize this loss value and how the learning rate should change over time (Schedulers, e.g., StepLR).\n\n\nCode\n# --- Optimizer Configuration ---\ndef configure_optimizers(self):\n    \"\"\"Defines the optimizer and scheduler as required by PL.\"\"\"\n    optimizer = torch.optim.Adam(\n        self.parameters(),\n        lr=self.args.learning_rate,\n        betas=(0.9, 0.999),\n        eps=1e-08,\n        weight_decay=self.args.decay_rate\n    )\n    \n    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=20, gamma=0.7)\n    \n    # PL requires the scheduler to be returned in a dictionary format\n    return {\n        'optimizer': optimizer,\n        'lr_scheduler': {\n            'scheduler': scheduler, \n            'interval': 'epoch', # Run scheduler step after each epoch\n        }\n    }\n\n\n\nInstead of writing long training loops, you describe what happens to one batch, and Lightning handles the rest."
+  },
+  {
+    "objectID": "index_slides.html",
+    "href": "index_slides.html",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "",
+    "text": "Brent A. Murray - Integrated Remote Sensing Studio, University of British Columbia\n\n\n\nHarry Seely - Integrated Remote Sensing Studio, University of British Columbia\n\n\n\nYuwei Cao - Integrated Remote Sensing Studio, University of British Columbia\n\n\n\nAhmed Ragab - CanmetENERGY, Natural Resources Canada; Department of Mathematics and Industrial Engineering, Polytechnique Montreal"
+  },
+  {
+    "objectID": "index_slides.html#instructors",
+    "href": "index_slides.html#instructors",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "Instructors",
+    "text": "Instructors\n\n\n\n\n\n\n\n\n\nBrent A. Murray - Integrated Remote Sensing Studio, University of British Columbia\n\n\n\nHarry Seely - Integrated Remote Sensing Studio, University of British Columbia\n\n\n\nYuwei Cao - Integrated Remote Sensing Studio, University of British Columbia\n\n\n\nAhmed Ragab - CanmetENERGY, Natural Resources Canada; Department of Mathematics and Industrial Engineering, Polytechnique Montreal"
+  },
+  {
+    "objectID": "index_slides.html#overview",
+    "href": "index_slides.html#overview",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "Overview",
+    "text": "Overview\nThis is an introductory workshop for deep learning techniques for Enhanced Forest Inventories (EFIs). It will cover a basic end-to-end deep learning workflow for EFI applications covering an introduction into deep learning, to data preparation, and finally a demo of model training, evaluation, and deployment."
+  },
+  {
+    "objectID": "index_slides.html#what-we-hope-you-will-learn",
+    "href": "index_slides.html#what-we-hope-you-will-learn",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "What we hope you will learn",
+    "text": "What we hope you will learn\n\nWhat deep learning is and how it can be used for EFIs.\nHow to prepare and read in data for use in deep learning.\nBasics of using the PyTorch Lightning deep learning library.\nTraining a deep learning model for species classification and biomass prediction tasks.\nTesting and evaluating deep learning models."
+  },
+  {
+    "objectID": "index_slides.html#how-this-tutorial-is-setup",
+    "href": "index_slides.html#how-this-tutorial-is-setup",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "How this tutorial is setup",
+    "text": "How this tutorial is setup\nThis workshop will be more of a high-level tutorial on how to implement deep learning into EFI workflows. With that in mind we encourage you to follow along on the website, take notes and ask questions along the way.\n\n\n\n\n\n\nNote\n\n\n\nThis website will remain open after the workshop for participants to review the content or share it with others. Feel free to clone this GitHub Repo as it serves as a launching point for EFI deep learning projects."
+  },
+  {
+    "objectID": "index_slides.html#how-to-follow-along",
+    "href": "index_slides.html#how-to-follow-along",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "How to follow along",
+    "text": "How to follow along\nTo make the most out of this workshop:\n\nFollow along with the broad concepts and ideas being presented.\nAll the code is provided in the src folder.\nAdditionally all of the data and outputs are provided so you can enjoy the workshop without having to worry about coding at the same time.\n\n\n\n\n\n\n\nNote\n\n\n\nOften coding workshops move at a quick pace and it becomes easy to fall behind. Because deep neural networks often require long training times, all datasets, training outputs, and model evaluations have been precomputed and are provided as part of this tutorial. We highly encourage you to try out the code after the workshop."
+  },
+  {
+    "objectID": "index_slides.html#be-currious-and-ask-questions",
+    "href": "index_slides.html#be-currious-and-ask-questions",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "Be currious and ask questions",
+    "text": "Be currious and ask questions\nWe will be monitoring in the chat throughout the workshop and encourage you to ask questions as they come up and we will do our best to answer them in a timely manner.\n\n\n\n\n\n\nNote\n\n\n\nIf you have questions after the workshop or encounter any issues you can submit an issue via GitHub."
+  },
+  {
+    "objectID": "01_intro_slides.html",
+    "href": "01_intro_slides.html",
+    "title": "Introduction to Deep Learning",
+    "section": "",
+    "text": "Goal: Introduce deep learning concepts for enhanced forest inventories (EFIs)\nBy the end of this section, you should be able to:\n\nExplain the role of AI in EFI modelling\n\nDistinguish AI, machine learning, and deep learning\n\nDescribe the structure of a deep neural network\n\nExplain how models learn (loss, gradients, epochs)\n\nCompare image-based vs. point-based deep learning\n\nUse core deep learning terminology correctly\n\nRecognize common forestry-specific challenges"
+  },
+  {
+    "objectID": "01_intro_slides.html#overview",
+    "href": "01_intro_slides.html#overview",
+    "title": "Introduction to Deep Learning",
+    "section": "",
+    "text": "Goal: Introduce deep learning concepts for enhanced forest inventories (EFIs)\nBy the end of this section, you should be able to:\n\nExplain the role of AI in EFI modelling\n\nDistinguish AI, machine learning, and deep learning\n\nDescribe the structure of a deep neural network\n\nExplain how models learn (loss, gradients, epochs)\n\nCompare image-based vs. point-based deep learning\n\nUse core deep learning terminology correctly\n\nRecognize common forestry-specific challenges"
+  },
+  {
+    "objectID": "01_intro_slides.html#what-is-deep-learning",
+    "href": "01_intro_slides.html#what-is-deep-learning",
+    "title": "Introduction to Deep Learning",
+    "section": "What Is Deep Learning?",
+    "text": "What Is Deep Learning?"
+  },
+  {
+    "objectID": "01_intro_slides.html#artificial-intelligence-machine-learning-deep-learning",
+    "href": "01_intro_slides.html#artificial-intelligence-machine-learning-deep-learning",
+    "title": "Introduction to Deep Learning",
+    "section": "Artificial Intelligence → Machine Learning → Deep Learning",
+    "text": "Artificial Intelligence → Machine Learning → Deep Learning\n\n\n\nArtificial Intelligence (AI): Systems that mimic human decision-making\n\nMachine Learning (ML): Models that improve through data-driven experience\n\nDeep Learning (DL): ML using neural networks with many hidden layers"
+  },
+  {
+    "objectID": "01_intro_slides.html#deep-neural-networks-key-concepts",
+    "href": "01_intro_slides.html#deep-neural-networks-key-concepts",
+    "title": "Introduction to Deep Learning",
+    "section": "Deep Neural Networks: Key Concepts",
+    "text": "Deep Neural Networks: Key Concepts"
+  },
+  {
+    "objectID": "01_intro_slides.html#neural-network-components",
+    "href": "01_intro_slides.html#neural-network-components",
+    "title": "Introduction to Deep Learning",
+    "section": "Neural Network Components",
+    "text": "Neural Network Components\n\nLayers: Input → hidden → output\n\nDepth: Number of layers\n\nWidth: Number of neurons per layer"
+  },
+  {
+    "objectID": "01_intro_slides.html#neural-network-components-1",
+    "href": "01_intro_slides.html#neural-network-components-1",
+    "title": "Introduction to Deep Learning",
+    "section": "Neural Network Components",
+    "text": "Neural Network Components\nTrade-offs:\n\nIncreases in depth/width → increase representational power\n\nIncreases in depth/width → increase computation, overfitting risk"
+  },
+  {
+    "objectID": "01_intro_slides.html#the-neuron",
+    "href": "01_intro_slides.html#the-neuron",
+    "title": "Introduction to Deep Learning",
+    "section": "The Neuron",
+    "text": "The Neuron\n\n\n\nFundamental unit of a neural network\n\nComputes a weighted sum of inputs plus a bias\n\n\\[\n\\Large y = w_1x_1 + w_2x_2 + b\n\\]\n\nWeights & biases are learned during training"
+  },
+  {
+    "objectID": "01_intro_slides.html#activation-functions",
+    "href": "01_intro_slides.html#activation-functions",
+    "title": "Introduction to Deep Learning",
+    "section": "Activation Functions",
+    "text": "Activation Functions\n\n\n\nApplied to neuron output\n\nIntroduce non-linearity\nEnable learning of complex relationships\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nThere are many types of activation functions, and you are encouraged to research which one would be best for your specific use case."
+  },
+  {
+    "objectID": "01_intro_slides.html#how-do-neural-networks-learn",
+    "href": "01_intro_slides.html#how-do-neural-networks-learn",
+    "title": "Introduction to Deep Learning",
+    "section": "How Do Neural Networks Learn?",
+    "text": "How Do Neural Networks Learn?"
+  },
+  {
+    "objectID": "01_intro_slides.html#predictionfeedback-loop",
+    "href": "01_intro_slides.html#predictionfeedback-loop",
+    "title": "Introduction to Deep Learning",
+    "section": "Prediction–Feedback Loop",
+    "text": "Prediction–Feedback Loop\n\n\nThe prediction-feedback loop is what makes learning possible as a deep neural network adapts to the patterns within the data and generalizes from them."
+  },
+  {
+    "objectID": "01_intro_slides.html#goal-loss-gradients-and-epochs",
+    "href": "01_intro_slides.html#goal-loss-gradients-and-epochs",
+    "title": "Introduction to Deep Learning",
+    "section": "Goal: Loss, Gradients, and Epochs",
+    "text": "Goal: Loss, Gradients, and Epochs\nLearning is driven by the loss function which guides the adjustments of the weights/biases over a number of epochs.\n\nLoss function: Measures prediction error\n\nGradients: Sensitivity of loss to small changes in weights/bias\n\nEpoch: One full pass through the training data"
+  },
+  {
+    "objectID": "01_intro_slides.html#common-deep-learning-tasks",
+    "href": "01_intro_slides.html#common-deep-learning-tasks",
+    "title": "Introduction to Deep Learning",
+    "section": "Common Deep Learning Tasks",
+    "text": "Common Deep Learning Tasks\nLearning is guided by defining what the task to be accomplished is.\n\nClassification\nRegression\nSegmentation"
+  },
+  {
+    "objectID": "01_intro_slides.html#task-classification",
+    "href": "01_intro_slides.html#task-classification",
+    "title": "Introduction to Deep Learning",
+    "section": "Task: Classification",
+    "text": "Task: Classification\nGoal: Assign inputs to discrete classes\nForestry examples:\n\nTree species mapping\n\nLand cover classification\n\nDisturbance detection"
+  },
+  {
+    "objectID": "01_intro_slides.html#task-regression",
+    "href": "01_intro_slides.html#task-regression",
+    "title": "Introduction to Deep Learning",
+    "section": "Task: Regression",
+    "text": "Task: Regression\nGoal: Predict continuous values\nForestry examples:\n\nAbove-ground biomass\n\nCanopy cover / LAI\n\nTree height, crown size"
+  },
+  {
+    "objectID": "01_intro_slides.html#task-segmentation",
+    "href": "01_intro_slides.html#task-segmentation",
+    "title": "Introduction to Deep Learning",
+    "section": "Task: Segmentation",
+    "text": "Task: Segmentation\nGoal: Assign labels to every pixel or point\nForestry examples:\n\nTree crown delineation\n\nStand boundaries\n\nStructural mapping"
+  },
+  {
+    "objectID": "01_intro_slides.html#data-training-validation-testing",
+    "href": "01_intro_slides.html#data-training-validation-testing",
+    "title": "Introduction to Deep Learning",
+    "section": "Data: Training, Validation, Testing",
+    "text": "Data: Training, Validation, Testing\nLearning happens through patterns identified in the data.\n\nTraining: Learn parameters\n\nValidation: Tune hyperparameters, prevent overfitting\n\nTesting: Final, unbiased performance estimate\n\n\n\n\n\n\n\nNote\n\n\n\nNever mix training, validation, and testing data. Mixing or reusing data between these datasets can lead to misleading performance metrics and poor generalization."
+  },
+  {
+    "objectID": "01_intro_slides.html#image-based-vs.-point-based-deep-learning",
+    "href": "01_intro_slides.html#image-based-vs.-point-based-deep-learning",
+    "title": "Introduction to Deep Learning",
+    "section": "Image-Based vs. Point-Based Deep Learning",
+    "text": "Image-Based vs. Point-Based Deep Learning\nTwo dominant approaches in remote sensing:\n\nImage-based methods\n\nPoint-based methods"
+  },
+  {
+    "objectID": "01_intro_slides.html#image-based-deep-learning",
+    "href": "01_intro_slides.html#image-based-deep-learning",
+    "title": "Introduction to Deep Learning",
+    "section": "Image-Based Deep Learning",
+    "text": "Image-Based Deep Learning\n\nOperates on raster imagery\n\nLearns spatial patterns and textures\n\nCommon inputs: RGB, multispectral, hyperspectral"
+  },
+  {
+    "objectID": "01_intro_slides.html#convolutional-neural-networks-cnns",
+    "href": "01_intro_slides.html#convolutional-neural-networks-cnns",
+    "title": "Introduction to Deep Learning",
+    "section": "Convolutional Neural Networks (CNNs)",
+    "text": "Convolutional Neural Networks (CNNs)\n\n\n\nCore image-based architecture\n\nUse sliding filters (kernels)\n\nDetect edges → textures → objects"
+  },
+  {
+    "objectID": "01_intro_slides.html#point-based-deep-learning",
+    "href": "01_intro_slides.html#point-based-deep-learning",
+    "title": "Introduction to Deep Learning",
+    "section": "Point-Based Deep Learning",
+    "text": "Point-Based Deep Learning\n\nOperates directly on 3D point clouds\n\nNo regular grid structure\n\nLearns from spatial relationships"
+  },
+  {
+    "objectID": "01_intro_slides.html#core-terminology",
+    "href": "01_intro_slides.html#core-terminology",
+    "title": "Introduction to Deep Learning",
+    "section": "Core Terminology",
+    "text": "Core Terminology\nEstablishing shared language before workflows and modeling."
+  },
+  {
+    "objectID": "01_intro_slides.html#parameters-vs.-hyperparameters",
+    "href": "01_intro_slides.html#parameters-vs.-hyperparameters",
+    "title": "Introduction to Deep Learning",
+    "section": "Parameters vs. Hyperparameters",
+    "text": "Parameters vs. Hyperparameters\n\nParameters: Learned values (weights, biases)\n\nHyperparameters: User-defined settings\n\nLearning rate\n\nBatch size\n\nEpochs\n\nModel depth"
+  },
+  {
+    "objectID": "01_intro_slides.html#inputs-labels-learned-features",
+    "href": "01_intro_slides.html#inputs-labels-learned-features",
+    "title": "Introduction to Deep Learning",
+    "section": "Inputs, Labels, Learned Features",
+    "text": "Inputs, Labels, Learned Features\n\nInput features: What the model sees\n\nLabels: What the model predicts\n\nLearned features: Internal representations\n\nLogits: Outputs of the final layer of a model"
+  },
+  {
+    "objectID": "01_intro_slides.html#data-augmentation",
+    "href": "01_intro_slides.html#data-augmentation",
+    "title": "Introduction to Deep Learning",
+    "section": "Data Augmentation",
+    "text": "Data Augmentation\n\n\n\nArtificially increases training diversity\n\nImproves robustness and generalization\n\nEspecially useful with limited labels"
+  },
+  {
+    "objectID": "01_intro_slides.html#batches-and-batch-size",
+    "href": "01_intro_slides.html#batches-and-batch-size",
+    "title": "Introduction to Deep Learning",
+    "section": "Batches and Batch Size",
+    "text": "Batches and Batch Size\n\n\n\nData processed in small subsets (batches)\n\nBatch size: Samples per training step"
+  },
+  {
+    "objectID": "01_intro_slides.html#architecture-vs.-weights",
+    "href": "01_intro_slides.html#architecture-vs.-weights",
+    "title": "Introduction to Deep Learning",
+    "section": "Architecture vs. Weights",
+    "text": "Architecture vs. Weights\n\nArchitecture: Model/network structure (fixed)\n\nNumber and type of layers\nHow neurons/layers connect\n\nWeights: Learned numerical values (changes)\n\nUpdated during training\nLearned based on data"
+  },
+  {
+    "objectID": "01_intro_slides.html#training-loop",
+    "href": "01_intro_slides.html#training-loop",
+    "title": "Introduction to Deep Learning",
+    "section": "Training Loop",
+    "text": "Training Loop\nRepeated cycle until optimal point reached:\n\nForward pass (predict)\nLoss computation (assess)\nBackward pass (feedback)\nParameter update (adjust)"
+  },
+  {
+    "objectID": "01_intro_slides.html#transfer-learning-and-fine-tuning",
+    "href": "01_intro_slides.html#transfer-learning-and-fine-tuning",
+    "title": "Introduction to Deep Learning",
+    "section": "Transfer Learning and Fine-Tuning",
+    "text": "Transfer Learning and Fine-Tuning\n\nTransfer learning: Start from pretrained model\n\nFine-tuning: Adapt weights to your domain\n\nCommon in forestry due to limited labeled data."
+  },
+  {
+    "objectID": "01_intro_slides.html#deep-learning-in-forestry-challenges",
+    "href": "01_intro_slides.html#deep-learning-in-forestry-challenges",
+    "title": "Introduction to Deep Learning",
+    "section": "Deep Learning in Forestry: Challenges",
+    "text": "Deep Learning in Forestry: Challenges\nForestry data introduce domain-specific constraints."
+  },
+  {
+    "objectID": "01_intro_slides.html#key-challenges-and-considerations",
+    "href": "01_intro_slides.html#key-challenges-and-considerations",
+    "title": "Introduction to Deep Learning",
+    "section": "Key Challenges and Considerations",
+    "text": "Key Challenges and Considerations\n\n\n\n\n\n\n\n\nChallenge\nImpact\nCommon Solutions\n\n\n\n\nSensor & site variability\nPoor generalization\nFine-tuning, domain adaptation\n\n\nSpatial autocorrelation\nInflated accuracy\nSpatial CV, sampling strategies\n\n\nClass imbalance\nBias toward majority classes\nClass weighting, loss design\n\n\nSynthetic benchmarks\nLimited real-world transfer\nDomain adaptation\n\n\nLimited labels\nReduced robustness\nAugmentation, transfer learning\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nHuman expertise is essential in AI-derived forest inventories because models do not define objectives, meaning, or validity on their own. Forestry knowledge is required to select appropriate data, define training and modelling approaches, and interpret outputs/results ensuring they are scientifically sound, enabling deep learning to serve as a powerful tool for informed forest management decision-making."
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#set-abstraction",
+    "href": "01-intro-deep-learning-slides.html#set-abstraction",
+    "title": "Introduction to Deep Learning",
+    "section": "Set Abstraction",
+    "text": "Set Abstraction\n\nCommon point-based architecture\nGroup nearby points instead of grids\nLearn local geometry → shapes → objects"
+  },
+  {
+    "objectID": "01-intro-deep-learning-slides.html#overview-1",
+    "href": "01-intro-deep-learning-slides.html#overview-1",
+    "title": "Introduction to Deep Learning",
+    "section": "Overview",
+    "text": "Overview\nBy the end of this section, you should be able to:\n\nExplain the role of AI in EFI modelling\n\nDistinguish AI, machine learning, and deep learning\n\nDescribe the structure of a deep neural network\n\nExplain how models learn (loss, gradients, epochs)\n\nCompare image-based vs. point-based deep learning\n\nUse core deep learning terminology correctly\n\nRecognize common forestry-specific challenges"
+  },
+  {
+    "objectID": "04_evaluation.html#evaluating-deep-learning-predictions",
+    "href": "04_evaluation.html#evaluating-deep-learning-predictions",
+    "title": "Evaluation of Deep Learning Derived Forest Inventory Predictions",
+    "section": "Evaluating Deep Learning Predictions",
+    "text": "Evaluating Deep Learning Predictions\nEvaluation goes beyond just logging the final loss. It requires inspecting the raw outputs and ensuring they make sense in the context of the problem.\nPrediction vs. Target: The core of evaluation is comparing the model’s output (raw logits or predicted values) against the ground truth. This is handled within the on_test_epoch_end hook, where raw predictions are aggregated.\nPost-processing: For classification, raw logits must be converted to class indices (e.g., using np.argmax(all_pred, axis=1)) before calculating metrics like accuracy or confusion matrices."
+  },
+  {
+    "objectID": "04_evaluation.html#key-evaluation-metrics",
+    "href": "04_evaluation.html#key-evaluation-metrics",
+    "title": "Evaluation of Deep Learning Derived Forest Inventory Predictions",
+    "section": "Key Evaluation Metrics",
+    "text": "Key Evaluation Metrics\nThe choice of metric depends entirely on the task type, as implemented in your on_test_epoch_end hook:\n\nClassification metrics\nInstance Accuracy: The proportion of correctly classified individual samples (points or objects).\nClass Accuracy (Mean Class Accuracy): The average accuracy across all possible classes. This is vital for imbalanced datasets, as it prevents the model from being judged solely by its performance on the most frequent class.\n\\[\\text{Class Acc} = \\frac{1}{N_{c}} \\sum_{c=1}^{N_{c}} \\frac{\\text{True Positives}_c}{\\text{Total Samples}_c}\\]\nConfusion Matrix: A table that visualizes the performance of the classification model, where each row represents the instances in an actual class, and each column represents the instances in a predicted class.\n\n\nRegression metrics\nRoot Mean Squared Error (RMSE): Measures the average magnitude of the errors. Since the errors are squared before being averaged, RMSE gives a relatively high weight to large errors.\n\\[\\text{RMSE} = \\sqrt{\\frac{1}{N} \\sum_{i=1}^{N} (y_i - \\hat{y}_i)^2}\\]\nR-squared (\\(R^2\\)): Represents the proportion of the variance for a dependent variable that’s explained by the independent variable(s) in a regression model. \\(R^2\\) ranges from \\(0\\) to \\(1\\), with \\(1\\) being a perfect fit."
+  },
+  {
+    "objectID": "04_evaluation.html#prediction-results-and-visualization",
+    "href": "04_evaluation.html#prediction-results-and-visualization",
+    "title": "Evaluation of Deep Learning Derived Forest Inventory Predictions",
+    "section": "Prediction Results and Visualization",
+    "text": "Prediction Results and Visualization\nVisualizing the results is often more informative than numerical logs alone.\nQualitative Visualization: For point cloud applications, visualize the point cloud data colored by the model’s predicted label versus the true label to identify spatial regions where the model struggles.\n\nThe generated predictions are also uploaded to GitHub:\nClassification\nRegression"
+  },
+  {
+    "objectID": "04_evaluation.html#forest-aboveground-biomass-regression",
+    "href": "04_evaluation.html#forest-aboveground-biomass-regression",
+    "title": "Evaluation of Deep Learning Derived Forest Inventory Predictions",
+    "section": "Forest Aboveground Biomass Regression",
+    "text": "Forest Aboveground Biomass Regression\nForest aboveground biomass (AGB) regression is a more complex modeling task compared to classifying dominant tree species.\nWe begin by evaluating the DGCNN model trained with hyperparameters that achieved the best validation performance.\nThe code below includes a function for loading regression predictions and converting them from Z-score to the original scale.\n\n\nCode\n# Define a funmction to read \ndef load_reg_pred(obs_pred_fpath, labels_df, mean_agb, sd_agb):\n    \n    # Read predictions and make plot ID uppercase\n    df = (pd.read_csv(obs_pred_fpath)\n                .assign(plot_id=lambda df: df['plot_id'].str.upper()))\n\n    # Drop Z-scored AGB labels from dataframes\n    df.pop('total_agb_z')\n\n    # Convert predicted Z-scores back to original AGB values (tonnes per hectare)\n    df['agb_mg_ha_pred'] = convert_from_z_score(z_vals=df['total_agb_z_pred'],\n                                                sd=sd_agb,\n                                                mean=mean_agb)\n    \n    df = df.merge(labels_df, on='plot_id', how='left')\n\n    return df\n\n\nLoad observed and predicted AGB values.\nPreviously, we generated predictions using the trained model on the test dataset, which are stored in the predictions.csv file within the model checkpoint directory (src/pretrained_ckpt/...).\nWe also need to load the observed AGB values from labels.csv.\nBelow we generate an observed vs. predicted scatterplot including regression metrics for DGCNN.\nWe can see that the model fit was quite poor.\n\n\nCode\nLABELS_FPATH = r'data/petawawa/labels.csv'\n\ndgcnn_pred_fpath = r'src/pretrained_ckpt/peta_reg_dgcnn_bs8_lre3/checkpoints/predictions.csv'\n\n# Read labels\nlabels_df = (pd.read_csv(LABELS_FPATH)\n             .assign(plot_id=lambda df: df['plot_id'].str.upper())\n             .rename(columns={'total_agb_mg_ha': 'agb_mg_ha_obs'}))\n\n# Set mean and standard deviation for Z-score conversion\nmean_agb = labels_df['agb_mg_ha_obs'].mean()\nsd_agb = labels_df['agb_mg_ha_obs'].std()\n\n# Load DGCNN predictions\ndgcnn_obs_pred_df = load_reg_pred(dgcnn_pred_fpath, labels_df, mean_agb, sd_agb)\n\n# Plot regression results\nplot_regression(obs=dgcnn_obs_pred_df['agb_mg_ha_obs'], \n                pred=dgcnn_obs_pred_df['agb_mg_ha_pred'],\n                ax_lims=(0, 400),\n                title='DGCNN',\n                fig_out_fpath='images/dgcnn_regression_plot.jpg',\n                hide=False)\n\n\n\n\n\n\n\n\n\n\nImproving DNN performance\nDeep neural networks (DNNs) often have poor model fit when trained out-of-the-box on small datasets. Recall that most prominent DNNs are typically trained using millions of samples.\nIn situations like the Petawawa dataset, with only n = 249 samples, there are a few steps that can be taken to achieve improved performance.\nFirst, we can try a different DNN architecture that may be better suited to forest AGB regression. Some research has indicated that 3-D CNNs perform better for AGB estimation. For example, Oehmcke et al. (2024) found that the Minkowski Engine sparse 3-D CNN outperformed point-based DNNs such as PointNet and KPConv for AGB regression.\nFollowing this logic, we will evaluate the effectiveness of a similar Octree-CNN (OCNN) model that was implemented by Seely et al. (2023).\nBelow we evaluate the performance of OCNN on the PRF dataset.\n\n\nCode\n# Load OCNN predictions\nocnn_pred_fpath = r'src/pretrained_ckpt/peta_reg_ocnn_bs16_lre3_ckpt_no_ckpt/checkpoints/predictions.csv'\n\nocnn_obs_pred_df = load_reg_pred(ocnn_pred_fpath, labels_df, mean_agb, sd_agb)\n\nplot_regression(obs=ocnn_obs_pred_df['agb_mg_ha_obs'], \n                pred=ocnn_obs_pred_df['agb_mg_ha_pred'],\n                ax_lims=(0, 400),\n                title='OCNN',\n                fig_out_fpath='images/ocnn_regression_plot.jpg',\n                hide=False)\n\n\n\n\n\n\n\n\n\nWe can see that OCNN achieved a better fit compared to DGCNN, reducing RMSE and bias and improving \\(R^2\\).\nWe can take this a step further and apply transfer learning (TL) to train OCNN.\nConventionally, DNN model weights are randomly initialized, which means the model begins training with no prior knowledge. TL involves initializing the model weights using a pre-trained OCNN model that was trained on a similar, larger dataset.\nIn this case, we will use a version of OCNN that was pretrained on the New Brunswick forest inventory dataset from Seely et al. (2023). This pretrained model checkpoint is stored at src/pretrained_ckpt/ocnn_nbk_idXM6D.ckpt.\nBelow we evaluate the transfer learning OCNN (OCNN-TL) performance on the PRF dataset.\nWe can see that transfer learning further improved the model fit.\n\n\nCode\n# Different model checkpoints\n\nocnn_tl_pred_fpath = r'src/pretrained_ckpt/peta_reg_ocnn_bs16_lre4_ckpt_ocnn_nbk_idXM6D/checkpoints/predictions.csv'\n\nocnn_tl_obs_pred_df = load_reg_pred(ocnn_tl_pred_fpath, labels_df, mean_agb, sd_agb)\n\nplot_regression(obs=ocnn_tl_obs_pred_df['agb_mg_ha_obs'], \n                pred=ocnn_tl_obs_pred_df['agb_mg_ha_pred'],\n                ax_lims=(0, 400),\n                title='OCNN-TL',\n                fig_out_fpath='images/ocnn_tl_regression_plot.jpg',\n                hide=False)\n\n\n\n\n\n\n\n\n\n\nBuilding on the poor DGCNN performance, we explored two methods of improving DNN model performance for AGB estimation:\n\nUsing a different DNN architecture (OCNN)\nApplying transfer learning (OCNN-TL)\n\nDue to the high degree of flexibility in DNN architectures and training strategies, there are many other potential avenues for improving model performance that can be explored. These include, but are not limited to:\n\nHyperparameter tuning\nData augmentation\nEnsemble modelling\n…\n\nSafonova et al. 2023 provides additional strategies for improving DNN performance for remote sensing applications in scenarios with small datasets."
+  },
+  {
+    "objectID": "04_evaluation.html#overview",
+    "href": "04_evaluation.html#overview",
+    "title": "Evaluation of Deep Learning Derived Forest Inventory Predictions",
+    "section": "",
+    "text": "This section describes how to evaluate trained deep learning models using an independent test dataset. It focuses on interpreting results from the final test run performed with the optimal network configuration after convergence. The evaluation procedures are demonstrated through our two case studies: tree species classification and biomass regression."
+  },
+  {
+    "objectID": "04_evaluation.html#tree-species-classification",
+    "href": "04_evaluation.html#tree-species-classification",
+    "title": "Evaluation of Deep Learning Derived Forest Inventory Predictions",
+    "section": "Tree Species Classification",
+    "text": "Tree Species Classification\nFirst we need to load in our libraries and our predictions that we generated at the end of the train section.\n\nLoad libraries\nMetrics can be calculated from libraries such as scikit-learn. sklearn.metrics provides common predefined functions that we can use to evaluate our predictions from our examples.\n\n\nCode\nimport pandas as pd\nimport seaborn as sns\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom sklearn.metrics import (\n    accuracy_score,\n    balanced_accuracy_score,\n    cohen_kappa_score,\n    f1_score,\n    classification_report,\n    confusion_matrix,\n    mean_squared_error, \n    r2_score\n)\nimport pyvista as pv\nfrom pathlib import Path\nimport random\nimport pyvista as pv\n\nfrom src.utils.regression_utils import plot_regression, convert_from_z_score\n\n\n\n\nLoad predictions\nWe then can load in our predictions of our test dataset which we load in as a dataframe with true and predicted observations.\n\n\nCode\nCLASS_MAP = {\n    0: \"conif\",\n    1: \"decid\",\n    2: \"mixed\"\n}\n\n## Load Predictions\ntest_df = pd.read_csv(r\"src/pretrained_ckpt/peta_cls_dgcnn_bs16_lre4/checkpoints/predictions.csv\")\n\ny_true = test_df[\"dom_sp_type\"]\ny_pred = test_df[\"pred_dom_sp_type\"]\n\n\n\n\nCalculate overall classification metrics\nFor classification, we often calculate multiple accuracy metrics such as overall accuracy, Cohen’s kappa, and F1-score. Providing multiple metrics allows a more comprehensive assessment of model performance, as each metric captures different aspects of classification quality, particularly in the presence of class imbalance or unequal error costs.\n\n\nCode\n# ---- Summary metrics ----\nsummary_data = {\n    \"Metric\": [\n        \"Overall Accuracy\",\n        \"Balanced Accuracy\",\n        \"Cohen's Kappa\",\n        \"Macro F1-score\",\n        \"Weighted F1-score\"\n    ],\n    \"Value\": [\n        accuracy_score(y_true, y_pred),\n        balanced_accuracy_score(y_true, y_pred),\n        cohen_kappa_score(y_true, y_pred),\n        f1_score(y_true, y_pred, average=\"macro\"),\n        f1_score(y_true, y_pred, average=\"weighted\")\n    ]\n}\n\n# ---- per-species metrics ----\nreport = classification_report(\n    y_true,\n    y_pred,\n    target_names=[CLASS_MAP[i] for i in sorted(CLASS_MAP)],\n    output_dict=True\n)\n\nper_class_df = (\n    pd.DataFrame(report)\n    .T\n    .loc[list(CLASS_MAP.values())]\n    .reset_index()\n    .rename(columns={\n        \"index\": \"Class\",\n        \"precision\": \"Precision\",\n        \"recall\": \"Recall\",\n        \"f1-score\": \"F1-score\",\n        \"support\": \"Support\"\n    })\n)\n\n\n\n\nCode\nsummary_df = pd.DataFrame(summary_data)\nsummary_df[\"Value\"] = summary_df[\"Value\"].map(lambda x: f\"{x:.3f}\")\n\nsummary_df\n\n\n\n\nTable 1: Tree species classification performance on the test dataset.\n\n\n\n\n\n\n\n\n\n\nMetric\nValue\n\n\n\n\n0\nOverall Accuracy\n0.919\n\n\n1\nBalanced Accuracy\n0.928\n\n\n2\nCohen's Kappa\n0.870\n\n\n3\nMacro F1-score\n0.918\n\n\n4\nWeighted F1-score\n0.919\n\n\n\n\n\n\n\n\n\n\n\n\nCalculate class specific metrics\nPer-class metrics such as precision and recall provide insight into how well individual classes are identified, highlighting class-specific errors that may be obscured by aggregate accuracy measures. Confusion matrices further support this analysis by explicitly showing the distribution of correct and incorrect predictions across classes, enabling a detailed interpretation of misclassification patterns.\n\n\nCode\nfor col in [\"Precision\", \"Recall\", \"F1-score\"]:\n    per_class_df[col] = per_class_df[col].map(lambda x: f\"{x:.3f}\")\nper_class_df\n\n\n\n\nTable 2: Per-class precision, recall, and F1-score for tree species classification.\n\n\n\n\n\n\n\n\n\n\nClass\nPrecision\nRecall\nF1-score\nSupport\n\n\n\n\n0\nconif\n0.944\n0.895\n0.919\n19.0\n\n\n1\ndecid\n0.900\n1.000\n0.947\n9.0\n\n\n2\nmixed\n0.889\n0.889\n0.889\n9.0\n\n\n\n\n\n\n\n\n\n\n\n\nCode\n# Print confusion matrix\nconf_matrix = confusion_matrix(y_true, y_pred)\n\nfig, ax = plt.subplots(figsize=(6,5), layout='tight')\n\nsns.heatmap(ax=ax, data=conf_matrix, annot=True, fmt='d', cmap='Blues',\n            xticklabels=CLASS_MAP.values(),\n            yticklabels=CLASS_MAP.values())\n\nax.set_xlabel('Predicted Label')\nax.set_ylabel('Observed Label')\nax.set_title('DGCNN', fontsize=14, fontweight='bold')\n\n# Export figure\nfig.savefig(\"images/dnn_cls_confusion_matrix.jpg\", dpi=300)\n\nplt.show()\n\n\n\n\n\n\n\n\nFigure 1: Confusion matrix for tree species classification.\n\n\n\n\n\n\n\nVisualize difficult cases\nIt is often beneficial to visualize individual examples to better understand model predictions. The figure below shows point cloud samples from the testing set, including correctly classified cases (top row) and misclassified cases (bottom row). Such visualizations help identify where errors occur and, when combined with domain knowledge, provide insight into potential causes of misclassification\n\n\nCode\n# helper functions\ndef visualize_z_grid(correct_df, wrong_df, pc_dir, save_path=None):\n    plotter = pv.Plotter(shape=(2,3), window_size=(1800,1360))\n    plotter.link_views()\n    plotter.enable_eye_dome_lighting()\n\n    rows = [(\"CORRECT\", correct_df), (\"WRONG\", wrong_df)]\n\n    for row_idx, (_, row_df) in enumerate(rows):\n        for col_idx, (_, r) in enumerate(row_df.iterrows()):\n            plotter.subplot(row_idx, col_idx)\n\n            pid = r.plot_id\n            if pid is None:\n                continue  # empty subplot\n\n            obs = CLASS_MAP[int(r.dom_sp_type)]\n            pred = CLASS_MAP[int(r.pred_dom_sp_type)]\n\n            pts = np.load(pc_dir / f\"{pid}.npy\")[:, :3]\n            cloud = pv.PolyData(pts)\n            cloud[\"Z\"] = pts[:, 2]\n\n            plotter.add_points(\n                cloud,\n                scalars=\"Z\",\n                cmap=\"viridis\",\n                point_size=3,\n                render_points_as_spheres=True\n            )\n\n            plotter.add_text(\n                f\"{pid}\\nobs:{obs} | Pred:{pred}\",\n                position=(0.02,0.9),\n                viewport=True,\n                font_size=11,\n                color=\"black\",\n                shadow=False\n            )\n\n    if save_path:\n        plotter.show(screenshot=save_path)\n    else:\n        plotter.show()\n\n\ndef sample_grid(df, n_per_row=3, seed=42):\n    df = df.copy()\n    df[\"correct\"] = df.dom_sp_type == df.pred_dom_sp_type\n\n    correct = df[df.correct].sample(\n        min(n_per_row, len(df[df.correct])),\n        random_state=seed\n    )\n    wrong = df[~df.correct].sample(\n        min(n_per_row, len(df[~df.correct])),\n        random_state=seed\n    )\n\n    return correct, wrong\n\n\n\n\nCode\n# Folder with point clouds\npc_dir = Path(\"data/petawawa/plot_point_clouds\")  # contains prf003.npy, etc\n\ntest_df[\"correct\"] = test_df.dom_sp_type == test_df.pred_dom_sp_type\n\nprint(\"Correct:\", test_df.correct.sum())\nprint(\"Incorrect:\", (~test_df.correct).sum())\n\ncorrect_df, wrong_df = sample_grid(test_df, n_per_row=3)\n\nvisualize_z_grid(correct_df, wrong_df, pc_dir, save_path=\"images/04_eval/cls_output.png\")\n\n\nCorrect: 34\nIncorrect: 3"
+  },
+  {
+    "objectID": "index-slides.html#dont-get-lost-in-the-code",
+    "href": "index-slides.html#dont-get-lost-in-the-code",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "Don’t get lost in the code",
+    "text": "Don’t get lost in the code\nThere is code provided for this workshop, but you don’t need to be an expert programmer or run any code during this session.\n\nFocus on the theory, concepts, and workflows we are explaining.\nUse the code later as a reference to reinforce what you learned.\nIf something isn’t clear, ask questions in the chat (or after the workshop)\n\n\n\n\n\n\n\nNote\n\n\nWe’ve precomputed datasets, training outputs, and evaluations so you can follow along without coding live."
+  },
+  {
+    "objectID": "index_slides.html#dont-get-lost-in-the-code",
+    "href": "index_slides.html#dont-get-lost-in-the-code",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "Don’t get lost in the code",
+    "text": "Don’t get lost in the code\nThere is code provided for this workshop, but you don’t need to be an expert programmer or run any code during this session.\n\nFocus on the theory, concepts, and workflows we are explaining.\nUse the code later as a reference to reinforce what you learned.\nIf something isn’t clear, ask questions in the chat (or after the workshop)\n\n\n\n\n\n\n\nNote\n\n\n\nWe’ve precomputed datasets, training outputs, and evaluations so you can follow along without coding live."
+  },
+  {
+    "objectID": "index-slides.html#be-curious-and-ask-questions",
+    "href": "index-slides.html#be-curious-and-ask-questions",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "Be curious and ask questions",
+    "text": "Be curious and ask questions\nWe will be monitoring in the chat throughout the workshop and encourage you to ask questions as they come up and we will do our best to answer them in a timely manner.\n\n\n\n\n\n\nNote\n\n\nIf you have questions after the workshop or encounter any issues you can submit an issue via GitHub."
+  },
+  {
+    "objectID": "index-slides.html#instructors-and-authors",
+    "href": "index-slides.html#instructors-and-authors",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "Instructors and Authors",
+    "text": "Instructors and Authors\n\n\n\n\n\n\n\n\n\nBrent A. Murray - Integrated Remote Sensing Studio, University of British Columbia\n\n\n\nHarry Seely - Integrated Remote Sensing Studio, University of British Columbia\n\n\n\nYuwei Cao - Integrated Remote Sensing Studio, University of British Columbia\n\n\n\nAhmed Ragab - CanmetENERGY, Natural Resources Canada; Department of Mathematics and Industrial Engineering, Polytechnique Montreal\n\n\n\nNicholas Coops - Integrated Remote Sensing Studio, University of British Columbia"
+>>>>>>> 6e1e0df59a2653ef81c3396e193b46a82db69633
   }
 ]
