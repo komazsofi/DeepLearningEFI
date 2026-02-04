@@ -18,7 +18,7 @@
     "href": "index-slides.html#instructors",
     "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
     "section": "Instructors",
-    "text": "Instructors\n\n\n\n\n\n\n\n\n\nBrent A. Murray - Integrated Remote Sensing Studio, University of British Columbia\n\n\n\nHarry Seely - Integrated Remote Sensing Studio, University of British Columbia\n\n\n\nYuwei Cao - Integrated Remote Sensing Studio, University of British Columbia\n\n\n\nAhmed Ragab - CanmetENERGY, Natural Resources Canada; Department of Mathematics and Industrial Engineering, Polytechnique Montreal"
+    "text": "Instructors\n\n\n\n\n\n\n\n\n\nBrent A. Murray - Integrated Remote Sensing Studio, University of British Columbia\n\n\n\nHarry Seely - Integrated Remote Sensing Studio, University of British Columbia\n\n\n\nYuwei Cao - Integrated Remote Sensing Studio, University of British Columbia\n\n\n\nAhmed Ragab - CanmetENERGY, Natural Resources Canada; Department of Mathematics and Industrial Engineering, Polytechnique Montreal\n\n\n\nNicholas Coops - Integrated Remote Sensing Studio, University of British Columbia"
   },
   {
     "objectID": "index-slides.html#overview",
@@ -56,11 +56,11 @@
     "text": "How to follow along\nTo make the most out of this workshop:\n\nFollow along with the broad concepts and ideas being presented.\nAll the code is provided in the src folder.\nAdditionally all of the data and outputs are provided so you can enjoy the workshop without having to worry about coding at the same time.\n\n\n\n\n\n\n\nNote\n\n\nOften coding workshops move at a quick pace and it becomes easy to fall behind. Because deep neural networks often require long training times, all datasets, training outputs, and model evaluations have been precomputed and are provided as part of this tutorial. We highly encourage you to try out the code after the workshop."
   },
   {
-    "objectID": "index-slides.html#be-currious-and-ask-questions",
-    "href": "index-slides.html#be-currious-and-ask-questions",
+    "objectID": "index-slides.html#be-curious-and-ask-questions",
+    "href": "index-slides.html#be-curious-and-ask-questions",
     "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
-    "section": "Be currious and ask questions",
-    "text": "Be currious and ask questions\nWe will be monitoring in the chat throughout the workshop and encourage you to ask questions as they come up and we will do our best to answer them in a timely manner.\n\n\n\n\n\n\nNote\n\n\nIf you have questions after the workshop or encounter any issues you can submit an issue via GitHub."
+    "section": "Be curious and ask questions",
+    "text": "Be curious and ask questions\nWe will be monitoring in the chat throughout the workshop and encourage you to ask questions as they come up and we will do our best to answer them in a timely manner.\n\n\n\n\n\n\nNote\n\n\nIf you have questions after the workshop or encounter any issues you can submit an issue via GitHub."
   },
   {
     "objectID": "compute_lidar_metrics.html",
