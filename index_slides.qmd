@@ -98,7 +98,7 @@ format:
 
 |  |  |
 |-|-----|
-| ![](images/brent.jpg){.avatar} | **Brent A. Murray** - Integrated Remote Sensing Studio, University of British Columbia |
+| ![](images/brent.jpg){.avatar} | **Brent Murray** - Integrated Remote Sensing Studio, University of British Columbia |
 | ![](images/harry.png){.avatar} | **Harry Seely** - Integrated Remote Sensing Studio, University of British Columbia |
 | ![](images/yuwei.jpg){.avatar} | **Yuwei Cao** - Integrated Remote Sensing Studio, University of British Columbia |
 | ![](images/ahmed.jpg){.avatar} | **Ahmed Ragab** - CanmetENERGY, Natural Resources Canada; Department of Mathematics and Industrial Engineering, Polytechnique Montreal |
