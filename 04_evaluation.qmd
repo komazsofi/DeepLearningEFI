@@ -431,7 +431,7 @@ Due to the high degree of flexibility in DNN architectures and training strategi
 
 **[Safonova et al. 2023](https://doi.org/10.1016/j.jag.2023.103569)** provides additional strategies for improving DNN performance for remote sensing applications in scenarios with small datasets which are shown in the figure below.
 
-![Flowchart from Safonova et al. (2023)](images/small_data_dl_flowchart.jpg){#fig-small-data-flowchart fig-align="center" width=60%}
+![Flowchart from Safonova et al. (2023)](images/small_data_dl_flowchart.jpg){#fig-small-data-flowchart fig-align="center" width=100%}
 
 
 # Compare results to Random Forest using LiDAR Metrics
