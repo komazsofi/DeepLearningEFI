@@ -164,8 +164,7 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#how-is-deep-learning-going-to-change-efi-workflows" id="toc-how-is-deep-learning-going-to-change-efi-workflows" class="nav-link active" data-scroll-target="#how-is-deep-learning-going-to-change-efi-workflows">How is Deep Learning Going to Change EFI Workflows?</a></li>
-  <li><a href="#study-area" id="toc-study-area" class="nav-link" data-scroll-target="#study-area">Study Area</a></li>
+  <li><a href="#study-area" id="toc-study-area" class="nav-link active" data-scroll-target="#study-area">Study Area</a></li>
   <li><a href="#biomass-component-regression" id="toc-biomass-component-regression" class="nav-link" data-scroll-target="#biomass-component-regression">1) Biomass Component Regression</a>
   <ul class="collapse">
   <li><a href="#why-aboveground-biomass-component-regression" id="toc-why-aboveground-biomass-component-regression" class="nav-link" data-scroll-target="#why-aboveground-biomass-component-regression">Why Aboveground Biomass Component Regression?</a></li>
@@ -194,6 +193,7 @@ window.Quarto = {
   <li><a href="#why-this-matters-for-forest-inventories" id="toc-why-this-matters-for-forest-inventories" class="nav-link" data-scroll-target="#why-this-matters-for-forest-inventories">Why This Matters for Forest Inventories</a></li>
   <li><a href="#key-take-home-messages-2" id="toc-key-take-home-messages-2" class="nav-link" data-scroll-target="#key-take-home-messages-2">Key Take-Home Messages</a></li>
   </ul></li>
+  <li><a href="#how-can-deep-learning-change-efi-workflows" id="toc-how-can-deep-learning-change-efi-workflows" class="nav-link" data-scroll-target="#how-can-deep-learning-change-efi-workflows">How Can Deep Learning Change EFI Workflows?</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/Brent-Murray/DeepLearningEFI/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -220,10 +220,7 @@ window.Quarto = {
 
 
 <p><img src="images/dl_efi_high_level_figure.jpg" class="img-fluid"></p>
-<section id="how-is-deep-learning-going-to-change-efi-workflows" class="level2">
-<h2 class="anchored" data-anchor-id="how-is-deep-learning-going-to-change-efi-workflows">How is Deep Learning Going to Change EFI Workflows?</h2>
-<p>Existing research across many EFI modelling objectives (e.g., species classification, individual tree segmentation, biomass regression, etc.) has demonstrated that deep neural networks (DNNs) operating directly on point cloud data often outperform conventional modelling approaches (e.g., random forest) that rely on LiDAR metrics. These performance gains are promising and may signal a shift towards greater use of deep learning workflows when developing EFIs. Below, we summarize three studies by Seely et al.&nbsp;(2026), Cao et al.&nbsp;(2025), and Murray et al.&nbsp;(2025) that exemplify how deep learning can be used to extract more information from ALS point cloud data, resulting in more accurate forest aboveground biomass and species proportion estimates. All three studies were performed in the Romeo Malette Forest (RMF).</p>
-</section>
+<p><strong>Below, we summarize three studies by Seely et al.&nbsp;(2026), Cao et al.&nbsp;(2025), and Murray et al.&nbsp;(2025) that exemplify how deep learning can be used to extract more information from ALS point cloud data, resulting in more accurate forest aboveground biomass and species proportion estimates. All three studies were performed in the Romeo Malette Forest (RMF).</strong></p>
 <section id="study-area" class="level2">
 <h2 class="anchored" data-anchor-id="study-area">Study Area</h2>
 <p>The RMF, situated in northern Ontario within the Timmins District, is part of the boreal forest of Canada. It encompasses approximately 6,300 km², of which 5,824 km² is forested, extending between 47.8°N and 48.8°N and from 81.0°W to 82.4°W. The region experiences a continental climate, with mean annual precipitation ranging from 770 to 975 mm and mean annual minimum temperatures between 1.0 °C and −5.0 °C from 1990 to 2010; over the same period, mean annual maximum temperatures varied from 8 °C to 15 °C. Elevations range from 240 to 280 m, and the terrain is characterized by minimal exposed bedrock and extensive, poorly drained flat areas.</p>
@@ -241,7 +238,7 @@ Figure&nbsp;1: The Romeo Malette Forest
 </section>
 <section id="biomass-component-regression" class="level2">
 <h2 class="anchored" data-anchor-id="biomass-component-regression">1) Biomass Component Regression</h2>
-<p>*Based on the publication <a href="https://doi.org/10.1093/forestry/cpag004" target="_blank">Addressing The Small Data Problem in Forestry: Self-Supervised Learning for Aboveground Biomass Estimation</a> by Seely et al.&nbsp;(2026).</p>
+<p><strong>Based on the publication <a href="https://doi.org/10.1093/forestry/cpag004" target="_blank">Addressing The Small Data Problem in Forestry: Self-Supervised Learning for Aboveground Biomass Estimation</a> by Seely et al.&nbsp;(2026).</strong></p>
 <section id="why-aboveground-biomass-component-regression" class="level3">
 <h3 class="anchored" data-anchor-id="why-aboveground-biomass-component-regression">Why Aboveground Biomass Component Regression?</h3>
 <p>Aboveground biomass (AGB) is a key element of forest inventories and is necessary for a variety of forest-related decision-making processes, including timber harvesting and wildfire fuel assessment. Forest AGB is often divided into its sub-components — wood, branch, bark, and foliage — to fulfill more specific information needs. For example, quantifying branch, bark, and foliage biomass can inform <a href="https://natural-resources.canada.ca/forest-forestry/forest-industry-trade/forest-bioenergy">post-harvest bioenergy applications</a>.</p>
@@ -356,7 +353,7 @@ Figure&nbsp;5: Total and component forest aboveground biomass maps of the RMF ge
 </section>
 <section id="tree-species-composition" class="level2">
 <h2 class="anchored" data-anchor-id="tree-species-composition">2) Tree Species Composition</h2>
-<p>*Based on the publication <a href="https://doi.org/10.1016/j.isprsjprs.2025.11.026" target="_blank">M3FNet: Multi-modal multi-temporal multi-scale data fusion network for tree species composition mapping</a> by Cao et al.&nbsp;(2025).</p>
+<p><strong>Based on the publication <a href="https://doi.org/10.1016/j.isprsjprs.2025.11.026" target="_blank">M3FNet: Multi-modal multi-temporal multi-scale data fusion network for tree species composition mapping</a> by Cao et al.&nbsp;(2025).</strong></p>
 <section id="why-tree-species-composition-mapping" class="level3">
 <h3 class="anchored" data-anchor-id="why-tree-species-composition-mapping">Why Tree Species Composition Mapping?</h3>
 <p>Accurate information on tree species composition (TSC) is critical for forest inventories, serving as a foundational element for forest management. By identifying TSC and its spatial patterns, forest managers can implement sustainable management practices, such as targeted silvicultural intervention, monitoring forest health, and analysing the resilience of forests.</p>
@@ -458,7 +455,7 @@ Figure&nbsp;8: Wall-to-wall prediction results for the Romeo Malette Forest (RMF
 </section>
 <section id="individual-tree-species" class="level2">
 <h2 class="anchored" data-anchor-id="individual-tree-species">3) Individual Tree Species</h2>
-<p>*Based on the publication <a href="https://doi.org/10.1016/j.jag.2025.104877" target="_blank">Individual tree species prediction using airborne laser scanning data and derived point-cloud metrics within a dual-stream deep learning approach</a> by Murray et al.&nbsp;(2025).</p>
+<p><strong>Based on the publication <a href="https://doi.org/10.1016/j.jag.2025.104877" target="_blank">Individual tree species prediction using airborne laser scanning data and derived point-cloud metrics within a dual-stream deep learning approach</a> by Murray et al.&nbsp;(2025).</strong></p>
 <section id="why-tree-species-mapping-matters" class="level3">
 <h3 class="anchored" data-anchor-id="why-tree-species-mapping-matters">Why Tree Species Mapping Matters</h3>
 <p>Knowing which tree species are present, and where they are located, is essential for modern forest inventories. Species information supports decisions related to timber supply, carbon estimation, habitat assessment, and forest management. Traditional inventories often rely on manual interpretation and report species information at the stand level, which limits detail and scalability.</p>
@@ -582,9 +579,13 @@ Figure&nbsp;11: Point cloud samples for each species, with associated predicted 
 <li>Combining raw 3D data with simple summary metrics improves prediction performance</li>
 <li>Dual-stream deep learning provides a simple and effective way to combine different types of ALS-based forest information.</li>
 </ul>
-
-
 </section>
+</section>
+<section id="how-can-deep-learning-change-efi-workflows" class="level2">
+<h2 class="anchored" data-anchor-id="how-can-deep-learning-change-efi-workflows">How Can Deep Learning Change EFI Workflows?</h2>
+<p>Existing research across many EFI modelling objectives (e.g., species classification, individual tree segmentation, biomass regression, etc.) has demonstrated that deep neural networks (DNNs) operating directly on point cloud data often outperform conventional modelling approaches (e.g., random forest) that rely on LiDAR metrics. These performance gains are promising and may signal a shift towards greater use of deep learning workflows when developing EFIs. With further research involving benchmarking and model development, we may see improvements offered by DNNs for EFIs across Canada. However, it remains critical to weigh performance gains against model complexity and computational demands when considering the operational use of deep learning for EFIs.</p>
+
+
 </section>
 
 </main> <!-- /main -->
