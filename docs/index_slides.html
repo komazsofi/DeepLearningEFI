@@ -6,13 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Brent Murray">
-<meta name="author" content="Harry Seely">
-<meta name="author" content="Yuwei Cao">
-<meta name="author" content="Ahmed Ragab">
-<meta name="author" content="Nicholas Coops">
 
-<title>Deep Learning with Airborne Laser Scanning Data for Forest Inventories – Deep Learning for Forest Inventories</title>
+<title>Introduction to Deep Learning for Enhanced Forest Inventories – Deep Learning for Forest Inventories</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -98,7 +93,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -137,74 +132,29 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a>
-  <ul class="collapse">
-  <li><a href="#you-will-learn" id="toc-you-will-learn" class="nav-link" data-scroll-target="#you-will-learn">You will learn</a></li>
-  </ul></li>
-  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
-  <li><a href="#instructors" id="toc-instructors" class="nav-link" data-scroll-target="#instructors">Instructors</a></li>
+  <li><a href="#instructors-and-authors" id="toc-instructors-and-authors" class="nav-link active" data-scroll-target="#instructors-and-authors">Instructors and Authors</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#what-we-hope-you-will-learn" id="toc-what-we-hope-you-will-learn" class="nav-link" data-scroll-target="#what-we-hope-you-will-learn">What we hope you will learn</a></li>
+  <li><a href="#how-this-tutorial-is-setup" id="toc-how-this-tutorial-is-setup" class="nav-link" data-scroll-target="#how-this-tutorial-is-setup">How this tutorial is setup</a></li>
+  <li><a href="#dont-get-lost-in-the-code" id="toc-dont-get-lost-in-the-code" class="nav-link" data-scroll-target="#dont-get-lost-in-the-code">Don’t get lost in the code</a></li>
+  <li><a href="#how-to-follow-along" id="toc-how-to-follow-along" class="nav-link" data-scroll-target="#how-to-follow-along">How to follow along</a></li>
+  <li><a href="#be-curious-and-ask-questions" id="toc-be-curious-and-ask-questions" class="nav-link" data-scroll-target="#be-curious-and-ask-questions">Be curious and ask questions</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/Brent-Murray/DeepLearningEFI/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/Brent-Murray/DeepLearningEFI/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index-slides.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Deep Learning with Airborne Laser Scanning Data for Forest Inventories</h1>
-<p class="subtitle lead">Tutorial</p>
+<h1 class="title">Introduction to Deep Learning for Enhanced Forest Inventories</h1>
 </div>
 
 
-<div class="quarto-title-meta-author column-page-left">
-  <div class="quarto-title-meta-heading">Authors</div>
-  <div class="quarto-title-meta-heading">Affiliations</div>
-  
-    <div class="quarto-title-meta-contents">
-    <p class="author">Brent Murray </p>
-  </div>
-  <div class="quarto-title-meta-contents">
-        <p class="affiliation">
-            University of British Columbia – Integrated Remote Sensing Studio
-          </p>
-      </div>
-    <div class="quarto-title-meta-contents">
-    <p class="author">Harry Seely </p>
-  </div>
-  <div class="quarto-title-meta-contents">
-        <p class="affiliation">
-            University of British Columbia – Integrated Remote Sensing Studio
-          </p>
-      </div>
-    <div class="quarto-title-meta-contents">
-    <p class="author">Yuwei Cao </p>
-  </div>
-  <div class="quarto-title-meta-contents">
-        <p class="affiliation">
-            University of British Columbia – Integrated Remote Sensing Studio
-          </p>
-      </div>
-    <div class="quarto-title-meta-contents">
-    <p class="author">Ahmed Ragab </p>
-  </div>
-  <div class="quarto-title-meta-contents">
-        <p class="affiliation">
-            Natural Resources Canada - CanmetENERGY;<br>Polytechnique Montreal - Department of Mathematics and Industrial Engineering
-          </p>
-      </div>
-    <div class="quarto-title-meta-contents">
-    <p class="author">Nicholas Coops </p>
-  </div>
-  <div class="quarto-title-meta-contents">
-        <p class="affiliation">
-            University of British Columbia – Integrated Remote Sensing Studio
-          </p>
-      </div>
-  </div>
 
 <div class="quarto-title-meta column-page-left">
 
-      
+    
   
     
   </div>
@@ -214,17 +164,83 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p><img src="images/workshoptitle.png" class="img-fluid"></p>
+<hr>
+<section id="instructors-and-authors" class="level2">
+<h2 class="anchored" data-anchor-id="instructors-and-authors">Instructors and Authors</h2>
+<div class="instructors-table">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 83%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><img src="images/brent.jpg" class="avatar img-fluid"></td>
+<td><strong>Brent Murray</strong> - Integrated Remote Sensing Studio, University of British Columbia</td>
+</tr>
+<tr class="even">
+<td><img src="images/harry.png" class="avatar img-fluid"></td>
+<td><strong>Harry Seely</strong> - Integrated Remote Sensing Studio, University of British Columbia</td>
+</tr>
+<tr class="odd">
+<td><img src="images/yuwei.jpg" class="avatar img-fluid"></td>
+<td><strong>Yuwei Cao</strong> - Integrated Remote Sensing Studio, University of British Columbia</td>
+</tr>
+<tr class="even">
+<td><img src="images/ahmed.jpg" class="avatar img-fluid"></td>
+<td><strong>Ahmed Ragab</strong> - CanmetENERGY, Natural Resources Canada; Department of Mathematics and Industrial Engineering, Polytechnique Montreal</td>
+</tr>
+<tr class="odd">
+<td><img src="images/nicholas.jpg" class="avatar img-fluid"></td>
+<td><strong>Nicholas Coops</strong> - Integrated Remote Sensing Studio, University of British Columbia</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</section>
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>This is an introductory workshop for deep learning techniques for Enhanced Forest Inventories (EFIs) presented at the Canadian Cross-Country EFI Checkup. This workshop covers a basic end-to-end deep learning workflow for EFI applications, covering an introduction into deep learning, to data preparation, and finally a demo of model training, evaluation, and deployment. There will also be some examples of real world forest inventory deep learning applications showcasing some of the possibilities there are with these techniques.</p>
-<section id="you-will-learn" class="level3">
-<h3 class="anchored" data-anchor-id="you-will-learn">You will learn</h3>
+<p>This is an <strong>introductory workshop for deep learning techniques for Enhanced Forest Inventories (EFIs)</strong>. It will cover a basic end-to-end deep learning workflow for EFI applications covering an <strong>introduction into deep learning</strong>, to <strong>data preparation</strong>, and finally a <strong>demo of model training, evaluation, and deployment</strong>.</p>
+<hr>
+</section>
+<section id="what-we-hope-you-will-learn" class="level2">
+<h2 class="anchored" data-anchor-id="what-we-hope-you-will-learn">What we hope you will learn</h2>
 <ul>
 <li>What deep learning is and how it can be used for EFIs.</li>
 <li>How to prepare and read in data for use in deep learning.</li>
-<li>Basics of using the <a href="https://lightning.ai/docs/pytorch/stable/" target="_blank">PyTorch Lightning</a> deep learning library.</li>
+<li>Basics of using the PyTorch Lightning deep learning library.</li>
 <li>Training a deep learning model for species classification and biomass prediction tasks.</li>
 <li>Testing and evaluating deep learning models.</li>
+</ul>
+<hr>
+</section>
+<section id="how-this-tutorial-is-setup" class="level2">
+<h2 class="anchored" data-anchor-id="how-this-tutorial-is-setup">How this tutorial is setup</h2>
+<p>This workshop will be more of a intoductory tutorial on how to implement deep learning into EFI workflows. With that in mind we encourage you to follow along on the website, take notes and ask questions along the way.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This website will remain open after the workshop for participants to review the content or share it with others. Feel free to clone this <a href="https://github.com/Brent-Murray/DeepLearningEFI" tatarget="_blank">GitHub Repo</a> as it serves as a launching point for EFI deep learning projects.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="dont-get-lost-in-the-code" class="level2">
+<h2 class="anchored" data-anchor-id="dont-get-lost-in-the-code">Don’t get lost in the code</h2>
+<p>There is code provided for this workshop, but you don’t need to be an expert programmer or run any code during this session.</p>
+<ul>
+<li>Focus on the <strong>theory, concepts, and workflows</strong> we are explaining.</li>
+<li>Use the code later as a reference to reinforce what you learned.</li>
+<li>If something isn’t clear, <strong>ask questions in the chat</strong> (or after the workshop on GitHub)</li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -236,48 +252,50 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This site will remain open after the workshop for participants to review the content or share it with others. Because deep neural networks often require long training times, all datasets, training outputs, and model evaluations have been precomputed and are provided as part of this tutorial. We encourage you to follow along with the workshop to ask and return to the site at a later time to run the code/examples. If you have questions after the workshop or encounter any issues you can submit an issue via <a href="https://github.com/Brent-Murray/DeepLearningEFI/issues/new" target="_blank">GitHub</a>.</p>
+<p>We’ve precomputed datasets, training outputs, and evaluations so you can follow along without coding live.</p>
 </div>
 </div>
+<hr>
 </section>
+<section id="how-to-follow-along" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-follow-along">How to follow along</h2>
+<p>To make the most out of this workshop:</p>
+<ul>
+<li>Follow along with the broad concepts and ideas being presented.</li>
+<li>All the code is provided in the <a href="https://github.com/Brent-Murray/DeepLearningEFI/tree/main/src" target="_blank">src folder</a>.</li>
+<li>Additionally all of the data and outputs are provided so you can enjoy the workshop without having to worry about coding at the same time.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Often coding workshops move at a quick pace and it becomes easy to fall behind. Because deep neural networks often require long training times, all datasets, training outputs, and model evaluations have been precomputed and are provided as part of this tutorial. We highly encourage you to try out the code after the workshop.</p>
+</div>
+</div>
+<hr>
 </section>
-<section id="setup" class="level2 hero">
-<h2 class="anchored" data-anchor-id="setup">Setup</h2>
-<p>To get ready for this workshop follow the links below.</p>
-<p><a href="./setup.html" class="btn btn-primary">Get Started</a> <a href="./schedule.html" class="btn btn-outline-primary">View Schedule</a></p>
-</section>
-<section id="instructors" class="level2">
-<h2 class="anchored" data-anchor-id="instructors">Instructors</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Affiliation</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><a href="https://www.researchgate.net/profile/Brent-Murray-4" target="_blank">Brent Murray</a></td>
-<td>Integrated Remote Sensing Studio. University of British Columbia</td>
-</tr>
-<tr class="even">
-<td><a href="https://www.researchgate.net/profile/Harry-Seely" target="_blank">Harry Seely</a></td>
-<td>Integrated Remote Sensing Studio. University of British Columbia</td>
-</tr>
-<tr class="odd">
-<td><a href="https://www.researchgate.net/profile/Yuwei-Cao-2?ev=hdr_xprf" target="_blank">Yuwei Cao</a></td>
-<td>Integrated Remote Sensing Studio. University of British Columbia</td>
-</tr>
-<tr class="even">
-<td><a href="https://www.researchgate.net/profile/Ahmed-Ragab-17" target="_blank">Ahmed Ragab</a></td>
-<td>CanmetENERGY. Natural Resrouces Canada;<br>Department of Mathematics and Industrial Engineering. Polytechnique Montreal</td>
-</tr>
-</tbody>
-</table>
+<section id="be-curious-and-ask-questions" class="level2">
+<h2 class="anchored" data-anchor-id="be-curious-and-ask-questions">Be curious and ask questions</h2>
+<p>We will be monitoring in the chat throughout the workshop and encourage you to ask questions as they come up and we will do our best to answer them in a timely manner.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you have questions after the workshop or encounter any issues you can submit an issue via <a href="https://github.com/Brent-Murray/DeepLearningEFI/issues/new" target="_blank">GitHub</a>.</p>
+</div>
+</div>
 
 
 </section>

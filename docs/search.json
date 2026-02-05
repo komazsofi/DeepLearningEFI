@@ -775,5 +775,54 @@
     "title": "Examples of Deep Learning Forest Inventory",
     "section": "How Can Deep Learning Change EFI Workflows?",
     "text": "How Can Deep Learning Change EFI Workflows?\nExisting research across many EFI modelling objectives (e.g., species classification, individual tree segmentation, biomass regression, etc.) has demonstrated that deep neural networks (DNNs) operating directly on point cloud data often outperform conventional modelling approaches (e.g., random forest) that rely on LiDAR metrics. These performance gains are promising and may signal a shift towards greater use of deep learning workflows when developing EFIs. With further research involving benchmarking and model development, we may see improvements offered by DNNs for EFIs across Canada. However, it remains critical to weigh performance gains against model complexity and computational demands when considering the operational use of deep learning for EFIs."
+  },
+  {
+    "objectID": "index_slides.html#instructors-and-authors",
+    "href": "index_slides.html#instructors-and-authors",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "Instructors and Authors",
+    "text": "Instructors and Authors\n\n\n\n\n\n\n\n\n\nBrent Murray - Integrated Remote Sensing Studio, University of British Columbia\n\n\n\nHarry Seely - Integrated Remote Sensing Studio, University of British Columbia\n\n\n\nYuwei Cao - Integrated Remote Sensing Studio, University of British Columbia\n\n\n\nAhmed Ragab - CanmetENERGY, Natural Resources Canada; Department of Mathematics and Industrial Engineering, Polytechnique Montreal\n\n\n\nNicholas Coops - Integrated Remote Sensing Studio, University of British Columbia"
+  },
+  {
+    "objectID": "index_slides.html#overview",
+    "href": "index_slides.html#overview",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "Overview",
+    "text": "Overview\nThis is an introductory workshop for deep learning techniques for Enhanced Forest Inventories (EFIs). It will cover a basic end-to-end deep learning workflow for EFI applications covering an introduction into deep learning, to data preparation, and finally a demo of model training, evaluation, and deployment."
+  },
+  {
+    "objectID": "index_slides.html#what-we-hope-you-will-learn",
+    "href": "index_slides.html#what-we-hope-you-will-learn",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "What we hope you will learn",
+    "text": "What we hope you will learn\n\nWhat deep learning is and how it can be used for EFIs.\nHow to prepare and read in data for use in deep learning.\nBasics of using the PyTorch Lightning deep learning library.\nTraining a deep learning model for species classification and biomass prediction tasks.\nTesting and evaluating deep learning models."
+  },
+  {
+    "objectID": "index_slides.html#how-this-tutorial-is-setup",
+    "href": "index_slides.html#how-this-tutorial-is-setup",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "How this tutorial is setup",
+    "text": "How this tutorial is setup\nThis workshop will be more of a intoductory tutorial on how to implement deep learning into EFI workflows. With that in mind we encourage you to follow along on the website, take notes and ask questions along the way.\n\n\n\n\n\n\nNote\n\n\n\nThis website will remain open after the workshop for participants to review the content or share it with others. Feel free to clone this GitHub Repo as it serves as a launching point for EFI deep learning projects."
+  },
+  {
+    "objectID": "index_slides.html#dont-get-lost-in-the-code",
+    "href": "index_slides.html#dont-get-lost-in-the-code",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "Don’t get lost in the code",
+    "text": "Don’t get lost in the code\nThere is code provided for this workshop, but you don’t need to be an expert programmer or run any code during this session.\n\nFocus on the theory, concepts, and workflows we are explaining.\nUse the code later as a reference to reinforce what you learned.\nIf something isn’t clear, ask questions in the chat (or after the workshop on GitHub)\n\n\n\n\n\n\n\nNote\n\n\n\nWe’ve precomputed datasets, training outputs, and evaluations so you can follow along without coding live."
+  },
+  {
+    "objectID": "index_slides.html#how-to-follow-along",
+    "href": "index_slides.html#how-to-follow-along",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "How to follow along",
+    "text": "How to follow along\nTo make the most out of this workshop:\n\nFollow along with the broad concepts and ideas being presented.\nAll the code is provided in the src folder.\nAdditionally all of the data and outputs are provided so you can enjoy the workshop without having to worry about coding at the same time.\n\n\n\n\n\n\n\nNote\n\n\n\nOften coding workshops move at a quick pace and it becomes easy to fall behind. Because deep neural networks often require long training times, all datasets, training outputs, and model evaluations have been precomputed and are provided as part of this tutorial. We highly encourage you to try out the code after the workshop."
+  },
+  {
+    "objectID": "index_slides.html#be-curious-and-ask-questions",
+    "href": "index_slides.html#be-curious-and-ask-questions",
+    "title": "Introduction to Deep Learning for Enhanced Forest Inventories",
+    "section": "Be curious and ask questions",
+    "text": "Be curious and ask questions\nWe will be monitoring in the chat throughout the workshop and encourage you to ask questions as they come up and we will do our best to answer them in a timely manner.\n\n\n\n\n\n\nNote\n\n\n\nIf you have questions after the workshop or encounter any issues you can submit an issue via GitHub."
   }
 ]

@@ -480,13 +480,13 @@ def get_loss_function(task):
 - For classification tasks: `F.nll_loss` ([PyTorch Implementation](https://docs.pytorch.org/docs/stable/generated/torch.nn.NLLLoss.html#torch.nn.NLLLoss)
 ). 
 
-This function is typically used when the model outputs log-probabilities (often obtained by applying a log-softmax activation to the raw logits). It penalizes the model when it assigns a low probability to the correct class:
+This function is typically used when the model outputs log-probabilities (often obtained by applying a `log-softmax` activation to the raw logits). It penalizes the model when it assigns a low probability to the correct class:
 
 $$
 L_{\text{NLL}}(y, \hat{y}) = - \hat{y}_c
 $$
 
-where $y$ is the true class index, $\hat{y}$ is the vector of log-probabilities output by the model (e.g., via F.log_softmax), and $\hat{y}_c$ is the log-probability corresponding to the true class $c$.
+where $y$ is the true class index, $\hat{y}$ is the vector of log-probabilities output by the model (e.g., via `F.log_softmax`), and $\hat{y}_c$ is the log-probability corresponding to the true class $c$.
 
 - For regression tasks: `F.smooth_l1_loss` ([PyTorch Implementation](https://docs.pytorch.org/docs/stable/generated/torch.nn.SmoothL1Loss.html#torch.nn.SmoothL1Loss)).
 
@@ -529,7 +529,7 @@ The `EfiModelModule` typically organizes code into four main functional blocks:
 This is where the model is born.
 
 - **Model Setup**: It usually initializes a **backbone** (like `DGCNN`), a task-specific **head** (like a classification layer).
-- **Hyperparameters**: Loads configs, and it uses self.save_hyperparameters() to automatically save arguments like learning rate or model version into checkpoints for easy reproducibility.
+- **Hyperparameters**: Loads configs, and it uses `self.save_hyperparameters()` to automatically save arguments like learning rate or model version into checkpoints for easy reproducibility.
 - **Initialize evaluation metrics**
 
 ```{python}
