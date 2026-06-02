@@ -183,7 +183,13 @@ def main(args):
 
     else:
         print("\n--- TEST ONLY ---")
+        model_module = EfiModelModule.load_from_checkpoint(
+            str(ckpt_dir / "best_model.ckpt"),
+            cfg=full_cfg,
+            args=args,
+        )
         trainer.test(
+            model=model_module,
             ckpt_path=str(ckpt_dir / "best_model.ckpt"),
             datamodule=data_module
         )

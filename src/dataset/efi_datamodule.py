@@ -31,6 +31,7 @@ class EfiDataModule(pl.LightningDataModule):
                     root=self.cfg['root'],
                     csv_path=self.cfg['csv'],
                     label_col=self.cfg['label_col'],
+                    model_name=self.args.model,
                     task_type=self.cfg['task'],
                     split=split,
                     num_points=self.args.num_point,

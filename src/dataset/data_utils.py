@@ -1,5 +1,5 @@
 import numpy as np
-import open3d as o3d
+from scipy.spatial import cKDTree
 from random import choice
 
 
@@ -279,10 +279,38 @@ def farthest_point_sample(points, npoint):
     return points[centroids]
 
 def estimate_normals(xyz):
-    pcd = o3d.geometry.PointCloud()
-    pcd.points = o3d.utility.Vector3dVector(xyz)
-    pcd.estimate_normals(search_param=o3d.geometry.KDTreeSearchParamKNN(knn=16))
-    normals = np.asarray(pcd.normals)
+    """Estimate per-point normals with local PCA over k-nearest neighbors."""
+    xyz = np.asarray(xyz, dtype=np.float32)
+    if xyz.ndim != 2 or xyz.shape[1] != 3:
+        raise ValueError("xyz must be a [N, 3] array")
+
+    n_points = xyz.shape[0]
+    if n_points < 3:
+        normals = np.zeros((n_points, 3), dtype=np.float32)
+        if n_points > 0:
+            normals[:, 2] = 1.0
+        return normals
+
+    k = min(16, n_points)
+    tree = cKDTree(xyz)
+    _, nn_idx = tree.query(xyz, k=k)
+    if k == 1:
+        nn_idx = nn_idx[:, None]
+
+    centroid = np.mean(xyz, axis=0)
+    normals = np.zeros((n_points, 3), dtype=np.float32)
+    for i in range(n_points):
+        neigh = xyz[nn_idx[i]]
+        centered = neigh - np.mean(neigh, axis=0, keepdims=True)
+        cov = centered.T @ centered
+        eigvals, eigvecs = np.linalg.eigh(cov)
+        normal = eigvecs[:, np.argmin(eigvals)]
+
+        # Keep normal orientation consistent by pointing away from cloud centroid.
+        if np.dot(normal, xyz[i] - centroid) < 0:
+            normal = -normal
+        normals[i] = normal.astype(np.float32)
+
     return normals
 
 def sample_points(points, npoint, use_fps=False):
