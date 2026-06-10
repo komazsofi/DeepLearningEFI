@@ -13,6 +13,19 @@ DATASET_CONFIG = {
         'label_col': 'dom_sp_type',
         'num_classes': 3
     },
+
+    'species_norway_cls': {
+        'task': 'classification',
+        'root': '/data/SR16_DL/output_npy',
+        'csv': '/data/SR16_DL/NFI_data_withsplit_forCanada.csv',
+        'classes': [
+            'Norway spruce',
+            'Scots pine',
+            'Broadleaved trees'
+        ],
+        'label_col': 'species_name',
+        'num_classes': 3
+    },
     
     'petawawa_reg': {
         'task': 'regression',
